@@ -1,0 +1,15 @@
+*~
+.emacs.desktop
+.deps
+.dirstamp
+*.o
+*.a
+TAGS
+
+aclocal.m4
+autom4te.cache
+
+configure
+configure.ac
+config.log
+config.status
