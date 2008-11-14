@@ -13,11 +13,25 @@ PACKAGE_NAME    = "Development Tracking Tool"
 PACKAGE_VERSION = "0.1"
 PROGRAM_NAME    = "dtt"
 
-class Entry :
-    def __init__(self) :
-	self.parent_   = None
-	self.children_ = []
+class Node :
+    __parent   = None
+    __children = []
 
+    def parent(self) :
+	return self.__parent
+
+    def parent(self, p) :
+	self.__parent = p
+
+    def children(self) :
+	return self.__children
+
+    def children(self, i, p) :
+	self.__children[p]
+
+
+class Entry(Node) :
+    def __init__(self) :
 	self.title_    = ""
 	self.note_     = ""
 	self.priority_ = 0
@@ -25,16 +39,6 @@ class Entry :
 
     def __repr__(self) :
 	return '<Entry %#x `%s\'>' %(id(self), self.title_)
-
-    def parent(self) :
-	return self.parent_
-    def parent(self, p) :
-	self.parent_ = p
-
-    def children(self) :
-	return self.children_
-    def children(self, i, p) :
-	self.children_[p]
 
     def title(self) :
 	return self.title_
@@ -126,16 +130,16 @@ class DBHelper(handler.ContentHandler) :
 	self.text_ = self.text_ + chars
 
 class DB :
-    tree_ = None
+    __tree = None
 
     def __init__(self) :
-	self.tree_ = Entry()
+	self.__tree = Entry()
 
     def load(self, s) :
 	parser = make_parser()
-	parser.setContentHandler(DBHelper(self.tree_))
+	parser.setContentHandler(DBHelper(self.__tree))
 	parser.parse(s)
-	return self.tree_
+	return self.__tree
 
     def save(self, s) :
 	return True
