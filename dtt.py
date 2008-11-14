@@ -24,7 +24,7 @@ class Entry :
 	self.time_     = datetime.date.today()
 
     def __repr__(self) :
-	return '<Entry %#x>' %(id(self))
+	return '<Entry %#x `%s\'>' %(id(self), self.title_)
 
     def parent(self) :
 	return self.parent_
@@ -63,21 +63,21 @@ class Entry :
 	self.time_ = p
 
 class Stack :
-    data_ = []
+    __data = []
 
     def push(self, p) :
-	self.data_.append(p)
+	self.__data.append(p)
 
     def pop(self) :
-	result = self.data_[-1]
-	del self.data_[-1]
+	result = self.__data[-1]
+	del self.__data[-1]
 	return result
 
     def head(self) :
-	return self.data_[-1]
+	return self.__data[-1]
 
     def size(self) :
-	return len(self.data_)
+	return len(self.__data)
 
 class DBHelper(handler.ContentHandler) :
     text_   = ""
@@ -100,7 +100,7 @@ class DBHelper(handler.ContentHandler) :
 	    return
 
 	node = Entry()
-        self.stack_.push(node)
+	self.stack_.push(node)
 
 	for attr in attrs.keys() :
 	    if (attr == "time") :
@@ -119,7 +119,7 @@ class DBHelper(handler.ContentHandler) :
 	    return
 
 	self.stack_.head().title(self.text_)
-        self.text_ = ""
+	self.text_ = ""
 	self.stack_.pop()
 
     def characters(self, chars) :
