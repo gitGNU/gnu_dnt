@@ -7,7 +7,7 @@ import getopt
 import datetime
 import pprint
 import re
-from   xml.sax import saxutils, handler, make_parser
+import elementtree.ElementTree as ET
 
 PACKAGE_NAME    = "Development Tracking Tool"
 PACKAGE_VERSION = "0.1"
@@ -16,133 +16,140 @@ PROGRAM_NAME    = "dtt"
 class Node :
     __parent   = None
     __children = []
+    __index    = 0
+
+    def __init__(self, p = None, c = []) :
+	self.__parent   = p
+	self.__children = c
+	self.__index    = 0
+
+    def __repr__(self) :
+	return '<Node %#x>' %(id(self))
+
+    # Iterator related methods
+    def __iter__(self):
+	return self
+    def next(self):
+	if (self.__index == self.__children.len()) :
+	    raise StopIteration
+	self.__index = self.__index + 1
+	return self.__children[self.__index]
 
     def parent(self) :
 	return self.__parent
 
-    def parent(self, p) :
-	self.__parent = p
+    def parent(self, node) :
+	self.__parent = node
 
     def children(self) :
 	return self.__children
 
-    def children(self, i, p) :
-	self.__children[p]
+    def child(self, index, node) :
+        debug("Node " + str(self) +
+              " has " + str(len(self.__children)) +
+              " children")
+        if (node == None) :
+            debug("Removing node " + str(node) + " from position " + str(index))
+            self.__children.remove(index)
+        else :
+            debug("Inserting node " + str(node) + " in position " + str(index))
+            self.__children.insert(index, node)
 
 
 class Entry(Node) :
-    def __init__(self) :
-	self.title_    = ""
-	self.note_     = ""
-	self.priority_ = 0
-	self.time_     = datetime.date.today()
+    def __init__(self,
+		 title    = "",
+		 note     = "",
+		 priority = "",
+		 time     = datetime.date.today()) :
+	self.__title    = title
+	self.__note     = note
+	self.__priority = priority
+	self.__time     = time
 
     def __repr__(self) :
-	return '<Entry %#x `%s\'>' %(id(self), self.title_)
+	return '<Entry %#x>' %(id(self))
 
     def title(self) :
-	return self.title_
+	return self.__title
     def title(self, p) :
 	# Remove leading and trailing whitespaces
 	#        assert(p != None)
 	#	self.title_ = re.match(r'^[ \t]*(.*)[ \t]*$', p).group(1)
-	self.title_ = p
+	self.__title = p
 
     def note(self) :
-	return self.note_
+	return self.__note
     def note(self, p) :
 	# Remove leading and trailing whitespaces
 	#        assert(p != None)
 	#	self.title_ = re.match(r'^[ \t]*(.*)[ \t]*$', p).group(1)
-	self.title_ = p
+	self.__note = p
 
     def priority(self) :
-	return self.priority_
+	return self.__priority
     def priority(self, p) :
-	self.priority_ = p
+	self.__priority = p
 
     def time(self) :
-	return self.time_
+	return self.__time
     def time(self, p) :
-	self.time_ = p
+	self.__time = p
 
-class Stack :
-    __data = []
-
-    def push(self, p) :
-	self.__data.append(p)
-
-    def pop(self) :
-	result = self.__data[-1]
-	del self.__data[-1]
-	return result
-
-    def head(self) :
-	return self.__data[-1]
-
-    def size(self) :
-	return len(self.__data)
-
-class DBHelper(handler.ContentHandler) :
-    text_   = ""
-    tree_   = None
-    stack_  = Stack()
-
-    def __init__(self, t) :
-	self.tree_ = t
-
-    def startDocument(self) :
-	pass
-
-    def endDocument(self) :
-	assert(self.stack_.size() == 0)
-
-    def startElement(self, name, attrs) :
-	debug("start-element(" + name + ")")
-
-	if (name != "note") :
-	    return
-
-	node = Entry()
-	self.stack_.push(node)
-
-	for attr in attrs.keys() :
-	    if (attr == "time") :
-		node.time(attrs[attr])
-	    elif (attr == "priority") :
-		node.priority(attrs[attr])
-	    else :
-		warning("Skipping unknown attribute `" + attrs[attr] + "'")
-
-	debug("start-element(" + attr + ", " + str(self.stack_.size()) + ")")
-
-    def endElement(self, name) :
-	debug("stop-element(" + name + ", " + str(self.stack_.size()) + ")")
-
-	if (name != "note") :
-	    return
-
-	self.stack_.head().title(self.text_)
-	self.text_ = ""
-	self.stack_.pop()
-
-    def characters(self, chars) :
-	self.text_ = self.text_ + chars
+    def dump(self, indent) :
+	print(indent + self.__title)
+	print(indent + self.__note)
+	print(indent + self.__priority)
+	#print(s + self.__time)
+	for j in self.children() :
+	    j.dump(indent + indent)
 
 class DB :
-    __tree = None
-
     def __init__(self) :
-	self.__tree = Entry()
+	pass
 
-    def load(self, s) :
-	parser = make_parser()
-	parser.setContentHandler(DBHelper(self.__tree))
-	parser.parse(s)
-	return self.__tree
+    # Internal use (XML->Tree)
+    def fromxml(self, xml) :
+        debug("Handling node tag " + xml.tag)
 
-    def save(self, s) :
-	return True
+	if (xml.tag == "note") :
+            title    = ""
+            note     = ""
+            priority = xml.attrib['priority']
+            time     = xml.attrib['time']
+        elif (xml.tag == "todo") :
+            title    = "root"
+            note     = ""
+            priority = ""
+            time     = ""
+        else :
+            raise Exception("Unknown element")
+            return None
+
+        entry = Entry(title, note, priority, time)
+
+	for x in xml.getchildren() :
+            tmp = self.fromxml(x)
+            debug("Working with child " + str(tmp))
+            if (tmp != None) :
+                tmp.parent(entry)
+                entry.child(len(entry.children()) + 1, tmp)
+
+        debug("Handled node tag " + xml.tag)
+
+        return entry
+
+    # Internal use (Tree->XML)
+    def toxml(self, tree) :
+	return None
+
+    def load(self, name) :
+	xml  = ET.parse(name).getroot()
+	return self.fromxml(xml)
+
+    def save(self, name, tree) :
+	xml = self.toxml(tree)
+	xml.write(name)
 
 def debug(s) :
     print(PROGRAM_NAME + ": " + s)
@@ -224,12 +231,10 @@ def main(args) :
     db   = DB()
     tree = db.load(source)
 
-    # Execute requested operation
-    pp = pprint.PrettyPrinter(indent = 4)
-    pp.pprint(tree)
+#    tree.dump(" ")
 
     # Save DB
-    db.save(destination)
+    db.save(destination, tree)
 
 if __name__ == '__main__' :
     sys.exit(main(sys.argv))
