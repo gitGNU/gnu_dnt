@@ -7,6 +7,7 @@ class Node :
     __index    = 0
 
     def __init__(self, p = None, c = []) :
+        debug("Node " + str(self) + " created successfully !!!!")
 	self.__parent   = p
 	self.__children = c
 	self.__index    = 0
@@ -55,10 +56,12 @@ class Entry(Node) :
 		 note     = "",
 		 priority = "",
 		 time     = datetime.date.today()) :
+        Node.__init__(self)
 	self.__title    = title
 	self.__note     = note
 	self.__priority = priority
 	self.__time     = time
+        debug("Entry " + str(self) + " created successfully !!!!")
 
     def __repr__(self) :
 	return '<Entry %#x>' %(id(self))
