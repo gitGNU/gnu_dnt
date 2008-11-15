@@ -32,8 +32,9 @@ class Node :
     def next(self):
 	if (self.__index == self.__children.len()) :
 	    raise StopIteration
+        tmp = self.__children[self.__index]
 	self.__index = self.__index + 1
-	return self.__children[self.__index]
+	return tmp
 
     def parent(self) :
 	return self.__parent
@@ -54,7 +55,9 @@ class Node :
         else :
             debug("Inserting node " + str(node) + " in position " + str(index))
             self.__children.insert(index, node)
-
+        debug("Node " + str(self) +
+              " has " + str(len(self.__children)) +
+              " children")
 
 class Entry(Node) :
     def __init__(self,
@@ -124,18 +127,20 @@ class DB :
             time     = ""
         else :
             raise Exception("Unknown element")
-            return None
 
         entry = Entry(title, note, priority, time)
+        debug("Created node " + str(entry))
 
+        j = 1
 	for x in xml.getchildren() :
             tmp = self.fromxml(x)
             debug("Working with child " + str(tmp))
             if (tmp != None) :
                 tmp.parent(entry)
-                entry.child(len(entry.children()) + 1, tmp)
+                entry.child(j, tmp)
+                j = j + 1
 
-        debug("Handled node tag " + xml.tag)
+        debug("Returning " + str(entry))
 
         return entry
 
