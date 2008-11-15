@@ -32,7 +32,7 @@ class Node :
     def next(self):
 	if (self.__index == self.__children.len()) :
 	    raise StopIteration
-        tmp = self.__children[self.__index]
+	tmp = self.__children[self.__index]
 	self.__index = self.__index + 1
 	return tmp
 
@@ -46,18 +46,18 @@ class Node :
 	return self.__children
 
     def child(self, index, node) :
-        debug("Node " + str(self) +
-              " has " + str(len(self.__children)) +
-              " children")
-        if (node == None) :
-            debug("Removing node " + str(node) + " from position " + str(index))
-            self.__children.remove(index)
-        else :
-            debug("Inserting node " + str(node) + " in position " + str(index))
-            self.__children.insert(index, node)
-        debug("Node " + str(self) +
-              " has " + str(len(self.__children)) +
-              " children")
+	debug("Node " + str(self) +
+	      " has " + str(len(self.__children)) +
+	      " children")
+	if (node == None) :
+	    debug("Removing node " + str(node) + " from position " + str(index))
+	    self.__children.remove(index)
+	else :
+	    debug("Inserting node " + str(node) + " in position " + str(index))
+	    self.__children.insert(index, node)
+	debug("Node " + str(self) +
+	      " has " + str(len(self.__children)) +
+	      " children")
 
 class Entry(Node) :
     def __init__(self,
@@ -107,53 +107,53 @@ class Entry(Node) :
 	for j in self.children() :
 	    j.dump(indent + indent)
 
+# Internal use (XML->Tree)
+def fromxml(xml) :
+    debug("Handling node tag " + xml.tag)
+
+    if (xml.tag == "note") :
+        title    = ""
+        note     = ""
+        priority = xml.attrib['priority']
+        time     = xml.attrib['time']
+    elif (xml.tag == "todo") :
+        title    = "root"
+        note     = ""
+        priority = ""
+        time     = ""
+    else :
+        raise Exception("Unknown element")
+    
+    entry = Entry(title, note, priority, time)
+    debug("Created node " + str(entry))
+    
+    j = 0
+    for x in xml.getchildren() :
+        debug("Working with child")
+        tmp = fromxml(x)
+        if (tmp != None) :
+            entry.child(j, tmp)
+            tmp.parent(entry)
+            j = j + 1
+            
+    debug("Returning " + str(entry))
+            
+    return entry
+
+# Internal use (Tree->XML)
+def toxml(tree) :
+    return None
+
 class DB :
     def __init__(self) :
 	pass
 
-    # Internal use (XML->Tree)
-    def fromxml(self, xml) :
-        debug("Handling node tag " + xml.tag)
-
-	if (xml.tag == "note") :
-            title    = ""
-            note     = ""
-            priority = xml.attrib['priority']
-            time     = xml.attrib['time']
-        elif (xml.tag == "todo") :
-            title    = "root"
-            note     = ""
-            priority = ""
-            time     = ""
-        else :
-            raise Exception("Unknown element")
-
-        entry = Entry(title, note, priority, time)
-        debug("Created node " + str(entry))
-
-        j = 1
-	for x in xml.getchildren() :
-            tmp = self.fromxml(x)
-            debug("Working with child " + str(tmp))
-            if (tmp != None) :
-                tmp.parent(entry)
-                entry.child(j, tmp)
-                j = j + 1
-
-        debug("Returning " + str(entry))
-
-        return entry
-
-    # Internal use (Tree->XML)
-    def toxml(self, tree) :
-	return None
-
     def load(self, name) :
 	xml  = ET.parse(name).getroot()
-	return self.fromxml(xml)
+	return fromxml(xml)
 
     def save(self, name, tree) :
-	xml = self.toxml(tree)
+	xml = toxml(tree)
 	xml.write(name)
 
 def debug(s) :
