@@ -13,3 +13,5 @@ configure
 configure.ac
 config.log
 config.status
+
+*.pyc
