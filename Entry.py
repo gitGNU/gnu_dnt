@@ -20,10 +20,7 @@ import datetime
 from   Trace import *
 
 class Node :
-    __children = {}
-    __index    = 0
-
-    def __init__(self, c = {}) :
+    def __init__(self, c = []) :
 	debug("Node " + str(self) + " created successfully !!!!")
 	self.__children = c
 	self.__index    = 0
@@ -33,10 +30,12 @@ class Node :
 
     # Iterator related methods
     def __iter__(self):
+        #debug("Initializing iterator for node " + str(self))
 	return self
     def next(self):
-        debug("Calling next on node")
-	if (self.__index == self.__children.len()) :
+	#debug("Calling next on node " + str(self))
+	if (self.__index == len(self.__children)) :
+            #debug("No more 'next'")
 	    raise StopIteration
 	tmp = self.__children[self.__index]
 	self.__index = self.__index + 1
@@ -46,20 +45,21 @@ class Node :
 	return self.__children
 
     def child(self, i, node) :
-        assert(i >= 0)
+	assert(i >= 0)
 	if (node == None) :
 	    debug("Removing node "  + str(node) +
-                  " from position " + str(i)    +
-                  " of node "       + str(self))
-            self.__children[i] = None #.remove(i)
+		  " from position " + str(i)    +
+		  " of node "       + str(self))
+	    self.__children.remove(i)
 	else :
 	    debug("Inserting node " + str(node) +
-                  " in position "   + str(i)    +
-                  " of node "       + str(self))
-	    self.__children[i] = node #.insert(i, node)
+		  " in position "   + str(i)    +
+		  " of node "       + str(self))
+	    self.__children.insert(i, node)
 	debug("Node "     + str(self)                 +
 	      " has now " + str(len(self.__children)) +
 	      " children")
+        debug(str(self) + ": " + str(self.__children))
 
 class Entry(Node) :
     def __init__(self,
@@ -104,12 +104,14 @@ class Entry(Node) :
 	self.__time = p
 
     def dump(self, indent) :
-	print(indent + self.__title)
-	print(indent + self.__note)
-	print(indent + self.__priority)
-	#print(s + self.__time)
-	for j in self.next() :
-	    j.dump(indent + indent)
+	debug(indent + self.__title)
+#	debug(indent + self.__note)
+#	debug(indent + self.__priority)
+#	debug(indent + self.__time)
+
+	k = indent + indent
+	for j in self :
+	    j.dump(k)
 
 if (__name__ == '__main__') :
     e1 = Entry("e1")
@@ -118,6 +120,9 @@ if (__name__ == '__main__') :
     e4 = Entry("e4")
 
     e1.dump(" ")
+    e2.dump(" ")
+    e3.dump(" ")
+    e4.dump(" ")
 
     e1.child(0, e2)
     e2.child(0, e3)
@@ -125,6 +130,6 @@ if (__name__ == '__main__') :
 
     e1.dump(" ")
 
-    e1.child(0, None)
-    e2.child(0, None)
-    e3.child(0, None)
+#    e1.child(0, None)
+#    e2.child(0, None)
+#    e3.child(0, None)
