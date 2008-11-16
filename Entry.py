@@ -1,14 +1,30 @@
+#
+# Copyright (C) 2008 Francesco Salvestrini
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+
 import datetime
 from   Trace import *
 
 class Node :
-    __parent   = None
-    __children = []
+    __children = {}
     __index    = 0
 
-    def __init__(self, p = None, c = []) :
-        debug("Node " + str(self) + " created successfully !!!!")
-	self.__parent   = p
+    def __init__(self, c = {}) :
+	debug("Node " + str(self) + " created successfully !!!!")
 	self.__children = c
 	self.__index    = 0
 
@@ -19,35 +35,30 @@ class Node :
     def __iter__(self):
 	return self
     def next(self):
+        debug("Calling next on node")
 	if (self.__index == self.__children.len()) :
 	    raise StopIteration
 	tmp = self.__children[self.__index]
 	self.__index = self.__index + 1
 	return tmp
 
-    def parent(self) :
-	return self.__parent
-
-    def parent(self, node) :
-        if (self.__parent != None) :
-            debug("Changing node parent !!!!!!!")
-	self.__parent = node
-
     def children(self) :
 	return self.__children
 
-    def child(self, index, node) :
-	debug("Node " + str(self) +
-	      " has " + str(len(self.__children)) +
-	      " children")
+    def child(self, i, node) :
+        assert(i >= 0)
 	if (node == None) :
-	    debug("Removing node " + str(node) + " from position " + str(index))
-	    self.__children.remove(index)
+	    debug("Removing node "  + str(node) +
+                  " from position " + str(i)    +
+                  " of node "       + str(self))
+            self.__children[i] = None #.remove(i)
 	else :
-	    debug("Inserting node " + str(node) + " in position " + str(index))
-	    self.__children.insert(index, node)
-	debug("Node " + str(self) +
-	      " has " + str(len(self.__children)) +
+	    debug("Inserting node " + str(node) +
+                  " in position "   + str(i)    +
+                  " of node "       + str(self))
+	    self.__children[i] = node #.insert(i, node)
+	debug("Node "     + str(self)                 +
+	      " has now " + str(len(self.__children)) +
 	      " children")
 
 class Entry(Node) :
@@ -56,12 +67,12 @@ class Entry(Node) :
 		 note     = "",
 		 priority = "",
 		 time     = datetime.date.today()) :
-        Node.__init__(self)
+	Node.__init__(self)
 	self.__title    = title
 	self.__note     = note
 	self.__priority = priority
 	self.__time     = time
-        debug("Entry " + str(self) + " created successfully !!!!")
+	debug("Entry " + str(self) + " created successfully !!!!")
 
     def __repr__(self) :
 	return '<Entry %#x>' %(id(self))
@@ -97,5 +108,23 @@ class Entry(Node) :
 	print(indent + self.__note)
 	print(indent + self.__priority)
 	#print(s + self.__time)
-	for j in self.children() :
+	for j in self.next() :
 	    j.dump(indent + indent)
+
+if (__name__ == '__main__') :
+    e1 = Entry("e1")
+    e2 = Entry("e2")
+    e3 = Entry("e3")
+    e4 = Entry("e4")
+
+    e1.dump(" ")
+
+    e1.child(0, e2)
+    e2.child(0, e3)
+    e3.child(0, e4)
+
+    e1.dump(" ")
+
+    e1.child(0, None)
+    e2.child(0, None)
+    e3.child(0, None)
