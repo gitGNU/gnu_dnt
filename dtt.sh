@@ -90,7 +90,7 @@ def main(args) :
     db   = DB()
     tree = db.load(source)
 
-#    tree.dump(" ")
+    tree.dump()
 
     # Save DB
     db.save(destination, tree)

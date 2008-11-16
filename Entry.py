@@ -20,25 +20,30 @@ import datetime
 from   Trace import *
 
 class Node :
-    def __init__(self, c = []) :
-	debug("Node " + str(self) + " created successfully !!!!")
-	self.__children = c
+    def __init__(self, id) :
+        self.__id       = id
+	self.__children = []
 	self.__index    = 0
+	debug("Node " + str(self) + " created successfully")
 
     def __repr__(self) :
-	return '<Node %#x>' %(id(self))
+	return '<Node %#x, id=`%s\'>' %(id(self), self.__id)
 
     # Iterator related methods
     def __iter__(self):
-        #debug("Initializing iterator for node " + str(self))
+	#debug("Initializing iterator for node " + str(self))
 	return self
+
     def next(self):
-	#debug("Calling next on node " + str(self))
-	if (self.__index == len(self.__children)) :
-            #debug("No more 'next'")
+	i = self.__index
+	debug("  Calling next on node " + str(self) +
+	      ", index = "              + str(i) +
+	      ", len = "                + str(len(self.__children)))
+	if (i >= len(self.__children)) :
+	    debug("  No more 'next' on node " + str(self))
 	    raise StopIteration
 	tmp = self.__children[self.__index]
-	self.__index = self.__index + 1
+	self.__index = i + 1
 	return tmp
 
     def children(self) :
@@ -56,10 +61,12 @@ class Node :
 		  " in position "   + str(i)    +
 		  " of node "       + str(self))
 	    self.__children.insert(i, node)
-	debug("Node "     + str(self)                 +
-	      " has now " + str(len(self.__children)) +
-	      " children")
-        debug(str(self) + ": " + str(self.__children))
+	debug(str(self) + ": " + str(self.__children))
+
+    def dump(self) :
+	debug("Dumping " + str(self))
+	for j in self.__children :
+	    j.dump()
 
 class Entry(Node) :
     def __init__(self,
@@ -67,7 +74,7 @@ class Entry(Node) :
 		 note     = "",
 		 priority = "",
 		 time     = datetime.date.today()) :
-	Node.__init__(self)
+	Node.__init__(self, title)
 	self.__title    = title
 	self.__note     = note
 	self.__priority = priority
@@ -79,57 +86,53 @@ class Entry(Node) :
 
     def title(self) :
 	return self.__title
-    def title(self, p) :
+    def title(self, title) :
 	# Remove leading and trailing whitespaces
 	#        assert(p != None)
 	#	self.title_ = re.match(r'^[ \t]*(.*)[ \t]*$', p).group(1)
-	self.__title = p
+	self.__title = title
 
     def note(self) :
 	return self.__note
-    def note(self, p) :
+    def note(self, note) :
 	# Remove leading and trailing whitespaces
 	#        assert(p != None)
 	#	self.title_ = re.match(r'^[ \t]*(.*)[ \t]*$', p).group(1)
-	self.__note = p
+	self.__note = note
 
     def priority(self) :
 	return self.__priority
-    def priority(self, p) :
-	self.__priority = p
+    def priority(self, priority) :
+	self.__priority = priority
 
     def time(self) :
 	return self.__time
-    def time(self, p) :
-	self.__time = p
+    def time(self, time) :
+	self.__time = time
 
-    def dump(self, indent) :
-	debug(indent + self.__title)
-#	debug(indent + self.__note)
-#	debug(indent + self.__priority)
-#	debug(indent + self.__time)
-
-	k = indent + indent
-	for j in self :
-	    j.dump(k)
+    def dump(self) :
+	debug("Dumping " + str(self) + ": " + self.__title)
+	for j in self.children() :
+	    j.dump()
 
 if (__name__ == '__main__') :
-    e1 = Entry("e1")
-    e2 = Entry("e2")
-    e3 = Entry("e3")
-    e4 = Entry("e4")
+    root = Node("root")
+    e1   = Node("e1")
+    e11  = Node("e11")
+    e12  = Node("e12")
+    e2   = Node("e2")
 
-    e1.dump(" ")
-    e2.dump(" ")
-    e3.dump(" ")
-    e4.dump(" ")
+    e1.child(0, e12)
+    e1.child(0, e11)
+    root.child(0, e1)
+    root.child(1, e2)
 
-    e1.child(0, e2)
-    e2.child(0, e3)
-    e3.child(0, e4)
-
-    e1.dump(" ")
-
-#    e1.child(0, None)
-#    e2.child(0, None)
-#    e3.child(0, None)
+    root.dump()
+#
+#    dump("!!!!!!! AAAA")
+#
+#    root = Node("root", [ Node("e1",
+#                               [ Node("e11"), Node("e12") ]),
+#                          Node("e2") ])
+#    root.dump()
+    pass
