@@ -6,12 +6,36 @@
 *.a
 TAGS
 
+build
+
+Makefile.in
+Makefile
 aclocal.m4
 autom4te.cache
+
+ChangeLog
 
 configure
 configure.ac
 config.log
 config.status
 
-*.pyc
+tools/maint/fetch
+tools/maint/whitespace-detect
+tools/maint/gitlog-to-committers
+
+tools/autotools/install-sh
+tools/autotools/missing
+tools/autotools/mdate-sh
+tools/autotools/texinfo.tex
+
+docs/man/dtt.1
+docs/info/dtt.info
+
+src/dtt
+src/*.pyc
+
+site/in/.sitetool
+site/in/site.stamp
+site/out/*
+
