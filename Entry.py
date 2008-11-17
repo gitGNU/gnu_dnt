@@ -17,122 +17,69 @@
 #
 
 import datetime
-from   Trace import *
+import string
 
-class Node :
-    def __init__(self, id) :
-        self.__id       = id
-	self.__children = []
-	self.__index    = 0
-	debug("Node " + str(self) + " created successfully")
-
-    def __repr__(self) :
-	return '<Node %#x, id=`%s\'>' %(id(self), self.__id)
-
-    # Iterator related methods
-    def __iter__(self):
-	#debug("Initializing iterator for node " + str(self))
-	return self
-
-    def next(self):
-	i = self.__index
-	debug("  Calling next on node " + str(self) +
-	      ", index = "              + str(i) +
-	      ", len = "                + str(len(self.__children)))
-	if (i >= len(self.__children)) :
-	    debug("  No more 'next' on node " + str(self))
-	    raise StopIteration
-	tmp = self.__children[self.__index]
-	self.__index = i + 1
-	return tmp
-
-    def children(self) :
-	return self.__children
-
-    def child(self, i, node) :
-	assert(i >= 0)
-	if (node == None) :
-	    debug("Removing node "  + str(node) +
-		  " from position " + str(i)    +
-		  " of node "       + str(self))
-	    self.__children.remove(i)
-	else :
-	    debug("Inserting node " + str(node) +
-		  " in position "   + str(i)    +
-		  " of node "       + str(self))
-	    self.__children.insert(i, node)
-	debug(str(self) + ": " + str(self.__children))
-
-    def dump(self) :
-	debug("Dumping " + str(self))
-	for j in self.__children :
-	    j.dump()
+from Debug import *
+from Trace import *
+from Node  import *
+from Color import *
 
 class Entry(Node) :
-    def __init__(self,
-		 title    = "",
-		 note     = "",
-		 priority = "",
-		 time     = datetime.date.today()) :
-	Node.__init__(self, title)
-	self.__title    = title
-	self.__note     = note
-	self.__priority = priority
-	self.__time     = time
-	debug("Entry " + str(self) + " created successfully !!!!")
+    __text     = ""
+    __priority = ""
+    __time     = ""
 
-    def __repr__(self) :
-	return '<Entry %#x>' %(id(self))
+    def __init__(self, t = "", p = "", d = datetime.date.today()) :
+	Node.__init__(self)
+	self.text_set(t)
+	self.priority_set(p)
+	self.time_set(d)
 
-    def title(self) :
-	return self.__title
-    def title(self, title) :
-	# Remove leading and trailing whitespaces
-	#        assert(p != None)
-	#	self.title_ = re.match(r'^[ \t]*(.*)[ \t]*$', p).group(1)
-	self.__title = title
+    def text_get(self) :
+	return self.__text
+    def text_set(self, t) :
+	assert(t != None)
+	# Remove leading and trailing whitespaces from input string
+	self.__text = string.rstrip(string.lstrip(t))
 
-    def note(self) :
-	return self.__note
-    def note(self, note) :
-	# Remove leading and trailing whitespaces
-	#        assert(p != None)
-	#	self.title_ = re.match(r'^[ \t]*(.*)[ \t]*$', p).group(1)
-	self.__note = note
+    text = property(text_get, text_set)
 
-    def priority(self) :
+    def priority_get(self) :
 	return self.__priority
-    def priority(self, priority) :
-	self.__priority = priority
+    def priority_set(self, p) :
+	self.__priority = p
 
-    def time(self) :
+    priority = property(priority_get, priority_set)
+
+    def time_get(self) :
 	return self.__time
-    def time(self, time) :
-	self.__time = time
+    def time_set(self, t) :
+	self.__time = t
 
-    def dump(self) :
-	debug("Dumping " + str(self) + ": " + self.__title)
+    time = property(time_get, time_set)
+
+    def dump(self, indent, header) :
+	i      = 1
+	print(indent + header + "" + white(self.__text))
+
+	indent = indent + "    "
 	for j in self.children() :
-	    j.dump()
+	    j.dump(indent, green(str(i) + "."))
+	    i = i + 1
 
+# Test
 if (__name__ == '__main__') :
-    root = Node("root")
-    e1   = Node("e1")
-    e11  = Node("e11")
-    e12  = Node("e12")
-    e2   = Node("e2")
+    root = Entry("root")
+    e1   = Entry("e1")
+    e11  = Entry("e11")
+    e12  = Entry("e12")
+    e2   = Entry("e2")
 
     e1.child(0, e12)
     e1.child(0, e11)
     root.child(0, e1)
     root.child(1, e2)
 
-    root.dump()
-#
-#    dump("!!!!!!! AAAA")
-#
-#    root = Node("root", [ Node("e1",
-#                               [ Node("e11"), Node("e12") ]),
-#                          Node("e2") ])
-#    root.dump()
-    pass
+    root.dump(" ", "")
+
+    debug("Test completed")
