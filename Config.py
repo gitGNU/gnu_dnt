@@ -16,6 +16,15 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
+from Trace   import *
+from Options import *
+
 PACKAGE_NAME    = "Development Tracking Tool"
 PACKAGE_VERSION = "0.1"
 PROGRAM_NAME    = "dtt"
+
+options = Options([ 'color' ])
+
+# Test
+if (__name__ == '__main__') :
+    debug("Test completed")
