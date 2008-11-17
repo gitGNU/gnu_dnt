@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#! @PYTHON@
 
 #
 # Copyright (C) 2008 Francesco Salvestrini
