@@ -27,7 +27,7 @@ from   Entry import *
 
 # Internal use (XML->Tree)
 def fromxml(xml) :
-    debug("Handling node tag " + xml.tag)
+    #debug("Handling node tag " + xml.tag)
 
     if (xml.tag == "note") :
 	text     = xml.text # XXX FIXME: Could be None
@@ -41,17 +41,17 @@ def fromxml(xml) :
 	raise Exception("Unknown element")
 
     entry = Entry(text, priority, time)
-    debug("Created node " + str(entry))
+    #debug("Created node " + str(entry))
 
     j = 0
     for x in xml.getchildren() :
-	debug("Working with child")
+	#debug("Working with child")
 	tmp = fromxml(x)
 	if (tmp != None) :
 	    entry.child(j, tmp)
 	    j = j + 1
 
-    debug("Returning " + str(entry))
+    #debug("Returning " + str(entry))
     return entry
 
 # Internal use (Tree->XML)
