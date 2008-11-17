@@ -26,19 +26,26 @@ class Options :
             self.__opts[i] = None
 
     def set(self, name, value) :
-        opts[name] = value
+        debug("Setting option `" + name + "' to value `" + str(value) + "'")
+        self.__opts[name] = value
+
+    def get(self, name, value) :
+        return self.__opts[name]
 
     def dump(self) :
         debug("Options:")
         for i in self.__opts :
             t = self.__opts[i]
-            assert(t != None)
             debug("  " + i + " = " + str(t))
 
 # Test
 if (__name__ == '__main__') :
     options = Options([ 'alfa', 'beta', 'gamma' ])
 
-    options.set(alfa)
+    options.set("alfa", True)
+    options.set("alfa", False)
+    options.set("beta", "a")
+    options.set("gamma", 3)
     options.dump()
+
     debug("Test completed")
