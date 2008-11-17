@@ -27,3 +27,7 @@ def error(s) :
 
 def warning(s) :
     print(PROGRAM_NAME + ": " + s)
+
+# Test
+if (__name__ == '__main__') :
+    debug("Test completed")
