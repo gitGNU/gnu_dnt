@@ -20,73 +20,55 @@
 
 include $(top_srcdir)/Makefile.sub
 
-AUTOMAKE_OPTIONS = subdir-objects
-
-SUBDIRS = gnulib
-
-## Programs
-
 bin_PROGRAMS =					\
-	fcp
+	dtt
 
-fcp_SOURCES =					\
-	fcp.cxx					\
-	transformation.h			\
-	transformation.cxx			\
-	chain.h					\
-	chain.cxx				\
-	rules.h					\
-	rules.cxx				\
-	filter.h				\
-	filter.cxx
-fcp_CPPFLAGS =					\
-	$(EXTRA_CPPFLAGS)
-fcp_LDADD =					\
-	libmisc.a				\
-	libconf.a				\
-	libfs.a					\
-	gnulib/libgnu.a
+pkgvbin_SCRIPTS =
 
-## Libraries
+##
+## XXX FIXME:
+##     Replace 'sed' with '$SED' in install-exec-hook and uninstall-hook
+##     rules ...
+##
 
-noinst_LIBRARIES =				\
-	libmisc.a				\
-	libconf.a				\
-	libfs.a
+## Make versioned links on bin_SCRIPTS.  We only run the transform on the
+## root name; then we make a versioned link with the transformed base name.
+## This seemed like the most reasonable approach.
+install-exec-hook:
+	for p in $(bin_SCRIPTS); do \
+	  f="`echo $$p|sed '$(transform)'`"; \
+	  fv="$$f-$(API_VERSION)"; \
+	  cd $(DESTDIR)$(bindir) && \
+	  rm -f $$fv && \
+	  mv -f $$f $$fv && \
+	  $(LN_S) $$fv $$f; \
+	done
 
-libmisc_a_SOURCES =				\
-	libs/misc/stream.h			\
-	libs/misc/stream.cxx			\
-	libs/misc/exception.h			\
-	libs/misc/exception.cxx			\
-	libs/misc/debug.h			\
-	libs/misc/debug.cxx			\
-	libs/misc/trace.h			\
-	libs/misc/trace.cxx			\
-	libs/misc/string.h			\
-	libs/misc/string.cxx			\
-	libs/misc/environment.h			\
-	libs/misc/environment.cxx		\
-	libs/misc/constant.h			\
-	libs/misc/utility.h			\
-	libs/misc/thread.h			\
-	libs/misc/thread.cxx
-libmisc_a_CPPFLAGS =				\
-	$(EXTRA_CPPFLAGS)
+uninstall-hook:
+	for p in $(bin_SCRIPTS); do \
+	  f="`echo $$p|sed '$(transform)'`"; \
+	  fv="$$f-$(API_VERSION)"; \
+	  rm -f $(DESTDIR)$(bindir)/$$fv; \
+	done
 
-libconf_a_SOURCES =				\
-	libs/conf/configuration.h		\
-	libs/conf/configuration.cxx
-libconf_a_CPPFLAGS =				\
-	$(EXTRA_CPPFLAGS)
+DTT_PYTHON_SRCS =				\
+        dtt.in
 
-libfs_a_SOURCES =				\
-	libs/fs/file.h				\
-	libs/fs/file.cxx			\
-	libs/fs/directory.h			\
-	libs/fs/directory.cxx
-libfs_a_CPPFLAGS =				\
-	$(EXTRA_CPPFLAGS)
+DTT_SRCS = $(DTT_PYTHON_SRCS)
+
+EXTRA_DIST = $(DTT_SRCS)
+
+CLEANFILES = $(bin_SCRIPTS) $(pkgvbin_SCRIPTS)
+
+dtt: $(srcdir)/dtt.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/dtt.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+		rm -f $@ $@.tmp ; \
+		exit 1 ; \
+	}
 
 ##
 ## Maintainer related targets
