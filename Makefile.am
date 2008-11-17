@@ -24,34 +24,20 @@ ACLOCAL_AMFLAGS = -I tools/autotools/m4
 
 SUBDIRS =					\
 	tools					\
-	.					\
+	src					\
+	docs					\
 	tests					\
-	man					\
 	site
 
-EXTRA_DIST =
-CLEANFILES =
+# Base directories
+TOOLSDIR   = $(top_builddir)/tools
+SCRIPTSDIR = $(TOOLSDIR)/scripts
 
-bin_SCRIPTS =					\
-        yaxx-to-grammar
-
-yaxx-to-grammar$(EXEEXT): Makefile yaxx-to-grammar.in
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/yaxx-to-grammar.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-		rm -f $@ $@.tmp ; \
-		exit 1 ; \
-	}
-CLEANFILES += yaxx-to-grammar$(EXEEXT)
-EXTRA_DIST += yaxx-to-grammar.in
-
-#
-# NOTE:
-#     Options listed in AUTOMAKE_OPTIONS variable are applied on a
-#     per-`Makefile' basis.
-#
+##
+## NOTE:
+##     Options listed in AUTOMAKE_OPTIONS variable are applied on a
+##     per-`Makefile' basis.
+##
 AUTOMAKE_OPTIONS = check-news
 
 ##
@@ -62,7 +48,7 @@ EXTRA_DIST +=							\
 	BUGS TODO README NEWS COPYING AUTHORS INSTALL THANKS	\
 	bootstrap						\
 	configure.ac.in						\
-	perl.af
+	python.af
 
 ##
 ## Maintainer related targets
