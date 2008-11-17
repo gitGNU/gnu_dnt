@@ -16,6 +16,8 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
+from Trace import *
+
 def bug(s = "") :
     tmp1 = "Bug hit"
     if s != "" :
@@ -25,3 +27,7 @@ def bug(s = "") :
 
     error(tmp2)
     os._exit(1)
+
+# Test
+if (__name__ == '__main__') :
+    debug("Test completed")
