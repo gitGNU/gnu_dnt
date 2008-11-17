@@ -23,11 +23,11 @@ import sys
 import traceback
 import getopt
 import pprint
-import re
-from   Entry import *
+
 from   Trace import *
 from   DB    import *
 from   Debug import *
+from   Entry import *
 
 def hint(s) :
     print(s)
@@ -36,6 +36,11 @@ def hint(s) :
 def usage() :
     print(PROGRAM_NAME + " OPTIONS")
     print("")
+    print("  -a | --add        Add node")
+    print("  -r | --remove     Remove node (and its children)")
+    print("  -e | --edit       Edit node")
+    print("  -R | --reparent   Reparent node (and its children)")
+    print("  -s | --show       Show")
     print("  -v | --verbose    Enable debug mode")
     print("  -h | --help       This help")
     print("")
@@ -44,15 +49,40 @@ def usage() :
 def version() :
     print(PROGRAM_NAME + " (" + PACKAGE_NAME + ") " + PACKAGE_VERSION)
 
+DEFAULT_SOURCE_FILE = ".todo"
+
+def do_add(args) :
+    return 1
+
+def do_remove(args) :
+    return 1
+
+def do_edit(args) :
+    return 1
+
+def do_reparent(args) :
+    return 1
+
+def do_show(args) :
+    source = DEFAULT_SOURCE_FILE
+
+    # Load DB
+    db   = DB()
+    tree = db.load(source)
+
+    tree.dump("  ", "")
+
+    return 0
+
 def main(args) :
     # Parse command line
     try :
 	opts, args = getopt.getopt(args[1:],
-				   "a:r:e:R:svh",
-				   [ "add=",
-				     "remove=",
-				     "edit=",
-				     "reparent=",
+				   "areRsvh",
+				   [ "add",
+				     "remove",
+				     "edit",
+				     "reparent",
 				     "show",
 				     "help",
 				     "version" ])
@@ -60,20 +90,19 @@ def main(args) :
 	hint("Parameter(s) error")
 	return 1
 
-    action      = "show"
-    source      = ".todo"
-    destination = ".dtt"
+    do_action = do_show
+    parms     = []
     for opt, arg in opts :
 	if opt in ("-a", "--add") :
-	    action = "add" ;      parms  = ("")
+	    do_action = do_add ;      parms  = args[2:]
 	elif opt in ("-r", "--remove") :
-	    action = "remove" ;   parms  = ("") ;
+	    do_action = do_remove ;   parms  = args[2:]
 	elif opt in ("-e", "--edit") :
-	    action = "edit" ;     parms  = ("")
+	    do_action = do_edit ;     parms  = args[2:]
 	elif opt in ("-r", "--reparent") :
-	    action = "reparent" ; parms  = ("")
+	    do_action = do_reparent ; parms  = args[2:]
 	elif opt in ("-s", "--show") :
-	    action = "show" ;     parms  = ("")
+	    do_action = do_show ;     parms  = args[2:]
 	elif opt in ("-h", "--help") :
 	    usage()
 	    return 0
@@ -82,18 +111,11 @@ def main(args) :
 	    return 0
 	else :
 	    bug()
-    if (action == None) :
+    if (do_action == None) :
 	hint("Missing parameter(s)")
 	return 1
 
-    # Load DB
-    db   = DB()
-    tree = db.load(source)
-
-    tree.dump()
-
-    # Save DB
-    db.save(destination, tree)
+    return do_action(parms)
 
 if (__name__ == '__main__') :
     sys.exit(main(sys.argv))
