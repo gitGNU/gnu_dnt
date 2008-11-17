@@ -20,33 +20,36 @@ import elementtree.ElementTree as ET
 from   Trace import *
 from   Entry import *
 
+#
+# XXX FIXME:
+#     Please rearrange using SAX instead of DOM
+#
+
 # Internal use (XML->Tree)
 def fromxml(xml) :
     debug("Handling node tag " + xml.tag)
 
     if (xml.tag == "note") :
-        title    = ""
-        note     = ""
-        priority = xml.attrib['priority']
-        time     = xml.attrib['time']
+	text     = xml.text # XXX FIXME: Could be None
+	priority = xml.attrib['priority']
+	time     = xml.attrib['time']
     elif (xml.tag == "todo") :
-        title    = "root"
-        note     = ""
-        priority = ""
-        time     = ""
+	text     = ""
+	priority = ""
+	time     = ""
     else :
-        raise Exception("Unknown element")
-    
-    entry = Entry(title, note, priority, time)
+	raise Exception("Unknown element")
+
+    entry = Entry(text, priority, time)
     debug("Created node " + str(entry))
-    
+
     j = 0
     for x in xml.getchildren() :
-        debug("Working with child")
-        tmp = fromxml(x)
-        if (tmp != None) :
-            entry.child(j, tmp)
-            j = j + 1
+	debug("Working with child")
+	tmp = fromxml(x)
+	if (tmp != None) :
+	    entry.child(j, tmp)
+	    j = j + 1
 
     debug("Returning " + str(entry))
     return entry
@@ -56,9 +59,6 @@ def toxml(tree) :
     return None
 
 class DB :
-    def __init__(self) :
-	pass
-
     def load(self, name) :
 	xml  = ET.parse(name).getroot()
 	return fromxml(xml)
@@ -66,3 +66,7 @@ class DB :
     def save(self, name, tree) :
 	xml = toxml(tree)
 	xml.write(name)
+
+# Test
+if (__name__ == '__main__') :
+    debug("Test completed")
