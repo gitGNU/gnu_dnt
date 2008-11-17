@@ -20,7 +20,7 @@
 
 include $(top_srcdir)/Makefile.sub
 
-bin_PROGRAMS =					\
+bin_SCRIPTS =					\
 	dtt
 
 pkgvbin_SCRIPTS =
