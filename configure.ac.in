@@ -106,7 +106,6 @@ AC_CONFIG_FILES([
 	tools/autotools/m4/Makefile
 
 	tests/Makefile
-	tests/data/Makefile
 ])
 
 AC_CONFIG_FILES([tools/maint/fetch],               [chmod +x tools/maint/fetch])
@@ -114,37 +113,3 @@ AC_CONFIG_FILES([tools/maint/whitespace-detect],   [chmod +x tools/maint/whitesp
 AC_CONFIG_FILES([tools/maint/gitlog-to-committers],[chmod +x tools/maint/gitlog-to-committers])
 
 AC_OUTPUT
-
-# Header
-cat <<EOF
-
-  ${PACKAGE_NAME} ${API_VERSION} (${PACKAGE_VERSION}) configuration summary
-
-EOF
-
-# Body
-if test -n "$PERL" ; then
-   echo "    Perl     : ${PERL} (${PERL_VERSION})"
-else
-   echo "    Perl     : not available"
-fi
-if test -n "$GUILE" ; then
-   echo "    Guile    : ${GUILE} (${GUILE_VERSION})"
-else
-   echo "    Guile    : not available"
-fi
-if test -n "$RUBY" ; then
-   echo "    Ruby     : ${RUBY} (${RUBY_VERSION})"
-else
-   echo "    Ruby     : not available"
-fi
-if test -n "$PYTHON" ; then
-   echo "    Python   : ${PYTHON} (${PYTHON_VERSION})"
-else
-   echo "    Python   : not available"
-fi
-
-# Footer
-cat <<EOF
-
-EOF
