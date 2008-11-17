@@ -48,6 +48,8 @@ AC_PROG_SED
 AC_PROG_AWK
 
 AX_PATH_MISSING([HELP2MAN],        [help2man])
+AX_PATH_MISSING([SITETOOL],        [sitetool])
+AX_PATH_MISSING([WGET],            [wget])
 AX_PATH_MISSING([DEVTODO],         [devtodo])
 
 #
@@ -64,16 +66,6 @@ AS_IF([test -z "$PYTHON"],[
 	#PYTHON_AUTOFRISK_CHECKS
 	#PYTHON_AUTOFRISK_SUMMARY
 ])
-
-#
-# NOTE:
-#     The following programs are used inside the libs (which will be installed)
-#     directory, no AX_PATH_MISSING use allowed
-#
-# XXX FIXME:
-#     Some programs should be in AX_PATH_MISSING too (WGET is an example)
-#
-AC_PATH_PROG([WGET], [wget])
 
 #
 # The API version is the base version.  We must guarantee
