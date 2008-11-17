@@ -75,11 +75,5 @@ dtt: $(srcdir)/dtt.in Makefile
 ##
 update-local: Makefile
 
-all_SRCS =					\
-	$(fcp_SOURCES)				\
-	$(libmisc_a_SOURCES)			\
-	$(libconf_a_SOURCES)			\
-	$(libfs_a_SOURCES)
-
 maintainer-check-local: Makefile
-	$(WHITESPACE_DETECT)  $(all_SRCS)
+	$(WHITESPACE_DETECT)  $(DTT_PYTHON_SRCS)

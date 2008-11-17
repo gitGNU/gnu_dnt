@@ -44,7 +44,7 @@ AUTOMAKE_OPTIONS = check-news
 ## NOTE:
 ##     Makefile.sub is automatically distributed by automake rules
 ##
-EXTRA_DIST +=							\
+EXTRA_DIST =							\
 	BUGS TODO README NEWS COPYING AUTHORS INSTALL THANKS	\
 	bootstrap						\
 	configure.ac.in						\
