@@ -16,7 +16,11 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-from Trace import *
+import traceback
+import sys
+
+from   Config import *
+from   Trace  import *
 
 def bug(s = "") :
     tmp1 = "Bug hit"
@@ -25,7 +29,11 @@ def bug(s = "") :
     else :
 	tmp2 = tmp1 + "!"
 
+    traceback.print_exc(file=sys.stdout)
+
     error(tmp2)
+    error("Please report the previous error to <" + PACKAGE_BUGREPORT + ">")
+
     os._exit(1)
 
 # Test
