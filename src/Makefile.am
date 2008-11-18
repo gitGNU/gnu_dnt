@@ -23,7 +23,30 @@ include $(top_srcdir)/Makefile.sub
 bin_SCRIPTS =					\
 	dtt
 
-pkgvbin_SCRIPTS =
+pythonlibdir = $(pkgvlibsdir)/python/DTT
+
+dist_pythonlib_DATA =				\
+	Color.py				\
+	DB.py					\
+	Debug.py				\
+	Entry.py				\
+	Node.py					\
+	Options.py				\
+	Trace.py
+
+nodist_pythonlib_DATA =				\
+	Config.py
+
+CLEANFILES = $(nodist_pythonlib_DATA) $(bin_SCRIPTS) $(pkgvbin_SCRIPTS)
+
+Config.py: Makefile $(srcdir)/Config.py.in
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/Config.py.in > $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+		rm -f $@ $@.tmp ; \
+		exit 1 ; \
+	}
 
 ##
 ## XXX FIXME:
@@ -57,8 +80,6 @@ DTT_PYTHON_SRCS =				\
 DTT_SRCS = $(DTT_PYTHON_SRCS)
 
 EXTRA_DIST = $(DTT_SRCS)
-
-CLEANFILES = $(bin_SCRIPTS) $(pkgvbin_SCRIPTS)
 
 dtt: $(srcdir)/dtt.in Makefile
 	( rm -f $@ $@.tmp && \
