@@ -25,17 +25,33 @@ from   Entry import *
 #     Please rearrange using SAX instead of DOM
 #
 
+def string_to_priority(p) :
+    assert(type(p) == str)
+    t = string.lower(p)
+    if (t == "veryhigh") :
+        return Entry.PRIORITY_VERYHIGH
+    elif (t == "high") :
+        return Entry.PRIORITY_HIGH
+    elif (t == "medium") :
+        return Entry.PRIORITY_MEDIUM
+    elif (t == "low") :
+        return Entry.PRIORITY_LOW
+    elif (t == "verylow") :
+        return Entry.PRIORITY_VERYLOW
+    else :
+        raise ValueError("unknown priority " + p)
+
 # Internal use (XML->Tree)
 def fromxml(xml) :
     #debug("Handling node tag " + xml.tag)
 
     if (xml.tag == "note") :
 	text     = xml.text # XXX FIXME: Could be None
-	priority = xml.attrib['priority']
+	priority = string_to_priority(xml.attrib['priority'])
 	time     = xml.attrib['time']
     elif (xml.tag == "todo") :
-	text     = ""
-	priority = ""
+	text     = "root"
+	priority = string_to_priority("medium")
 	time     = ""
     else :
 	raise Exception("Unknown element")
