@@ -16,7 +16,9 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
+import sys   # Useless
 import elementtree.ElementTree as ET
+
 from   Trace import *
 from   Entry import *
 
@@ -86,3 +88,4 @@ class DB :
 # Test
 if (__name__ == '__main__') :
     debug("Test completed")
+    sys.exit(0)

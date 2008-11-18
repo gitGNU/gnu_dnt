@@ -16,8 +16,8 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
+import sys    # Useless
 import traceback
-import sys
 
 from   Config import *
 from   Trace  import *
@@ -39,3 +39,4 @@ def bug(s = "") :
 # Test
 if (__name__ == '__main__') :
     debug("Test completed")
+    sys.exit(0)

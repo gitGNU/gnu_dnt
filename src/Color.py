@@ -16,7 +16,9 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-from Trace import *
+import sys   # Useless
+
+from   Trace import *
 
 def gray(t) :
     return '\033[1;30m' + t + '\033[1;m'
@@ -57,3 +59,4 @@ def crimson(t) :
 # Test
 if (__name__ == '__main__') :
     debug("Test completed")
+    sys.exit(0)

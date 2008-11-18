@@ -32,14 +32,28 @@ dist_pythonlib_DATA =				\
 	Entry.py				\
 	Node.py					\
 	Options.py				\
+	Visitor.py				\
 	Trace.py
 
 nodist_pythonlib_DATA =				\
 	Config.py
 
-CLEANFILES = $(nodist_pythonlib_DATA) $(bin_SCRIPTS) $(pkgvbin_SCRIPTS)
+EXTRA_DIST =
 
-Config.py: Makefile $(srcdir)/Config.py.in
+CLEANFILES = $(nodist_pythonlib_DATA) $(bin_SCRIPTS)
+
+dtt: $(srcdir)/dtt.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/dtt.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+		rm -f $@ $@.tmp ; \
+		exit 1 ; \
+	}
+EXTRA_DIST += dtt.in
+
+Config.py: $(srcdir)/Config.py.in Makefile
 	( rm -f $@ $@.tmp && \
 	  $(do_subst) < $(srcdir)/Config.py.in > $@.tmp && \
 	  chmod a-w $@.tmp && \
@@ -47,6 +61,17 @@ Config.py: Makefile $(srcdir)/Config.py.in
 		rm -f $@ $@.tmp ; \
 		exit 1 ; \
 	}
+EXTRA_DIST += Config.py.in
+
+##
+## Local check target
+##
+PYTHON_SRCS = $(dist_pythonlib_DATA) $(nodist_pythonlib_DATA)
+check-local: Makefile
+	for i in $(PYTHON_SRCS) ; do	\
+		echo "Checking $$i" ;		\
+		$(PYTHON) $$i ;			\
+	done
 
 ##
 ## XXX FIXME:
@@ -73,23 +98,6 @@ uninstall-hook:
 	  fv="$$f-$(API_VERSION)"; \
 	  rm -f $(DESTDIR)$(bindir)/$$fv; \
 	done
-
-DTT_PYTHON_SRCS =				\
-        dtt.in
-
-DTT_SRCS = $(DTT_PYTHON_SRCS)
-
-EXTRA_DIST = $(DTT_SRCS)
-
-dtt: $(srcdir)/dtt.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/dtt.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-		rm -f $@ $@.tmp ; \
-		exit 1 ; \
-	}
 
 ##
 ## Maintainer related targets

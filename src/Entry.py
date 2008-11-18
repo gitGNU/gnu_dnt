@@ -16,13 +16,14 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
+import sys  # Useless
 import datetime
 import string
 
-from Debug import *
-from Trace import *
-from Node  import *
-from Color import *
+from   Debug import *
+from   Trace import *
+from   Node  import *
+from   Color import *
 
 class Entry(Node) :
     __text     = ""
@@ -115,3 +116,4 @@ if (__name__ == '__main__') :
     root.dump(" ", "")
 
     debug("Test completed")
+    sys.exit(0)

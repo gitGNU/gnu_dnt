@@ -16,7 +16,9 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-from Trace import *
+import sys  # Useless
+
+from   Trace import *
 
 class Options :
     __opts = {}
@@ -49,3 +51,4 @@ if (__name__ == '__main__') :
     options.dump()
 
     debug("Test completed")
+    sys.exit(0)

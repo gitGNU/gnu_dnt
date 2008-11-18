@@ -16,8 +16,10 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-from Debug import *
-from Trace import *
+import sys  # Useless
+
+from   Debug import *
+from   Trace import *
 
 class Node :
     def __init__(self) :
@@ -68,3 +70,4 @@ if (__name__ == '__main__') :
     root.child(1, e2)
 
     debug("Test completed")
+    sys.exit(0)

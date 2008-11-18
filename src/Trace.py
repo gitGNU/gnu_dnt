@@ -16,7 +16,9 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
+import sys  # Useless
 import os
+
 from   Config import *
 
 def debug(s) :
@@ -34,3 +36,4 @@ def warning(s) :
 # Test
 if (__name__ == '__main__') :
     debug("Test completed")
+    sys.exit(0)
