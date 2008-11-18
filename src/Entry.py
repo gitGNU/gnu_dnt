@@ -29,7 +29,19 @@ class Entry(Node) :
     __priority = ""
     __time     = ""
 
-    def __init__(self, t = "", p = "", d = datetime.date.today()) :
+    PRIORITY_VERYHIGH = 5
+    PRIORITY_HIGH     = 4
+    PRIORITY_MEDIUM   = 3
+    PRIORITY_LOW      = 2
+    PRIORITY_VERYLOW  = 1
+
+    __legal_priorities = ( PRIORITY_VERYHIGH,
+                           PRIORITY_HIGH,
+                           PRIORITY_MEDIUM,
+                           PRIORITY_LOW,
+                           PRIORITY_VERYLOW )
+
+    def __init__(self, t = "", p = PRIORITY_MEDIUM, d = datetime.date.today()) :
 	Node.__init__(self)
 	self.text_set(t)
 	self.priority_set(p)
@@ -38,7 +50,9 @@ class Entry(Node) :
     def text_get(self) :
 	return self.__text
     def text_set(self, t) :
-	assert(t != None)
+	assert(type(t) == str)
+        if (t == "") :
+            raise ValueError("empty string")
 	# Remove leading and trailing whitespaces from input string
 	self.__text = string.rstrip(string.lstrip(t))
 
@@ -47,6 +61,9 @@ class Entry(Node) :
     def priority_get(self) :
 	return self.__priority
     def priority_set(self, p) :
+        assert(type(p) == int)
+        if (p not in self.__legal_priorities) :
+            raise ValueError("not a legal priority")
 	self.__priority = p
 
     priority = property(priority_get, priority_set)
@@ -58,11 +75,26 @@ class Entry(Node) :
 
     time = property(time_get, time_set)
 
+    # XXX FIXME: Move color related code elsewhere
     def dump(self, indent, header) :
-	i      = 1
-	print(indent + header + "" + white(self.__text))
+        p = self.priority_get()
+        if (p == Entry.PRIORITY_VERYHIGH) :
+            color = red
+        elif (p == Entry.PRIORITY_HIGH) :
+            color = yellow
+        elif (p == Entry.PRIORITY_MEDIUM) :
+            color = white
+        elif (p == Entry.PRIORITY_LOW) :
+            color = cyan
+        elif (p == Entry.PRIORITY_VERYLOW) :
+            color = blue
+        else :
+            bug()
+
+	print(indent + header + "" + color(self.__text))
 
 	indent = indent + "    "
+	i      = 1
 	for j in self.children() :
 	    j.dump(indent, green(str(i) + "."))
 	    i = i + 1
