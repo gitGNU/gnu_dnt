@@ -20,12 +20,15 @@ import os
 from   Config import *
 
 def debug(s) :
+    assert(type(s) == str)
     print(PROGRAM_NAME + ": " + s)
 
 def error(s) :
+    assert(type(s) == str)
     print(PROGRAM_NAME + ": " + s)
 
 def warning(s) :
+    assert(type(s) == str)
     print(PROGRAM_NAME + ": " + s)
 
 # Test
