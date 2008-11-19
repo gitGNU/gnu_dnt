@@ -19,7 +19,11 @@
 import sys    # Useless
 import traceback
 
-from   Config import *
+#
+# NOTE:
+#     Do not include Config here in order to avoid a mutual inclusion between
+#     Config and Debug (see the last lines)
+#
 from   Trace  import *
 
 def bug(s = "") :
@@ -32,8 +36,9 @@ def bug(s = "") :
     traceback.print_exc(file=sys.stdout)
 
     error(tmp2)
-    error("Please report the previous error to <" + PACKAGE_BUGREPORT + ">")
+    error("Please report to <" + PACKAGE_BUGREPORT + ">")
 
+    # Like _exit(), exit immediately ...
     os._exit(1)
 
 # Test
