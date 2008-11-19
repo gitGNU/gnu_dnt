@@ -30,6 +30,7 @@ tools/autotools/install-sh
 tools/autotools/missing
 tools/autotools/mdate-sh
 tools/autotools/texinfo.tex
+tools/autotools/py-compile
 
 docs/man/dtt.1
 docs/info/dtt.info
