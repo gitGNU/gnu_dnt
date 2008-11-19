@@ -56,7 +56,7 @@ def fromxml(xml) :
 	priority = string_to_priority("medium")
 	time     = ""
     else :
-	raise Exception("Unknown element")
+	raise Exception("unknown element")
 
     entry = Entry(text, priority, time)
     #debug("Created node " + str(entry))
