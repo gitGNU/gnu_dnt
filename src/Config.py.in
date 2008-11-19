@@ -19,14 +19,11 @@
 import sys     # Useless
 
 from   Trace   import *
-from   Options import *
 
 PACKAGE_NAME      = "@PACKAGE_NAME@"
 PACKAGE_VERSION   = "@PACKAGE_VERSION@"
 PACKAGE_BUGREPORT = "@PACKAGE_BUGREPORT@"
 PROGRAM_NAME      = "dtt"
-
-options = Options([ 'color' ])
 
 # Test
 if (__name__ == '__main__') :
