@@ -66,10 +66,18 @@ EXTRA_DIST += Config.py.in
 ##
 PYTHON_SRCS = $(dist_pythonlib_DATA) $(nodist_pythonlib_DATA)
 check-local: Makefile
-	for i in $(PYTHON_SRCS) ; do	\
-		echo "Checking $$i" ;		\
-		$(PYTHON) $$i ;			\
+	for i in $(PYTHON_SRCS) ; do \
+		m=`echo $$i | $(SED) -e 's,\.py,,'` && \
+		echo $(ECHO_N) "checking module $$m ($$i)... $(ECHO_C)" && \
+		$(PYTHON) $$i > test.log 2>&1 || { \
+			echo "$(ECHO_T)no" ; \
+			exit 1 ; \
+		} ; \
+		echo "$(ECHO_T)yes" ; \
 	done
+	rm -f test.log
+
+CLEANFILES += test.log
 
 ##
 ## XXX FIXME:
