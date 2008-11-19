@@ -55,16 +55,8 @@ AX_PATH_MISSING([DEVTODO],         [devtodo])
 #
 # Runtime related programs
 #
-AX_WITH_PYTHON
-AS_IF([test -z "$PYTHON"],[
+AM_PATH_PYTHON([2.5],[:],
 	AC_MSG_ERROR([Missing required Python interpreter])
-],[
-	AX_PROG_PYTHON_VERSION([2.5.0],[],[
-		AC_MSG_ERROR([Missing required Python interpreter version >= 2.5.0])
-	])
-
-	#PYTHON_AUTOFRISK_CHECKS
-	#PYTHON_AUTOFRISK_SUMMARY
 ])
 
 #
@@ -83,10 +75,11 @@ API_VERSION="${AX_MAJOR_VERSION}.${AX_MINOR_VERSION}"
 AC_SUBST(API_VERSION)
 
 # Versioned directories, defined here for convenience
-AC_SUBST(pkgvdir,     ["\${datadir}/${PACKAGE}-${API_VERSION}"])
-AC_SUBST(pkgvbindir,  ["\${datadir}/${PACKAGE}-${API_VERSION}/bin"])
-AC_SUBST(pkgvdatadir, ["\${datadir}/${PACKAGE}-${API_VERSION}/data"])
-AC_SUBST(pkgvlibsdir, ["\${datadir}/${PACKAGE}-${API_VERSION}/libs"])
+AC_SUBST(pkgvdir,       ["\${datadir}/${PACKAGE}-${API_VERSION}"])
+AC_SUBST(pkgvbindir,    ["\${datadir}/${PACKAGE}-${API_VERSION}/bin"])
+AC_SUBST(pkgvdatadir,   ["\${datadir}/${PACKAGE}-${API_VERSION}/data"])
+AC_SUBST(pkgvlibsdir,   ["\${datadir}/${PACKAGE}-${API_VERSION}/libs"])
+AC_SUBST(pkgvpythondir, ["\${pythondir}/${PACKAGE}-${API_VERSION}"])
 
 AC_CONFIG_FILES([
 	Makefile
