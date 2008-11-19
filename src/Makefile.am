@@ -31,8 +31,6 @@ dist_pythonlib_DATA =				\
 	Debug.py				\
 	Entry.py				\
 	Node.py					\
-	Options.py				\
-	Visitor.py				\
 	Trace.py
 
 nodist_pythonlib_DATA =				\
@@ -40,7 +38,7 @@ nodist_pythonlib_DATA =				\
 
 EXTRA_DIST =
 
-CLEANFILES = $(nodist_pythonlib_DATA) $(bin_SCRIPTS)
+CLEANFILES = $(nodist_pythonlib_DATA) $(bin_SCRIPTS) *.pyc
 
 dtt: $(srcdir)/dtt.in Makefile
 	( rm -f $@ $@.tmp && \
