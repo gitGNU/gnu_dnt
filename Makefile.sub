@@ -44,7 +44,8 @@ do_subst_GENERIC = \
   -e 's,[@]API_VERSION[@],$(API_VERSION),g' \
   -e 's,[@]pkgvbindir[@],$(pkgvbindir),g' \
   -e 's,[@]pkgvlibsdir[@],$(pkgvlibsdir),g' \
-  -e 's,[@]pkgvdatadir[@],$(pkgvdatadir),g'
+  -e 's,[@]pkgvdatadir[@],$(pkgvdatadir),g' \
+  -e 's,[@]pkgvpythondir[@],$(pkgvpythondir),g'
 
 do_subst_MAINTAINER = \
   -e 's,[@]WGET[@],$(WGET),g'
