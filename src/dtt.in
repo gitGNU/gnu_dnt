@@ -57,6 +57,11 @@ def do_add(database, args) :
     return 1
 
 def do_remove(database, args) :
+    filter = None
+
+    if (filter == None) :
+        raise Exception("filter is empty")
+
     return 1
 
 def do_edit(database, args) :
@@ -70,7 +75,15 @@ def do_show(database, args) :
     db   = DB()
     tree = db.load(database)
 
-    tree.dump("  ", "")
+    class Visitor :
+        def visit(self, e) :
+            debug("Visiting entry " + str(e))
+            for j in e.children() :
+                assert(j != None)
+                self.visit(j)
+
+    v = Visitor()
+    tree.accept(v)
 
     return 0
 
