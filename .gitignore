@@ -36,6 +36,7 @@ docs/info/dtt.info
 
 src/dtt
 src/*.pyc
+src/Config.py
 
 site/in/.sitetool
 site/in/site.stamp
