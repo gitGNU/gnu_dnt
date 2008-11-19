@@ -104,8 +104,6 @@ AC_CONFIG_FILES([
 	tools/maint/Makefile
 	tools/autotools/Makefile
 	tools/autotools/m4/Makefile
-
-	tests/Makefile
 ])
 
 AC_CONFIG_FILES([tools/maint/fetch],               [chmod +x tools/maint/fetch])
