@@ -100,7 +100,7 @@ if (__name__ == '__main__') :
 	def visit(self, e) :
             debug("Visiting entry " + str(e))
 	    for j in e.children() :
-		self.visit(j)
+		j.accept(self) # Re-accept myself
 
     v = Visitor()
     root.accept(v)
