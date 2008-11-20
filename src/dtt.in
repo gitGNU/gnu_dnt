@@ -52,22 +52,22 @@ def usage() :
     print("       --colors             use colors")
     print("       --no-colors          don't use colors")
     print("       --no-configs         don't use config files")
-    print("       --database=FILE      change the database from the default to")
+    print("       --database=FILE      change the database from the default to the")
+    print("                            filename specified")
     print("       --verbose            display verbosely")
     print("       --debug              enable debug mode")
-    print("                            the filename specified")
     print("")
     print("Actions:")
-    print("  -a | --add=ARGS           add node")
-    print("  -r | --remove=ARGS        remove node (and its children)")
-    print("  -p | --purge=ARGS         purge node (and its children)")
-    print("  -e | --edit=ARGS          edit node")
-    print("  -R | --reparent=ARGS      reparent node (and its children)")
-    print("  -s | --show[=ARGS]        display notes")
+    print("  -a | --add[=ID]           add a new node")
+    print("  -r | --remove=FILTER      remove selected nodes (and their children)")
+    print("  -e | --edit=ID            edit node")
+    print("  -m | --move=FROM,TO       reparent node FROM (and its children) as child of")
+    print("  -s | --show[=FILTER]      display nodes matching filter, the default filter")
+    print("                            is `+all'")
     print("  -V | --version            print version number, then exit")
     print("  -h | --help               print this help, then exit")
     print("")
-    print("Each action has its own arguments")
+    print("Filters:")
     print("")
     print("Report bugs to <@PACKAGE_BUGREPORT@>")
 
@@ -208,7 +208,7 @@ def main(args) :
     # Parse command line
     try :
 	opts, args = getopt.getopt(args[1:],
-				   "a:r:p:e:R:sVh",
+				   "aremsVh",
 				   [ "colors",
 				     "no-colors",
 				     "no-configs",
@@ -216,11 +216,10 @@ def main(args) :
 				     "verbose",
 				     "debug",
 
-				     "add=",
-				     "remove=",
-				     "purge=",
-				     "edit=",
-				     "reparent=",
+				     "add",
+				     "remove",
+				     "move",
+				     "edit",
 				     "show",
 				     "version",
 				     "help",
@@ -249,11 +248,9 @@ def main(args) :
 	    do_action = do_add ;      parms  = args[2:]
 	elif opt in ("-r", "--remove") :
 	    do_action = do_remove ;   parms  = args[2:]
-	elif opt in ("-p", "--purge") :
-	    do_action = do_purge ;    parms  = args[2:]
 	elif opt in ("-e", "--edit") :
 	    do_action = do_edit ;     parms  = args[2:]
-	elif opt in ("-R", "--reparent") :
+	elif opt in ("-m", "--move") :
 	    do_action = do_reparent ; parms  = args[2:]
 	elif opt in ("-s", "--show") :
 	    do_action = do_show ;     parms  = args[2:]
