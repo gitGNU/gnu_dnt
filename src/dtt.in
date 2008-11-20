@@ -24,6 +24,8 @@ import traceback
 import getopt
 import pprint
 
+sys.path.append("@pkgvpythondir@")
+
 from   Trace import *
 from   DB    import *
 from   Debug import *
@@ -42,7 +44,7 @@ def usage() :
     print("  -r | --remove [ARGS]      Remove node (and its children)")
     print("  -e | --edit [ARGS]        Edit node")
     print("  -R | --reparent [ARGS]    Reparent node (and its children)")
-    print("  -s | --show [ARGS]        Show")
+    print("  -s | --show               Display all notes")
     print("  -v | --verbose            Enable debug mode")
     print("  -h | --help               This help")
     print("")
@@ -70,19 +72,61 @@ def do_edit(database, args) :
 def do_reparent(database, args) :
     return 1
 
+class ShowVisitor :
+    def __init__(self, mono, verbose) :
+        self.__mono   = mono
+        self.__indent = ""
+        self.__index  = 0
+
+    def visit(self, e) :
+        assert(e != None)
+
+        #debug("Visiting entry " + str(e))
+        
+        if (not self.__mono) :
+            color_index = green
+            p           = e.priority_get()
+            if (p == Entry.PRIORITY_VERYHIGH) :
+                color_text = red
+            elif (p == Entry.PRIORITY_HIGH) :
+                color_text = yellow
+            elif (p == Entry.PRIORITY_MEDIUM) :
+                color_text = white
+            elif (p == Entry.PRIORITY_LOW) :
+                color_text = cyan
+            elif (p == Entry.PRIORITY_VERYLOW) :
+                color_text = blue
+            else :
+                color_text = white
+        else :
+            color_index = lambda x: x # pass-through
+            color_text  = lambda x: x # pass-through
+
+        assert(color_index != None)
+        assert(color_text != None)
+
+        print(self.__indent                 +
+              color_index(str(self.__index) + ".") +
+              color_text(e.text))
+
+        old_indent = self.__indent
+        old_index  = self.__index
+
+        self.__indent = self.__indent + "    "
+        self.__index  = 0
+        for j in e.children() :
+            self.__index = self.__index + 1
+            j.accept(self) # Re-accept myself
+
+        self.__indent = old_indent
+        self.__index  = old_index
+
 def do_show(database, args) :
     # Load DB
     db   = DB()
     tree = db.load(database)
 
-    class Visitor :
-        def visit(self, e) :
-            debug("Visiting entry " + str(e))
-            for j in e.children() :
-                assert(j != None)
-                self.visit(j)
-
-    v = Visitor()
+    v = ShowVisitor(False, False)
     tree.accept(v)
 
     return 0
@@ -105,7 +149,7 @@ def main(args) :
 	return 1
 
     source    = DEFAULT_SOURCE_FILE
-    do_action = do_show
+    do_action = None
     parms     = []
     for opt, arg in opts :
 	if opt in ("-a", "--add") :
@@ -130,9 +174,9 @@ def main(args) :
 	    bug()
 
     if (do_action == None) :
-	hint("Missing parameter(s)")
-	return 1
-
+        hint("Missing parameter(s)")
+        return 1
+        
     try :
         retval = do_action(source, parms)
     except IOError, e :
