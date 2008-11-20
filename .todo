@@ -21,4 +21,7 @@
     <note priority="medium" time="1226585740">
         Add Stream class in order to wrap the std::stream, obtaining a multithread logging mechanism
     </note>
+    <note priority="low" time="1227122807">
+        Rearrange the build process in order to use EXEEXT (if needed)
+    </note>
 </todo>
