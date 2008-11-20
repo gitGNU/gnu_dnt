@@ -78,12 +78,19 @@ def toxml(tree) :
 
 class DB :
     def load(self, name) :
-	xml  = ET.parse(name).getroot()
+        try :
+            xml = ET.parse(name).getroot()
+        except :
+            raise Exception("problems reading input database")
+
 	return fromxml(xml)
 
     def save(self, name, tree) :
-	xml = toxml(tree)
-	xml.write(name)
+        try :
+            xml = toxml(tree)
+            xml.write(name)
+        except :
+            raise Exception("problems writing input database")
 
 # Test
 if (__name__ == '__main__') :
