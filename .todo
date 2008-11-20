@@ -25,6 +25,6 @@
         Rearrange the build process in order to use EXEEXT (if needed)
     </note>
     <note priority="low" time="1227141217">
-        Added clumsy solution to Config.py generation (added to BUILT_SOURCES) ... please reveiew it later
+        Added clumsy solution to Config.py generation (added to BUILT_SOURCES) ... please review it later
     </note>
 </todo>
