@@ -91,14 +91,14 @@ def do_reparent(database, args) :
     # Find source node
     source = None
     if (node == None) :
-        raise Exception("cannot find source node " + id " ...")
+        raise Exception("cannot find source node " + id + " ...")
 
     id = None
 
     # Find destination node
     destination = None
     if (destination == None) :
-        raise Exception("cannot find destination node " + id " ...")
+        raise Exception("cannot find destination node " + id + " ...")
 
     return 1
 
