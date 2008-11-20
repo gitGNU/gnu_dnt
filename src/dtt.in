@@ -22,7 +22,7 @@ import os
 import sys
 import traceback
 import getopt
-import pprint
+import ConfigParser
 
 sys.path.append("@pkgvpythondir@")
 
@@ -36,8 +36,13 @@ def hint(s) :
     print("Use `" + PROGRAM_NAME + " -h' for help")
 
 def usage() :
-    print(PROGRAM_NAME + " OPTIONS")
+    print(PROGRAM_NAME + " [FLAGS]... [OPTIONS]")
     print("")
+    print("Flags:")
+    print("       --colors             Use colors")
+    print("       --no-colors          Don't use colors")
+    print("")
+    print("Options:")
     print("  -a | --add [ARGS]         Add node")
     print("  -d | --database [ARG]     Change the database from the default to")
     print("                            the filename specified")
@@ -53,137 +58,159 @@ def usage() :
 def version() :
     print(PROGRAM_NAME + " (" + PACKAGE_NAME + ") " + PACKAGE_VERSION)
 
-DEFAULT_SOURCE_FILE = ".todo"
+DEFAULT_DB_FILE = ".todo"
 
-def do_add(database, args) :
+def do_add(database, use_colors, args) :
     return 1
 
-def do_remove(database, args) :
+def do_remove(database, use_colors, args) :
     filter = None
     # Parse filter here
     if (filter == None) :
-        raise Exception("filter is empty")
+	raise Exception("filter is empty")
 
     id = None
     # Find node (from id) here
     node = None
     if (node == None) :
-        raise Exception("node " + id +" not found")
+	raise Exception("node " + id +" not found")
 
     return 1
 
-def do_edit(database, args) :
+def do_edit(database, use_colors, args) :
     id = None
 
     # Find node (from id) here
     node = None
     if (node == None) :
-        raise Exception("node " + id +" not found")
+	raise Exception("node " + id +" not found")
 
     # Edit node now
 
     return 1
 
-def do_reparent(database, args) :
+def do_reparent(database, use_colors, args) :
 
     id = None
 
     # Find source node
     source = None
     if (node == None) :
-        raise Exception("cannot find source node " + id + " ...")
+	raise Exception("cannot find source node " + id + " ...")
 
     id = None
 
     # Find destination node
     destination = None
     if (destination == None) :
-        raise Exception("cannot find destination node " + id + " ...")
+	raise Exception("cannot find destination node " + id + " ...")
 
     return 1
 
 class ShowVisitor :
-    def __init__(self, mono, verbose) :
-        self.__mono   = mono
-        self.__indent = ""
-        self.__index  = 0
+    def __init__(self, colors, verbose) :
+	self.__colors = colors
+	self.__indent = ""
+	self.__index  = 0
 
     def visit(self, e) :
-        assert(e != None)
+	assert(e != None)
 
-        #debug("Visiting entry " + str(e))
-        
-        if (not self.__mono) :
-            color_index = green
-            p           = e.priority_get()
-            if (p == Entry.PRIORITY_VERYHIGH) :
-                color_text = red
-            elif (p == Entry.PRIORITY_HIGH) :
-                color_text = yellow
-            elif (p == Entry.PRIORITY_MEDIUM) :
-                color_text = white
-            elif (p == Entry.PRIORITY_LOW) :
-                color_text = cyan
-            elif (p == Entry.PRIORITY_VERYLOW) :
-                color_text = blue
-            else :
-                color_text = white
-        else :
-            color_index = lambda x: x # pass-through
-            color_text  = lambda x: x # pass-through
+	#debug("Visiting entry " + str(e))
 
-        assert(color_index != None)
-        assert(color_text != None)
+	if (self.__colors) :
+	    color_index = green
+	    p           = e.priority_get()
+	    if (p == Entry.PRIORITY_VERYHIGH) :
+		color_text = red
+	    elif (p == Entry.PRIORITY_HIGH) :
+		color_text = yellow
+	    elif (p == Entry.PRIORITY_MEDIUM) :
+		color_text = white
+	    elif (p == Entry.PRIORITY_LOW) :
+		color_text = cyan
+	    elif (p == Entry.PRIORITY_VERYLOW) :
+		color_text = blue
+	    else :
+		color_text = white
+	else :
+	    color_index = lambda x: x # pass-through
+	    color_text  = lambda x: x # pass-through
 
-        print(self.__indent                 +
-              color_index(str(self.__index) + ".") +
-              color_text(e.text))
+	assert(color_index != None)
+	assert(color_text != None)
 
-        old_indent = self.__indent
-        old_index  = self.__index
+	print(self.__indent                 +
+	      color_index(str(self.__index) + ".") +
+	      color_text(e.text))
 
-        self.__indent = self.__indent + "    "
-        self.__index  = 0
-        for j in e.children() :
-            self.__index = self.__index + 1
-            j.accept(self) # Re-accept myself
+	old_indent = self.__indent
+	old_index  = self.__index
 
-        self.__indent = old_indent
-        self.__index  = old_index
+	self.__indent = self.__indent + "    "
+	self.__index  = 0
+	for j in e.children() :
+	    self.__index = self.__index + 1
+	    j.accept(self) # Re-accept myself
 
-def do_purge(database, args) :
+	self.__indent = old_indent
+	self.__index  = old_index
+
+def do_purge(database, use_colors, args) :
     id = None
 
     # Find node (from id) here
     node = None
     if (node == None) :
-        raise Exception("node " + id +" not found")
+	raise Exception("node " + id +" not found")
 
     # Remove node
 
     return 0
 
-def do_show(database, args) :
+def do_show(database, use_colors, args) :
     # Load DB
     db   = DB()
     tree = db.load(database)
 
-    v = ShowVisitor(False, False)
+    v = ShowVisitor(use_colors, False)
     tree.accept(v)
 
     return 0
 
 def main(args) :
+    # Setup some sane defaults
+    configuration = {
+	'colors': True
+	}
+
+    # Read local-directory and home-directory configuration files (if present)
+    # assuming the local-directory config precedence over home directory one
+
+    config = ConfigParser.ConfigParser()
+    try :
+	config.read([ os.path.expanduser('~/.' + PROGRAM_NAME),
+		      './.' + PROGRAM_NAME ])
+
+	configuration['colors'] = config.getboolean('','colors')
+    except ConfigParser.ParsingError :
+	error("Problems parsing configuration file")
+	return 1
+    except:
+	error("Problem reading configuration file, discarding ...")
+
     # Parse command line
     try :
 	opts, args = getopt.getopt(args[1:],
 				   "a:d:r:e:R:psvh",
-				   [ "add=",
+				   [ "colors",
+				     "no-colors",
+				     "add=",
 				     "database=",
-                                     "remove=",
+				     "remove=",
 				     "edit=",
 				     "reparent=",
-                                     "purge",
+				     "purge",
 				     "show",
 				     "help",
 				     "version" ])
@@ -191,14 +218,18 @@ def main(args) :
 	hint("Parameter(s) error")
 	return 1
 
-    source    = DEFAULT_SOURCE_FILE
-    do_action = None
-    parms     = []
+    db         = DEFAULT_DB_FILE
+    do_action  = None
+    parms      = []
     for opt, arg in opts :
-	if opt in ("-a", "--add") :
-	    do_action = do_add ;      parms  = args[2:]
+	if opt in ("--colors") :
+	    use_colors = True
+	elif opt in ("--no-colors") :
+	    use_colors = False
 	elif opt in ("-d", "--database") :
-	    source = arg
+	    db = arg
+	elif opt in ("-a", "--add") :
+	    do_action = do_add ;      parms  = args[2:]
 	elif opt in ("-r", "--remove") :
 	    do_action = do_remove ;   parms  = args[2:]
 	elif opt in ("-e", "--edit") :
@@ -219,18 +250,18 @@ def main(args) :
 	    bug()
 
     if (do_action == None) :
-        hint("Missing parameter(s)")
-        return 1
-        
+	hint("Missing parameter(s)")
+	return 1
+
     try :
-        retval = do_action(source, parms)
+	retval = do_action(db, use_colors, parms)
     except IOError, e :
-        error(e.value)
+	error(e.value)
     except ValueError, e :
-        error(e.value)
+	error(e.value)
     except :
-        bug()
-        return 1
+	bug()
+	return 1
 
     return retval
 
