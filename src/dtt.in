@@ -41,6 +41,7 @@ def usage() :
     print("Flags:")
     print("       --colors             Use colors")
     print("       --no-colors          Don't use colors")
+    print("       --no-configs         Don't use config files")
     print("")
     print("Options:")
     print("  -a | --add [ARGS]         Add node")
@@ -179,25 +180,12 @@ def do_show(database, use_colors, args) :
     return 0
 
 def main(args) :
-    # Setup some sane defaults
+    # Setup some sane configuration default values
     configuration = {
-	'colors': True
+	'colors'   : True,
+	'database' : DEFAULT_DB_FILE,
+	'configs'  : True
 	}
-
-    # Read local-directory and home-directory configuration files (if present)
-    # assuming the local-directory config precedence over home directory one
-
-    config = ConfigParser.ConfigParser()
-    try :
-	config.read([ os.path.expanduser('~/.' + PROGRAM_NAME),
-		      './.' + PROGRAM_NAME ])
-
-	configuration['colors'] = config.getboolean('','colors')
-    except ConfigParser.ParsingError :
-	error("Problems parsing configuration file")
-	return 1
-    except:
-	error("Problem reading configuration file, discarding ...")
 
     # Parse command line
     try :
@@ -205,6 +193,7 @@ def main(args) :
 				   "a:d:r:e:R:psvh",
 				   [ "colors",
 				     "no-colors",
+				     "no-configs",
 				     "add=",
 				     "database=",
 				     "remove=",
@@ -218,16 +207,15 @@ def main(args) :
 	hint("Parameter(s) error")
 	return 1
 
-    db         = DEFAULT_DB_FILE
     do_action  = None
     parms      = []
     for opt, arg in opts :
 	if opt in ("--colors") :
-	    use_colors = True
+	    configuration['color'] = True
 	elif opt in ("--no-colors") :
-	    use_colors = False
+	    configuration['color'] = False
 	elif opt in ("-d", "--database") :
-	    db = arg
+	    configuration['database'] = arg
 	elif opt in ("-a", "--add") :
 	    do_action = do_add ;      parms  = args[2:]
 	elif opt in ("-r", "--remove") :
@@ -253,8 +241,28 @@ def main(args) :
 	hint("Missing parameter(s)")
 	return 1
 
+    if (configuration['configs'] == True) :
+	# Read local-directory and home-directory configuration files if
+	# present, assuming the local-directory config precedence over the home
+	# directory one
+
+	config = ConfigParser.ConfigParser()
+	try :
+	    config.read([ os.path.expanduser('~/.' + PROGRAM_NAME),
+			  './.' + PROGRAM_NAME ])
+
+	    configuration['colors'] = config.getboolean('','colors')
+	except ConfigParser.ParsingError :
+	    error("Problems parsing configuration file")
+	    return 1
+	except:
+	    error("Problem reading configuration file, "
+		  "using default values ...")
+
     try :
-	retval = do_action(db, use_colors, parms)
+	retval = do_action(configuration['database'],
+			   configuration['colors'],
+			   parms)
     except IOError, e :
 	error(e.value)
     except ValueError, e :
