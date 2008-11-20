@@ -34,6 +34,9 @@ pkgvpython_PYTHON =				\
 nodist_pkgvpython_PYTHON =			\
 	Config.py
 
+BUILT_SOURCES =					\
+	Config.py
+
 EXTRA_DIST =
 
 CLEANFILES =					\
