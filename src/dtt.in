@@ -60,16 +60,46 @@ def do_add(database, args) :
 
 def do_remove(database, args) :
     filter = None
-
+    # Parse filter here
     if (filter == None) :
         raise Exception("filter is empty")
+
+    id = None
+    # Find node (from id) here
+    node = None
+    if (node == None) :
+        raise Exception("node " + id +" not found")
 
     return 1
 
 def do_edit(database, args) :
+    id = None
+
+    # Find node (from id) here
+    node = None
+    if (node == None) :
+        raise Exception("node " + id +" not found")
+
+    # Edit node now
+
     return 1
 
 def do_reparent(database, args) :
+
+    id = None
+
+    # Find source node
+    source = None
+    if (node == None) :
+        raise Exception("cannot find source node " + id " ...")
+
+    id = None
+
+    # Find destination node
+    destination = None
+    if (destination == None) :
+        raise Exception("cannot find destination node " + id " ...")
+
     return 1
 
 class ShowVisitor :
@@ -121,6 +151,18 @@ class ShowVisitor :
         self.__indent = old_indent
         self.__index  = old_index
 
+def do_purge(database, args) :
+    id = None
+
+    # Find node (from id) here
+    node = None
+    if (node == None) :
+        raise Exception("node " + id +" not found")
+
+    # Remove node
+
+    return 0
+
 def do_show(database, args) :
     # Load DB
     db   = DB()
@@ -135,12 +177,13 @@ def main(args) :
     # Parse command line
     try :
 	opts, args = getopt.getopt(args[1:],
-				   "a:d:r:e:R:svh",
+				   "a:d:r:e:R:psvh",
 				   [ "add=",
 				     "database=",
                                      "remove=",
 				     "edit=",
 				     "reparent=",
+                                     "purge",
 				     "show",
 				     "help",
 				     "version" ])
@@ -162,6 +205,8 @@ def main(args) :
 	    do_action = do_edit ;     parms  = args[2:]
 	elif opt in ("-r", "--reparent") :
 	    do_action = do_reparent ; parms  = args[2:]
+	elif opt in ("-p", "--purge") :
+	    do_action = do_purge ;    parms  = args[2:]
 	elif opt in ("-s", "--show") :
 	    do_action = do_show ;     parms  = args[2:]
 	elif opt in ("-h", "--help") :
