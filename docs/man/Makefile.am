@@ -30,13 +30,15 @@ EXTRA_DIST = $(man_aux)
 ##     Distributed files should never depend on non-distributed built files
 ##
 dtt.1: $(top_srcdir)/src/dtt.in $(top_srcdir)/configure.ac
+	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	export PYTHONPATH ; \
 	$(HELP2MAN) \
 	    --include=$(srcdir)/dtt.x \
 	    --source="@PACKAGE_NAME@" \
 	    --manual="User Commands" \
 	    --section=1	\
 	    --output=dtt.1 \
-	    $(top_builddir)/src/dtt$(EXEEXT)
+	    $(top_builddir)/src/dtt
 
 ##
 ## Maintainer related targets
