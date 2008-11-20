@@ -18,41 +18,56 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-import os
-import sys
-import traceback
-import getopt
-import ConfigParser
+try :
+    import os
+    import sys
+    import traceback
+    import getopt
+    import ConfigParser
+except ImportError :
+    # XXX FIXME: Add better error reporting ....
+    print("Cannot import system modules ...")
+    sys.exit(-1)
 
 sys.path.append("@pkgvpythondir@")
 
-from   Trace import *
-from   DB    import *
-from   Debug import *
-from   Entry import *
+try :
+    from   Trace import *
+    from   DB    import *
+    from   Debug import *
+    from   Entry import *
+except ImportError :
+    # XXX FIXME: Add better error reporting ....
+    print("Cannot import package's own modules ...")
+    sys.exit(-1)
 
 def hint(s) :
     print(s)
     print("Use `" + PROGRAM_NAME + " -h' for help")
 
 def usage() :
-    print(PROGRAM_NAME + " [FLAGS]... [OPTIONS]")
+    print(PROGRAM_NAME + " [FLAGS]... ACTION")
     print("")
     print("Flags:")
-    print("       --colors             Use colors")
-    print("       --no-colors          Don't use colors")
-    print("       --no-configs         Don't use config files")
-    print("")
-    print("Options:")
-    print("  -a | --add [ARGS]         Add node")
-    print("  -d | --database [ARG]     Change the database from the default to")
+    print("       --colors             use colors")
+    print("       --no-colors          don't use colors")
+    print("       --no-configs         don't use config files")
+    print("       --database=FILE      change the database from the default to")
+    print("       --verbose            display verbosely")
+    print("       --debug              enable debug mode")
     print("                            the filename specified")
-    print("  -r | --remove [ARGS]      Remove node (and its children)")
-    print("  -e | --edit [ARGS]        Edit node")
-    print("  -R | --reparent [ARGS]    Reparent node (and its children)")
-    print("  -s | --show               Display all notes")
-    print("  -v | --verbose            Enable debug mode")
-    print("  -h | --help               This help")
+    print("")
+    print("Actions:")
+    print("  -a | --add=ARGS           add node")
+    print("  -r | --remove=ARGS        remove node (and its children)")
+    print("  -p | --purge=ARGS         purge node (and its children)")
+    print("  -e | --edit=ARGS          edit node")
+    print("  -R | --reparent=ARGS      reparent node (and its children)")
+    print("  -s | --show[=ARGS]        display notes")
+    print("  -V | --version            print version number, then exit")
+    print("  -h | --help               print this help, then exit")
+    print("")
+    print("Each action has its own arguments")
     print("")
     print("Report bugs to <@PACKAGE_BUGREPORT@>")
 
@@ -61,10 +76,10 @@ def version() :
 
 DEFAULT_DB_FILE = ".todo"
 
-def do_add(database, use_colors, args) :
+def do_add(configuration, args) :
     return 1
 
-def do_remove(database, use_colors, args) :
+def do_remove(configuration, args) :
     filter = None
     # Parse filter here
     if (filter == None) :
@@ -78,7 +93,7 @@ def do_remove(database, use_colors, args) :
 
     return 1
 
-def do_edit(database, use_colors, args) :
+def do_edit(configuration, args) :
     id = None
 
     # Find node (from id) here
@@ -90,7 +105,7 @@ def do_edit(database, use_colors, args) :
 
     return 1
 
-def do_reparent(database, use_colors, args) :
+def do_reparent(configuration, args) :
 
     id = None
 
@@ -109,10 +124,11 @@ def do_reparent(database, use_colors, args) :
     return 1
 
 class ShowVisitor :
-    def __init__(self, colors, verbose) :
-	self.__colors = colors
-	self.__indent = ""
-	self.__index  = 0
+    def __init__(self, colors, be_verbose) :
+	self.__colors  = colors
+        self.__verbose = be_verbose
+	self.__indent  = ""
+	self.__index   = 0
 
     def visit(self, e) :
 	assert(e != None)
@@ -157,7 +173,7 @@ class ShowVisitor :
 	self.__indent = old_indent
 	self.__index  = old_index
 
-def do_purge(database, use_colors, args) :
+def do_purge(configuration, args) :
     id = None
 
     # Find node (from id) here
@@ -169,12 +185,12 @@ def do_purge(database, use_colors, args) :
 
     return 0
 
-def do_show(database, use_colors, args) :
+def do_show(configuration, args) :
     # Load DB
     db   = DB()
-    tree = db.load(database)
+    tree = db.load(configuration['database'])
 
-    v = ShowVisitor(use_colors, False)
+    v = ShowVisitor(configuration['colors'], configuration['verbose'])
     tree.accept(v)
 
     return 0
@@ -184,25 +200,31 @@ def main(args) :
     configuration = {
 	'colors'   : True,
 	'database' : DEFAULT_DB_FILE,
-	'configs'  : True
+	'configs'  : True,
+	'verbose'  : False,
+	'debug'    : False
 	}
 
     # Parse command line
     try :
 	opts, args = getopt.getopt(args[1:],
-				   "a:d:r:e:R:psvh",
+				   "a:r:p:e:R:sVh",
 				   [ "colors",
 				     "no-colors",
 				     "no-configs",
-				     "add=",
 				     "database=",
+				     "verbose",
+				     "debug",
+
+				     "add=",
 				     "remove=",
+				     "purge=",
 				     "edit=",
 				     "reparent=",
-				     "purge",
 				     "show",
+				     "version",
 				     "help",
-				     "version" ])
+				     ])
     except getopt.GetoptError :
 	hint("Parameter(s) error")
 	return 1
@@ -211,35 +233,39 @@ def main(args) :
     parms      = []
     for opt, arg in opts :
 	if opt in ("--colors") :
-	    configuration['color'] = True
+	    configuration['colors']   = True
 	elif opt in ("--no-colors") :
-	    configuration['color'] = False
-	elif opt in ("-d", "--database") :
+	    configuration['colors']   = False
+	elif opt in ("--database") :
 	    configuration['database'] = arg
+	elif opt in ("--no-configs") :
+	    configuration['configs']  = False
+	elif opt in ("--verbose") :
+	    configuration['verbose']  = True
+	elif opt in ("--debug") :
+	    configuration['debug']    = True
+
 	elif opt in ("-a", "--add") :
 	    do_action = do_add ;      parms  = args[2:]
 	elif opt in ("-r", "--remove") :
 	    do_action = do_remove ;   parms  = args[2:]
-	elif opt in ("-e", "--edit") :
-	    do_action = do_edit ;     parms  = args[2:]
-	elif opt in ("-r", "--reparent") :
-	    do_action = do_reparent ; parms  = args[2:]
 	elif opt in ("-p", "--purge") :
 	    do_action = do_purge ;    parms  = args[2:]
+	elif opt in ("-e", "--edit") :
+	    do_action = do_edit ;     parms  = args[2:]
+	elif opt in ("-R", "--reparent") :
+	    do_action = do_reparent ; parms  = args[2:]
 	elif opt in ("-s", "--show") :
 	    do_action = do_show ;     parms  = args[2:]
+
+	elif opt in ("-V", "--version") :
+	    version()
+	    return 0
 	elif opt in ("-h", "--help") :
 	    usage()
 	    return 0
-	elif opt in ("-v", "--version") :
-	    version()
-	    return 0
 	else :
 	    bug()
-
-    if (do_action == None) :
-	hint("Missing parameter(s)")
-	return 1
 
     if (configuration['configs'] == True) :
 	# Read local-directory and home-directory configuration files if
@@ -259,10 +285,12 @@ def main(args) :
 	    error("Problem reading configuration file, "
 		  "using default values ...")
 
+    if (do_action == None) :
+	hint("Missing parameter(s)")
+	return 1
+
     try :
-	retval = do_action(configuration['database'],
-			   configuration['colors'],
-			   parms)
+	retval = do_action(configuration, parms)
     except IOError, e :
 	error(e.value)
     except ValueError, e :
