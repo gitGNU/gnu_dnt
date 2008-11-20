@@ -41,40 +41,38 @@ except ImportError :
     print("Cannot import package's own modules ...")
     sys.exit(-1)
 
+DEFAULT_DB_FILE = ".todo"
+
 def hint(s) :
     print(s)
     print("Use `" + PROGRAM_NAME + " -h' for help")
 
 def usage() :
-    print(PROGRAM_NAME + " [FLAGS]... ACTION")
+    print(PROGRAM_NAME + " [FLAG]... ACTION [OPTION]...")
     print("")
     print("Flags:")
-    print("       --colors             use colors")
-    print("       --no-colors          don't use colors")
-    print("       --no-configs         don't use config files")
-    print("       --database=FILE      change the database from the default to the")
-    print("                            filename specified")
-    print("       --verbose            display verbosely")
-    print("       --debug              enable debug mode")
+    print("       --colors           use colors")
+    print("       --no-colors        do not use colors")
+    print("       --no-configs       do not use config files")
+    print("       --database=FILE    change the database from the default "
+          "(" + DEFAULT_DB_FILE + ") to")
+    print("                          the filename specified")
+    print("       --verbose          display verbosely")
+    print("       --debug            enable debug mode")
     print("")
     print("Actions:")
-    print("  -a | --add[=ID]           add a new node")
-    print("  -r | --remove=FILTER      remove selected nodes (and their children)")
-    print("  -e | --edit=ID            edit node")
-    print("  -m | --move=FROM,TO       reparent node FROM (and its children) as child of")
-    print("  -s | --show[=FILTER]      display nodes matching filter, the default filter")
-    print("                            is `+all'")
-    print("  -V | --version            print version number, then exit")
-    print("  -h | --help               print this help, then exit")
-    print("")
-    print("Filters:")
+    print("  -a | --add              add a new node")
+    print("  -r | --remove           remove a node (and its children)")
+    print("  -e | --edit             edit a node")
+    print("  -m | --move             move (reparent) a node")
+    print("  -s | --show             display nodes")
+    print("  -V | --version          print version number, then exit")
+    print("  -h | --help             print this help, then exit")
     print("")
     print("Report bugs to <@PACKAGE_BUGREPORT@>")
 
 def version() :
     print(PROGRAM_NAME + " (" + PACKAGE_NAME + ") " + PACKAGE_VERSION)
-
-DEFAULT_DB_FILE = ".todo"
 
 def do_add(configuration, args) :
     return 1
@@ -279,8 +277,9 @@ def main(args) :
 	    error("Problems parsing configuration file")
 	    return 1
 	except:
-	    error("Problem reading configuration file, "
-		  "using default values ...")
+	    if (configuration['verbose'] == True) :
+                warning("Problem reading configuration file, "
+                        "using default values ...")
 
     if (do_action == None) :
 	hint("Missing parameter(s)")
