@@ -23,9 +23,7 @@ include $(top_srcdir)/Makefile.sub
 bin_SCRIPTS =					\
 	dtt
 
-pythonlibdir = $(pkgvlibsdir)/python/DTT
-
-dist_pythonlib_DATA =				\
+pkgvpython_PYTHON =				\
 	Color.py				\
 	DB.py					\
 	Debug.py				\
@@ -33,12 +31,15 @@ dist_pythonlib_DATA =				\
 	Node.py					\
 	Trace.py
 
-nodist_pythonlib_DATA =				\
+nodist_pkgvpython_PYTHON =			\
 	Config.py
 
 EXTRA_DIST =
 
-CLEANFILES = $(nodist_pythonlib_DATA) $(bin_SCRIPTS) *.pyc
+CLEANFILES =					\
+	$(nodist_pkgvpython_PYTHON)		\
+	$(bin_SCRIPTS)				\
+	*.pyc
 
 dtt: $(srcdir)/dtt.in Makefile
 	( rm -f $@ $@.tmp && \
@@ -64,13 +65,17 @@ EXTRA_DIST += Config.py.in
 ##
 ## Local check target
 ##
-PYTHON_SRCS = $(dist_pythonlib_DATA) $(nodist_pythonlib_DATA)
+PYTHON_MODULES =				\
+	$(pkgvpython_PYTHON)			\
+	$(nodist_pkgvpython_PYTHON)
+
 check-local: Makefile
-	for i in $(PYTHON_SRCS) ; do \
+	for i in $(PYTHON_MODULES) ; do \
 		m=`echo $$i | $(SED) -e 's,\.py,,'` && \
 		echo $(ECHO_N) "checking module $$m ($$i)... $(ECHO_C)" && \
 		$(PYTHON) $$i > test.log 2>&1 || { \
 			echo "$(ECHO_T)no" ; \
+			cat test.log ; \
 			exit 1 ; \
 		} ; \
 		echo "$(ECHO_T)yes" ; \
