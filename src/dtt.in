@@ -57,8 +57,8 @@ def usage() :
     print("       --database=FILE     change the database from the default "
           "(" + DEFAULT_DB_FILE + ")")
     print("                           to the filename specified")
-    print("       --verbose           display verbosely when showing, report")
-    print("                           verbosely during other actions")
+    print("       --verbose           display verbosely when showing, report verbosely")
+    print("                           during other commands")
     print("       --debug             enable debug mode")
     print("")
     print("Commands:")
@@ -68,10 +68,9 @@ def usage() :
     print("  -m | --move              reparent nodes")
     print("  -s | --show              display nodes")
     print("  -V | --version           print version number, then exit")
-    print("  -h | --help              print this help, then exit")
+    print("  -h | --help[=COMMAND]    print some help, then exit")
     print("")
-    print("Each command has an associated help. See `" + PROGRAM_NAME + " --help' for more information ")
-    print("about a specific command.")
+    print("See `" + PROGRAM_NAME + " --help COMMAND' for more information about a specific command.")
     print("")
     print("Report bugs to <@PACKAGE_BUGREPORT@>")
 
@@ -230,7 +229,7 @@ def main(args) :
 	hint("Parameter(s) error")
 	return 1
 
-    do_action  = None
+    do_command = None
     parms      = []
     for opt, arg in opts :
 	if opt in ("--colors") :
@@ -247,15 +246,15 @@ def main(args) :
 	    configuration['debug']    = True
 
 	elif opt in ("-a", "--add") :
-	    do_action = do_add ;      parms  = args[2:] ; break
+	    do_command = do_add ;      parms  = args[2:] ; break
 	elif opt in ("-r", "--remove") :
-	    do_action = do_remove ;   parms  = args[2:] ; break
+	    do_command = do_remove ;   parms  = args[2:] ; break
 	elif opt in ("-e", "--edit") :
-	    do_action = do_edit ;     parms  = args[2:] ; break
+	    do_command = do_edit ;     parms  = args[2:] ; break
 	elif opt in ("-m", "--move") :
-	    do_action = do_reparent ; parms  = args[2:] ; break
+	    do_command = do_reparent ; parms  = args[2:] ; break
 	elif opt in ("-s", "--show") :
-	    do_action = do_show ;     parms  = args[2:] ; break
+	    do_command = do_show ;     parms  = args[2:] ; break
 
 	elif opt in ("-V", "--version") :
 	    version()
@@ -285,13 +284,13 @@ def main(args) :
                 warning("Problem reading configuration file, "
                         "using default values ...")
 
-    if (do_action == None) :
+    if (do_command == None) :
 	hint("Missing parameter(s)")
 	return 1
 
     retval = 1
     try :
-	retval = do_action(configuration, parms)
+	retval = do_command(configuration, parms)
     except IOError, e :
 	error(e)
     except ValueError, e :
