@@ -33,7 +33,7 @@ sys.path.append("@pkgvpythondir@")
 
 try :
     from   Trace import *
-    from   DB    import *
+    import DB
     from   Debug import *
     from   Entry import *
 except ImportError :
@@ -48,26 +48,30 @@ def hint(s) :
     print("Use `" + PROGRAM_NAME + " -h' for help")
 
 def usage() :
-    print(PROGRAM_NAME + " [FLAG]... ACTION [OPTION]...")
+    print("Usage: " + PROGRAM_NAME + " [FLAG]... [COMMAND]")
     print("")
     print("Flags:")
-    print("       --colors           use colors")
-    print("       --no-colors        do not use colors")
-    print("       --no-configs       do not use config files")
-    print("       --database=FILE    change the database from the default "
-          "(" + DEFAULT_DB_FILE + ") to")
-    print("                          the filename specified")
-    print("       --verbose          display verbosely")
-    print("       --debug            enable debug mode")
+    print("       --colors            use colors")
+    print("       --no-colors         do not use colors")
+    print("       --no-configs        do not use config files")
+    print("       --database=FILE     change the database from the default "
+          "(" + DEFAULT_DB_FILE + ")")
+    print("                           to the filename specified")
+    print("       --verbose           display verbosely when showing, report")
+    print("                           verbosely during other actions")
+    print("       --debug             enable debug mode")
     print("")
-    print("Actions:")
-    print("  -a | --add              add a new node")
-    print("  -r | --remove           remove a node (and its children)")
-    print("  -e | --edit             edit a node")
-    print("  -m | --move             move (reparent) a node")
-    print("  -s | --show             display nodes")
-    print("  -V | --version          print version number, then exit")
-    print("  -h | --help             print this help, then exit")
+    print("Commands:")
+    print("  -a | --add               add a new node")
+    print("  -r | --remove            remove a node (and its children)")
+    print("  -e | --edit              edit a node")
+    print("  -m | --move              reparent nodes")
+    print("  -s | --show              display nodes")
+    print("  -V | --version           print version number, then exit")
+    print("  -h | --help              print this help, then exit")
+    print("")
+    print("Each command has an associated help. See `" + PROGRAM_NAME + " --help' for more information ")
+    print("about a specific command.")
     print("")
     print("Report bugs to <@PACKAGE_BUGREPORT@>")
 
@@ -103,7 +107,7 @@ def do_edit(configuration, args) :
 
     return 1
 
-def do_reparent(configuration, args) :
+def do_move(configuration, args) :
 
     id = None
 
@@ -185,7 +189,7 @@ def do_purge(configuration, args) :
 
 def do_show(configuration, args) :
     # Load DB
-    db   = DB()
+    db   = DB.Database()
     tree = db.load(configuration['database'])
 
     v = ShowVisitor(configuration['colors'], configuration['verbose'])
@@ -243,15 +247,15 @@ def main(args) :
 	    configuration['debug']    = True
 
 	elif opt in ("-a", "--add") :
-	    do_action = do_add ;      parms  = args[2:]
+	    do_action = do_add ;      parms  = args[2:] ; break
 	elif opt in ("-r", "--remove") :
-	    do_action = do_remove ;   parms  = args[2:]
+	    do_action = do_remove ;   parms  = args[2:] ; break
 	elif opt in ("-e", "--edit") :
-	    do_action = do_edit ;     parms  = args[2:]
+	    do_action = do_edit ;     parms  = args[2:] ; break
 	elif opt in ("-m", "--move") :
-	    do_action = do_reparent ; parms  = args[2:]
+	    do_action = do_reparent ; parms  = args[2:] ; break
 	elif opt in ("-s", "--show") :
-	    do_action = do_show ;     parms  = args[2:]
+	    do_action = do_show ;     parms  = args[2:] ; break
 
 	elif opt in ("-V", "--version") :
 	    version()
@@ -285,15 +289,17 @@ def main(args) :
 	hint("Missing parameter(s)")
 	return 1
 
+    retval = 1
     try :
 	retval = do_action(configuration, parms)
     except IOError, e :
-	error(e.value)
+	error(e)
     except ValueError, e :
-	error(e.value)
+	error(e)
+    except DB.Error, e :
+        error(e)
     except :
 	bug()
-	return 1
 
     return retval
 
