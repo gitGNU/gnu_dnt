@@ -94,18 +94,6 @@ def do_remove(configuration, args) :
 
     return 1
 
-def do_edit(configuration, args) :
-    id = None
-
-    # Find node (from id) here
-    node = None
-    if (node == None) :
-	raise Exception("node " + id +" not found")
-
-    # Edit node now
-
-    return 1
-
 def do_move(configuration, args) :
 
     id = None
@@ -121,6 +109,18 @@ def do_move(configuration, args) :
     destination = None
     if (destination == None) :
 	raise Exception("cannot find destination node " + id + " ...")
+
+    return 1
+
+def do_edit(configuration, args) :
+    id = None
+
+    # Find node (from id) here
+    node = None
+    if (node == None) :
+	raise Exception("node " + id +" not found")
+
+    # Edit node now
 
     return 1
 
@@ -174,18 +174,6 @@ class ShowVisitor :
 	self.__indent = old_indent
 	self.__index  = old_index
 
-def do_purge(configuration, args) :
-    id = None
-
-    # Find node (from id) here
-    node = None
-    if (node == None) :
-	raise Exception("node " + id +" not found")
-
-    # Remove node
-
-    return 0
-
 def do_show(configuration, args) :
     # Load DB
     db   = DB.Database()
@@ -222,6 +210,7 @@ def main(args) :
 				     "move",
 				     "edit",
 				     "show",
+
 				     "version",
 				     "help",
 				     ])
@@ -249,10 +238,10 @@ def main(args) :
 	    do_command = do_add ;      parms  = args[2:] ; break
 	elif opt in ("-r", "--remove") :
 	    do_command = do_remove ;   parms  = args[2:] ; break
+	elif opt in ("-m", "--move") :
+	    do_command = do_move ;     parms  = args[2:] ; break
 	elif opt in ("-e", "--edit") :
 	    do_command = do_edit ;     parms  = args[2:] ; break
-	elif opt in ("-m", "--move") :
-	    do_command = do_reparent ; parms  = args[2:] ; break
 	elif opt in ("-s", "--show") :
 	    do_command = do_show ;     parms  = args[2:] ; break
 
