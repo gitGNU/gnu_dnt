@@ -22,16 +22,16 @@ import os
 from   Config import *
 
 def debug(s) :
-    assert(type(s) == str)
-    print(PROGRAM_NAME + ": " + s)
+    assert(s != None)
+    print(PROGRAM_NAME + ": " + str(s))
 
 def error(s) :
-    assert(type(s) == str)
-    print(PROGRAM_NAME + ": " + s)
+    assert(s != None)
+    print(PROGRAM_NAME + ": " + str(s))
 
 def warning(s) :
-    assert(type(s) == str)
-    print(PROGRAM_NAME + ": " + s)
+    assert(s != None)
+    print(PROGRAM_NAME + ": " + str(s))
 
 # Test
 if (__name__ == '__main__') :
