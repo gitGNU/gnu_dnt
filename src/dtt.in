@@ -162,7 +162,7 @@ def hint(s) :
     print(s)
     print("Use `" + PROGRAM_NAME + " -h' for help")
 
-def usage() :
+def help() :
     print("Usage: " + PROGRAM_NAME + " [FLAG]... [COMMAND]")
     print("")
     print("Flags:")
@@ -261,7 +261,7 @@ def main(args) :
 	    version()
 	    return 0
 	elif opt in ("-h", "--help") :
-	    usage()
+	    help()
 	    return 0
 	else :
 	    bug()
