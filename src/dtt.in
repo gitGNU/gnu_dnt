@@ -43,37 +43,6 @@ except ImportError :
 
 DEFAULT_DB_FILE = ".todo"
 
-def hint(s) :
-    print(s)
-    print("Use `" + PROGRAM_NAME + " -h' for help")
-
-def usage() :
-    print("Usage: " + PROGRAM_NAME + " [FLAG]... [COMMAND]")
-    print("")
-    print("Flags:")
-    print("       --colors            use colors")
-    print("       --no-colors         do not use colors")
-    print("       --no-configs        do not use config files")
-    print("       --database=FILE     change the database from the default "
-          "(" + DEFAULT_DB_FILE + ")")
-    print("                           to the filename specified")
-    print("       --verbose           display verbosely when showing, report verbosely")
-    print("                           during other commands")
-    print("       --debug             enable debug mode")
-    print("")
-    print("Commands:")
-    print("  -a | --add               add a new node")
-    print("  -r | --remove            remove a node (and its children)")
-    print("  -e | --edit              edit a node")
-    print("  -m | --move              reparent nodes")
-    print("  -s | --show              display nodes")
-    print("  -V | --version           print version number, then exit")
-    print("  -h | --help[=COMMAND]    print some help, then exit")
-    print("")
-    print("See `" + PROGRAM_NAME + " --help COMMAND' for more information about a specific command.")
-    print("")
-    print("Report bugs to <@PACKAGE_BUGREPORT@>")
-
 def version() :
     print(PROGRAM_NAME + " (" + PACKAGE_NAME + ") " + PACKAGE_VERSION)
 
@@ -184,6 +153,49 @@ def do_show(configuration, args) :
 
     return 0
 
+# Search paths we look into for the configuration files
+search_paths = [ '@sysconfdir@/' + PROGRAM_NAME,
+                 '$HOME/.'       + PROGRAM_NAME,
+                 '.'             + PROGRAM_NAME ]
+
+def hint(s) :
+    print(s)
+    print("Use `" + PROGRAM_NAME + " -h' for help")
+
+def usage() :
+    print("Usage: " + PROGRAM_NAME + " [FLAG]... [COMMAND]")
+    print("")
+    print("Flags:")
+    print("       --colors            use colors")
+    print("       --no-colors         do not use colors")
+    print("       --no-configs        do not use config files")
+    print("       --database=FILE     change the database from the default "
+          "(" + DEFAULT_DB_FILE + ")")
+    print("                           to the filename specified")
+    print("       --verbose           display verbosely when showing, report verbosely")
+    print("                           during other commands")
+    print("       --debug             enable debug mode")
+    print("")
+    print("Commands:")
+    print("  -a | --add               add a new node")
+    print("  -r | --remove            remove a node (and its children)")
+    print("  -e | --edit              edit a node")
+    print("  -m | --move              reparent nodes")
+    print("  -s | --show              display nodes")
+    print("  -V | --version           print version number, then exit")
+    print("  -h | --help[=COMMAND]    print some help, then exit")
+    print("")
+    print("See `" + PROGRAM_NAME + " --help COMMAND' for more information about a specific command.")
+    print("The programs looks for configuration files in the following order:")
+    print("")
+    for i in search_paths :
+        # Do not use os.path.expandvars() here, we must preserve the vars name
+        print("  " + i)
+    print("")
+    print("Report bugs to <@PACKAGE_BUGREPORT@>")
+
+
+
 def main(args) :
     # Setup some sane configuration default values
     configuration = {
@@ -261,8 +273,7 @@ def main(args) :
 
 	config = ConfigParser.ConfigParser()
 	try :
-	    config.read([ os.path.expanduser('~/.' + PROGRAM_NAME),
-			  './.' + PROGRAM_NAME ])
+	    config.read(os.path.expandvars(search_paths))
 
 	    configuration['colors'] = config.getboolean('','colors')
 	except ConfigParser.ParsingError :
