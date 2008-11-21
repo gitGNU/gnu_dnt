@@ -76,12 +76,24 @@ def fromxml(xml) :
 def toxml(tree) :
     return None
 
-class DB :
+class Error(Exception):
+    def __init__(self, value) :
+        self.__value = value
+    def __str__(self) :
+        return repr(self.__value)
+
+class Database :
     def load(self, name) :
         try :
-            xml = ET.parse(name).getroot()
+            all = ET.parse(name)
+        except IOError :
+            raise Error("problems reading input database")
         except :
-            raise Exception("problems reading input database")
+            raise Error("problems parsing input database")
+
+        if (all == None) :
+            raise Error("missing root in input file")
+        xml = all.getroot()
 
 	return fromxml(xml)
 
@@ -90,7 +102,7 @@ class DB :
             xml = toxml(tree)
             xml.write(name)
         except :
-            raise Exception("problems writing input database")
+            raise Error("problems while writing input database")
 
 # Test
 if (__name__ == '__main__') :
