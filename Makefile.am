@@ -47,7 +47,7 @@ EXTRA_DIST =							\
 	BUGS TODO README NEWS COPYING AUTHORS INSTALL THANKS	\
 	bootstrap						\
 	configure.ac.in						\
-	python.af
+	.todo
 
 ##
 ## Maintainer related targets
