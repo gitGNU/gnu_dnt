@@ -92,9 +92,12 @@ def help_generic() :
     print("Report bugs to <@PACKAGE_BUGREPORT@>")
 
 def help(command) :
-    if (command == "") :
-        help_command = help_generic
+    help_command = help_generic
+    if (command != "") :
+        hint("No help for command `" + command + "'")
+        return 1
     help_command()
+    return 0
 
 def main(args) :
     # Setup some sane configuration default values
@@ -124,7 +127,6 @@ def main(args) :
 	return 1
 
     do_command = None
-    parms      = []
     for opt, arg in opts :
 	if opt in ("--colors") :
 	    configuration['colors']   = True
@@ -143,8 +145,8 @@ def main(args) :
             return 0
 	elif opt in ("-h", "--help") :
             command = ""
-            if (len(args) >= 2) :
-                command = args[2]
+            if (len(args) >= 1) :
+                command = args[0]
             return help(command)
 	else :
 	    bug()
@@ -172,7 +174,6 @@ def main(args) :
         return 1
 
     command    = args[2]
-    parms      = args[3:]
     do_command = None
     if (command == "add") :
         do_command = cmdAdd.do
@@ -189,9 +190,13 @@ def main(args) :
 	hint("Missing parameter(s)")
 	return 1
 
+    parameters = []
+    if (len(args) >= 3) :
+        parameters = args[3:]
+
     retval = 1
     try :
-	retval = do_command(configuration, parms)
+	retval = do_command(configuration, parameters)
     except IOError, e :
 	error(e)
     except ValueError, e :
