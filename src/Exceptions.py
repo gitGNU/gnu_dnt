@@ -24,25 +24,30 @@ from   Entry import *
 
 class Base(Exception):
     def __init__(self, value) :
-        self.__value = value
+	self.__value = value
     def __str__(self) :
-        return repr(self.__value)
+	#return repr(self.__value)
+	return self.__value
 
 class Database(Base):
     def __init__(self, value) :
-        Base.__init__(self, value)
+	Base.__init__(self, value)
 
 class Parameters(Base):
     def __init__(self, value) :
-        Base.__init__(self, value)
+	Base.__init__(self, value)
 
 class MissingParameters(Parameters):
     def __init__(self) :
-        Parameters.__init__(self, "missing parameter(s)")
+	Parameters.__init__(self, "missing parameter(s)")
+
+class TooManyParameters(Parameters):
+    def __init__(self) :
+	Parameters.__init__(self, "too many parameter(s)")
 
 class UnknownParameters(Parameters):
     def __init__(self) :
-        Parameters.__init__(self, "unknown parameter(s)")
+	Parameters.__init__(self, "unknown parameter(s)")
 
 # Test
 if (__name__ == '__main__') :
