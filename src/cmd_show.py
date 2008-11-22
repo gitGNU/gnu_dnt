@@ -20,6 +20,69 @@ import sys  # Useless
 
 from   Debug import *
 from   Trace import *
+from   Color import *
+from   Entry import *
+import DB
+
+class ShowVisitor :
+    def __init__(self, colors, be_verbose) :
+	self.__colors  = colors
+        self.__verbose = be_verbose
+	self.__indent  = ""
+	self.__index   = 0
+
+    def visit(self, e) :
+	assert(e != None)
+
+	#debug("Visiting entry " + str(e))
+
+	if (self.__colors) :
+	    color_index = green
+	    p           = e.priority_get()
+	    if (p == Entry.PRIORITY_VERYHIGH) :
+		color_text = red
+	    elif (p == Entry.PRIORITY_HIGH) :
+		color_text = yellow
+	    elif (p == Entry.PRIORITY_MEDIUM) :
+		color_text = white
+	    elif (p == Entry.PRIORITY_LOW) :
+		color_text = cyan
+	    elif (p == Entry.PRIORITY_VERYLOW) :
+		color_text = blue
+	    else :
+		color_text = white
+	else :
+	    color_index = lambda x: x # pass-through
+	    color_text  = lambda x: x # pass-through
+
+	assert(color_index != None)
+	assert(color_text != None)
+
+	print(self.__indent                 +
+	      color_index(str(self.__index) + ".") +
+	      color_text(e.text))
+
+	old_indent = self.__indent
+	old_index  = self.__index
+
+	self.__indent = self.__indent + "    "
+	self.__index  = 0
+	for j in e.children() :
+	    self.__index = self.__index + 1
+	    j.accept(self) # Re-accept myself
+
+	self.__indent = old_indent
+	self.__index  = old_index
+
+def do_show(configuration, args) :
+    # Load DB
+    db   = DB.Database()
+    tree = db.load(configuration['database'])
+
+    v = ShowVisitor(configuration['colors'], configuration['verbose'])
+    tree.accept(v)
+
+    return 0
 
 # Test
 if (__name__ == '__main__') :
