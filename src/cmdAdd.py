@@ -24,16 +24,38 @@ import Exceptions
 from   Trace import *
 
 def help() :
-    print("Usage: " + PROGRAM_NAME + " add TEXT")
+    print("Usage: " + PROGRAM_NAME + " add [OPTION]...")
+    print("")
+    print("Options:")
+    print("  -t, --text=TEXT    specify the node text")
+    print("  -p, --parent=ID    specify the node parent id")
     print("")
     print("Report bugs to <" + PACKAGE_BUGREPORT + ">")
     return 0
 
 def do(configuration, args) :
-    if (len(args) < 1) :
-	raise Exceptions.MissingParameters()
-    if (len(args) > 1) :
-	raise Exceptions.TooManyParameters()
+    # Parse command line
+    try :
+	opts, args = getopt.getopt(args[0:],
+				   "p:t:",
+				   [ "parent",
+                                     "text" ])
+    except getopt.GetoptError :
+	raise Exceptions.UnknownArgument()
+
+    node_text = ""
+    parent_id = "0"
+    for opt, arg in opts :
+	if opt in ("-p", "--parent") :
+	    parent_id = arg
+        elif opt in ("-t", "--text") :
+            node_text = arg
+        else : 
+            raise Exceptions.UnknownParameter(opt)
+
+    debug("Adding node with:")
+    debug("  node-text = " + node_text)
+    debug("  parent-id = " + parent_id)
 
     return 0
 
