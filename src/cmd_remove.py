@@ -16,6 +16,11 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
+import sys  # Useless
+
+from   Debug import *
+from   Trace import *
+
 # Test
 if (__name__ == '__main__') :
     debug("Test completed")
