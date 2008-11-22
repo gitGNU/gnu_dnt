@@ -21,6 +21,20 @@ import sys  # Useless
 from   Debug import *
 from   Trace import *
 
+def do_remove(configuration, args) :
+    filter = None
+    # Parse filter here
+    if (filter == None) :
+	raise Exception("filter is empty")
+
+    id = None
+    # Find node (from id) here
+    node = None
+    if (node == None) :
+	raise Exception("node " + id +" not found")
+
+    return 1
+
 # Test
 if (__name__ == '__main__') :
     debug("Test completed")
