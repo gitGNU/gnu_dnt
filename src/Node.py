@@ -18,7 +18,7 @@
 
 import sys  # Useless
 
-from   Debug import *
+import Debug
 from   Trace import *
 
 class Node :

@@ -32,10 +32,10 @@ except ImportError :
 sys.path.append("@pkgvpythondir@")
 
 try :
-    from   Trace import *
-    from   Debug import *
-    from   Entry import *
-    import DB
+    from   Trace      import *
+    from   Debug      import *
+    from   Entry      import *
+    import Exceptions
 except ImportError :
     # XXX FIXME: Add better error reporting ....
     print("Cannot import package's own modules ...")
@@ -200,7 +200,9 @@ def main(args) :
 	error(e)
     except ValueError, e :
 	error(e)
-    except DB.Error, e :
+    except Exceptions.Parameters, e :
+        hint(e)
+    except Exceptions, e :
         error(e)
     except :
 	bug()

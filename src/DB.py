@@ -19,8 +19,9 @@
 import sys   # Useless
 import elementtree.ElementTree as ET
 
-from   Trace import *
+import Trace
 from   Entry import *
+import Exception
 
 #
 # XXX FIXME:
@@ -41,7 +42,7 @@ def string_to_priority(p) :
     elif (t == "verylow") :
         return Entry.PRIORITY_VERYLOW
     else :
-        raise ValueError("unknown priority " + p)
+        raise Exceptions.Database("unknown priority " + p)
 
 # Internal use (XML->Tree)
 def fromxml(xml) :
@@ -56,7 +57,7 @@ def fromxml(xml) :
 	priority = string_to_priority("medium")
 	time     = ""
     else :
-	raise Exception("unknown element")
+	raise Exceptions.Database("unknown element")
 
     entry = Entry(text, priority, time)
     #debug("Created node " + str(entry))
@@ -76,23 +77,17 @@ def fromxml(xml) :
 def toxml(tree) :
     return None
 
-class Error(Exception):
-    def __init__(self, value) :
-        self.__value = value
-    def __str__(self) :
-        return repr(self.__value)
-
 class Database :
     def load(self, name) :
         try :
             all = ET.parse(name)
         except IOError :
-            raise Error("problems reading input database")
+            raise Exceptions.Database("problems reading input database")
         except :
-            raise Error("problems parsing input database")
+            raise Exceptions.Database("problems parsing input database")
 
         if (all == None) :
-            raise Error("missing root in input file")
+            raise Exceptions.Database("missing root in input file")
         xml = all.getroot()
 
 	return fromxml(xml)
@@ -102,7 +97,7 @@ class Database :
             xml = toxml(tree)
             xml.write(name)
         except :
-            raise Error("problems while writing input database")
+            raise Exceptions.Database("problems while writing input database")
 
 # Test
 if (__name__ == '__main__') :

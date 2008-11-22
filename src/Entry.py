@@ -20,8 +20,8 @@ import sys  # Useless
 import datetime
 import string
 
-from   Debug import *
-from   Trace import *
+import Debug
+import Trace
 from   Node  import *
 from   Color import *
 
@@ -52,8 +52,8 @@ class Entry(Node) :
 	return self.__text
     def text_set(self, t) :
 	assert(type(t) == str)
-	if (t == "") :
-	    raise ValueError("empty string")
+	assert(t != "")
+
 	# Remove leading and trailing whitespaces from input string
 	self.__text = string.rstrip(string.lstrip(t))
 
@@ -63,8 +63,8 @@ class Entry(Node) :
 	return self.__priority
     def priority_set(self, p) :
 	assert(type(p) == int)
-	if (p not in self.__legal_priorities) :
-	    raise ValueError("not a legal priority")
+	assert(p in self.__legal_priorities)
+
 	self.__priority = p
 
     priority = property(priority_get, priority_set)

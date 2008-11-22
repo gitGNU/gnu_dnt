@@ -24,7 +24,7 @@ import traceback
 #     Do not include Config here in order to avoid a mutual inclusion between
 #     Config and Debug (see the last lines)
 #
-from   Trace  import *
+from   Trace import *
 
 def bug(s = "") :
     tmp1 = "Bug hit"

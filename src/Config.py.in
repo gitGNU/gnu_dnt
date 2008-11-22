@@ -18,7 +18,7 @@
 
 import sys     # Useless
 
-from   Trace   import *
+from   Trace import *
 
 #
 # Autoconf variables
