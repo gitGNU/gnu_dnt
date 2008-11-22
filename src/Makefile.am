@@ -34,8 +34,9 @@ pkgvpython_PYTHON =				\
 	cmdEdit.py				\
 	cmdMove.py				\
 	cmdRemove.py				\
-	cmdShow.py
-
+	cmdShow.py				\
+	cmdHelp.py				\
+	cmdVersion.py
 
 nodist_pkgvpython_PYTHON =			\
 	Config.py
