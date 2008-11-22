@@ -29,10 +29,16 @@ class Base(Exception):
 	#return repr(self.__value)
 	return self.__value
 
+#
+# Database related exceptions
+#
 class Database(Base):
     def __init__(self, value) :
 	Base.__init__(self, value)
 
+#
+# Parameters related exceptions
+#
 class Parameters(Base):
     def __init__(self, value) :
 	Base.__init__(self, value)
@@ -45,9 +51,13 @@ class TooManyParameters(Parameters):
     def __init__(self) :
 	Parameters.__init__(self, "too many parameter(s)")
 
-class UnknownParameters(Parameters):
+class UnknownArgument(Parameters):
     def __init__(self) :
-	Parameters.__init__(self, "unknown parameter(s)")
+	Parameters.__init__(self, "unknown argument")
+
+class UnknownParameter(Parameters):
+    def __init__(self, value) :
+	Parameters.__init__(self, "unknown parameter `" + value + "'")
 
 # Test
 if (__name__ == '__main__') :
