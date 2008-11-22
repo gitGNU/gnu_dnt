@@ -20,8 +20,8 @@
 
 include $(top_srcdir)/Makefile.sub
 
-info_TEXINFOS     = dtt.texi
-sitetool_TEXINFOS = fdl.texi
+info_TEXINFOS = dtt.texi
+dtt_TEXINFOS = fdl.texi
 
 ##
 ## Maintainer related targets
