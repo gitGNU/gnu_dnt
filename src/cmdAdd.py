@@ -31,7 +31,7 @@ def help() :
 
 def do(configuration, args) :
     if (len(args) <= 0) :
-        raise Exceptions.Parameters("missing parameters")
+        raise Exceptions.MissingParameters()
 
     return 0
 
