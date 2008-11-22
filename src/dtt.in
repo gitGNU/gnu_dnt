@@ -93,11 +93,11 @@ def help() :
     return 0
 
 commands = {
-    'add'    : { 'do' : cmdAdd.do    , 'help' : cmdAdd.do    },
-    'edit'   : { 'do' : cmdEdit.do   , 'help' : cmdEdit.do   },
-    'move'   : { 'do' : cmdMove.do   , 'help' : cmdMove.do   },
-    'remove' : { 'do' : cmdRemove.do , 'help' : cmdRemove.do },
-    'show'   : { 'do' : cmdShow.do   , 'help' : cmdShow.do   },
+    'add'    : { 'do' : cmdAdd.do    , 'help' : cmdAdd.help    },
+    'edit'   : { 'do' : cmdEdit.do   , 'help' : cmdEdit.help   },
+    'move'   : { 'do' : cmdMove.do   , 'help' : cmdMove.help   },
+    'remove' : { 'do' : cmdRemove.do , 'help' : cmdRemove.help },
+    'show'   : { 'do' : cmdShow.do   , 'help' : cmdShow.help   },
 }
 
 def main(args) :
@@ -148,6 +148,7 @@ def main(args) :
             command_help = help
             if (len(args) >= 1) :
                 try :
+                    command      = args[0]
                     command_help = commands[command]['help']
                 except KeyError :
                     hint("Unknown command `" + command + "'")
