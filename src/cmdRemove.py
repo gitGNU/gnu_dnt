@@ -22,7 +22,7 @@ from   Debug import *
 from   Trace import *
 
 def help() :
-    pass
+    return 0
 
 def do(configuration, args) :
     filter = None
@@ -36,7 +36,7 @@ def do(configuration, args) :
     if (node == None) :
 	raise Exception("node " + id +" not found")
 
-    return 1
+    return 0
 
 # Test
 if (__name__ == '__main__') :

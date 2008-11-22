@@ -22,7 +22,7 @@ from   Debug import *
 from   Trace import *
 
 def help() :
-    pass
+    return 0
 
 def do(configuration, args) :
     id = None
@@ -34,7 +34,7 @@ def do(configuration, args) :
 
     # Edit node now
 
-    return 1
+    return 0
 
 # Test
 if (__name__ == '__main__') :

@@ -25,12 +25,12 @@ from   Entry import *
 import DB
 
 def help() :
-    pass
+    return 0
 
 class ShowVisitor :
     def __init__(self, colors, be_verbose) :
 	self.__colors  = colors
-        self.__verbose = be_verbose
+	self.__verbose = be_verbose
 	self.__indent  = ""
 	self.__index   = 0
 

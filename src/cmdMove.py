@@ -22,7 +22,7 @@ from   Debug import *
 from   Trace import *
 
 def help() :
-    pass
+    return 0
 
 def do(configuration, args) :
 
@@ -40,7 +40,7 @@ def do(configuration, args) :
     if (destination == None) :
 	raise Exception("cannot find destination node " + id + " ...")
 
-    return 1
+    return 0
 
 # Test
 if (__name__ == '__main__') :
