@@ -21,7 +21,7 @@ import sys  # Useless
 from   Debug import *
 from   Trace import *
 
-def do_remove(configuration, args) :
+def do(configuration, args) :
     filter = None
     # Parse filter here
     if (filter == None) :

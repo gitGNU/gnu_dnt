@@ -21,7 +21,7 @@ import sys  # Useless
 from   Debug import *
 from   Trace import *
 
-def do_edit(configuration, args) :
+def do(configuration, args) :
     id = None
 
     # Find node (from id) here

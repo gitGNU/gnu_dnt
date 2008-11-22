@@ -21,7 +21,7 @@ import sys  # Useless
 from   Debug import *
 from   Trace import *
 
-def do_move(configuration, args) :
+def do(configuration, args) :
 
     id = None
 

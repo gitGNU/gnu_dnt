@@ -74,7 +74,7 @@ class ShowVisitor :
 	self.__indent = old_indent
 	self.__index  = old_index
 
-def do_show(configuration, args) :
+def do(configuration, args) :
     # Load DB
     db   = DB.Database()
     tree = db.load(configuration['database'])

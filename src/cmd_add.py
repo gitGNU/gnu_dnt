@@ -21,7 +21,7 @@ import sys  # Useless
 from   Debug import *
 from   Trace import *
 
-def do_add(configuration, args) :
+def do(configuration, args) :
     return 1
 
 

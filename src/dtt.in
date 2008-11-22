@@ -41,11 +41,11 @@ except ImportError :
     sys.exit(-1)
 
 try :
-    from   cmd_add    import *
-    from   cmd_edit   import *
-    from   cmd_move   import *
-    from   cmd_remove import *
-    from   cmd_show   import *
+    import cmd_add
+    import cmd_edit
+    import cmd_move
+    import cmd_remove
+    import cmd_show
 except ImportError :
     # XXX FIXME: Add better error reporting ....
     print("Cannot import package's commands ...")
@@ -148,15 +148,15 @@ def main(args) :
 	    configuration['debug']    = True
 
 	elif opt in ("-a", "--add") :
-	    do_command = do_add ;      parms  = args[2:] ; break
+	    do_command = cmd_add.do ;    parms  = args[2:] ; break
 	elif opt in ("-r", "--remove") :
-	    do_command = do_remove ;   parms  = args[2:] ; break
+	    do_command = cmd_remove.do ; parms  = args[2:] ; break
 	elif opt in ("-m", "--move") :
-	    do_command = do_move ;     parms  = args[2:] ; break
+	    do_command = cmd_move.do ;   parms  = args[2:] ; break
 	elif opt in ("-e", "--edit") :
-	    do_command = do_edit ;     parms  = args[2:] ; break
+	    do_command = cmd_edit.do ;   parms  = args[2:] ; break
 	elif opt in ("-s", "--show") :
-	    do_command = do_show ;     parms  = args[2:] ; break
+	    do_command = cmd_show.do ;   parms  = args[2:] ; break
 
 	elif opt in ("-V", "--version") :
 	    version()
