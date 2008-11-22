@@ -68,15 +68,21 @@ EXTRA_DIST += Config.py.in
 ##
 ## Local check target
 ##
-PYTHON_MODULES =				\
-	$(pkgvpython_PYTHON)			\
-	$(nodist_pkgvpython_PYTHON)
-
 check-local: Makefile
-	for i in $(PYTHON_MODULES) ; do \
+	for i in $(pkgvpython_PYTHON) ; do \
 		m=`echo $$i | $(SED) -e 's,\.py,,'` && \
 		echo $(ECHO_N) "checking module $$m ($$i)... $(ECHO_C)" && \
-		$(PYTHON) $$i > test.log 2>&1 || { \
+		PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(srcdir)@PATH_SEPARATOR@$(builddir) $(PYTHON) $(srcdir)/$$i > test.log 2>&1 || { \
+			echo "$(ECHO_T)no" ; \
+			cat test.log ; \
+			exit 1 ; \
+		} ; \
+		echo "$(ECHO_T)yes" ; \
+	done
+	for i in $(nodist_pkgvpython_PYTHON) ; do \
+		m=`echo $$i | $(SED) -e 's,\.py,,'` && \
+		echo $(ECHO_N) "checking module $$m ($$i)... $(ECHO_C)" && \
+		PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(srcdir)@PATH_SEPARATOR@$(builddir) $(PYTHON) $(builddir)/$$i > test.log 2>&1 || { \
 			echo "$(ECHO_T)no" ; \
 			cat test.log ; \
 			exit 1 ; \
