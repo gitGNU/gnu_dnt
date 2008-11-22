@@ -89,7 +89,7 @@ def help() :
         # Do not use os.path.expandvars() here, we must preserve the vars name
         print("  " + i)
     print("")
-    print("Report bugs to <@PACKAGE_BUGREPORT@>")
+    print("Report bugs to <" + PACKAGE_BUGREPORT + ">")
     return 0
 
 commands = {
