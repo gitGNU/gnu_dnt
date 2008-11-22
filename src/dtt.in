@@ -59,7 +59,7 @@ def hint(s) :
 def version() :
     print(PROGRAM_NAME + " (" + PACKAGE_NAME + ") " + PACKAGE_VERSION)
 
-def help_generic() :
+def help() :
     print("Usage: " + PROGRAM_NAME + " [OPTION]... [COMMAND]")
     print("")
     print("Options:")
@@ -90,14 +90,15 @@ def help_generic() :
         print("  " + i)
     print("")
     print("Report bugs to <@PACKAGE_BUGREPORT@>")
-
-def help(command) :
-    help_command = help_generic
-    if (command != "") :
-        hint("No help for command `" + command + "'")
-        return 1
-    help_command()
     return 0
+
+commands = {
+    'add'    : { 'do' : cmdAdd.do    , 'help' : cmdAdd.do    },
+    'edit'   : { 'do' : cmdEdit.do   , 'help' : cmdEdit.do   },
+    'move'   : { 'do' : cmdMove.do   , 'help' : cmdMove.do   },
+    'remove' : { 'do' : cmdRemove.do , 'help' : cmdRemove.do },
+    'show'   : { 'do' : cmdShow.do   , 'help' : cmdShow.do   },
+}
 
 def main(args) :
     # Setup some sane configuration default values
@@ -144,10 +145,16 @@ def main(args) :
 	    version()
             return 0
 	elif opt in ("-h", "--help") :
-            command = ""
+            command_help = help
             if (len(args) >= 1) :
-                command = args[0]
-            return help(command)
+                try :
+                    command_help = commands[command]['help']
+                except KeyError :
+                    hint("Unknown command `" + command + "'")
+                    return 1
+                except :
+                    bug()
+            return command_help()
 	else :
 	    bug()
 
@@ -168,27 +175,18 @@ def main(args) :
 	    if (configuration['verbose'] == True) :
                 warning("Problem reading configuration file, "
                         "using default values ...")
-
-    if (len(args) < 2) :
+    if (len(args) < 1) :
         hint("Missing command")
         return 1
 
-    command    = args[2]
-    do_command = None
-    if (command == "add") :
-        do_command = cmdAdd.do
-    elif (command == "edit") :
-        do_command = cmdEdit.do
-    elif (command == "move") :
-        do_command = cmdMove.do
-    elif (command ==  "remove") :
-        do_command = cmdRemove.do
-    elif (command == "show") :
-        do_command = cmdShow.do
-
-    if (do_command == None) :
-	hint("Missing parameter(s)")
+    command = args[0]
+    try :
+        command_do = commands[command]['do']
+    except KeyError :
+	hint("Unknown command `" + command + "'")
 	return 1
+    except :
+        bug()
 
     parameters = []
     if (len(args) >= 3) :
@@ -196,7 +194,7 @@ def main(args) :
 
     retval = 1
     try :
-	retval = do_command(configuration, parameters)
+	retval = command_do(configuration, parameters)
     except IOError, e :
 	error(e)
     except ValueError, e :
