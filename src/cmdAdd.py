@@ -30,8 +30,10 @@ def help() :
     return 0
 
 def do(configuration, args) :
-    if (len(args) <= 0) :
-        raise Exceptions.MissingParameters()
+    if (len(args) < 1) :
+	raise Exceptions.MissingParameters()
+    if (len(args) > 1) :
+	raise Exceptions.TooManyParameters()
 
     return 0
 
