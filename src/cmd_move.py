@@ -21,6 +21,24 @@ import sys  # Useless
 from   Debug import *
 from   Trace import *
 
+def do_move(configuration, args) :
+
+    id = None
+
+    # Find source node
+    source = None
+    if (node == None) :
+	raise Exception("cannot find source node " + id + " ...")
+
+    id = None
+
+    # Find destination node
+    destination = None
+    if (destination == None) :
+	raise Exception("cannot find destination node " + id + " ...")
+
+    return 1
+
 # Test
 if (__name__ == '__main__') :
     debug("Test completed")
