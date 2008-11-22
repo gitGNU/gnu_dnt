@@ -18,11 +18,11 @@
 
 import sys  # Useless
 
-from   Debug import *
-from   Trace import *
-from   Color import *
-from   Entry import *
+import Debug
+import Trace
+import Color
 import DB
+from   Entry import *
 
 def help() :
     print("Usage: " + PROGRAM_NAME + " show")

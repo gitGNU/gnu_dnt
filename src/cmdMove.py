@@ -18,8 +18,9 @@
 
 import sys  # Useless
 
-from   Debug import *
-from   Trace import *
+from   Debug      import *
+from   Trace      import *
+import Exceptions
 
 def help() :
     print("Usage: " + PROGRAM_NAME + " move")
@@ -34,14 +35,16 @@ def do(configuration, args) :
     # Find source node
     source = None
     if (node == None) :
-	raise Exception("cannot find source node " + id + " ...")
+	raise Exceptions.Parameters("cannot find source node "
+                                    "`" + id + "' ...")
 
     id = None
 
     # Find destination node
     destination = None
     if (destination == None) :
-	raise Exception("cannot find destination node " + id + " ...")
+	raise Exceptions.Parameters("cannot find destination node "
+                                    "`" + id + "' ...")
 
     return 0
 

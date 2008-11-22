@@ -18,8 +18,9 @@
 
 import sys  # Useless
 
-from   Debug import *
-from   Trace import *
+from   Debug      import *
+from   Trace      import *
+import Exceptions
 
 def help() :
     print("Usage: " + PROGRAM_NAME + " remove")
@@ -31,13 +32,13 @@ def do(configuration, args) :
     filter = None
     # Parse filter here
     if (filter == None) :
-	raise Exception("filter is empty")
+	raise Exceptions.Parameters("filter is empty")
 
     id = None
-    # Find node (from id) here
+    # Find node
     node = None
     if (node == None) :
-	raise Exception("node " + id +" not found")
+	raise Exceptions.Parameters("node `" + id +"' not found")
 
     return 0
 

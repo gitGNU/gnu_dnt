@@ -16,18 +16,23 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-import sys  # Useless
+import sys
+import getopt
 
 from   Debug import *
+import Exceptions
 from   Trace import *
 
 def help() :
-    print("Usage: " + PROGRAM_NAME + " add")
+    print("Usage: " + PROGRAM_NAME + " add TEXT")
     print("")
     print("Report bugs to <" + PACKAGE_BUGREPORT + ">")
     return 0
 
 def do(configuration, args) :
+    if (len(args) <= 0) :
+        raise Exceptions.Parameters("missing parameters")
+
     return 0
 
 # Test

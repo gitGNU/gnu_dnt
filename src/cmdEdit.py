@@ -20,6 +20,7 @@ import sys  # Useless
 
 from   Debug import *
 from   Trace import *
+import Exceptions
 
 def help() :
     print("Usage: " + PROGRAM_NAME + " edit")
@@ -30,12 +31,12 @@ def help() :
 def do(configuration, args) :
     id = None
 
-    # Find node (from id) here
+    # Find node
     node = None
     if (node == None) :
-	raise Exception("node " + id +" not found")
+	raise Exceptions.Parameters("node `" + id +"' not found")
 
-    # Edit node now
+    # Edit it now
 
     return 0
 
