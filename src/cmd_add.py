@@ -21,6 +21,10 @@ import sys  # Useless
 from   Debug import *
 from   Trace import *
 
+def do_add(configuration, args) :
+    return 1
+
+
 # Test
 if (__name__ == '__main__') :
     debug("Test completed")
