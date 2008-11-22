@@ -37,6 +37,9 @@ nodist_pkgvpython_PYTHON =			\
 BUILT_SOURCES =					\
 	Config.py
 
+## NOTE: The following variable is used by maintainer-check-local target
+ALL_PYTHON_SRCS = $(pkgvpython_PYTHON) $(nodist_pkgvpython_PYTHON)
+
 EXTRA_DIST =
 
 CLEANFILES =					\
@@ -125,4 +128,4 @@ uninstall-hook:
 update-local: Makefile
 
 maintainer-check-local: Makefile
-	$(WHITESPACE_DETECT)  $(DTT_PYTHON_SRCS)
+	$(WHITESPACE_DETECT) $(ALL_PYTHON_SRCS)
