@@ -41,6 +41,17 @@ except ImportError :
     print("Cannot import package's own modules ...")
     sys.exit(-1)
 
+try :
+    from   cmd_add    import *
+    from   cmd_edit   import *
+    from   cmd_move   import *
+    from   cmd_remove import *
+    from   cmd_show   import *
+except ImportError :
+    # XXX FIXME: Add better error reporting ....
+    print("Cannot import package's commands ...")
+    sys.exit(-1)
+
 DEFAULT_DB_FILE = ".todo"
 
 def version() :
