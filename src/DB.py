@@ -20,8 +20,8 @@ import sys   # Useless
 import elementtree.ElementTree as ET
 
 import Trace
-from   Entry import *
-import Exception
+from   Entry      import *
+import Exceptions
 
 #
 # XXX FIXME:
