@@ -47,8 +47,6 @@ try :
     import cmdMove
     import cmdRemove
     import cmdShow
-    import cmdHelp
-    import cmdVersion
 except ImportError :
     # XXX FIXME: Add better error reporting ....
     print("Cannot import package's commands ...")
