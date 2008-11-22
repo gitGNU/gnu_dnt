@@ -21,6 +21,9 @@ import sys  # Useless
 from   Debug import *
 from   Trace import *
 
+def help() :
+    pass
+
 def do(configuration, args) :
     print(PROGRAM_NAME + " (" + PACKAGE_NAME + ") " + PACKAGE_VERSION)
     return 0

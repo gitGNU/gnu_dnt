@@ -21,6 +21,9 @@ import sys  # Useless
 from   Debug import *
 from   Trace import *
 
+def help() :
+    pass
+
 def do(configuration, args) :
     print("Usage: " + PROGRAM_NAME + " [FLAG]... [COMMAND]")
     print("")
@@ -41,10 +44,10 @@ def do(configuration, args) :
     print("  -m | --move              reparent nodes")
     print("  -r | --remove            remove a node (and its children)")
     print("  -s | --show              display nodes")
-    print("  -V | --version           print version number, then exit")
-    print("  -h | --help              print this help, then exit")
+    print("  -V | --version           print version number")
+    print("  -h | --help              print this help")
     print("")
-    print("See `" + PROGRAM_NAME + " COMMAND --help' for more information about a specific command.")
+    print("See `" + PROGRAM_NAME + " --help COMMAND' for more information about a specific command.")
     print("The programs looks for configuration files in the following order:")
     print("")
     for i in CFG_SEARCH_PATHS :

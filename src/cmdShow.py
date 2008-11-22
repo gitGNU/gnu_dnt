@@ -24,6 +24,9 @@ from   Color import *
 from   Entry import *
 import DB
 
+def help() :
+    pass
+
 class ShowVisitor :
     def __init__(self, colors, be_verbose) :
 	self.__colors  = colors

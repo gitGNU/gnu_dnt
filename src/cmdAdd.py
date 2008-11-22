@@ -21,9 +21,11 @@ import sys  # Useless
 from   Debug import *
 from   Trace import *
 
+def help() :
+    pass
+
 def do(configuration, args) :
     return 1
-
 
 # Test
 if (__name__ == '__main__') :
