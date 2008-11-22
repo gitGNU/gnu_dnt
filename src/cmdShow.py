@@ -25,6 +25,9 @@ from   Entry import *
 import DB
 
 def help() :
+    print("Usage: " + PROGRAM_NAME + " show")
+    print("")
+    print("Report bugs to <" + PACKAGE_BUGREPORT + ">")
     return 0
 
 class ShowVisitor :

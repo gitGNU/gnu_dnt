@@ -22,6 +22,9 @@ from   Debug import *
 from   Trace import *
 
 def help() :
+    print("Usage: " + PROGRAM_NAME + " move")
+    print("")
+    print("Report bugs to <" + PACKAGE_BUGREPORT + ">")
     return 0
 
 def do(configuration, args) :
