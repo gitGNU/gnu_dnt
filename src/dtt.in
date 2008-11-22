@@ -58,6 +58,46 @@ def hint(s) :
     print(s)
     print("Use `" + PROGRAM_NAME + " -h' for help")
 
+def version() :
+    print(PROGRAM_NAME + " (" + PACKAGE_NAME + ") " + PACKAGE_VERSION)
+
+def help_generic() :
+    print("Usage: " + PROGRAM_NAME + " [OPTION]... [COMMAND]")
+    print("")
+    print("Options:")
+    print("  -h, --help[=COMMAND]    print some help, then exit")
+    print("  -V, --version           print version number, then exit")
+    print("  -v, --verbose           display verbosely when showing, report verbosely")
+    print("                          during other commands")
+    print("  -d, --debug             enable debug mode")
+    print("       --colors           use colors")
+    print("       --no-colors        do not use colors")
+    print("       --no-configs       do not load configuration files")
+    print("       --database=FILE    change the database from the default "
+          "(" + DEFAULT_DB_FILE + ")")
+    print("                          to the filename specified")
+    print("")
+    print("Commands:")
+    print("  add                     add a new node")
+    print("  edit                    edit a node")
+    print("  move                    reparent nodes")
+    print("  remove                  remove a node (and its children)")
+    print("  show                    display nodes")
+    print("")
+    print("See `" + PROGRAM_NAME + " --help COMMAND' for more information about a specific command.")
+    print("The programs looks for configuration files in the following order:")
+    print("")
+    for i in CFG_SEARCH_PATHS :
+        # Do not use os.path.expandvars() here, we must preserve the vars name
+        print("  " + i)
+    print("")
+    print("Report bugs to <@PACKAGE_BUGREPORT@>")
+
+def help(command) :
+    if (command == "") :
+        help_command = help_generic
+    help_command()
+
 def main(args) :
     # Setup some sane configuration default values
     configuration = {
@@ -71,25 +111,18 @@ def main(args) :
     # Parse command line
     try :
 	opts, args = getopt.getopt(args[1:],
-				   "aemrsVh",
+				   "dvVh",
 				   [ "colors",
 				     "no-colors",
 				     "no-configs",
 				     "database=",
 				     "verbose",
 				     "debug",
-
-				     "add",
-				     "edit",
-				     "move",
-				     "remove",
-				     "show",
-
 				     "version",
 				     "help",
 				     ])
     except getopt.GetoptError :
-	hint("Parameter(s) error")
+	hint("Unknown argument")
 	return 1
 
     do_command = None
@@ -107,21 +140,14 @@ def main(args) :
 	    configuration['verbose']  = True
 	elif opt in ("--debug") :
 	    configuration['debug']    = True
-
-	elif opt in ("-a", "--add") :
-	    do_command = cmdAdd.do ;     parms = args[2:] ; break
-	elif opt in ("-e", "--edit") :
-	    do_command = cmdEdit.do ;    parms = args[2:] ; break
-	elif opt in ("-m", "--move") :
-	    do_command = cmdMove.do ;    parms = args[2:] ; break
-	elif opt in ("-r", "--remove") :
-	    do_command = cmdRemove.do ;  parms = args[2:] ; break
-	elif opt in ("-s", "--show") :
-	    do_command = cmdShow.do ;    parms = args[2:] ; break
 	elif opt in ("-V", "--version") :
-	    do_command = cmdVersion.do ; parms = args[2:] ; break
+	    version()
+            return 0
 	elif opt in ("-h", "--help") :
-	    do_command = cmdHelp.do ;    parms = args[2:] ; break
+            command = ""
+            if (len(args) >= 2) :
+                command = args[2]
+            return help(command)
 	else :
 	    bug()
 
@@ -142,6 +168,24 @@ def main(args) :
 	    if (configuration['verbose'] == True) :
                 warning("Problem reading configuration file, "
                         "using default values ...")
+
+    if (len(args) < 2) :
+        hint("Missing command")
+        return 1
+
+    command    = args[2]
+    parms      = args[3:]
+    do_command = None
+    if (command == "add") :
+        do_command = cmdAdd.do
+    elif (command == "edit") :
+        do_command = cmdEdit.do
+    elif (command == "move") :
+        do_command = cmdMove.do
+    elif (command ==  "remove") :
+        do_command = cmdRemove.do
+    elif (command == "show") :
+        do_command = cmdShow.do
 
     if (do_command == None) :
 	hint("Missing parameter(s)")
