@@ -35,6 +35,7 @@ try :
     from   Trace import *
     from   Debug import *
     from   Entry import *
+    import DB
 except ImportError :
     # XXX FIXME: Add better error reporting ....
     print("Cannot import package's own modules ...")
@@ -46,56 +47,16 @@ try :
     import cmdMove
     import cmdRemove
     import cmdShow
+    import cmdHelp
+    import cmdVersion
 except ImportError :
     # XXX FIXME: Add better error reporting ....
     print("Cannot import package's commands ...")
     sys.exit(-1)
 
-DEFAULT_DB_FILE = ".todo"
-
-def version() :
-    print(PROGRAM_NAME + " (" + PACKAGE_NAME + ") " + PACKAGE_VERSION)
-
-# Search paths we look into for the configuration files
-search_paths = [ '@sysconfdir@/' + PROGRAM_NAME,
-                 '$HOME/.'       + PROGRAM_NAME,
-                 '.'             + PROGRAM_NAME ]
-
 def hint(s) :
     print(s)
     print("Use `" + PROGRAM_NAME + " -h' for help")
-
-def help() :
-    print("Usage: " + PROGRAM_NAME + " [FLAG]... [COMMAND]")
-    print("")
-    print("Flags:")
-    print("       --colors            use colors")
-    print("       --no-colors         do not use colors")
-    print("       --no-configs        do not use config files")
-    print("       --database=FILE     change the database from the default "
-          "(" + DEFAULT_DB_FILE + ")")
-    print("                           to the filename specified")
-    print("       --verbose           display verbosely when showing, report verbosely")
-    print("                           during other commands")
-    print("       --debug             enable debug mode")
-    print("")
-    print("Commands:")
-    print("  -a | --add               add a new node")
-    print("  -r | --remove            remove a node (and its children)")
-    print("  -e | --edit              edit a node")
-    print("  -m | --move              reparent nodes")
-    print("  -s | --show              display nodes")
-    print("  -V | --version           print version number, then exit")
-    print("  -h | --help[=COMMAND]    print some help, then exit")
-    print("")
-    print("See `" + PROGRAM_NAME + " --help COMMAND' for more information about a specific command.")
-    print("The programs looks for configuration files in the following order:")
-    print("")
-    for i in search_paths :
-        # Do not use os.path.expandvars() here, we must preserve the vars name
-        print("  " + i)
-    print("")
-    print("Report bugs to <@PACKAGE_BUGREPORT@>")
 
 def main(args) :
     # Setup some sane configuration default values
@@ -110,7 +71,7 @@ def main(args) :
     # Parse command line
     try :
 	opts, args = getopt.getopt(args[1:],
-				   "aremsVh",
+				   "aemrsVh",
 				   [ "colors",
 				     "no-colors",
 				     "no-configs",
@@ -119,9 +80,9 @@ def main(args) :
 				     "debug",
 
 				     "add",
-				     "remove",
-				     "move",
 				     "edit",
+				     "move",
+				     "remove",
 				     "show",
 
 				     "version",
@@ -148,22 +109,19 @@ def main(args) :
 	    configuration['debug']    = True
 
 	elif opt in ("-a", "--add") :
-	    do_command = cmdAdd.do ;    parms  = args[2:] ; break
-	elif opt in ("-r", "--remove") :
-	    do_command = cmdRemove.do ; parms  = args[2:] ; break
-	elif opt in ("-m", "--move") :
-	    do_command = cmdMove.do ;   parms  = args[2:] ; break
+	    do_command = cmdAdd.do ;     parms = args[2:] ; break
 	elif opt in ("-e", "--edit") :
-	    do_command = cmdEdit.do ;   parms  = args[2:] ; break
+	    do_command = cmdEdit.do ;    parms = args[2:] ; break
+	elif opt in ("-m", "--move") :
+	    do_command = cmdMove.do ;    parms = args[2:] ; break
+	elif opt in ("-r", "--remove") :
+	    do_command = cmdRemove.do ;  parms = args[2:] ; break
 	elif opt in ("-s", "--show") :
-	    do_command = cmdShow.do ;   parms  = args[2:] ; break
-
+	    do_command = cmdShow.do ;    parms = args[2:] ; break
 	elif opt in ("-V", "--version") :
-	    version()
-	    return 0
+	    do_command = cmdVersion.do ; parms = args[2:] ; break
 	elif opt in ("-h", "--help") :
-	    help()
-	    return 0
+	    do_command = cmdHelp.do ;    parms = args[2:] ; break
 	else :
 	    bug()
 
@@ -174,7 +132,7 @@ def main(args) :
 
 	config = ConfigParser.ConfigParser()
 	try :
-	    config.read(os.path.expandvars(search_paths))
+	    config.read(os.path.expandvars(CFG_SEARCH_PATHS))
 
 	    configuration['colors'] = config.getboolean('','colors')
 	except ConfigParser.ParsingError :
