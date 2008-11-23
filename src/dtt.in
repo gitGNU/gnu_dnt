@@ -94,10 +94,11 @@ def help() :
     print("  -v, --verbose           display verbosely when showing, report verbosely")
     print("                          during other commands")
     print("  -d, --debug             enable debug mode")
-    print("       --colors           use colors")
-    print("       --no-colors        do not use colors")
-    print("       --no-configs       do not load configuration files")
-    print("       --database=FILE    change the database from the default "
+    print("  -n, --dry-run           display operations without performing modifications")
+    print("      --colors            use colors")
+    print("      --no-colors         do not use colors")
+    print("      --no-configs        do not load configuration files")
+    print("      --database=FILE     change the database from the default "
           "(" + DEFAULT_DB_FILE + ")")
     print("                          to the filename specified")
     print("")
@@ -128,12 +129,13 @@ def main(args) :
     # Parse command line
     try :
 	opts, args = getopt.getopt(args[1:],
-				   "dvVh",
+				   "ndvVh",
 				   [ "colors",
 				     "no-colors",
 				     "no-configs",
 				     "database=",
-				     "verbose",
+				     "dry-run",
+                                     "verbose",
 				     "debug",
 				     "version",
 				     "help",
@@ -142,6 +144,7 @@ def main(args) :
 	hint("Unknown argument")
 	return 1
 
+    dry_run    = False
     do_command = None
     for opt, arg in opts :
 	if opt in ("--colors") :
@@ -152,9 +155,11 @@ def main(args) :
 	    configuration['database'] = arg
 	elif opt in ("--no-configs") :
 	    configuration['configs']  = False
-	elif opt in ("--verbose") :
+	elif opt in ("-v", "--verbose") :
 	    configuration['verbose']  = True
-	elif opt in ("--debug") :
+	elif opt in ("-n", "--dry-run") :
+	    dry_run                   = True
+	elif opt in ("-d", "--debug") :
 	    configuration['debug']    = True
 	elif opt in ("-V", "--version") :
 	    version()
