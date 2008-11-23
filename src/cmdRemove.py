@@ -22,6 +22,9 @@ from   Debug      import *
 from   Trace      import *
 import Exceptions
 
+def description() :
+    return "remove node(s) (and children)"
+
 def help() :
     print("Usage: " + PROGRAM_NAME + " remove")
     print("")

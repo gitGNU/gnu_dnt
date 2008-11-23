@@ -24,6 +24,9 @@ import Color
 import DB
 from   Entry import *
 
+def description() :
+    return "display node(s)"
+
 def help() :
     print("Usage: " + PROGRAM_NAME + " show")
     print("")

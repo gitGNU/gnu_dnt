@@ -23,6 +23,9 @@ from   Debug import *
 import Exceptions
 from   Trace import *
 
+def description() :
+    return "add a new node"
+
 def help() :
     print("Usage: " + PROGRAM_NAME + " add [OPTION]...")
     print("")

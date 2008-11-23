@@ -22,6 +22,9 @@ from   Debug import *
 from   Trace import *
 import Exceptions
 
+def description() :
+    return "edit a node"
+
 def help() :
     print("Usage: " + PROGRAM_NAME + " edit")
     print("")

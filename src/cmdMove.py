@@ -22,6 +22,9 @@ from   Debug      import *
 from   Trace      import *
 import Exceptions
 
+def description() :
+    return "reparent node(s)"
+
 def help() :
     print("Usage: " + PROGRAM_NAME + " move")
     print("")
