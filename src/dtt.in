@@ -42,6 +42,7 @@ except ImportError :
     sys.exit(-1)
 
 try :
+    import cmdInit
     import cmdAdd
     import cmdEdit
     import cmdMove
@@ -58,6 +59,21 @@ def hint(s) :
 
 def version() :
     print(PROGRAM_NAME + " (" + PACKAGE_NAME + ") " + PACKAGE_VERSION)
+
+commands = {
+    'init'   : { 'description' : "initialize a new database",
+                 'do' : cmdInit.do   , 'help' : cmdInit.help   },
+    'add'    : { 'description' : "add a new node",
+                 'do' : cmdAdd.do    , 'help' : cmdAdd.help    },
+    'edit'   : { 'description' : "edit a node",
+                 'do' : cmdEdit.do   , 'help' : cmdEdit.help   },
+    'move'   : { 'description' : "reparent node(s)",
+                 'do' : cmdMove.do   , 'help' : cmdMove.help   },
+    'remove' : { 'description' : "remove node(s) (and children)",
+                 'do' : cmdRemove.do , 'help' : cmdRemove.help },
+    'show'   : { 'description' : "display node(s)",
+                 'do' : cmdShow.do   , 'help' : cmdShow.help   },
+}
 
 def help() :
     print("Usage: " + PROGRAM_NAME + " [OPTION]... [COMMAND]")
@@ -76,11 +92,8 @@ def help() :
     print("                          to the filename specified")
     print("")
     print("Commands:")
-    print("  add                     add a new node")
-    print("  edit                    edit a node")
-    print("  move                    reparent nodes")
-    print("  remove                  remove a node (and its children)")
-    print("  show                    display nodes")
+    for i in commands.keys() :
+        print("  %-23s %s" %(i, commands[i]['description']))
     print("")
     print("See `" + PROGRAM_NAME + " --help COMMAND' for more information about a specific command.")
     print("The programs looks for configuration files in the following order:")
@@ -91,14 +104,6 @@ def help() :
     print("")
     print("Report bugs to <" + PACKAGE_BUGREPORT + ">")
     return 0
-
-commands = {
-    'add'    : { 'do' : cmdAdd.do    , 'help' : cmdAdd.help    },
-    'edit'   : { 'do' : cmdEdit.do   , 'help' : cmdEdit.help   },
-    'move'   : { 'do' : cmdMove.do   , 'help' : cmdMove.help   },
-    'remove' : { 'do' : cmdRemove.do , 'help' : cmdRemove.help },
-    'show'   : { 'do' : cmdShow.do   , 'help' : cmdShow.help   },
-}
 
 def main(args) :
     # Setup some sane configuration default values
