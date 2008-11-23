@@ -43,6 +43,7 @@ except ImportError :
 
 try :
     import cmdInit
+    import cmdImport
     import cmdAdd
     import cmdEdit
     import cmdMove
@@ -61,18 +62,27 @@ def version() :
     print(PROGRAM_NAME + " (" + PACKAGE_NAME + ") " + PACKAGE_VERSION)
 
 commands = {
-    'init'   : { 'description' : "initialize a new database",
-                 'do' : cmdInit.do   , 'help' : cmdInit.help   },
-    'add'    : { 'description' : "add a new node",
-                 'do' : cmdAdd.do    , 'help' : cmdAdd.help    },
-    'edit'   : { 'description' : "edit a node",
-                 'do' : cmdEdit.do   , 'help' : cmdEdit.help   },
-    'move'   : { 'description' : "reparent node(s)",
-                 'do' : cmdMove.do   , 'help' : cmdMove.help   },
-    'remove' : { 'description' : "remove node(s) (and children)",
-                 'do' : cmdRemove.do , 'help' : cmdRemove.help },
-    'show'   : { 'description' : "display node(s)",
-                 'do' : cmdShow.do   , 'help' : cmdShow.help   },
+    'init'   : { 'description' : cmdInit.description,
+                 'do'          : cmdInit.do,
+                 'help'        : cmdInit.help   },
+    'import' : { 'description' : cmdImport.description,
+                 'do'          : cmdInit.do,
+                 'help'        : cmdInit.help   },
+    'add'    : { 'description' : cmdAdd.description,
+                 'do'          : cmdAdd.do,
+                 'help'        : cmdAdd.help    },
+    'edit'   : { 'description' : cmdEdit.description,
+                 'do'          : cmdEdit.do,
+                 'help'        : cmdEdit.help   },
+    'move'   : { 'description' : cmdMove.description,
+                 'do'          : cmdMove.do,
+                 'help'        : cmdMove.help   },
+    'remove' : { 'description' : cmdRemove.description,
+                 'do'          : cmdRemove.do,
+                 'help'        : cmdRemove.help },
+    'show'   : { 'description' : cmdShow.description,
+                 'do'          : cmdShow.do   ,
+                 'help'        : cmdShow.help   },
 }
 
 def help() :
@@ -93,7 +103,7 @@ def help() :
     print("")
     print("Commands:")
     for i in commands.keys() :
-        print("  %-23s %s" %(i, commands[i]['description']))
+        print("  %-23s %s" %(i, commands[i]['description']()))
     print("")
     print("See `" + PROGRAM_NAME + " --help COMMAND' for more information about a specific command.")
     print("The programs looks for configuration files in the following order:")
