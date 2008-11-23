@@ -54,14 +54,22 @@ def do(configuration, args) :
 
     if (not force) :
 	if (os.path.isfile(DEFAULT_DB_FILE)) :
-	    raise Exceptions.WrongParameters("File `" + DEFAULT_DB_FILE + "' already present, use --force to override")
+	    raise Exceptions.WrongParameters("File "
+                                             "`" + DEFAULT_DB_FILE + "' "
+                                             "already exists, "
+                                             "use --force to override")
 	    return 1
 
-    # We are in force mode or the db file is not present ...
-    debug("Creating db file")
+    # We are in force mode (which means we must write the DB whatsover) or the
+    # DB file is not present at all ...
+
+    debug("Creating DB file")
+
     db = DB.Database()
-    tree = Entry.Entry("missing text")
+    tree = None
     db.save(DEFAULT_DB_FILE, tree)
+
+    debug("DB file created")
     
     return 0
 
