@@ -61,7 +61,7 @@ class UnknownParameter(Parameters):
 
 class WrongParameters(Parameters):
     def __init__(self, value) :
-	Parameters.__init__(self, "wrong parameters, " + value + "'")
+	Parameters.__init__(self, "wrong parameters, " + value)
 
 # Test
 if (__name__ == '__main__') :
