@@ -30,6 +30,7 @@ pkgvpython_PYTHON =				\
 	Entry.py				\
 	Node.py					\
 	Trace.py				\
+	cmdInit.py				\
 	cmdAdd.py				\
 	cmdEdit.py				\
 	cmdMove.py				\
