@@ -24,7 +24,7 @@ import Exceptions
 from   Trace import *
 
 def description() :
-    return "initialize database"
+    return "initialize the database"
 
 def help() :
     print("Usage: " + PROGRAM_NAME + " init [OPTION]...")
