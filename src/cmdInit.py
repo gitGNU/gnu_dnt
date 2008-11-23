@@ -22,6 +22,8 @@ import getopt
 from   Debug import *
 import Exceptions
 from   Trace import *
+import DB
+import Entry
 
 def description() :
     return "initialize the database"
@@ -29,10 +31,38 @@ def description() :
 def help() :
     print("Usage: " + PROGRAM_NAME + " init [OPTION]...")
     print("")
+    print("  -f, --force    force operation")
+    print("")
     print("Report bugs to <" + PACKAGE_BUGREPORT + ">")
     return 0
 
 def do(configuration, args) :
+    try :
+	opts, args = getopt.getopt(args[0:],
+				   "f",
+				   [ "force" ])
+    except getopt.GetoptError :
+	raise Exceptions.UnknownParameter("")
+	return 1
+
+    force = False
+    for opt, arg in opts :
+	if opt in ("-f", "--force") :
+	    force = True
+	else :
+	    raise UnknownParameter(opt)
+
+    if (not force) :
+	if (os.path.isfile(DEFAULT_DB_FILE)) :
+	    raise Exceptions.WrongParameters("File `" + DEFAULT_DB_FILE + "' already present, use --force to override")
+	    return 1
+
+    # We are in force mode or the db file is not present ...
+    debug("Creating db file")
+    db = DB.Database()
+    tree = Entry.Entry("missing text")
+    db.save(DEFAULT_DB_FILE, tree)
+    
     return 0
 
 # Test
