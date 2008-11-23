@@ -33,7 +33,7 @@ PACKAGE_BUGREPORT = "@PACKAGE_BUGREPORT@"
 #
 
 PROGRAM_NAME      = "dtt"
-DEFAULT_DB_FILE   = ".todo"
+DEFAULT_DB_FILE   = "." + PROGRAM_NAME
 
 # Search paths we look into for the configuration files
 CFG_SEARCH_PATHS  = [ '@sysconfdir@/' + PROGRAM_NAME,
