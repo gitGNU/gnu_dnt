@@ -75,6 +75,8 @@ def fromxml(xml) :
 
 # Internal use (Tree->XML)
 def toxml(tree) :
+    # Fill the DB starting from scratch
+    xml = None
     return None
 
 class Database :
