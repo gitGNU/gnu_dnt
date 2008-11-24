@@ -36,6 +36,10 @@ class Database(Base):
     def __init__(self, value) :
 	Base.__init__(self, value)
 
+class MissingDatabase(Base):
+    def __init__(self, value) :
+	Base.__init__(self, "missing database, try initializing or importing")
+
 #
 # Parameters related exceptions
 #
