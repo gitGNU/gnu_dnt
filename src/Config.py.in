@@ -32,7 +32,7 @@ PACKAGE_BUGREPORT = "@PACKAGE_BUGREPORT@"
 # Package variables
 #
 
-PROGRAM_NAME      = "dtt"
+PROGRAM_NAME      = "dnt"
 DEFAULT_DB_FILE   = "." + PROGRAM_NAME
 
 # Search paths we look into for the configuration files

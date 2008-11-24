@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 
 #
-# configure.ac for dtt
+# configure.ac for dnt
 #
 # Copyright (C) 2007, 2008 Francesco Salvestrini
 #
@@ -20,7 +20,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-AC_INIT([DTT],[@VERSION@],[salvestrini@gmail.com],[dtt])
+AC_INIT([DNT],[@VERSION@],[salvestrini@gmail.com],[dnt])
 
 # Check for a recent version of autoconf
 AC_PREREQ([2.61])
@@ -28,7 +28,7 @@ AC_PREREQ([2.61])
 # Place/find all autotools related files in the following directories
 AC_CONFIG_AUX_DIR([tools/autotools])
 AC_CONFIG_MACRO_DIR([tools/autotools/m4])
-AC_CONFIG_SRCDIR([src/dtt.in])
+AC_CONFIG_SRCDIR([src/dnt.in])
 
 #
 # For automake options (AM_INIT_AUTOMAKE options) see Makefile.am

@@ -32,11 +32,11 @@ tools/autotools/mdate-sh
 tools/autotools/texinfo.tex
 tools/autotools/py-compile
 
-docs/man/dtt.1
-docs/man/dtt-*.1
-docs/info/dtt.info
+docs/man/dnt.1
+docs/man/dnt-*.1
+docs/info/dnt.info
 
-src/dtt
+src/dnt
 src/*.pyc
 src/Config.py
 

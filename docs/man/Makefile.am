@@ -21,16 +21,16 @@
 include $(top_srcdir)/Makefile.sub
 
 dist_man_MANS =					\
-	dtt.1					\
-	dtt-add.1				\
-	dtt-edit.1				\
-	dtt-import.1				\
-	dtt-init.1				\
-	dtt-move.1				\
-	dtt-remove.1				\
-	dtt-show.1				\
-	dtt-touch.1
-man_aux       = dtt.x
+	dnt.1					\
+	dnt-add.1				\
+	dnt-edit.1				\
+	dnt-import.1				\
+	dnt-init.1				\
+	dnt-move.1				\
+	dnt-remove.1				\
+	dnt-show.1				\
+	dnt-touch.1
+man_aux       = dnt.x
 
 EXTRA_DIST = $(man_aux)
 
@@ -38,104 +38,104 @@ EXTRA_DIST = $(man_aux)
 ## NOTE:
 ##     Distributed files should never depend on non-distributed built files
 ##
-dtt.1: $(top_srcdir)/src/dtt.in $(top_srcdir)/configure.ac
+dnt.1: $(top_srcdir)/src/dnt.in $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
-	    --include=$(srcdir)/dtt.x \
+	    --include=$(srcdir)/dnt.x \
 	    --source="@PACKAGE_NAME@" \
 	    --manual="User Commands" \
 	    --section=1	\
-	    --output=dtt.1 \
-	    $(top_builddir)/src/dtt
+	    --output=dnt.1 \
+	    $(top_builddir)/src/dnt
 
-dtt-add.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdAdd.py $(top_srcdir)/configure.ac
+dnt-add.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdAdd.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
-	    --include=$(srcdir)/dtt-add.x \
+	    --include=$(srcdir)/dnt-add.x \
 	    --source="@PACKAGE_NAME@" \
 	    --manual="User Commands" \
 	    --section=1	\
-	    --output=dtt-add.1 \
-	    "$(top_builddir)/src/dtt add"
+	    --output=dnt-add.1 \
+	    "$(top_builddir)/src/dnt add"
 
-dtt-edit.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdEdit.py $(top_srcdir)/configure.ac
+dnt-edit.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdEdit.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
-	    --include=$(srcdir)/dtt-edit.x \
+	    --include=$(srcdir)/dnt-edit.x \
 	    --source="@PACKAGE_NAME@" \
 	    --manual="User Commands" \
 	    --section=1	\
-	    --output=dtt-edit.1 \
-	    "$(top_builddir)/src/dtt edit"
+	    --output=dnt-edit.1 \
+	    "$(top_builddir)/src/dnt edit"
 
-dtt-import.1: $(top_srcdir)/src/Command.py  $(top_srcdir)/src/cmdImport.py $(top_srcdir)/configure.ac
+dnt-import.1: $(top_srcdir)/src/Command.py  $(top_srcdir)/src/cmdImport.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
-	    --include=$(srcdir)/dtt-import.x \
+	    --include=$(srcdir)/dnt-import.x \
 	    --source="@PACKAGE_NAME@" \
 	    --manual="User Commands" \
 	    --section=1	\
-	    --output=dtt-import.1 \
-	    "$(top_builddir)/src/dtt import"
+	    --output=dnt-import.1 \
+	    "$(top_builddir)/src/dnt import"
 
-dtt-init.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdInit.py $(top_srcdir)/configure.ac
+dnt-init.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdInit.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
-	    --include=$(srcdir)/dtt-init.x \
+	    --include=$(srcdir)/dnt-init.x \
 	    --source="@PACKAGE_NAME@" \
 	    --manual="User Commands" \
 	    --section=1	\
-	    --output=dtt-init.1 \
-	    "$(top_builddir)/src/dtt init"
+	    --output=dnt-init.1 \
+	    "$(top_builddir)/src/dnt init"
 
-dtt-move.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdMove.py $(top_srcdir)/configure.ac
+dnt-move.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdMove.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
-	    --include=$(srcdir)/dtt-move.x \
+	    --include=$(srcdir)/dnt-move.x \
 	    --source="@PACKAGE_NAME@" \
 	    --manual="User Commands" \
 	    --section=1	\
-	    --output=dtt-move.1 \
-	    "$(top_builddir)/src/dtt move"
+	    --output=dnt-move.1 \
+	    "$(top_builddir)/src/dnt move"
 
-dtt-remove.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdRemove.py $(top_srcdir)/configure.ac
+dnt-remove.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdRemove.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
-	    --include=$(srcdir)/dtt-remove.x \
+	    --include=$(srcdir)/dnt-remove.x \
 	    --source="@PACKAGE_NAME@" \
 	    --manual="User Commands" \
 	    --section=1	\
-	    --output=dtt-remove.1 \
-	    "$(top_builddir)/src/dtt remove"
+	    --output=dnt-remove.1 \
+	    "$(top_builddir)/src/dnt remove"
 
-dtt-show.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdShow.py $(top_srcdir)/configure.ac
+dnt-show.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdShow.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
-	    --include=$(srcdir)/dtt-show.x \
+	    --include=$(srcdir)/dnt-show.x \
 	    --source="@PACKAGE_NAME@" \
 	    --manual="User Commands" \
 	    --section=1	\
-	    --output=dtt-show.1 \
-	    "$(top_builddir)/src/dtt show"
+	    --output=dnt-show.1 \
+	    "$(top_builddir)/src/dnt show"
 
-dtt-touch.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdTouch.py $(top_srcdir)/configure.ac
+dnt-touch.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdTouch.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
-	    --include=$(srcdir)/dtt-touch.x \
+	    --include=$(srcdir)/dnt-touch.x \
 	    --source="@PACKAGE_NAME@" \
 	    --manual="User Commands" \
 	    --section=1	\
-	    --output=dtt-touch.1 \
-	    "$(top_builddir)/src/dtt touch"
+	    --output=dnt-touch.1 \
+	    "$(top_builddir)/src/dnt touch"
 
 ##
 ## Maintainer related targets

@@ -21,7 +21,7 @@
 include $(top_srcdir)/Makefile.sub
 
 bin_SCRIPTS =					\
-	dtt
+	dnt
 
 pkgvpython_PYTHON =				\
 	Color.py				\
@@ -56,16 +56,16 @@ CLEANFILES =					\
 	$(bin_SCRIPTS)				\
 	*.pyc
 
-dtt: $(srcdir)/dtt.in Makefile
+dnt: $(srcdir)/dnt.in Makefile
 	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/dtt.in > $@.tmp && \
+	  $(do_subst) < $(srcdir)/dnt.in > $@.tmp && \
 	  chmod +x $@.tmp && \
 	  chmod a-w $@.tmp && \
 	  mv -f $@.tmp $@ ) || { \
 		rm -f $@ $@.tmp ; \
 		exit 1 ; \
 	}
-EXTRA_DIST += dtt.in
+EXTRA_DIST += dnt.in
 
 Config.py: $(srcdir)/Config.py.in Makefile
 	( rm -f $@ $@.tmp && \
