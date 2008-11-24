@@ -16,23 +16,27 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-import sys  # Useless
+import sys
 
-from   Debug import *
-from   Trace import *
+from   Debug      import *
+from   Trace      import *
+from   Command    import *
 import Exceptions
 
 def description() :
     return "edit a node"
 
-def help() :
-    print("Usage: " + PROGRAM_NAME + " edit")
-    print("")
-    print("Report bugs to <" + PACKAGE_BUGREPORT + ">")
-    return 0
+def do(configuration, arguments) :
+    command = Command("edit")
+    command.add_option("-i", "--id",
+		       action = "store",
+		       type   = "string",
+		       dest   = "id",
+		       help   = "specify node id to edit")
 
-def do(configuration, args) :
-    id = None
+    (opts, args) = command.parse_args(arguments)
+
+    id = opts.id
 
     # Find node
     node = None
