@@ -90,36 +90,6 @@ commands = {
                  },
     }
 
-#def help() :
-#    print("Usage: " + PROGRAM_NAME + " [OPTION]... [COMMAND]")
-#    print("")
-#    print("Options:")
-#    print("  -h, --help              print this help, then exit")
-#    print("      --version           print version number, then exit")
-#    print("  -v, --verbose           display verbosely when showing, report verbosely")
-#    print("                          during other commands")
-#    print("  -d, --debug             enable debug mode")
-#    print("  -n, --dry-run           display operations without performing modifications")
-#    print("      --colors            use colors")
-#    print("      --no-colors         do not use colors")
-#    print("      --no-configs        do not load configuration files")
-#    print("      --database=FILE     change the database from the default "
-#          "(" + DEFAULT_DB_FILE + ")")
-#    print("                          to the filename specified")
-#    print("")
-#    print("Commands:")
-#    for i in commands.keys() :
-#        print("  %-23s %s" %(i, commands[i]['description']()))
-#    print("")
-#    print("See `" + PROGRAM_NAME + " COMMAND --help' for more information about a specific command.")
-#    print("The programs looks for configuration files in the following order:")
-#    print("")
-#    for i in CFG_SEARCH_PATHS :
-#        # Do not use os.path.expandvars() here, we must preserve the vars name
-#        print("  " + i)
-#    print("")
-#    print("Report bugs to <" + PACKAGE_BUGREPORT + ">")
-
 def main(arguments) :
     # Setup some sane configuration default values
     configuration = {
@@ -139,14 +109,14 @@ def main(arguments) :
     footer = footer + "\n"
     footer = footer + \
         "See `" + PROGRAM_NAME + " COMMAND --help' " + \
-        "for more information about a specific command.\n" + \
+        "for more information about a specific command options.\n" + \
         "The program looks for configuration files in the following order:\n\n" 
     for i in CFG_SEARCH_PATHS :
         # Do not use os.path.expandvars() here, we must preserve the vars name
         footer = footer + "  " + i + "\n"
 
     # Parse command line
-    command = Command("", footer)
+    command = Command("", "[OPTION]... [COMMAND] [COMMAND-OPTION]...", footer)
     command.add_option("-v", "--verbose",
                        action = "store_true",
                        dest   = "verbose",

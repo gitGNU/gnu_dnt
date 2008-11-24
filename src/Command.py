@@ -23,9 +23,11 @@ import textwrap
 from   Trace    import *
 
 class Command(OptionParser) :
-    def __init__(self, name, footer = "") :
+    def __init__(self, name = "", format = "[OPTION]...", footer = "") :
 	assert(name != None)
 	assert(type(name) == str)
+	assert(format != None)
+	assert(type(format) == str)
 	assert(footer != None)
 	assert(type(footer) == str)
 
@@ -33,11 +35,11 @@ class Command(OptionParser) :
 
         # XXX FIXME: This is really awful ...
 	if (name == "") :
-	    usage_format   = "Usage: %prog [OPTION]..."
+	    usage_format   = "Usage: %prog " + format
 	    version_format = "%prog " + \
 		"(" + PACKAGE_NAME + " " + PACKAGE_VERSION + ")"
 	else :
-	    usage_format   = "Usage: %prog " + name + " [OPTION]..."
+	    usage_format   = "Usage: %prog " + name + " " + format
 	    version_format = "%prog " + name + " " + \
 	    "(" + PACKAGE_NAME + " " + PACKAGE_VERSION + ")"
 
