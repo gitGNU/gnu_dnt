@@ -24,7 +24,7 @@ from   Command    import *
 import Exceptions
 
 def description() :
-    return "change a node timestamp"
+    return "change timestamp(s)"
 
 def do(configuration, arguments) :
     command = Command("touch")

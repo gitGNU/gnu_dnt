@@ -31,6 +31,7 @@ class Command(OptionParser) :
 
 	self.__footer = footer
 
+        # XXX FIXME: This is really awful ...
 	if (name == "") :
 	    usage_format   = "Usage: %prog [OPTION]..."
 	    version_format = "%prog " + \

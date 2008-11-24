@@ -24,7 +24,7 @@ from   Command    import *
 import Exceptions
 
 def description() :
-    return "remove node(s) (and children)"
+    return "remove node(s)"
 
 def do(configuration, arguments) :
     command = Command("remove")

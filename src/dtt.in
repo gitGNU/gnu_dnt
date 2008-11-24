@@ -130,7 +130,7 @@ def main(arguments) :
 	'debug'    : False
 	}
     
-    footer = ""
+    footer = "Commands:\n"
     for i in commands.keys() :
         footer = \
             footer + \
