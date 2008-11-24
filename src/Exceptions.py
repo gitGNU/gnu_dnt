@@ -48,8 +48,8 @@ class Parameters(Base):
 	Base.__init__(self, value)
 
 class MissingParameters(Parameters):
-    def __init__(self) :
-	Parameters.__init__(self, "missing parameter(s)")
+    def __init__(self, value = "parameter(s)") :
+	Parameters.__init__(self, "missing " + value)
 
 class TooManyParameters(Parameters):
     def __init__(self) :

@@ -38,6 +38,13 @@ def do(configuration, arguments) :
 		       help   = "specify type")
 
     (opts, args) = command.parse_args(arguments)
+
+    if (opts.file == None) :
+        raise Exceptions.MissingParameters("input file name")
+
+    if (opts.type == None) :
+        raise Exceptions.MissingParameters("input file type")
+
     return 0
 
 # Test
