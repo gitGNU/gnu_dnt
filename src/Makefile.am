@@ -30,11 +30,14 @@ pkgvpython_PYTHON =				\
 	Entry.py				\
 	Node.py					\
 	Trace.py				\
+	Exceptions.py				\
+	Command.py				\
 	cmdInit.py				\
 	cmdAdd.py				\
 	cmdEdit.py				\
 	cmdMove.py				\
 	cmdRemove.py				\
+	cmdTouch.py				\
 	cmdShow.py
 
 nodist_pkgvpython_PYTHON =			\
