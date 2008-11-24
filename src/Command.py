@@ -47,6 +47,17 @@ class Command(OptionParser) :
 			      version = version_format)
 	OptionParser.disable_interspersed_args(self)
 
+    def name_get(self) :
+	return self.__text
+    def name_set(self, n) :
+	assert(type(n) == str)
+	assert(n != "")
+        assert(n == string.rstrip(string.lstrip(n)))
+
+	self.__name = n
+
+    name = property(name_get, name_set)
+
     def print_help(self, file = None) :
 	# Force output to stdout
 	OptionParser.print_help(self, sys.stdout)
