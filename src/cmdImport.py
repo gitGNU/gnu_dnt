@@ -17,22 +17,27 @@
 #
 
 import sys
-import getopt
 
-from   Debug import *
+from   Debug      import *
+from   Trace      import *
+from   Command    import *
 import Exceptions
-from   Trace import *
 
 def description() :
     return "import a foreign database"
 
-def help() :
-    print("Usage: " + PROGRAM_NAME + " import [OPTION]...")
-    print("")
-    print("Report bugs to <" + PACKAGE_BUGREPORT + ">")
-    return 0
+def do(configuration, arguments) :
+    command = Command("import")
+    command.add_option("-f", "--file",
+		       action = "store",
+		       dest   = "file",
+		       help   = "specify file to import")
+    command.add_option("-t", "--type",
+		       action = "store",
+		       dest   = "type",
+		       help   = "specify type")
 
-def do(configuration, args) :
+    (opts, args) = command.parse_args(arguments)
     return 0
 
 # Test
