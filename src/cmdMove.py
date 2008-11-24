@@ -16,22 +16,30 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-import sys  # Useless
+import sys
 
 from   Debug      import *
 from   Trace      import *
+from   Command    import *
 import Exceptions
 
 def description() :
     return "reparent node(s)"
 
-def help() :
-    print("Usage: " + PROGRAM_NAME + " move")
-    print("")
-    print("Report bugs to <" + PACKAGE_BUGREPORT + ">")
-    return 0
+def do(configuration, arguments) :
+    command = Command("move")
+    command.add_option("-s", "--source",
+                       action = "store",
+                       type   = "string",
+                       dest   = "source",
+                       help   = "specify source node")
+    command.add_option("-d", "--destination",
+                       action = "store",
+                       type   = "string",
+                       dest   = "destination",
+                       help   = "specify destination node")
 
-def do(configuration, args) :
+    (opts, args) = command.parse_args(arguments)
 
     id = None
 
@@ -39,7 +47,7 @@ def do(configuration, args) :
     source = None
     if (node == None) :
 	raise Exceptions.Parameters("cannot find source node "
-                                    "`" + id + "' ...")
+				    "`" + id + "' ...")
 
     id = None
 
@@ -47,7 +55,7 @@ def do(configuration, args) :
     destination = None
     if (destination == None) :
 	raise Exceptions.Parameters("cannot find destination node "
-                                    "`" + id + "' ...")
+				    "`" + id + "' ...")
 
     return 0
 
