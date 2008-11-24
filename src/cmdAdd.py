@@ -17,44 +17,39 @@
 #
 
 import sys
-import getopt
 
-from   Debug import *
+from   Debug      import *
+from   Trace      import *
+from   Command    import *
 import Exceptions
-from   Trace import *
 
 def description() :
     return "add a new node"
 
-def help() :
-    print("Usage: " + PROGRAM_NAME + " add [OPTION]...")
-    print("")
-    print("Options:")
-    print("  -t, --text=TEXT    specify the node text")
-    print("  -p, --parent=ID    specify the node parent id")
-    print("")
-    print("Report bugs to <" + PACKAGE_BUGREPORT + ">")
-    return 0
+def do(configuration, arguments) :
+    command = Command("add")
+    command.add_option("-t", "--text",
+		       action = "store",
+		       type   = "string",
+		       dest   = "text",
+		       help   = "specify node text")
+    command.add_option("-p", "--parent",
+		       action = "store",
+		       type   = "string",
+		       dest   = "parent",
+		       help   = "specify node parent")
 
-def do(configuration, args) :
-    # Parse command line
-    try :
-	opts, args = getopt.getopt(args[0:],
-				   "p:t:",
-				   [ "parent",
-                                     "text" ])
-    except getopt.GetoptError :
-	raise Exceptions.UnknownArgument()
+    (opts, args) = command.parse_args(arguments)
 
     node_text = ""
     parent_id = "0"
     for opt, arg in opts :
 	if opt in ("-p", "--parent") :
 	    parent_id = arg
-        elif opt in ("-t", "--text") :
-            node_text = arg
-        else : 
-            raise Exceptions.UnknownParameter(opt)
+	elif opt in ("-t", "--text") :
+	    node_text = arg
+	else :
+	    raise Exceptions.UnknownParameter(opt)
 
     debug("Adding node with:")
     debug("  node-text = " + node_text)
