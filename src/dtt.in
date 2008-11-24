@@ -35,6 +35,7 @@ try :
     from   Trace      import *
     from   Debug      import *
     from   Entry      import *
+    from   Command    import *
     import Exceptions
 except ImportError :
     # XXX FIXME: Add better error reporting ....
@@ -49,6 +50,7 @@ try :
     import cmdMove
     import cmdRemove
     import cmdShow
+    import cmdTouch
 except ImportError :
     # XXX FIXME: Add better error reporting ....
     print("Cannot import package's commands ...")
@@ -63,60 +65,62 @@ def version() :
 
 commands = {
     'init'   : { 'description' : cmdInit.description,
-                 'do'          : cmdInit.do,
-                 'help'        : cmdInit.help   },
+                 'do'          : cmdInit.do
+                 },
     'import' : { 'description' : cmdImport.description,
-                 'do'          : cmdInit.do,
-                 'help'        : cmdInit.help   },
+                 'do'          : cmdImport.do
+                 },
     'add'    : { 'description' : cmdAdd.description,
-                 'do'          : cmdAdd.do,
-                 'help'        : cmdAdd.help    },
+                 'do'          : cmdAdd.do
+                 },
     'edit'   : { 'description' : cmdEdit.description,
-                 'do'          : cmdEdit.do,
-                 'help'        : cmdEdit.help   },
+                 'do'          : cmdEdit.do
+                 },
     'move'   : { 'description' : cmdMove.description,
-                 'do'          : cmdMove.do,
-                 'help'        : cmdMove.help   },
+                 'do'          : cmdMove.do
+                 },
     'remove' : { 'description' : cmdRemove.description,
-                 'do'          : cmdRemove.do,
-                 'help'        : cmdRemove.help },
+                 'do'          : cmdRemove.do
+                 },
     'show'   : { 'description' : cmdShow.description,
-                 'do'          : cmdShow.do   ,
-                 'help'        : cmdShow.help   },
-}
+                 'do'          : cmdShow.do
+                 },
+    'touch'  : { 'description' : cmdTouch.description,
+                 'do'          : cmdTouch.do
+                 },
+    }
 
-def help() :
-    print("Usage: " + PROGRAM_NAME + " [OPTION]... [COMMAND]")
-    print("")
-    print("Options:")
-    print("  -h, --help[=COMMAND]    print some help, then exit")
-    print("  -V, --version           print version number, then exit")
-    print("  -v, --verbose           display verbosely when showing, report verbosely")
-    print("                          during other commands")
-    print("  -d, --debug             enable debug mode")
-    print("  -n, --dry-run           display operations without performing modifications")
-    print("      --colors            use colors")
-    print("      --no-colors         do not use colors")
-    print("      --no-configs        do not load configuration files")
-    print("      --database=FILE     change the database from the default "
-          "(" + DEFAULT_DB_FILE + ")")
-    print("                          to the filename specified")
-    print("")
-    print("Commands:")
-    for i in commands.keys() :
-        print("  %-23s %s" %(i, commands[i]['description']()))
-    print("")
-    print("See `" + PROGRAM_NAME + " --help COMMAND' for more information about a specific command.")
-    print("The programs looks for configuration files in the following order:")
-    print("")
-    for i in CFG_SEARCH_PATHS :
-        # Do not use os.path.expandvars() here, we must preserve the vars name
-        print("  " + i)
-    print("")
-    print("Report bugs to <" + PACKAGE_BUGREPORT + ">")
-    return 0
+#def help() :
+#    print("Usage: " + PROGRAM_NAME + " [OPTION]... [COMMAND]")
+#    print("")
+#    print("Options:")
+#    print("  -h, --help              print this help, then exit")
+#    print("      --version           print version number, then exit")
+#    print("  -v, --verbose           display verbosely when showing, report verbosely")
+#    print("                          during other commands")
+#    print("  -d, --debug             enable debug mode")
+#    print("  -n, --dry-run           display operations without performing modifications")
+#    print("      --colors            use colors")
+#    print("      --no-colors         do not use colors")
+#    print("      --no-configs        do not load configuration files")
+#    print("      --database=FILE     change the database from the default "
+#          "(" + DEFAULT_DB_FILE + ")")
+#    print("                          to the filename specified")
+#    print("")
+#    print("Commands:")
+#    for i in commands.keys() :
+#        print("  %-23s %s" %(i, commands[i]['description']()))
+#    print("")
+#    print("See `" + PROGRAM_NAME + " COMMAND --help' for more information about a specific command.")
+#    print("The programs looks for configuration files in the following order:")
+#    print("")
+#    for i in CFG_SEARCH_PATHS :
+#        # Do not use os.path.expandvars() here, we must preserve the vars name
+#        print("  " + i)
+#    print("")
+#    print("Report bugs to <" + PACKAGE_BUGREPORT + ">")
 
-def main(args) :
+def main(arguments) :
     # Setup some sane configuration default values
     configuration = {
 	'colors'   : True,
@@ -125,59 +129,97 @@ def main(args) :
 	'verbose'  : False,
 	'debug'    : False
 	}
+    
+    footer = ""
+    for i in commands.keys() :
+        footer = footer + ("  %-23s %s" %(i, commands[i]['description']()))
+    footer = footer + \
+    "See `" + PROGRAM_NAME + " COMMAND --help' "
+    "for more information about a specific command." 
+    "The program looks for configuration files in the following order:"
+    for i in CFG_SEARCH_PATHS :
+        # Do not use os.path.expandvars() here, we must preserve the vars name
+        footer = footer + "  " + i
 
     # Parse command line
-    try :
-	opts, args = getopt.getopt(args[1:],
-				   "ndvVh",
-				   [ "colors",
-				     "no-colors",
-				     "no-configs",
-				     "database=",
-				     "dry-run",
-                                     "verbose",
-				     "debug",
-				     "version",
-				     "help",
-				     ])
-    except getopt.GetoptError :
-	hint("Unknown argument")
-	return 1
+    command = Command("", footer)
+    command.add_option("-v", "--verbose",
+                      action = "store_false",
+                      dest   = "verbose",
+                      help   = "display verbosely")
+    command.add_option("-d", "--debug",
+                      action = "store_false",
+                      dest   = "debug",
+                      help   = "enable debug mode")
+    command.add_option("-n", "--dry-run",
+                      action = "store_false",
+                      dest   = "dry_run",
+                      help   = "display operations without performing "
+                      "modifications")
+    command.add_option("--colors",
+                      action = "store_false",
+                      dest   = "colors",
+                      help   = "use colors")
+    command.add_option("--no-colors",
+                      action = "store_true",
+                      dest   = "colors",
+                      help   = "do not use colors")
+    command.add_option("--no-configs",
+                      action = "store_false",
+                      dest   = "configs",
+                      help   = "do not load configuration files")
+    command.add_option("--database",
+                      action = "store",
+                      type   = "string",
+                      dest   = "database",
+                      help   = "change the database from the default "
+                      "(" + DEFAULT_DB_FILE + ") "
+                      "to the filename specified")
 
-    dry_run    = False
-    do_command = None
-    for opt, arg in opts :
-	if opt in ("--colors") :
-	    configuration['colors']   = True
-	elif opt in ("--no-colors") :
-	    configuration['colors']   = False
-	elif opt in ("--database") :
-	    configuration['database'] = arg
-	elif opt in ("--no-configs") :
-	    configuration['configs']  = False
-	elif opt in ("-v", "--verbose") :
-	    configuration['verbose']  = True
-	elif opt in ("-n", "--dry-run") :
-	    dry_run                   = True
-	elif opt in ("-d", "--debug") :
-	    configuration['debug']    = True
-	elif opt in ("-V", "--version") :
-	    version()
-            return 0
-	elif opt in ("-h", "--help") :
-            command_help = help
-            if (len(args) >= 1) :
-                try :
-                    command      = args[0]
-                    command_help = commands[command]['help']
-                except KeyError :
-                    hint("Unknown command `" + command + "'")
-                    return 1
-                except :
-                    bug()
-            return command_help()
-	else :
-	    bug()
+    (opts, args) = command.parse_args(arguments[1:])
+
+#    try :
+#	opts, args = getopt.getopt(args[1:],
+#				   "ndvh",
+#				   [ "colors",
+#				     "no-colors",
+#				     "no-configs",
+#				     "database=",
+#				     "dry-run",
+#                                     "verbose",
+#				     "debug",
+#				     "version",
+#				     "help",
+#				     ])
+#    except getopt.GetoptError :
+#	hint("Unknown argument")
+#	return 1
+#
+#    dry_run    = False
+#    do_command = None
+#    for opt, arg in opts :
+#	if opt in ("--colors") :
+#	    configuration['colors']   = True
+#	elif opt in ("--no-colors") :
+#	    configuration['colors']   = False
+#	elif opt in ("--database") :
+#	    configuration['database'] = arg
+#	elif opt in ("--no-configs") :
+#	    configuration['configs']  = False
+#	elif opt in ("-v", "--verbose") :
+#	    configuration['verbose']  = True
+#	elif opt in ("-n", "--dry-run") :
+#	    dry_run                   = True
+#	elif opt in ("-d", "--debug") :
+#	    configuration['debug']    = True
+#	elif opt in ("--version") :
+#	    version()
+#            return 0
+#	elif opt in ("-h", "--help") :
+#            help()
+#            return 0
+#	else :
+#	    bug()
 
     if (configuration['configs'] == True) :
 	# Read local-directory and home-directory configuration files if
@@ -196,13 +238,14 @@ def main(args) :
 	    if (configuration['verbose'] == True) :
                 warning("Problem reading configuration file, "
                         "using default values ...")
-    if (len(args) < 1) :
+
+    if (len(command.rargs) < 1) :
         hint("Missing command")
         return 1
 
-    command = args[0]
+    cmd = command.rargs[0]
     try :
-        command_do = commands[command]['do']
+        command_do = commands[cmd]['do']
     except KeyError :
 	hint("Unknown command `" + command + "'")
 	return 1
@@ -210,8 +253,8 @@ def main(args) :
         bug()
 
     parameters = []
-    if (len(args) >= 2) :
-        parameters = args[1:]
+    if (len(command.rargs) >= 2) :
+        parameters = command.rargs[1:]
 
     retval = 1
     try :
@@ -224,6 +267,8 @@ def main(args) :
         hint(e)
     except Exceptions, e :
         error(e)
+    except SystemExit, e:
+        retval = e
     except :
 	bug()
 
