@@ -17,46 +17,31 @@
 #
 
 import sys
-import getopt
 
-from   Debug import *
+from   Debug      import *
+from   Trace      import *
+from   Command    import *
 import Exceptions
-from   Trace import *
 import DB
 import Entry
 
 def description() :
     return "initialize the database"
 
-def help() :
-    print("Usage: " + PROGRAM_NAME + " init [OPTION]...")
-    print("")
-    print("  -f, --force    force operation")
-    print("")
-    print("Report bugs to <" + PACKAGE_BUGREPORT + ">")
-    return 0
+def do(configuration, arguments) :
+    command = Command("init")
+    command.add_option("-f", "--force",
+		       action = "store_false",
+		       dest   = "force",
+		       help   = "force operation")
 
-def do(configuration, args) :
-    try :
-	opts, args = getopt.getopt(args[0:],
-				   "f",
-				   [ "force" ])
-    except getopt.GetoptError :
-	raise Exceptions.UnknownParameter("")
-	return 1
+    (opts, args) = command.parse_args(arguments)
 
-    force = False
-    for opt, arg in opts :
-	if opt in ("-f", "--force") :
-	    force = True
-	else :
-	    raise UnknownParameter(opt)
-
-    if (not force) :
+    if (not opts.force) :
 	if (os.path.isfile(DEFAULT_DB_FILE)) :
 	    raise Exceptions.WrongParameters("database already exists, "
-                                             "use `--force' to override")
-	    return 1
+					     "use `--force' to override")
+	return 1
 
     # We are in force mode (which means we must write the DB whatsover) or the
     # DB file is not present at all ...
@@ -68,7 +53,7 @@ def do(configuration, args) :
     db.save(DEFAULT_DB_FILE, tree)
 
     debug("DB file created")
-    
+
     return 0
 
 # Test
