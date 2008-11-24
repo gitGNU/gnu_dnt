@@ -1,5 +1,5 @@
 [name]
-dtt \- manage TODOs, BUGs and NEWs
+dnt \- Development Note Tracker
 
 [DESCRIPTION]
 XXX FIXME: Place a description here
