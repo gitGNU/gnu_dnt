@@ -17,35 +17,43 @@
 #
 
 import sys
-from   optparse import OptionParser
+from   optparse import OptionParser, IndentedHelpFormatter
+import textwrap
 
 from   Trace    import *
 
 class Command(OptionParser) :
-    def __init__(self, name) :
-        assert(name != None)
-        assert(type(name) == str)
+    def __init__(self, name, footer = "") :
+	assert(name != None)
+	assert(type(name) == str)
+	assert(footer != None)
+	assert(type(footer) == str)
 
-        if (name == "") :
-            usage_format   = "Usage: %prog [OPTION]..."
-            version_format = "%prog " + \
-                "(" + PACKAGE_NAME + " " + PACKAGE_VERSION + ")"
-        else :
-            usage_format   = "Usage: %prog " + name + " [OPTION]..."
-            version_format = "%prog " + name + " " + \
-            "(" + PACKAGE_NAME + " " + PACKAGE_VERSION + ")"
+	self.__footer = footer
 
-        OptionParser.__init__(self,
-                              prog    = PROGRAM_NAME,
-                              usage   = usage_format,
-                              version = version_format)
-        OptionParser.disable_interspersed_args(self)
+	if (name == "") :
+	    usage_format   = "Usage: %prog [OPTION]..."
+	    version_format = "%prog " + \
+		"(" + PACKAGE_NAME + " " + PACKAGE_VERSION + ")"
+	else :
+	    usage_format   = "Usage: %prog " + name + " [OPTION]..."
+	    version_format = "%prog " + name + " " + \
+	    "(" + PACKAGE_NAME + " " + PACKAGE_VERSION + ")"
 
-    def print_help(self, file=None) :
-        # Force output to stdout
-        OptionParser.print_help(self, sys.stdout)
-        sys.stdout.write("\n")
-        sys.stdout.write("Report bugs to <" + PACKAGE_BUGREPORT + ">\n")
+	OptionParser.__init__(self,
+			      prog    = PROGRAM_NAME,
+			      usage   = usage_format,
+			      version = version_format)
+	OptionParser.disable_interspersed_args(self)
+
+    def print_help(self, file = None) :
+	# Force output to stdout
+	OptionParser.print_help(self, sys.stdout)
+	sys.stdout.write("\n")
+        if (self.__footer != "") :
+            sys.stdout.write(self.__footer)
+            sys.stdout.write("\n")
+	sys.stdout.write("Report bugs to <" + PACKAGE_BUGREPORT + ">\n")
 
 # Test
 if (__name__ == '__main__') :

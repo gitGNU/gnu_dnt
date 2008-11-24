@@ -132,49 +132,54 @@ def main(arguments) :
     
     footer = ""
     for i in commands.keys() :
-        footer = footer + ("  %-23s %s" %(i, commands[i]['description']()))
+        footer = \
+            footer + \
+            ("  %-16s %s" %(i, commands[i]['description']())) + \
+            "\n"
+    footer = footer + "\n"
     footer = footer + \
-    "See `" + PROGRAM_NAME + " COMMAND --help' "
-    "for more information about a specific command." 
-    "The program looks for configuration files in the following order:"
+        "See `" + PROGRAM_NAME + " COMMAND --help' " + \
+        "for more information about a specific command.\n" + \
+        "The program looks for configuration files in the following order:\n\n" 
     for i in CFG_SEARCH_PATHS :
         # Do not use os.path.expandvars() here, we must preserve the vars name
-        footer = footer + "  " + i
+        footer = footer + "  " + i + "\n"
 
     # Parse command line
     command = Command("", footer)
     command.add_option("-v", "--verbose",
-                      action = "store_false",
-                      dest   = "verbose",
-                      help   = "display verbosely")
+                       action = "store_false",
+                       dest   = "verbose",
+                       help   = "display verbosely")
     command.add_option("-d", "--debug",
-                      action = "store_false",
-                      dest   = "debug",
-                      help   = "enable debug mode")
+                       action = "store_false",
+                       dest   = "debug",
+                       help   = "enable debug mode")
     command.add_option("-n", "--dry-run",
-                      action = "store_false",
-                      dest   = "dry_run",
-                      help   = "display operations without performing "
-                      "modifications")
+                       action = "store_false",
+                       dest   = "dry_run",
+                       help   = "display operations without performing "
+                       "modifications")
     command.add_option("--colors",
-                      action = "store_false",
-                      dest   = "colors",
-                      help   = "use colors")
+                       action = "store_false",
+                       dest   = "colors",
+                       help   = "use colors")
     command.add_option("--no-colors",
-                      action = "store_true",
-                      dest   = "colors",
-                      help   = "do not use colors")
+                       action = "store_true",
+                       dest   = "colors",
+                       help   = "do not use colors")
     command.add_option("--no-configs",
-                      action = "store_false",
-                      dest   = "configs",
-                      help   = "do not load configuration files")
+                       action = "store_false",
+                       dest   = "configs",
+                       help   = "do not load configuration files")
     command.add_option("--database",
-                      action = "store",
-                      type   = "string",
-                      dest   = "database",
-                      help   = "change the database from the default "
-                      "(" + DEFAULT_DB_FILE + ") "
-                      "to the filename specified")
+                       action = "store",
+                       type   = "string",
+                       dest   = "database",
+                       metavar="FILE",
+                       help   = "change the database from the default "
+                       "(" + DEFAULT_DB_FILE + ") "
+                       "to the filename specified")
 
     (opts, args) = command.parse_args(arguments[1:])
 
