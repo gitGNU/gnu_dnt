@@ -63,6 +63,10 @@ class WrongParameters(Parameters):
     def __init__(self, value) :
 	Parameters.__init__(self, "wrong parameters, " + value)
 
+class ForceNeeded(Parameters):
+    def __init__(self, value) :
+	Parameters.__init__(self, value + ", use `--force' to override")
+
 # Test
 if (__name__ == '__main__') :
     debug("Test completed")

@@ -39,8 +39,7 @@ def do(configuration, arguments) :
 
     if (not opts.force) :
 	if (os.path.isfile(DEFAULT_DB_FILE)) :
-	    raise Exceptions.WrongParameters("database already exists, "
-					     "use `--force' to override")
+	    raise Exceptions.ForceNeeded("database already exists")
 	return 1
 
     # We are in force mode (which means we must write the DB whatsover) or the
