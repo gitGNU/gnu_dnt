@@ -16,22 +16,27 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-import sys  # Useless
+import sys
 
 from   Debug      import *
 from   Trace      import *
+from   Command    import *
 import Exceptions
 
 def description() :
     return "remove node(s) (and children)"
 
-def help() :
-    print("Usage: " + PROGRAM_NAME + " remove")
-    print("")
-    print("Report bugs to <" + PACKAGE_BUGREPORT + ">")
-    return 0
+def do(configuration, arguments) :
+    command = Command("remove")
 
-def do(configuration, args) :
+    command.add_option("-i", "--id",
+                       action = "store",
+                       type   = "string",
+                       dest   = "source",
+                       help   = "specify node to remove")
+
+    (opts, args) = command.parse_args(arguments)
+
     filter = None
     # Parse filter here
     if (filter == None) :
