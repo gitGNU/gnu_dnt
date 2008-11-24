@@ -148,24 +148,24 @@ def main(arguments) :
     # Parse command line
     command = Command("", footer)
     command.add_option("-v", "--verbose",
-                       action = "store_false",
+                       action = "store_true",
                        dest   = "verbose",
                        help   = "display verbosely")
     command.add_option("-d", "--debug",
-                       action = "store_false",
+                       action = "store_true",
                        dest   = "debug",
                        help   = "enable debug mode")
     command.add_option("-n", "--dry-run",
-                       action = "store_false",
+                       action = "store_true",
                        dest   = "dry_run",
                        help   = "display operations without performing "
                        "modifications")
     command.add_option("--colors",
-                       action = "store_false",
+                       action = "store_true",
                        dest   = "colors",
                        help   = "use colors")
     command.add_option("--no-colors",
-                       action = "store_true",
+                       action = "store_false",
                        dest   = "colors",
                        help   = "do not use colors")
     command.add_option("--no-configs",
@@ -270,7 +270,7 @@ def main(arguments) :
 	error(e)
     except Exceptions.Parameters, e :
         hint(e)
-    except Exceptions, e :
+    except Exceptions.Base, e :
         error(e)
     except SystemExit, e:
         retval = e
