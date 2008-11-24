@@ -33,6 +33,7 @@ tools/autotools/texinfo.tex
 tools/autotools/py-compile
 
 docs/man/dtt.1
+docs/man/dtt-*.1
 docs/info/dtt.info
 
 src/dtt
