@@ -31,13 +31,13 @@ def description() :
 def do(configuration, arguments) :
     command = Command("init")
     command.add_option("-f", "--force",
-		       action = "store_false",
+		       action = "store_true",
 		       dest   = "force",
 		       help   = "force operation")
 
     (opts, args) = command.parse_args(arguments)
 
-    if (not opts.force) :
+    if (opts.force == False) :
 	if (os.path.isfile(DEFAULT_DB_FILE)) :
 	    raise Exceptions.ForceNeeded("database already exists")
 	return 1
