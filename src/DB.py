@@ -32,17 +32,17 @@ def string_to_priority(p) :
     assert(type(p) == str)
     t = string.lower(p)
     if (t == "veryhigh") :
-        return Entry.PRIORITY_VERYHIGH
+	return Entry.PRIORITY_VERYHIGH
     elif (t == "high") :
-        return Entry.PRIORITY_HIGH
+	return Entry.PRIORITY_HIGH
     elif (t == "medium") :
-        return Entry.PRIORITY_MEDIUM
+	return Entry.PRIORITY_MEDIUM
     elif (t == "low") :
-        return Entry.PRIORITY_LOW
+	return Entry.PRIORITY_LOW
     elif (t == "verylow") :
-        return Entry.PRIORITY_VERYLOW
+	return Entry.PRIORITY_VERYLOW
     else :
-        raise Exceptions.Database("unknown priority " + p)
+	raise Exceptions.Database("unknown priority " + p)
 
 # Internal use (XML->Tree)
 def fromxml(xml) :
@@ -76,30 +76,37 @@ def fromxml(xml) :
 # Internal use (Tree->XML)
 def toxml(tree) :
     # Fill the DB starting from scratch
-    xml = None
-    return None
+    xml = ET.Element("root")
+    return xml
 
 class Database :
     def load(self, name) :
-        try :
-            all = ET.parse(name)
-        except IOError :
-            raise Exceptions.Database("problems reading input database")
-        except :
-            raise Exceptions.Database("problems parsing input database")
+	try :
+	    all = ET.parse(name)
+	except IOError :
+	    raise Exceptions.Database("problems reading database " +
+                                      "`" + name + "'")
+	except :
+	    raise Exceptions.Database("problems parsing input database " +
+                                      "`" + name + "'")
 
-        if (all == None) :
-            raise Exceptions.Database("missing root in input file")
-        xml = all.getroot()
+	if (all == None) :
+	    raise Exceptions.Database("missing root in input file " +
+                                      "`" + name + "'")
+	xml = all.getroot()
 
 	return fromxml(xml)
 
     def save(self, name, tree) :
-        try :
-            xml = toxml(tree)
-            xml.write(name)
-        except :
-            raise Exceptions.Database("problems while writing input database")
+	try :
+	    xml = toxml(tree)
+	    xml.write(name)
+	except IOError :
+	    raise Exceptions.Database("problems writing database " +
+                                      "`" + name + "'")
+	except :
+	    raise Exceptions.Database("problems formatting database " +
+                                      "`" + name + "'")
 
 # Test
 if (__name__ == '__main__') :
