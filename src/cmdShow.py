@@ -16,22 +16,18 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-import sys  # Useless
+import sys
 
 import Debug
 import Trace
+from   Command    import *
+import Exceptions
 import Color
 import DB
-from   Entry import *
+from   Entry    import *
 
 def description() :
     return "display node(s)"
-
-def help() :
-    print("Usage: " + PROGRAM_NAME + " show")
-    print("")
-    print("Report bugs to <" + PACKAGE_BUGREPORT + ">")
-    return 0
 
 class ShowVisitor :
     def __init__(self, colors, be_verbose) :
@@ -83,7 +79,11 @@ class ShowVisitor :
 	self.__indent = old_indent
 	self.__index  = old_index
 
-def do(configuration, args) :
+def do(configuration, arguments) :
+    command = Command("show")
+
+    (opts, args) = command.parse_args(arguments)
+
     # Load DB
     db   = DB.Database()
     tree = db.load(configuration['database'])
