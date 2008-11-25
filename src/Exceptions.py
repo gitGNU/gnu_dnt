@@ -40,6 +40,10 @@ class MissingDatabase(Base):
     def __init__(self, value) :
 	Base.__init__(self, "missing database, try initializing or importing")
 
+class CorruptedDatabase(Base):
+    def __init__(self, value) :
+	Base.__init__(self, "database `" + value + "' is corrupted")
+
 #
 # Parameters related exceptions
 #
