@@ -21,42 +21,6 @@ import sys
 import Debug
 from   Trace import *
 
-class Node :
-    def __init__(self) :
-	self.__children = []
-	self.__index    = 0
-        self.__parent   = None
-
-    def parent_get(self) :
-	return self.__parent
-    def parent_set(self, node) :
-	self.__parent = node
-
-    parent = property(parent_get, parent_set)
-
-    def children(self) :
-	return self.__children
-
-    def child(self, i, node) :
-	assert(i >= 0)
-	if (node == None) :
-	    self.__children.remove(i)
-	else :
-	    self.__children.insert(i, node)
-
-    # Iterator related methods
-    def __iter__(self):
-	return self
-
-    def next(self):
-	i = self.__index
-	if (i >= len(self.__children)) :
-	    raise StopIteration
-	tmp = self.__children[self.__index]
-	self.__index = i + 1
-	return tmp
-
-# XXX FIXME: hmmmmmm
 class ID :
     def __init__(self) :
         pass
@@ -69,16 +33,5 @@ class ID :
 
 # Test
 if (__name__ == '__main__') :
-    root = Node()
-    e1   = Node()
-    e11  = Node()
-    e12  = Node()
-    e2   = Node()
-
-    e1.child(0, e12)
-    e1.child(0, e11)
-    root.child(0, e1)
-    root.child(1, e2)
-
     debug("Test completed")
     sys.exit(0)
