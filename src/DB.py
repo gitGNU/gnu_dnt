@@ -46,6 +46,8 @@ def string_to_priority(p) :
 
 # Internal use (XML->Tree)
 def fromxml(xml) :
+    debug("XML -> Tree in progress")
+
     #debug("Handling node tag " + xml.tag)
 
     if (xml.tag == "note") :
@@ -73,40 +75,62 @@ def fromxml(xml) :
     #debug("Returning " + str(entry))
     return entry
 
-# Internal use (Tree->XML)
-def toxml(tree) :
-    # Fill the DB starting from scratch
-    xml = ET.Element("root")
+def toxml(tree, xml) :
+    debug("Tree -> XML in progress")
+    assert(tree != None)
+    assert(xml != None)
+
+    print xml
+
+    debug("Tree -> XML completed")
+
     return xml
 
 class Database :
+    def __init__(self) :
+	debug("Creating empty DB")
+
     def load(self, name) :
+	assert(name != None)
+	debug("Loading DB from `" + name + "'")
+
 	try :
 	    all = ET.parse(name)
 	except IOError :
 	    raise Exceptions.Database("problems reading database " +
-                                      "`" + name + "'")
-	except :
+				      "`" + name + "'")
+	except Exception, e :
 	    raise Exceptions.Database("problems parsing input database " +
-                                      "`" + name + "'")
+				      "`" + name + "' (" + str(e) + ")")
+	except :
+	    bug()
 
 	if (all == None) :
 	    raise Exceptions.Database("missing root in input file " +
-                                      "`" + name + "'")
+				      "`" + name + "'")
 	xml = all.getroot()
 
 	return fromxml(xml)
 
     def save(self, name, tree) :
+	assert(name != None)
+	debug("Saving DB into `" + name + "'")
+
 	try :
-	    xml = toxml(tree)
+	    xml = ET.Element("root")
+	    toxml(tree, xml)
+	    assert(xml != None)
+
+	    debug("Writing XML file")
 	    xml.write(name)
 	except IOError :
 	    raise Exceptions.Database("problems writing database " +
-                                      "`" + name + "'")
-	except :
+				      "`" + name + "'")
+	except Exception, e :
 	    raise Exceptions.Database("problems formatting database " +
-                                      "`" + name + "'")
+				      "`" + name + "' (" + str(e) + ")")
+	except :
+	    bug()
 
 # Test
 if (__name__ == '__main__') :
