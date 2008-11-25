@@ -16,11 +16,11 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-import sys   # Useless
-import elementtree.ElementTree as ET
+import sys
+from   elementtree import ElementTree as ET
 
 import Trace
-from   Entry      import *
+from   Entry       import *
 import Exceptions
 
 #
@@ -118,8 +118,8 @@ class Database :
 
 	try :
 	    xml = ET.Element("root")
-	    toxml(tree, xml)
-	    assert(xml != None)
+	    #toxml(tree, xml)
+	    #assert(xml != None)
 
 	    debug("Writing XML file")
 	    xml.write(name)
