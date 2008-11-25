@@ -1,4 +1,4 @@
-#! @PYTHON@
+#! @PYTHON@ -t
 
 #
 # Copyright (C) 2008 Francesco Salvestrini
@@ -93,13 +93,14 @@ commands = {
 def main(arguments) :
     # Setup some sane configuration default values
     configuration = {
-	'colors'   : True,
-	'database' : DEFAULT_DB_FILE,
-	'configs'  : True,
-	'verbose'  : False,
-	'debug'    : False
-	}
+        'colors'   : True,
+        'database' : DEFAULT_DB_FILE,
+        'configs'  : True,
+        'verbose'  : False,
+        'debug'    : False
+        }
     
+    # Build the command line parser
     footer = "Commands:\n"
     for i in commands.keys() :
         footer = \
@@ -115,7 +116,6 @@ def main(arguments) :
         # Do not use os.path.expandvars() here, we must preserve the vars name
         footer = footer + "  " + i + "\n"
 
-    # Parse command line
     command = Command("", "[OPTION]... [COMMAND] [COMMAND-OPTION]...", footer)
     command.add_option("-v", "--verbose",
                        action = "store_true",
@@ -151,66 +151,25 @@ def main(arguments) :
                        "(" + DEFAULT_DB_FILE + ") "
                        "to the filename specified")
 
+    # Parse command line
     (opts, args) = command.parse_args(arguments[1:])
 
-#    try :
-#	opts, args = getopt.getopt(args[1:],
-#				   "ndvh",
-#				   [ "colors",
-#				     "no-colors",
-#				     "no-configs",
-#				     "database=",
-#				     "dry-run",
-#                                     "verbose",
-#				     "debug",
-#				     "version",
-#				     "help",
-#				     ])
-#    except getopt.GetoptError :
-#	hint("Unknown argument")
-#	return 1
-#
-#    dry_run    = False
-#    do_command = None
-#    for opt, arg in opts :
-#	if opt in ("--colors") :
-#	    configuration['colors']   = True
-#	elif opt in ("--no-colors") :
-#	    configuration['colors']   = False
-#	elif opt in ("--database") :
-#	    configuration['database'] = arg
-#	elif opt in ("--no-configs") :
-#	    configuration['configs']  = False
-#	elif opt in ("-v", "--verbose") :
-#	    configuration['verbose']  = True
-#	elif opt in ("-n", "--dry-run") :
-#	    dry_run                   = True
-#	elif opt in ("-d", "--debug") :
-#	    configuration['debug']    = True
-#	elif opt in ("--version") :
-#	    version()
-#            return 0
-#	elif opt in ("-h", "--help") :
-#            help()
-#            return 0
-#	else :
-#	    bug()
-
+    # Merge command line with configuration
     if (configuration['configs'] == True) :
-	# Read local-directory and home-directory configuration files if
-	# present, assuming the local-directory config precedence over the home
-	# directory one
+        # Read local-directory and home-directory configuration files if
+        # present, assuming the local-directory config precedence over the home
+        # directory one
 
-	config = ConfigParser.ConfigParser()
-	try :
-	    config.read(os.path.expandvars(CFG_SEARCH_PATHS))
+        config = ConfigParser.ConfigParser()
+        try :
+            config.read(os.path.expandvars(CFG_SEARCH_PATHS))
 
-	    configuration['colors'] = config.getboolean('','colors')
-	except ConfigParser.ParsingError :
-	    error("Problems parsing configuration file")
-	    return 1
-	except:
-	    if (configuration['verbose'] == True) :
+            configuration['colors'] = config.getboolean('','colors')
+        except ConfigParser.ParsingError :
+            error("Problems parsing configuration file")
+            return 1
+        except:
+            if (configuration['verbose'] == True) :
                 warning("Problem reading configuration file, "
                         "using default values ...")
 
@@ -222,8 +181,8 @@ def main(arguments) :
     try :
         command_do = commands[cmd]['do']
     except KeyError :
-	hint("Unknown command `" + command + "'")
-	return 1
+        hint("Unknown command `" + cmd + "'")
+        return 1
     except :
         bug()
 
@@ -231,13 +190,14 @@ def main(arguments) :
     if (len(command.rargs) >= 2) :
         parameters = command.rargs[1:]
 
+    # Finally run the command
     retval = 1
     try :
-	retval = command_do(configuration, parameters)
+        retval = command_do(configuration, parameters)
     except IOError, e :
-	error(e)
+        error(e)
     except ValueError, e :
-	error(e)
+        error(e)
     except Exceptions.Parameters, e :
         hint(e)
     except Exceptions.Base, e :
@@ -245,7 +205,7 @@ def main(arguments) :
     except SystemExit, e:
         retval = e
     except :
-	bug()
+        bug()
 
     return retval
 
