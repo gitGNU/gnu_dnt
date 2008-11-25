@@ -93,11 +93,11 @@ commands = {
 def main(arguments) :
     # Setup some sane configuration default values
     configuration = {
-        'colors'   : True,
-        'database' : DEFAULT_DB_FILE,
         'configs'  : True,
+        'colors'   : True,
         'verbose'  : False,
-        'debug'    : False
+        'debug'    : False,
+        'database' : DEFAULT_DB_FILE
         }
     
     # Build the command line parser
@@ -164,14 +164,16 @@ def main(arguments) :
         try :
             config.read(os.path.expandvars(CFG_SEARCH_PATHS))
 
-            configuration['colors'] = config.getboolean('','colors')
-        except ConfigParser.ParsingError :
-            error("Problems parsing configuration file")
+            configuration['colors']   = config.getboolean('general', 'colors')
+            configuration['verbose']  = config.getboolean('general', 'verbose')
+            configuration['debug']    = config.getboolean('general', 'debug')
+            configuration['database'] = config.get('general', 'database')
+
+        except ConfigParser.ParsingError, e :
+            error("Problems parsing configuration file (" + str(e) + ")")
             return 1
         except:
-            if (configuration['verbose'] == True) :
-                warning("Problem reading configuration file, "
-                        "using default values ...")
+            warning("Problem reading configuration file, using defaults ...")
 
     if (len(command.rargs) < 1) :
         hint("Missing command")
