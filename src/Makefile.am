@@ -29,6 +29,7 @@ pkgvpython_PYTHON =				\
 	Debug.py				\
 	Entry.py				\
 	Node.py					\
+	ID.py					\
 	Trace.py				\
 	Exceptions.py				\
 	Command.py				\
