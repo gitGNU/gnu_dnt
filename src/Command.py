@@ -33,7 +33,7 @@ class Command(OptionParser) :
 
 	self.__footer = footer
 
-        # XXX FIXME: This is really awful ...
+	# XXX FIXME: This is really awful ...
 	if (name == "") :
 	    usage_format   = "Usage: %prog " + format
 	    version_format = "%prog " + \
@@ -46,7 +46,9 @@ class Command(OptionParser) :
 	OptionParser.__init__(self,
 			      prog    = PROGRAM_NAME,
 			      usage   = usage_format,
-			      version = version_format)
+			      version = version_format,
+                              #epilog  = footer
+                              )
 	OptionParser.disable_interspersed_args(self)
 
     def name_get(self) :
@@ -54,7 +56,7 @@ class Command(OptionParser) :
     def name_set(self, n) :
 	assert(type(n) == str)
 	assert(n != "")
-        assert(n == string.rstrip(string.lstrip(n)))
+	assert(n == string.rstrip(string.lstrip(n)))
 
 	self.__name = n
 
@@ -64,9 +66,9 @@ class Command(OptionParser) :
 	# Force output to stdout
 	OptionParser.print_help(self, sys.stdout)
 	sys.stdout.write("\n")
-        if (self.__footer != "") :
-            sys.stdout.write(self.__footer)
-            sys.stdout.write("\n")
+	if (self.__footer != "") :
+	    sys.stdout.write(self.__footer)
+	    sys.stdout.write("\n")
 	sys.stdout.write("Report bugs to <" + PACKAGE_BUGREPORT + ">\n")
 
 # Test
