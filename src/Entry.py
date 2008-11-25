@@ -42,7 +42,10 @@ class Entry(Node) :
 			   PRIORITY_LOW,
 			   PRIORITY_VERYLOW )
 
-    def __init__(self, t = "", p = PRIORITY_MEDIUM, d = datetime.date.today()) :
+    def __init__(self,
+                 t = "",
+                 p = PRIORITY_MEDIUM,
+                 d = datetime.date.today()) :
 	Node.__init__(self)
 	self.text_set(t)
 	self.priority_set(p)
