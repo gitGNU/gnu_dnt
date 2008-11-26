@@ -43,7 +43,7 @@ class Command(OptionParser) :
 	    version_format = "%prog " + name + " " + \
 	    "(" + PACKAGE_NAME + " " + PACKAGE_VERSION + ")"
 
-	OptionParser.__init__(self,
+        OptionParser.__init__(self,
 			      prog    = PROGRAM_NAME,
 			      usage   = usage_format,
 			      version = version_format,

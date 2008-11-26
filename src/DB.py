@@ -17,7 +17,7 @@
 #
 
 import sys
-from   elementtree import ElementTree as ET
+from   elementtree.ElementTree import ElementTree
 
 import Trace
 from   Entry       import *
@@ -95,7 +95,9 @@ class Database :
 	debug("Loading DB from `" + name + "'")
 
 	try :
-	    all = ET.parse(name)
+	    x = ElementTree(name)
+            all = x.parse()
+            print all
 	except IOError :
 	    raise Exceptions.Database("problems reading database " +
 				      "`" + name + "'")
@@ -117,12 +119,14 @@ class Database :
 	debug("Saving DB into `" + name + "'")
 
 	try :
-	    xml = ET.Element("root")
+	    et = ElementTree()
+            #xml = ET.SubElement(et.getroot(), "note")
+            #xml.text = "1.2.0"
 	    #toxml(tree, xml)
 	    #assert(xml != None)
 
 	    debug("Writing XML file")
-	    xml.write(name)
+	    et.write(name)
 	except IOError :
 	    raise Exceptions.Database("problems writing database " +
 				      "`" + name + "'")
