@@ -23,37 +23,42 @@ from   Trace      import *
 from   Command    import *
 import Exceptions
 
+from   ID         import *
+
 def description() :
     return "add a new node"
 
 def do(configuration, arguments) :
     command = Command("add")
     command.add_option("-t", "--text",
-		       action = "store",
-		       type   = "string",
-		       dest   = "text",
-		       help   = "specify node text")
-    command.add_option("-p", "--parent",
-		       action = "store",
-		       type   = "string",
-		       dest   = "parent",
-		       help   = "specify node parent")
+                       action = "store",
+                       type   = "string",
+                       dest   = "text",
+                       help   = "specify node text")
+    command.add_option("-p", "--parent-id",
+                       action = "store",
+                       type   = "string",
+                       dest   = "parent",
+                       help   = "specify parent node id")
 
     (opts, args) = command.parse_args(arguments)
 
-    node_text = ""
-    parent_id = "0"
-    for opt, arg in opts :
-	if opt in ("-p", "--parent") :
-	    parent_id = arg
-	elif opt in ("-t", "--text") :
-	    node_text = arg
-	else :
-	    raise Exceptions.UnknownParameter(opt)
+    # Parameters setup
+    if (opts.text == None) :
+        raise Exceptions.MissingParameters("node text")
+    if (opts.text == "") :
+        raise Exceptions.WrongParameters("node text is empty")
+    if (opts.parent == None) :
+        warning("Parent id is missing, using root as parent for this node")
+        opts.parent = "0"
 
+    parent_id = ID(opts.parent)
+    node_text = opts.text
+
+    # Work
     debug("Adding node with:")
     debug("  node-text = " + node_text)
-    debug("  parent-id = " + parent_id)
+    debug("  parent-id = " + str(parent_id))
 
     return 0
 
