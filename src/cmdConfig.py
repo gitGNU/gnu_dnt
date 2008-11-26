@@ -33,14 +33,32 @@ def description() :
 def do(configuration, arguments) :
     command = Command("config")
 
+    command.add_option("-s", "--set",
+                       action = "store",
+                       dest   = "set",
+                       help   = "set a (local) configuration parameter value")
+    command.add_option("-g", "--get",
+                       action = "store",
+                       dest   = "get",
+                       help   = "get a configuration parameter value")
+    command.add_option("-S", "--show",
+                       action = "store_true",
+                       dest   = "show",
+                       help   = "show all configuration values")
+
     (opts, args) = command.parse_args(arguments)
 
     # Parameters setup
 
     # Work
-    # XXX FIXME: calc the maximum format length here!!!
+    
+    # Compute maximum configuration key length
+    m = 0
     for i in configuration.keys() :
-        print("%-10s = %s" %(i, str(configuration[i])))
+        m = max(m, len(str(configuration[i])) + 1)
+    # Write all key-value pairs
+    for i in configuration.keys() :
+        print(("%-" + str(m) + "s = %s") %(i, str(configuration[i])))
 
     return 0
 
