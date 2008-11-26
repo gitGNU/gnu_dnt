@@ -26,7 +26,7 @@ import Exceptions
 from   ID         import *
 
 def description() :
-    return "import a foreign database"
+    return "import a foreign database format"
 
 def do(configuration, arguments) :
     command = Command("import")

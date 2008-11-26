@@ -32,20 +32,20 @@ def do(configuration, arguments) :
     command = Command("remove")
 
     command.add_option("-i", "--id",
-		       action = "store",
-		       type   = "string",
-		       dest   = "id",
-		       help   = "specify node id to remove")
+                       action = "store",
+                       type   = "string",
+                       dest   = "id",
+                       help   = "specify node id to remove")
     command.add_option("-r", "--recursive",
-		       action = "store_true",
-		       dest   = "recursive",
-		       help   = "remove node and its children recursively")
+                       action = "store_true",
+                       dest   = "recursive",
+                       help   = "remove node and its children recursively")
 
     (opts, args) = command.parse_args(arguments)
 
     # Parameters setup
     if (opts.id == None) :
-	raise Exceptions.MissingParameters("node id")
+        raise Exceptions.MissingParameters("node id")
 
     id = ID(opts.id)
 
