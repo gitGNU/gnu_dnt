@@ -33,13 +33,17 @@ pkgvpython_PYTHON =				\
 	Trace.py				\
 	Exceptions.py				\
 	Command.py				\
-	cmdInit.py				\
+						\
 	cmdAdd.py				\
+	cmdConfig.py				\
 	cmdEdit.py				\
+	cmdExport.py				\
+	cmdImport.py				\
+	cmdInit.py				\
 	cmdMove.py				\
 	cmdRemove.py				\
-	cmdTouch.py				\
-	cmdShow.py
+	cmdShow.py				\
+	cmdTouch.py
 
 nodist_pkgvpython_PYTHON =			\
 	Config.py
@@ -84,6 +88,7 @@ EXTRA_DIST += Config.py.in
 check-local: Makefile
 	for i in $(pkgvpython_PYTHON) ; do \
 		m=`echo $$i | $(SED) -e 's,\.py,,'` && \
+		rm -f $$m.pyc && \
 		echo $(ECHO_N) "checking module $$m ($$i)... $(ECHO_C)" && \
 		PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(srcdir)@PATH_SEPARATOR@$(builddir) $(PYTHON) $(srcdir)/$$i > test.log 2>&1 || { \
 			echo "$(ECHO_T)no" ; \
@@ -94,6 +99,7 @@ check-local: Makefile
 	done
 	for i in $(nodist_pkgvpython_PYTHON) ; do \
 		m=`echo $$i | $(SED) -e 's,\.py,,'` && \
+		rm -f $$m.pyc && \
 		echo $(ECHO_N) "checking module $$m ($$i)... $(ECHO_C)" && \
 		PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(srcdir)@PATH_SEPARATOR@$(builddir) $(PYTHON) $(builddir)/$$i > test.log 2>&1 || { \
 			echo "$(ECHO_T)no" ; \
