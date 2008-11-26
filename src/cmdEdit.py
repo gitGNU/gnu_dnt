@@ -23,6 +23,8 @@ from   Trace      import *
 from   Command    import *
 import Exceptions
 
+from   ID         import *
+
 def description() :
     return "edit a node"
 
@@ -36,14 +38,12 @@ def do(configuration, arguments) :
 
     (opts, args) = command.parse_args(arguments)
 
-    id = opts.id
+    # Parameters setup
+    if (opts.id == None) :
+        raise Exceptions.MissingParameters("node id")
 
-    # Find node
-    node = None
-    if (node == None) :
-	raise Exceptions.Parameters("node `" + id +"' not found")
-
-    # Edit it now
+    # Work
+    id = ID(opts.id)
 
     return 0
 
