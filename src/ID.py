@@ -17,35 +17,42 @@
 #
 
 import sys
+import string
 
 import Debug
 from   Trace import *
 
 class ID :
-    def __init__(self) :
-        self.__id = ()
-        pass
+    def __init__(self, s = "0") :
+        assert(type(s) == str)
 
-    def fromstring(self, s) :
-        pass
+        x = []
+        for n in string.split(s, ".") :
+            x.append(int(n))
+        self.__id = x
 
-    def tostring(self) :
-        s = "0"
-        for i in range(0, len(self.__id)) :
-            s = s + "." + str(self._id[i])
-        return s
+    def __str__(self) :
+	s = ""
+	for i in range(0, len(self.__id)) :
+	    if (i != 0) :
+		s = s + "."
+	    s = s + str(self.__id[i])
+	return s
 
 # Test
 if (__name__ == '__main__') :
-    id = ID()
-    id.fromstring("0")
-    debug("0 = " + id.tostring())
+    def proc(i) :
+        id = ID(i)
+        assert(i == str(id))
+        debug(i + " = " + str(id))
 
-    id.fromstring("0.1")
-    debug("0.1 = " + id.tostring())
-
-    id.fromstring("0.1.2")
-    debug("0.1.2 = " + id.tostring())
+    proc("0")
+    proc("0.1")
+    proc("0.1.2")
+    proc("0.1.2.3")
+    proc("1.2.3.4")
+    proc("4.3.2")
+    proc("7.2")
 
     debug("Test completed")
     sys.exit(0)
