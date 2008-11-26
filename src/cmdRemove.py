@@ -23,6 +23,8 @@ from   Trace      import *
 from   Command    import *
 import Exceptions
 
+from   ID         import *
+
 def description() :
     return "remove node(s)"
 
@@ -30,23 +32,24 @@ def do(configuration, arguments) :
     command = Command("remove")
 
     command.add_option("-i", "--id",
-                       action = "store",
-                       type   = "string",
-                       dest   = "source",
-                       help   = "specify node to remove")
+		       action = "store",
+		       type   = "string",
+		       dest   = "id",
+		       help   = "specify node id to remove")
+    command.add_option("-r", "--recursive",
+		       action = "store_true",
+		       dest   = "recursive",
+		       help   = "remove node and its children recursively")
 
     (opts, args) = command.parse_args(arguments)
 
-    filter = None
-    # Parse filter here
-    if (filter == None) :
-	raise Exceptions.Parameters("filter is empty")
+    # Parameters setup
+    if (opts.id == None) :
+	raise Exceptions.MissingParameters("node id")
 
-    id = None
-    # Find node
-    node = None
-    if (node == None) :
-	raise Exceptions.Parameters("node `" + id +"' not found")
+    id = ID(opts.id)
+
+    # Work
 
     return 0
 
