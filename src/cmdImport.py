@@ -23,6 +23,8 @@ from   Trace      import *
 from   Command    import *
 import Exceptions
 
+from   ID         import *
+
 def description() :
     return "import a foreign database"
 
@@ -39,11 +41,13 @@ def do(configuration, arguments) :
 
     (opts, args) = command.parse_args(arguments)
 
+    # Parameters setup
     if (opts.file == None) :
         raise Exceptions.MissingParameters("input file name")
-
     if (opts.type == None) :
         raise Exceptions.MissingParameters("input file type")
+
+    # Work
 
     return 0
 
