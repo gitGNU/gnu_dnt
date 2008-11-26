@@ -23,13 +23,36 @@ from   Trace      import *
 from   Command    import *
 import Exceptions
 
+import ID
+
 def description() :
     return "change timestamp(s)"
 
 def do(configuration, arguments) :
     command = Command("touch")
 
+    command.add_option("-i", "--id",
+                       action = "store",
+                       type   = "string",
+                       dest   = "id",
+                       help   = "specify node id to remove")
+    command.add_option("-r", "--recursive",
+                       action = "store_true",
+                       dest   = "recursive",
+                       help   = "remove node and its children recursively")
+
     (opts, args) = command.parse_args(arguments)
+
+    # Parameters setup
+    if (opts.id == None) :
+        raise Exceptions.MissingParameters("node id")
+    recursive = opts.recursive
+    if (recursive == None) :
+        recursive = False
+
+    id = ID(opts.id)
+
+    # Work
 
     return 0
 
