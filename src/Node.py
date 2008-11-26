@@ -21,7 +21,7 @@ import sys
 import Debug
 from   Trace import *
 
-class Node :
+class Node(object) :
     def __init__(self) :
 	self.__children = []
 	self.__index    = 0
@@ -55,17 +55,6 @@ class Node :
 	tmp = self.__children[self.__index]
 	self.__index = i + 1
 	return tmp
-
-# XXX FIXME: hmmmmmm
-class ID :
-    def __init__(self) :
-        pass
-
-    def fromstring(self, s) :
-        pass
-
-    def tostring(self) :
-        return s
 
 # Test
 if (__name__ == '__main__') :
