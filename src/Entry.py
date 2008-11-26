@@ -46,8 +46,9 @@ class Entry(Node) :
                  t = "",
                  p = PRIORITY_MEDIUM,
                  d = datetime.date.today()) :
-	Node.__init__(self)
-	self.text_set(t)
+	#Node.__init__(self)
+	super(Entry, self).__init__()
+        self.text_set(t)
 	self.priority_set(p)
 	self.time_set(d)
 
