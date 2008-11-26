@@ -22,8 +22,10 @@ from   Debug      import *
 from   Trace      import *
 from   Command    import *
 import Exceptions
+
 import DB
 import Entry
+from   ID         import *
 
 def description() :
     return "initialize the database"
@@ -37,11 +39,13 @@ def do(configuration, arguments) :
 
     (opts, args) = command.parse_args(arguments)
 
+    # Parameters setup
     if (opts.force != True) :
         debug("Force mode disabled")
         if (os.path.isfile(DEFAULT_DB_FILE)) :
             raise Exceptions.ForceNeeded("database already exists")
-        return 1
+
+    # Work
 
     # We are in force mode (which means we must write the DB whatsover) or the
     # DB file is not present at all ...
