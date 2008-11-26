@@ -22,6 +22,7 @@ import Debug
 import Trace
 from   Command    import *
 import Exceptions
+
 import Color
 import DB
 from   Entry    import *
@@ -82,7 +83,16 @@ class ShowVisitor :
 def do(configuration, arguments) :
     command = Command("show")
 
+    command.add_option("-v", "--verbose",
+                       action = "store_true",
+                       dest   = "verbose",
+                       help   = "display verbosely")
+
     (opts, args) = command.parse_args(arguments)
+
+    # Parameters setup
+
+    # Work
 
     # Load DB
     db   = DB.Database()
