@@ -41,21 +41,15 @@ def do(configuration, arguments) :
 
     (opts, args) = command.parse_args(arguments)
 
-    id = None
+    # Parameters setup
+    if (opts.source == None) :
+        raise Exceptions.MissingParameters("source node")
+    source_id = ID(opts.source)
+    if (opts.destination == None) :
+        raise Exceptions.MissingParameters("destination node")
+    destination_id = ID(opts.destination)
 
-    # Find source node
-    source = None
-    if (node == None) :
-	raise Exceptions.Parameters("cannot find source node "
-				    "`" + id + "' ...")
-
-    id = None
-
-    # Find destination node
-    destination = None
-    if (destination == None) :
-	raise Exceptions.Parameters("cannot find destination node "
-				    "`" + id + "' ...")
+    # Work
 
     return 0
 
