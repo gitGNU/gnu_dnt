@@ -45,8 +45,6 @@ except ImportError :
 
 try :
     import Commands.Init
-    import Commands.Import
-    import Commands.Export
     import Commands.Add
     import Commands.Config
     import Commands.Edit
@@ -69,12 +67,6 @@ def version() :
 commands = {
     'init'   : { 'description' : Commands.Init.description,
                  'do'          : Commands.Init.do
-                 },
-    'import' : { 'description' : Commands.Import.description,
-                 'do'          : Commands.Import.do
-                 },
-    'export' : { 'description' : Commands.Export.description,
-                 'do'          : Commands.Export.do
                  },
     'add'    : { 'description' : Commands.Add.description,
                  'do'          : Commands.Add.do

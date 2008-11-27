@@ -30,8 +30,6 @@ commands_PYTHON =				\
 	Commands/Add.py				\
 	Commands/Config.py			\
 	Commands/Edit.py			\
-	Commands/Export.py			\
-	Commands/Import.py			\
 	Commands/Init.py			\
 	Commands/Move.py			\
 	Commands/Remove.py			\
