@@ -1,8 +1,5 @@
 <?xml version="1.0"?>
 <todo version="0.1.20">
-    <note priority="medium" time="1227814121">
-        Added clumsy solution to Configuration.py generation (added to BUILT_SOURCES) ...
-    </note>
     <note priority="low" time="1227122807">
         Rearrange the build process in order to use EXEEXT (if needed)
     </note>
