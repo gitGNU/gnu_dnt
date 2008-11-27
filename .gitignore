@@ -41,7 +41,13 @@ src/*.pyc
 src/Commands/*.pyc
 src/Configuration.py
 
+tests/defs
+tests/wrapper
+tests/testSubDir-*
+tests/test-success
+tests/test-fail
+tests/test-1
+
 site/in/.sitetool
 site/in/site.stamp
 site/out/*
-
