@@ -119,7 +119,7 @@ def main(arguments) :
     footer = footer + "\n"
     footer = footer + \
         "See `" + PROGRAM_NAME + " COMMAND --help' " + \
-        "for more information about a specific command options.\n" + \
+        "for more information about a specific command.\n" + \
         "The program looks for configuration files in the following order:\n\n" 
     for i in CFG_SEARCH_PATHS :
         # Do not use os.path.expandvars() here, we must preserve the vars name
