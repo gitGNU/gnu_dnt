@@ -53,6 +53,10 @@ class Configuration(Base):
     def __init__(self, value) :
 	Base.__init__(self, value)
 
+class UnknownKey(Database):
+    def __init__(self, value) :
+	Base.__init__(self, "unknown key `" + value + "' in configuration")
+
 #
 # Parameters related exceptions
 #

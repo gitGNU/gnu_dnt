@@ -82,7 +82,12 @@ def do(configuration, arguments) :
     # Work
     if (opts.get == True) :
         assert(opts.key != None)
-        print(configuration[opts.key])
+        try :
+            print(configuration[opts.key])
+        except KeyError :
+            raise Exceptions.UnknownKey(opts.key)
+        except :
+            bug()
 
     if (opts.set == True) :
         assert(opts.key   != None)
