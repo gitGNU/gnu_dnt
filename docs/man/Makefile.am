@@ -49,7 +49,7 @@ dnt.1: $(top_srcdir)/src/dnt.in $(top_srcdir)/configure.ac
 	    --output=dnt.1 \
 	    $(top_builddir)/src/dnt
 
-dnt-add.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdAdd.py $(top_srcdir)/configure.ac
+dnt-add.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/cmdAdd.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
@@ -60,7 +60,7 @@ dnt-add.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdAdd.py $(top_srcdir
 	    --output=dnt-add.1 \
 	    "$(top_builddir)/src/dnt add"
 
-dnt-edit.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdEdit.py $(top_srcdir)/configure.ac
+dnt-edit.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/cmdEdit.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
@@ -71,7 +71,7 @@ dnt-edit.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdEdit.py $(top_srcd
 	    --output=dnt-edit.1 \
 	    "$(top_builddir)/src/dnt edit"
 
-dnt-import.1: $(top_srcdir)/src/Command.py  $(top_srcdir)/src/cmdImport.py $(top_srcdir)/configure.ac
+dnt-import.1: $(top_srcdir)/src/Command.py  $(top_srcdir)/src/Commands/cmdImport.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
@@ -82,7 +82,7 @@ dnt-import.1: $(top_srcdir)/src/Command.py  $(top_srcdir)/src/cmdImport.py $(top
 	    --output=dnt-import.1 \
 	    "$(top_builddir)/src/dnt import"
 
-dnt-init.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdInit.py $(top_srcdir)/configure.ac
+dnt-init.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/cmdInit.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
@@ -93,7 +93,7 @@ dnt-init.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdInit.py $(top_srcd
 	    --output=dnt-init.1 \
 	    "$(top_builddir)/src/dnt init"
 
-dnt-move.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdMove.py $(top_srcdir)/configure.ac
+dnt-move.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/cmdMove.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
@@ -104,7 +104,7 @@ dnt-move.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdMove.py $(top_srcd
 	    --output=dnt-move.1 \
 	    "$(top_builddir)/src/dnt move"
 
-dnt-remove.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdRemove.py $(top_srcdir)/configure.ac
+dnt-remove.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/cmdRemove.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
@@ -115,7 +115,7 @@ dnt-remove.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdRemove.py $(top_
 	    --output=dnt-remove.1 \
 	    "$(top_builddir)/src/dnt remove"
 
-dnt-show.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdShow.py $(top_srcdir)/configure.ac
+dnt-show.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/cmdShow.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
@@ -126,7 +126,7 @@ dnt-show.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdShow.py $(top_srcd
 	    --output=dnt-show.1 \
 	    "$(top_builddir)/src/dnt show"
 
-dnt-touch.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/cmdTouch.py $(top_srcdir)/configure.ac
+dnt-touch.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/cmdTouch.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
