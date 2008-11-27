@@ -43,16 +43,16 @@ except ImportError :
     sys.exit(-1)
 
 try :
-    import cmdInit
-    import cmdImport
-    import cmdExport
-    import cmdAdd
-    import cmdConfig
-    import cmdEdit
-    import cmdMove
-    import cmdRemove
-    import cmdShow
-    import cmdTouch
+    import Commands.cmdInit
+    import Commands.cmdImport
+    import Commands.cmdExport
+    import Commands.cmdAdd
+    import Commands.cmdConfig
+    import Commands.cmdEdit
+    import Commands.cmdMove
+    import Commands.cmdRemove
+    import Commands.cmdShow
+    import Commands.cmdTouch
 except ImportError :
     # XXX FIXME: Add better error reporting ....
     print("Cannot import package's commands ...")
@@ -66,35 +66,35 @@ def version() :
     print(PROGRAM_NAME + " (" + PACKAGE_NAME + ") " + PACKAGE_VERSION)
 
 commands = {
-    'init'   : { 'description' : cmdInit.description,
-                 'do'          : cmdInit.do
+    'init'   : { 'description' : Commands.cmdInit.description,
+                 'do'          : Commands.cmdInit.do
                  },
-    'import' : { 'description' : cmdImport.description,
-                 'do'          : cmdImport.do
+    'import' : { 'description' : Commands.cmdImport.description,
+                 'do'          : Commands.cmdImport.do
                  },
-    'export' : { 'description' : cmdExport.description,
-                 'do'          : cmdExport.do
+    'export' : { 'description' : Commands.cmdExport.description,
+                 'do'          : Commands.cmdExport.do
                  },
-    'add'    : { 'description' : cmdAdd.description,
-                 'do'          : cmdAdd.do
+    'add'    : { 'description' : Commands.cmdAdd.description,
+                 'do'          : Commands.cmdAdd.do
                  },
-    'config' : { 'description' : cmdConfig.description,
-                 'do'          : cmdConfig.do
+    'config' : { 'description' : Commands.cmdConfig.description,
+                 'do'          : Commands.cmdConfig.do
                  },
-    'edit'   : { 'description' : cmdEdit.description,
-                 'do'          : cmdEdit.do
+    'edit'   : { 'description' : Commands.cmdEdit.description,
+                 'do'          : Commands.cmdEdit.do
                  },
-    'move'   : { 'description' : cmdMove.description,
-                 'do'          : cmdMove.do
+    'move'   : { 'description' : Commands.cmdMove.description,
+                 'do'          : Commands.cmdMove.do
                  },
-    'remove' : { 'description' : cmdRemove.description,
-                 'do'          : cmdRemove.do
+    'remove' : { 'description' : Commands.cmdRemove.description,
+                 'do'          : Commands.cmdRemove.do
                  },
-    'show'   : { 'description' : cmdShow.description,
-                 'do'          : cmdShow.do
+    'show'   : { 'description' : Commands.cmdShow.description,
+                 'do'          : Commands.cmdShow.do
                  },
-    'touch'  : { 'description' : cmdTouch.description,
-                 'do'          : cmdTouch.do
+    'touch'  : { 'description' : Commands.cmdTouch.description,
+                 'do'          : Commands.cmdTouch.do
                  },
     }
 
