@@ -23,6 +23,21 @@ include $(top_srcdir)/Makefile.sub
 bin_SCRIPTS =					\
 	dnt
 
+commandsdir = $(pkgvpythondir)/Commands
+
+commands_PYTHON =				\
+	Commands/__init__.py			\
+	Commands/cmdAdd.py			\
+	Commands/cmdConfig.py			\
+	Commands/cmdEdit.py			\
+	Commands/cmdExport.py			\
+	Commands/cmdImport.py			\
+	Commands/cmdInit.py			\
+	Commands/cmdMove.py			\
+	Commands/cmdRemove.py			\
+	Commands/cmdShow.py			\
+	Commands/cmdTouch.py
+
 pkgvpython_PYTHON =				\
 	Color.py				\
 	DB.py					\
@@ -32,18 +47,7 @@ pkgvpython_PYTHON =				\
 	ID.py					\
 	Trace.py				\
 	Exceptions.py				\
-	Command.py				\
-						\
-	cmdAdd.py				\
-	cmdConfig.py				\
-	cmdEdit.py				\
-	cmdExport.py				\
-	cmdImport.py				\
-	cmdInit.py				\
-	cmdMove.py				\
-	cmdRemove.py				\
-	cmdShow.py				\
-	cmdTouch.py
+	Command.py
 
 nodist_pkgvpython_PYTHON =			\
 	Config.py
@@ -52,7 +56,10 @@ BUILT_SOURCES =					\
 	Config.py
 
 ## NOTE: The following variable is used by maintainer-check-local target
-ALL_PYTHON_SRCS = $(pkgvpython_PYTHON) $(nodist_pkgvpython_PYTHON)
+ALL_PYTHON_SRCS =				\
+	$(pkgvpython_PYTHON)			\
+	$(nodist_pkgvpython_PYTHON)		\
+	$(commands_PYTHON)
 
 EXTRA_DIST =
 
@@ -87,6 +94,17 @@ EXTRA_DIST += Config.py.in
 ##
 check-local: Makefile
 	for i in $(pkgvpython_PYTHON) ; do \
+		m=`echo $$i | $(SED) -e 's,\.py,,'` && \
+		rm -f $$m.pyc && \
+		echo $(ECHO_N) "checking module $$m ($$i)... $(ECHO_C)" && \
+		PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(srcdir)@PATH_SEPARATOR@$(builddir) $(PYTHON) $(srcdir)/$$i > test.log 2>&1 || { \
+			echo "$(ECHO_T)no" ; \
+			cat test.log ; \
+			exit 1 ; \
+		} ; \
+		echo "$(ECHO_T)yes" ; \
+	done
+	for i in $(commands_PYTHON) ; do \
 		m=`echo $$i | $(SED) -e 's,\.py,,'` && \
 		rm -f $$m.pyc && \
 		echo $(ECHO_N) "checking module $$m ($$i)... $(ECHO_C)" && \
