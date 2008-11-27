@@ -75,7 +75,9 @@ SUCCESS_TESTS =
 FAIL_TESTS    +=				\
 	test-fail
 SUCCESS_TESTS +=				\
-	test-success
+	test-success				\
+	test-command-config			\
+	test-command-show
 
 XFAIL_TESTS  = $(FAIL_TESTS)
 TESTS        = $(FAIL_TESTS) $(SUCCESS_TESTS)
@@ -103,6 +105,42 @@ test-fail: $(srcdir)/test-fail.in Makefile
 	}
 EXTRA_DIST += test-fail.in
 CLEANFILES += test-fail
+
+test-fail: $(srcdir)/test-fail.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-fail.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-fail.in
+CLEANFILES += test-fail
+
+test-command-config: $(srcdir)/test-command-config.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-config.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-config.in
+CLEANFILES += test-command-config
+
+test-command-show: $(srcdir)/test-command-show.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show.in
+CLEANFILES += test-command-show
 
 clean-local:
 	rm -rf testSubDir-*
