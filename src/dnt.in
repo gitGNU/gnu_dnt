@@ -32,10 +32,11 @@ except ImportError :
 sys.path.append("@pkgvpythondir@")
 
 try :
-    from   Trace      import *
-    from   Debug      import *
-    from   Entry      import *
-    from   Command    import *
+    from   Trace         import *
+    from   Debug         import *
+    from   Entry         import *
+    from   Command       import *
+    from   Configuration import *
     import Exceptions
 except ImportError :
     # XXX FIXME: Add better error reporting ....
@@ -43,16 +44,16 @@ except ImportError :
     sys.exit(-1)
 
 try :
-    import Commands.cmdInit
-    import Commands.cmdImport
-    import Commands.cmdExport
-    import Commands.cmdAdd
-    import Commands.cmdConfig
-    import Commands.cmdEdit
-    import Commands.cmdMove
-    import Commands.cmdRemove
-    import Commands.cmdShow
-    import Commands.cmdTouch
+    import Commands.Init
+    import Commands.Import
+    import Commands.Export
+    import Commands.Add
+    import Commands.Config
+    import Commands.Edit
+    import Commands.Move
+    import Commands.Remove
+    import Commands.Show
+    import Commands.Touch
 except ImportError :
     # XXX FIXME: Add better error reporting ....
     print("Cannot import package's commands ...")
@@ -66,35 +67,35 @@ def version() :
     print(PROGRAM_NAME + " (" + PACKAGE_NAME + ") " + PACKAGE_VERSION)
 
 commands = {
-    'init'   : { 'description' : Commands.cmdInit.description,
-                 'do'          : Commands.cmdInit.do
+    'init'   : { 'description' : Commands.Init.description,
+                 'do'          : Commands.Init.do
                  },
-    'import' : { 'description' : Commands.cmdImport.description,
-                 'do'          : Commands.cmdImport.do
+    'import' : { 'description' : Commands.Import.description,
+                 'do'          : Commands.Import.do
                  },
-    'export' : { 'description' : Commands.cmdExport.description,
-                 'do'          : Commands.cmdExport.do
+    'export' : { 'description' : Commands.Export.description,
+                 'do'          : Commands.Export.do
                  },
-    'add'    : { 'description' : Commands.cmdAdd.description,
-                 'do'          : Commands.cmdAdd.do
+    'add'    : { 'description' : Commands.Add.description,
+                 'do'          : Commands.Add.do
                  },
-    'config' : { 'description' : Commands.cmdConfig.description,
-                 'do'          : Commands.cmdConfig.do
+    'config' : { 'description' : Commands.Config.description,
+                 'do'          : Commands.Config.do
                  },
-    'edit'   : { 'description' : Commands.cmdEdit.description,
-                 'do'          : Commands.cmdEdit.do
+    'edit'   : { 'description' : Commands.Edit.description,
+                 'do'          : Commands.Edit.do
                  },
-    'move'   : { 'description' : Commands.cmdMove.description,
-                 'do'          : Commands.cmdMove.do
+    'move'   : { 'description' : Commands.Move.description,
+                 'do'          : Commands.Move.do
                  },
-    'remove' : { 'description' : Commands.cmdRemove.description,
-                 'do'          : Commands.cmdRemove.do
+    'remove' : { 'description' : Commands.Remove.description,
+                 'do'          : Commands.Remove.do
                  },
-    'show'   : { 'description' : Commands.cmdShow.description,
-                 'do'          : Commands.cmdShow.do
+    'show'   : { 'description' : Commands.Show.description,
+                 'do'          : Commands.Show.do
                  },
-    'touch'  : { 'description' : Commands.cmdTouch.description,
-                 'do'          : Commands.cmdTouch.do
+    'touch'  : { 'description' : Commands.Touch.description,
+                 'do'          : Commands.Touch.do
                  },
     }
 
@@ -172,15 +173,17 @@ def main(arguments) :
         try :
             config.read(os.path.expandvars(CFG_SEARCH_PATHS))
 
-            configuration['colors']   = config.getboolean('general', 'colors')
-            configuration['verbose']  = config.getboolean('general', 'verbose')
-            configuration['debug']    = config.getboolean('general', 'debug')
-            configuration['database'] = config.get('general', 'database')
+            if (config.has_section("general")) :
+                s = "general"
+                configuration['colors']   = config.getboolean(s, 'colors')
+                configuration['verbose']  = config.getboolean(s, 'verbose')
+                configuration['debug']    = config.getboolean(s, 'debug')
+                configuration['database'] = config.get(s, 'database')
 
         except ConfigParser.ParsingError, e :
             error("Problems parsing configuration file (" + str(e) + ")")
             return 1
-        except:
+        except Exceptions.Configuration:
             warning("Problem reading configuration file, using defaults ...")
 
     if (len(command.rargs) < 1) :
@@ -203,6 +206,7 @@ def main(arguments) :
     # Finally run the command
     retval = 1
     try :
+        assert(callable(command_do))
         retval = command_do(configuration, parameters)
     except IOError, e :
         error(e)
