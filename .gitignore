@@ -38,7 +38,8 @@ docs/info/dnt.info
 
 src/dnt
 src/*.pyc
-src/Config.py
+src/Commands/*.pyc
+src/Configuration.py
 
 site/in/.sitetool
 site/in/site.stamp
