@@ -27,16 +27,16 @@ commandsdir = $(pkgvpythondir)/Commands
 
 commands_PYTHON =				\
 	Commands/__init__.py			\
-	Commands/cmdAdd.py			\
-	Commands/cmdConfig.py			\
-	Commands/cmdEdit.py			\
-	Commands/cmdExport.py			\
-	Commands/cmdImport.py			\
-	Commands/cmdInit.py			\
-	Commands/cmdMove.py			\
-	Commands/cmdRemove.py			\
-	Commands/cmdShow.py			\
-	Commands/cmdTouch.py
+	Commands/Add.py				\
+	Commands/Config.py			\
+	Commands/Edit.py			\
+	Commands/Export.py			\
+	Commands/Import.py			\
+	Commands/Init.py			\
+	Commands/Move.py			\
+	Commands/Remove.py			\
+	Commands/Show.py			\
+	Commands/Touch.py
 
 pkgvpython_PYTHON =				\
 	Color.py				\
@@ -50,10 +50,10 @@ pkgvpython_PYTHON =				\
 	Command.py
 
 nodist_pkgvpython_PYTHON =			\
-	Config.py
+	Configuration.py
 
 BUILT_SOURCES =					\
-	Config.py
+	Configuration.py
 
 ## NOTE: The following variable is used by maintainer-check-local target
 ALL_PYTHON_SRCS =				\
@@ -66,7 +66,8 @@ EXTRA_DIST =
 CLEANFILES =					\
 	$(nodist_pkgvpython_PYTHON)		\
 	$(bin_SCRIPTS)				\
-	*.pyc
+	*.pyc					\
+	Commands/*.pyc
 
 dnt: $(srcdir)/dnt.in Makefile
 	( rm -f $@ $@.tmp && \
@@ -79,15 +80,15 @@ dnt: $(srcdir)/dnt.in Makefile
 	}
 EXTRA_DIST += dnt.in
 
-Config.py: $(srcdir)/Config.py.in Makefile
+Configuration.py: $(srcdir)/Configuration.py.in Makefile
 	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/Config.py.in > $@.tmp && \
+	  $(do_subst) < $(srcdir)/Configuration.py.in > $@.tmp && \
 	  chmod a-w $@.tmp && \
 	  mv -f $@.tmp $@ ) || { \
 		rm -f $@ $@.tmp ; \
 		exit 1 ; \
 	}
-EXTRA_DIST += Config.py.in
+EXTRA_DIST += Configuration.py.in
 
 ##
 ## Local check target

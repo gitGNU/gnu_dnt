@@ -26,6 +26,7 @@ import traceback
 #
 from   Trace import *
 
+# XXX FIXME: Add __FILE__ and __LINE__ equivalents ...
 def bug(s = "") :
     tmp1 = "Bug hit"
     if s != "" :

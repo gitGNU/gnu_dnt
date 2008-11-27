@@ -18,8 +18,6 @@
 
 import sys
 
-from   Trace import *
-
 #
 # Autoconf variables
 #
@@ -43,5 +41,5 @@ CFG_SEARCH_PATHS  = [ '@sysconfdir@/' + DEFAULT_CFG_FILE,
 
 # Test
 if (__name__ == '__main__') :
-    debug("Test completed")
+    # Do not use our machineries here (debug, warning, error etc.)
     sys.exit(0)

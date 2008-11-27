@@ -19,7 +19,7 @@
 import sys
 import os
 
-from   Config import *
+from   Configuration import *
 
 def debug(s) :
     assert(s != None)

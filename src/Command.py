@@ -41,14 +41,14 @@ class Command(OptionParser) :
 	else :
 	    usage_format   = "Usage: %prog " + name + " " + format
 	    version_format = "%prog " + name + " " + \
-	    "(" + PACKAGE_NAME + " " + PACKAGE_VERSION + ")"
+                "(" + PACKAGE_NAME + " " + PACKAGE_VERSION + ")"
 
-        OptionParser.__init__(self,
+	OptionParser.__init__(self,
 			      prog    = PROGRAM_NAME,
 			      usage   = usage_format,
 			      version = version_format,
-                              #epilog  = footer
-                              )
+			      #epilog  = footer
+			      )
 	OptionParser.disable_interspersed_args(self)
 
     def name_get(self) :

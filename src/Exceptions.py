@@ -24,9 +24,12 @@ from   Entry import *
 class Base(Exception):
     def __init__(self, value) :
 	self.__value = value
+
     def __str__(self) :
 	#return repr(self.__value)
 	return self.__value
+
+    __repr__ = __str__
 
 #
 # Database related exceptions
@@ -35,13 +38,20 @@ class Database(Base):
     def __init__(self, value) :
 	Base.__init__(self, value)
 
-class MissingDatabase(Base):
+class MissingDatabase(Database):
     def __init__(self, value) :
 	Base.__init__(self, "missing database, try initializing or importing")
 
-class CorruptedDatabase(Base):
+class CorruptedDatabase(Database):
     def __init__(self, value) :
 	Base.__init__(self, "database `" + value + "' is corrupted")
+
+#
+# Database related exceptions
+#
+class Configuration(Base):
+    def __init__(self, value) :
+	Base.__init__(self, value)
 
 #
 # Parameters related exceptions
@@ -68,7 +78,10 @@ class UnknownParameter(Parameters):
 
 class WrongParameters(Parameters):
     def __init__(self, value) :
-	Parameters.__init__(self, "wrong parameters, " + value)
+	s = ""
+	if (value != None) :
+	    s = ", " + value
+	Parameters.__init__(self, "wrong parameters" + s)
 
 class ForceNeeded(Parameters):
     def __init__(self, value) :
