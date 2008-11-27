@@ -46,7 +46,8 @@ tests/wrapper
 tests/testSubDir-*
 tests/test-success
 tests/test-fail
-tests/test-1
+tests/test-command-config
+tests/test-command-show
 
 site/in/.sitetool
 site/in/site.stamp
