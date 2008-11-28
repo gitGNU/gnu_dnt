@@ -30,7 +30,16 @@ dist_man_MANS =					\
 	dnt-remove.1				\
 	dnt-show.1				\
 	dnt-touch.1
-man_aux       = dnt.x
+
+man_aux       = dnt.x				\
+		dnt-add.x			\
+		dnt-config.x			\
+		dnt-edit.x			\
+		dnt-init.x			\
+		dnt-move.x			\
+		dnt-remove.x			\
+		dnt-show.x			\
+		dnt-touch.x
 
 EXTRA_DIST = $(man_aux)
 
