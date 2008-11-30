@@ -95,8 +95,11 @@ def do(configuration, arguments) :
     # Work
 
     # Load DB
+    db_file = configuration.get('GLOBAL', 'database')
+    assert(db_file != None)
+
     db   = DB.Database()
-    tree = db.load(configuration.get('GLOBAL','database'))
+    tree = db.load(db_file)
 
     v = ShowVisitor(configuration.getboolean('GLOBAL', 'colors'),
                     configuration.getboolean('GLOBAL', 'verbose'))

@@ -17,6 +17,7 @@
 #
 
 import sys
+import ConfigParser
 
 from   Debug      import *
 from   Trace      import *
@@ -42,8 +43,12 @@ def do(configuration, arguments) :
     # Parameters setup
     if (opts.force != True) :
         debug("Force mode disabled")
-        if (os.path.isfile(DEFAULT_DB_FILE)) :
-            raise Exceptions.ForceNeeded("database already exists")
+        db_file = configuration.get('GLOBAL', 'database')
+        assert(db_file != None)
+        if (os.path.isfile(db_file)) :
+            raise Exceptions.ForceNeeded("database file "
+                                         "`" + db_file + "' "
+                                         "already exists")
 
     # Work
 
@@ -52,7 +57,7 @@ def do(configuration, arguments) :
 
     db = DB.Database()
     tree = None
-    db.save(DEFAULT_DB_FILE, tree)
+    db.save(db_file, tree)
 
     debug("DB file created")
 
