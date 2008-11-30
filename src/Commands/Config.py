@@ -31,6 +31,12 @@ from   ID         import *
 def description() :
     return "manage current configuration"
 
+def _get_section(s) :
+    assert(s != None)
+
+    regexp = re.compile('^[ \t]*(.*\.).*$')
+    return regexp.match(s).group(1)
+
 def do(configuration, arguments) :
     command = Command("config")
 
@@ -86,7 +92,8 @@ def do(configuration, arguments) :
     try :
 	if (opts.get == True) :
 	    assert(opts.key != None)
-	    debug("Getting key `" + opts.key + "' value")
+            section = _section(opts.key)
+	    debug("Getting key `" + opts.key + "'")
 	    print(configuration.get(section, opts.key))
 
 	if (opts.set == True) :
@@ -97,15 +104,17 @@ def do(configuration, arguments) :
 
 	if (opts.show == True) :
 	    debug("Showing all key/value pairs")
-	    # Compute maximum configuration key length
+	    # Compute maximum key length
 	    l = 0
-	    for o in configuration.options(section) :
-		l = max(l, len(o))
+	    for s in configuration.sections() :
+                for o in configuration.options(section) :
+                    l = max(l, len(s + "." + o))
 
 	    # Write all key-value pairs
-	    for o in configuration.options(section) :
-		print(("%-" + str(l) + "s = %s")
-		      %(o, configuration.get(section, o)))
+	    for s in configuration.sections() :
+                for o in configuration.options(section) :
+                    print(("%-" + str(l) + "s = %s")
+                          %(s + "." + o,  configuration.get(s, o)))
 
     except ConfigParser.Error, e :
 	error(e)
