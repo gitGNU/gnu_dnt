@@ -84,14 +84,14 @@ def do(configuration, arguments) :
     section = 'GLOBAL'
 
     try :
-        if (opts.get == True) :
-            assert(opts.key != None)
-            debug("Getting key `" + opts.key + "' value")
-            print(configuration.get(section, opts.key))
-                
-        if (opts.set == True) :
-            assert(opts.key   != None)
-            assert(opts.value != None)
+	if (opts.get == True) :
+	    assert(opts.key != None)
+	    debug("Getting key `" + opts.key + "' value")
+	    print(configuration.get(section, opts.key))
+
+	if (opts.set == True) :
+	    assert(opts.key   != None)
+	    assert(opts.value != None)
 	    debug("Setting key `" + opts.key + "' to `" + opts.value + "'")
 	    configuration.set(section, opts.key, opts.value)
 
@@ -102,16 +102,16 @@ def do(configuration, arguments) :
 	    for o in configuration.options(section) :
 		l = max(l, len(o))
 
-            # Write all key-value pairs
-            for o in configuration.options(section) :
-                print(("%-" + str(l) + "s = %s")
-                      %(o, configuration.get(section, o)))
+	    # Write all key-value pairs
+	    for o in configuration.options(section) :
+		print(("%-" + str(l) + "s = %s")
+		      %(o, configuration.get(section, o)))
 
     except ConfigParser.Error, e :
-        error(e)
-        return 1
+	error(e)
+	return 1
     except :
-        bug()
+	bug()
 
     return 0
 
