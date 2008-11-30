@@ -17,6 +17,7 @@
 #
 
 import sys
+import ConfigParser
 
 from   Debug      import *
 from   Trace      import *
@@ -80,28 +81,37 @@ def do(configuration, arguments) :
 					       "configuration entry")
 
     # Work
-    if (opts.get == True) :
-        assert(opts.key != None)
-        try :
-            print(configuration[opts.key])
-        except KeyError :
-            raise Exceptions.UnknownKey(opts.key)
-        except :
-            bug()
+    section = 'GLOBAL'
 
-    if (opts.set == True) :
-        assert(opts.key   != None)
-        assert(opts.value != None)
-        configuration[opts.key] = opts.value
+    try :
+        if (opts.get == True) :
+            assert(opts.key != None)
+            debug("Getting key `" + opts.key + "' value")
+            print(configuration.get(section, opts.key))
+                
+        if (opts.set == True) :
+            assert(opts.key   != None)
+            assert(opts.value != None)
+	    debug("Setting key `" + opts.key + "' to `" + opts.value + "'")
+	    configuration.set(section, opts.key, opts.value)
 
-    if (opts.show == True) :
-	# Compute maximum configuration key length
-	m = 0
-	for i in configuration.keys() :
-	    m = max(m, len(str(configuration[i])) + 1)
-	    # Write all key-value pairs
-	for i in configuration.keys() :
-	    print(("%-" + str(m) + "s = %s") %(i, str(configuration[i])))
+	if (opts.show == True) :
+	    debug("Showing all key/value pairs")
+	    # Compute maximum configuration key length
+	    l = 0
+	    for o in configuration.options(section) :
+		l = max(l, len(o))
+
+            # Write all key-value pairs
+            for o in configuration.options(section) :
+                print(("%-" + str(l) + "s = %s")
+                      %(o, configuration.get(section, o)))
+
+    except ConfigParser.Error, e :
+        error(e)
+        return 1
+    except :
+        bug()
 
     return 0
 
