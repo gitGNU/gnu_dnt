@@ -46,8 +46,14 @@ tests/wrapper
 tests/testSubDir-*
 tests/test-success
 tests/test-fail
-tests/test-command-config
 tests/test-command-show
+tests/test-command-config
+tests/test-command-add
+tests/test-command-edit
+tests/test-command-init
+tests/test-command-move
+tests/test-command-remove
+tests/test-command-touch
 
 site/in/.sitetool
 site/in/site.stamp
