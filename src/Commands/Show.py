@@ -96,9 +96,10 @@ def do(configuration, arguments) :
 
     # Load DB
     db   = DB.Database()
-    tree = db.load(configuration['database'])
+    tree = db.load(configuration.get('GLOBAL','database'))
 
-    v = ShowVisitor(configuration['colors'], configuration['verbose'])
+    v = ShowVisitor(configuration.getboolean('GLOBAL', 'colors'),
+                    configuration.getboolean('GLOBAL', 'verbose'))
     tree.accept(v)
 
     return 0
