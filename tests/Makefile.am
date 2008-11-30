@@ -76,8 +76,14 @@ FAIL_TESTS    +=				\
 	test-fail
 SUCCESS_TESTS +=				\
 	test-success				\
-	test-command-config			\
-	test-command-show
+	test-command-show			\
+	test-command-edit			\
+	test-command-move			\
+	test-command-add			\
+	test-command-remove			\
+	test-command-init			\
+	test-command-touch			\
+	test-command-config
 
 XFAIL_TESTS  = $(FAIL_TESTS)
 TESTS        = $(FAIL_TESTS) $(SUCCESS_TESTS)
@@ -106,17 +112,89 @@ test-fail: $(srcdir)/test-fail.in Makefile
 EXTRA_DIST += test-fail.in
 CLEANFILES += test-fail
 
-test-fail: $(srcdir)/test-fail.in Makefile
+test-command-show: $(srcdir)/test-command-show.in Makefile
 	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-fail.in > $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show.in > $@.tmp && \
 	  chmod +x $@.tmp && \
 	  chmod a-w $@.tmp && \
 	  mv -f $@.tmp $@ ) || { \
 	        rm -f $@ $@.tmp ; \
 	        exit 1 ; \
 	}
-EXTRA_DIST += test-fail.in
-CLEANFILES += test-fail
+EXTRA_DIST += test-command-show.in
+CLEANFILES += test-command-show
+
+test-command-edit: $(srcdir)/test-command-edit.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-edit.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-edit.in
+CLEANFILES += test-command-edit
+
+test-command-move: $(srcdir)/test-command-move.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-move.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-move.in
+CLEANFILES += test-command-move
+
+test-command-add: $(srcdir)/test-command-add.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-add.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-add.in
+CLEANFILES += test-command-add
+
+test-command-remove: $(srcdir)/test-command-remove.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-remove.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-remove.in
+CLEANFILES += test-command-remove
+
+test-command-init: $(srcdir)/test-command-init.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-init.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-init.in
+CLEANFILES += test-command-init
+
+test-command-touch: $(srcdir)/test-command-touch.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-touch.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-touch.in
+CLEANFILES += test-command-touch
 
 test-command-config: $(srcdir)/test-command-config.in Makefile
 	( rm -f $@ $@.tmp && \
@@ -129,18 +207,6 @@ test-command-config: $(srcdir)/test-command-config.in Makefile
 	}
 EXTRA_DIST += test-command-config.in
 CLEANFILES += test-command-config
-
-test-command-show: $(srcdir)/test-command-show.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-show.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-show.in
-CLEANFILES += test-command-show
 
 clean-local:
 	rm -rf testSubDir-*
