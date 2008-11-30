@@ -155,8 +155,10 @@ def main(arguments) :
     # Parse command line
     (opts, args) = command.parse_args(arguments[1:])
 
-    # Merge command line with configuration
+    # Load configuration from file
     if (configuration['configs'] == True) :
+        # Merge command line with configuration
+
         # Read local-directory and home-directory configuration files if
         # present, assuming the local-directory config precedence over the home
         # directory one
