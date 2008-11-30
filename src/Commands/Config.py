@@ -93,7 +93,6 @@ def do(configuration, arguments) :
         assert(opts.key   != None)
         assert(opts.value != None)
         configuration[opts.key] = opts.value
-        bug("Please add code here")
 
     if (opts.show == True) :
 	# Compute maximum configuration key length
