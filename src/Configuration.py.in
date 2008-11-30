@@ -31,13 +31,18 @@ PACKAGE_BUGREPORT = "@PACKAGE_BUGREPORT@"
 #
 
 PROGRAM_NAME      = "dnt"
-DEFAULT_DB_FILE   = "." + PROGRAM_NAME + ".db"
-DEFAULT_CFG_FILE  = PROGRAM_NAME + ".cfg"
+
+_DB_FILE_TPL      = PROGRAM_NAME + ".db"
+_CFG_FILE_TPL     = PROGRAM_NAME + ".cfg"
+
+DEFAULT_DB_FILE   = "." + _DB_FILE_TPL
+DEFAULT_CFG_FILE  = "." + _CFG_FILE_TPL
 
 # Search paths we look into for the configuration files
-CFG_SEARCH_PATHS  = [ '@sysconfdir@/' + DEFAULT_CFG_FILE,
-                      '$HOME/.'       + DEFAULT_CFG_FILE,
-                      '.'             + DEFAULT_CFG_FILE ]
+CFG_SEARCH_PATHS  = [ '@sysconfdir@/' + _CFG_FILE_TPL,
+                      '$HOME/.'       + _CFG_FILE_TPL,
+                      DEFAULT_CFG_FILE
+                      ]
 
 # Test
 if (__name__ == '__main__') :
