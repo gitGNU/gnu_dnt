@@ -35,4 +35,4 @@ shift
 
 parameters=$@
 
-exec @abs_top_builddir@/$program $parameters || exit 1
+exec @abs_top_builddir@/src/$program $parameters || exit 1
