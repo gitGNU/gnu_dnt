@@ -66,41 +66,33 @@ def version() :
 
 commands = {
     'init'   : { 'description' : Commands.Init.description,
-                 'do'          : Commands.Init.do
-                 },
+                 'do'          : Commands.Init.do             },
     'add'    : { 'description' : Commands.Add.description,
-                 'do'          : Commands.Add.do
-                 },
+                 'do'          : Commands.Add.do              },
     'config' : { 'description' : Commands.Config.description,
-                 'do'          : Commands.Config.do
-                 },
+                 'do'          : Commands.Config.do           },
     'edit'   : { 'description' : Commands.Edit.description,
-                 'do'          : Commands.Edit.do
-                 },
+                 'do'          : Commands.Edit.do             },
     'move'   : { 'description' : Commands.Move.description,
-                 'do'          : Commands.Move.do
-                 },
+                 'do'          : Commands.Move.do             },
     'remove' : { 'description' : Commands.Remove.description,
-                 'do'          : Commands.Remove.do
-                 },
+                 'do'          : Commands.Remove.do           },
     'show'   : { 'description' : Commands.Show.description,
-                 'do'          : Commands.Show.do
-                 },
+                 'do'          : Commands.Show.do             },
     'touch'  : { 'description' : Commands.Touch.description,
-                 'do'          : Commands.Touch.do
-                 },
+                 'do'          : Commands.Touch.do            },
     }
 
 def main(arguments) :
-    # Setup some sane configuration default values
-    configuration = {
-        'configs'  : True,
-        'colors'   : True,
-        'verbose'  : False,
-        'debug'    : False,
-        'database' : DEFAULT_DB_FILE
-        }
-    
+    # Setup the configuration with some default values
+    configuration = ConfigParser.ConfigParser()
+    configuration.add_section('GLOBAL')
+    configuration.set('GLOBAL', 'colors',        True)
+    configuration.set('GLOBAL', 'verbose',       False)
+    configuration.set('GLOBAL', 'debug',         False)
+    configuration.set('GLOBAL', 'database',      DEFAULT_DB_FILE)
+    configuration.set('GLOBAL', 'configuration', DEFAULT_CFG_FILE)
+
     # Build the command line parser
     footer = "Commands:\n"
     for i in commands.keys() :
@@ -139,47 +131,39 @@ def main(arguments) :
                        action = "store_false",
                        dest   = "colors",
                        help   = "do not use colors")
-    command.add_option("--no-configs",
-                       action = "store_false",
-                       dest   = "configs",
-                       help   = "do not load configuration files")
     command.add_option("--database",
                        action = "store",
                        type   = "string",
                        dest   = "database",
                        metavar="FILE",
-                       help   = "change the database from the default "
-                       "(" + DEFAULT_DB_FILE + ") "
+                       help   = "change database file from the "
+                       "default (" + DEFAULT_DB_FILE + ") "
+                       "to the filename specified")
+    command.add_option("--configuration",
+                       action = "store",
+                       type   = "string",
+                       dest   = "configuration",
+                       metavar="FILE",
+                       help   = "change configuration file from the "
+                       "default (" + DEFAULT_CFG_FILE + ") "
                        "to the filename specified")
 
     # Parse command line
     (opts, args) = command.parse_args(arguments[1:])
 
-    # Load configuration from file
-    if (configuration['configs'] == True) :
-        # Merge command line with configuration
+    # Read all configuration files (if present). The order in the 
+    # CFG_SEARCH_PATHS variable is important in order to have the
+    # local-directory config precedence over the home directory and
+    # the home-directory over the system one
+    try :
+        configuration.read(os.path.expandvars(CFG_SEARCH_PATHS))
+    except ConfigParser.ParsingError, e :
+        error("Problems parsing configuration file (" + str(e) + ")")
+        return 1
+    except Exceptions.Configuration:
+        warning("Problem reading configuration file, using defaults ...")
 
-        # Read local-directory and home-directory configuration files if
-        # present, assuming the local-directory config precedence over the home
-        # directory one
-
-        config = ConfigParser.ConfigParser()
-        try :
-            config.read(os.path.expandvars(CFG_SEARCH_PATHS))
-
-            if (config.has_section("general")) :
-                s = "general"
-                configuration['colors']   = config.getboolean(s, 'colors')
-                configuration['verbose']  = config.getboolean(s, 'verbose')
-                configuration['debug']    = config.getboolean(s, 'debug')
-                configuration['database'] = config.get(s, 'database')
-
-        except ConfigParser.ParsingError, e :
-            error("Problems parsing configuration file (" + str(e) + ")")
-            return 1
-        except Exceptions.Configuration:
-            warning("Problem reading configuration file, using defaults ...")
-
+    # Handle command related checks
     if (len(command.rargs) < 1) :
         hint("Missing command")
         return 1
@@ -197,7 +181,7 @@ def main(arguments) :
     if (len(command.rargs) >= 2) :
         parameters = command.rargs[1:]
 
-    # Finally run the command
+    # Run the command
     retval = 1
     try :
         assert(callable(command_do))
@@ -215,7 +199,24 @@ def main(arguments) :
     except :
         bug()
 
-    return retval
+    debug("Command returned `" + str(retval) + "'")
+    if (retval != 0) :
+        return retval
 
+    # Save configuration back to file (if needed)
+    debug("Saving configuration")
+    try :
+        ofp = open(configuration.get('GLOBAL','configuration'), 'w')
+        debug("Writing back all configuration values")
+        configuration.write(ofp)
+    except ConfigParser.Error, e:
+        error(e)
+        return 1
+    except :
+        bug()
+
+    debug("All operations completed successfully")
+    return 0
+    
 if (__name__ == '__main__') :
     sys.exit(main(sys.argv))
