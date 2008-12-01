@@ -21,17 +21,20 @@ import os
 
 from   Configuration import *
 
+debug = False
+
 def debug(s) :
     assert(s != None)
-    print(PROGRAM_NAME + ": " + str(s))
+    if (debug == True) :
+	sys.stdout.write(PROGRAM_NAME + ": " + str(s) + '\n')
 
 def error(s) :
     assert(s != None)
-    print(PROGRAM_NAME + ": " + str(s))
+    sys.stderr.write(PROGRAM_NAME + ": " + str(s) + '\n')
 
 def warning(s) :
     assert(s != None)
-    print(PROGRAM_NAME + ": " + str(s))
+    sys.stdout(PROGRAM_NAME + ": " + str(s) + '\n')
 
 # Test
 if (__name__ == '__main__') :
