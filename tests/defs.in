@@ -74,10 +74,11 @@ test -z "$MAKE"   && MAKE=make
 ## Always issue warnings ...
 #FLAGS="$FLAGS --warnings all"
 
-test -n "$VERBOSE"  && FLAGS="$FLAGS --verbose"
-test -n "$DEBUG"    && FLAGS="$FLAGS --debug"
-test -z "$DNT"      && DNT="wrapper dnt $FLAGS"
-test -z "$WRAPPER"  && WRAPPER="wrapper"
+test -n "$VERBOSE"     && FLAGS="$FLAGS --verbose"
+test -n "$DEBUG"       && FLAGS="$FLAGS --debug"
+test -z "$DNT"         && DNT="wrapper dnt $FLAGS"
+test -z "$DNT_NOFLAGS" && DNT_NOFLAGS="wrapper dnt"
+test -z "$WRAPPER"     && WRAPPER="wrapper"
 
 PATH=`pwd`:$PATH
 echo $PATH
