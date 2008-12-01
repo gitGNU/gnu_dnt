@@ -32,14 +32,22 @@ def description() :
     return "manage current configuration"
 
 def _key_exists(configuration, section, option) :
+    debug("configuration = "
+          "`" + str(configuration) + "', "
+          "section = "
+          "`" + section + "', "
+          "option = "
+          "`" + option + "'")
+
     if (section == None or section == "") :
         return False
     if (not configuration.has_section(section)) :
         return False
-    if (key == None or key == "") :
+    if (option == None or option == "") :
         return False
     if (not configuration.has_option(section, option)) :
         return False
+    return True
 
 def do(configuration, arguments) :
     command = Command("config")
@@ -104,14 +112,14 @@ def do(configuration, arguments) :
 	    debug("section = `" + section + "'")
 	    debug("option  = `" + option + "'")
 
-            if (not _key_exists(configuration, key, option)) :
+            if (not _key_exists(configuration, section, option)) :
                     raise Exceptions.WrongParameters("key "
                                                      "`" + opts.key + "' "
                                                      "is unavailable")
 
 	    debug("Getting value for `" + section + "." + option + "'")
 	    value = configuration.get(section, option, raw = True)
-	    print(str(value))
+	    sys.stdout.write(str(value) + '\n')
 
 	elif (opts.set == True) :
 	    debug("Performing set")
@@ -151,14 +159,16 @@ def do(configuration, arguments) :
 	else :
 	    bug()
 
-    except Configuration.NoOptionError, e :
-	error(e)
-	return 1
+#    except Configuration.NoOptionError, e :
+#	error(e)
+#	return 1
     except Exceptions.Parameters, e :
 	error(e)
 	return 1
     except :
 	bug()
+
+    debug("Success")
 
     return 0
 
