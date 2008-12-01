@@ -17,12 +17,12 @@
 #
 
 import sys
-import ConfigParser
 
-from   Debug      import *
-from   Trace      import *
-from   Command    import *
+from   Debug         import *
+from   Trace         import *
+from   Command       import *
 import Exceptions
+from   Configuration import *
 
 import DB
 import Entry
@@ -31,11 +31,15 @@ from   ID         import *
 def description() :
     return "manage current configuration"
 
-def _get_section(s) :
-    assert(s != None)
-
-    regexp = re.compile('^[ \t]*(.*\.).*$')
-    return regexp.match(s).group(1)
+def _key_exists(configuration, section, option) :
+    if (section == None or section == "") :
+        return False
+    if (not configuration.has_section(section)) :
+        return False
+    if (key == None or key == "") :
+        return False
+    if (not configuration.has_option(section, option)) :
+        return False
 
 def do(configuration, arguments) :
     command = Command("config")
@@ -72,7 +76,7 @@ def do(configuration, arguments) :
     if (opts.set == True and opts.get == True) :
 	raise Exceptions.TooManyParameters()
     if ((opts.set == True or opts.get == True) and opts.show == True) :
-	raise Exceptions.WrongParameters()
+	raise Exceptions.WrongParameters("set or get with show cannot be mixed")
 
     if (opts.set == True) :
 	if (opts.key == None) :
@@ -85,38 +89,72 @@ def do(configuration, arguments) :
 	if (opts.key == None) :
 	    raise Exceptions.MissingParameters("key in order to get a "
 					       "configuration entry")
-
     # Work
-    section = 'GLOBAL'
-
     try :
 	if (opts.get == True) :
+	    debug("Performing get")
 	    assert(opts.key != None)
-            section = _section(opts.key)
-	    debug("Getting key `" + opts.key + "'")
-	    print(configuration.get(section, opts.key))
 
-	if (opts.set == True) :
+	    try :
+		(section, option) = opts.key.rsplit('.',1)
+	    except ValueError :
+		raise Exceptions.WrongParameters("key "
+                                                 "`" + opts.key + "' "
+                                                 "is malformed")
+	    debug("section = `" + section + "'")
+	    debug("option  = `" + option + "'")
+
+            if (not _key_exists(configuration, key, option)) :
+                    raise Exceptions.WrongParameters("key "
+                                                     "`" + opts.key + "' "
+                                                     "is unavailable")
+
+	    debug("Getting value for `" + section + "." + option + "'")
+	    value = configuration.get(section, option, raw = True)
+	    print(str(value))
+
+	elif (opts.set == True) :
+	    debug("Performing set")
 	    assert(opts.key   != None)
 	    assert(opts.value != None)
-	    debug("Setting key `" + opts.key + "' to `" + opts.value + "'")
-	    configuration.set(section, opts.key, opts.value)
 
-	if (opts.show == True) :
+	    try :
+		(section, option) = opts.key.rsplit('.',1)
+	    except ValueError :
+		raise Exceptions.WrongParameters("key "
+                                                 "`" + opts.key + "' "
+                                                 "is malformed")
+	    debug("section = `" + section + "'")
+	    debug("option  = `" + option     + "'")
+
+	    value = opts.value
+	    debug("value   = `" + value   + "'")
+
+	    debug("Setting `" + section + "." + option + "' to `" + value + "'")
+	    configuration.set(section, option, value)
+
+	elif (opts.show == True) :
 	    debug("Showing all key/value pairs")
 	    # Compute maximum key length
 	    l = 0
 	    for s in configuration.sections() :
-                for o in configuration.options(section) :
-                    l = max(l, len(s + "." + o))
+		for o in configuration.options(s) :
+		    l = max(l, len(s + "." + o))
 
 	    # Write all key-value pairs
 	    for s in configuration.sections() :
-                for o in configuration.options(section) :
-                    print(("%-" + str(l) + "s = %s")
-                          %(s + "." + o,  configuration.get(s, o)))
+		for o in configuration.options(s) :
+		    v = configuration.get(s, o, raw = True)
+		    print(("%-" + str(l) + "s = %s")
+			  %(s + "." + o,  str(v)))
 
-    except ConfigParser.Error, e :
+	else :
+	    bug()
+
+    except Configuration.NoOptionError, e :
+	error(e)
+	return 1
+    except Exceptions.Parameters, e :
 	error(e)
 	return 1
     except :
