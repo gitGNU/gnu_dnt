@@ -150,17 +150,25 @@ def main(arguments) :
     # Parse command line
     (opts, args) = command.parse_args(arguments[1:])
 
+    if (opts.configuration != None and opts.configuration != "") :
+        CFG_SEARCH_PATHS.append(opts.configuration)
+    else :
+        CFG_SEARCH_PATHS.append(DEFAULT_CFG_FILE)
+
+
     # Read all configuration files (if present). The order in the 
     # CFG_SEARCH_PATHS variable is important in order to have the
-    # local-directory config precedence over the home directory and
-    # the home-directory over the system one
+    # right precedence over all files
+    cfg_files = []
     try :
-        configuration.read(os.path.expandvars(CFG_SEARCH_PATHS))
+        cfg_files = configuration.read(os.path.expandvars(CFG_SEARCH_PATHS))
     except Configuration.ParsingError, e :
         error("Problems parsing configuration file (" + str(e) + ")")
         return 1
     except Exceptions.Configuration:
         warning("Problem reading configuration file, using defaults ...")
+    except :
+        bug()
 
     # Override configuration options with command line ones
     if (opts.colors == True) :
@@ -174,9 +182,12 @@ def main(arguments) :
     if (opts.configuration != None) :
         configuration.set(PROGRAM_NAME, 'configuration', opts.configuration)
 
-    # Finally handle global configuration
+    # Finally apply global configurations (each command will apply its own)
     if (configuration.get(PROGRAM_NAME, 'debug', raw = True) == True) :
         Trace.debug = True
+
+    # Start as normal now
+    debug("Configuration read from `" + str(cfg_files) + "'")
 
     # Handle command related checks
     if (len(command.rargs) < 1) :
@@ -224,10 +235,12 @@ def main(arguments) :
         assert(filename != None)
         assert(filename != "")
 
-        debug("Writing back all configuration to file `" + filename + "'")
+        debug("Configuration changed, writing it back to file "
+              "`" + filename + "'")
         try :
             ofp = open(filename, 'w')
             configuration.write(ofp)
+            ofp.close()
         except Configuration.Error, e:
             error(e)
             return 1
