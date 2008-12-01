@@ -26,5 +26,11 @@
 touch conf.txt || exit 1
 
 $WRAPPER dnt --configuration conf.txt config --show || exit 1
+$WRAPPER dnt --configuration conf.txt config --set --key dnt.alfa --value 3 || exit 1
+$WRAPPER dnt --configuration conf.txt config --show || exit 1
+value=`$WRAPPER dnt --configuration conf.txt config --get --key dnt.alfa > /dev/null 2>&1`
+if test "$value" != "3" ; then
+    exit 1
+fi
 
 exit 0
