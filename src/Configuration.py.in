@@ -46,14 +46,14 @@ CFG_SEARCH_PATHS  = [ '@sysconfdir@/' + _CFG_FILE_TPL,
                       ]
 
 class Configuration(ConfigParser.ConfigParser) :
-    __dirty = False
+    __modified = False
 
     def set(self, section, option, value) :
-        self.__dirty = True
+        self.__modified = True
         ConfigParser.ConfigParser.set(self, section, option, value)
 
-    def dirty(self) :
-        return self.__dirty
+    def modified(self) :
+        return self.__modified
 
 # Test
 if (__name__ == '__main__') :

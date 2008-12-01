@@ -219,7 +219,7 @@ def main(arguments) :
         return retval
 
     # Save configuration back to file (if needed)
-    if (configuration.dirty()) :
+    if (configuration.modified()) :
         filename = configuration.get(PROGRAM_NAME,'configuration')
         assert(filename != None)
         assert(filename != "")
