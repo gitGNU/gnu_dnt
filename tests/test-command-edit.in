@@ -23,6 +23,10 @@
 
 . $testdir/defs || exit 1
 
-$WRAPPER dnt edit || exit 1
+# Always check --help and --version
+$DNT edit --help    || exit 1
+$DNT edit --version || exit 1
+
+# Then perform the command related check
 
 exit 0
