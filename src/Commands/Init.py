@@ -17,16 +17,15 @@
 #
 
 import sys
-import ConfigParser
 
-from   Debug      import *
-from   Trace      import *
-from   Command    import *
+from   Debug         import *
+from   Trace         import *
+from   Command       import *
 import Exceptions
-
+from   Configuration import *
 import DB
 import Entry
-from   ID         import *
+from   ID            import *
 
 def description() :
     return "initialize the database"
