@@ -231,12 +231,13 @@ def main(arguments) :
 
     # Save configuration back to file (if needed)
     if (configuration.modified()) :
+        debug("Configuration changed, writing it back to file")
+
         filename = configuration.get(PROGRAM_NAME,'configuration')
         assert(filename != None)
         assert(filename != "")
 
-        debug("Configuration changed, writing it back to file "
-              "`" + filename + "'")
+        debug("Configuration will be stored into `" + filename + "'")
         try :
             ofp = open(filename, 'w')
             configuration.write(ofp)
