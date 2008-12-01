@@ -47,11 +47,23 @@ class CorruptedDatabase(Database):
 	Base.__init__(self, "database `" + value + "' is corrupted")
 
 #
-# Database related exceptions
+# Configuration related exceptions
 #
 class Configuration(Base):
     def __init__(self, value) :
 	Base.__init__(self, value)
+
+class UnknownSection(Database):
+    def __init__(self, value) :
+	Base.__init__(self, "unknown section `" + value + "' in configuration")
+
+class MissingSection(Database):
+    def __init__(self, value) :
+	Base.__init__(self, "missing section")
+
+class MissingKey(Database):
+    def __init__(self, value) :
+	Base.__init__(self, "missing key")
 
 class UnknownKey(Database):
     def __init__(self, value) :
@@ -81,7 +93,7 @@ class UnknownParameter(Parameters):
 	Parameters.__init__(self, "unknown parameter `" + value + "'")
 
 class WrongParameters(Parameters):
-    def __init__(self, value) :
+    def __init__(self, value = None) :
 	s = ""
 	if (value != None) :
 	    s = ", " + value
