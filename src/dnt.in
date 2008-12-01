@@ -23,7 +23,6 @@ try :
     import sys
     import traceback
     import getopt
-    import ConfigParser
 except ImportError :
     # XXX FIXME: Add better error reporting ....
     print("Cannot import system modules ...")
@@ -85,13 +84,13 @@ commands = {
 
 def main(arguments) :
     # Setup the configuration with some default values
-    configuration = ConfigParser.ConfigParser()
-    configuration.add_section('GLOBAL')
-    configuration.set('GLOBAL', 'colors',        True)
-    configuration.set('GLOBAL', 'verbose',       False)
-    configuration.set('GLOBAL', 'debug',         False)
-    configuration.set('GLOBAL', 'database',      DEFAULT_DB_FILE)
-    configuration.set('GLOBAL', 'configuration', DEFAULT_CFG_FILE)
+    configuration = Configuration()
+    configuration.add_section(PROGRAM_NAME)
+    configuration.set(PROGRAM_NAME, 'colors',        True)
+    configuration.set(PROGRAM_NAME, 'verbose',       False)
+    configuration.set(PROGRAM_NAME, 'debug',         False)
+    configuration.set(PROGRAM_NAME, 'database',      DEFAULT_DB_FILE)
+    configuration.set(PROGRAM_NAME, 'configuration', DEFAULT_CFG_FILE)
 
     # Build the command line parser
     footer = "Commands:\n"
@@ -157,11 +156,27 @@ def main(arguments) :
     # the home-directory over the system one
     try :
         configuration.read(os.path.expandvars(CFG_SEARCH_PATHS))
-    except ConfigParser.ParsingError, e :
+    except Configuration.ParsingError, e :
         error("Problems parsing configuration file (" + str(e) + ")")
         return 1
     except Exceptions.Configuration:
         warning("Problem reading configuration file, using defaults ...")
+
+    # Override configuration options with command line ones
+    if (opts.colors == True) :
+        configuration.set(PROGRAM_NAME, 'colors', True)
+    if (opts.verbose == True) :
+        configuration.set(PROGRAM_NAME, 'verbose', True)
+    if (opts.debug == True) :
+        configuration.set(PROGRAM_NAME, 'debug', True)
+    if (opts.database != None) :
+        configuration.set(PROGRAM_NAME, 'database', opts.database)
+    if (opts.configuration != None) :
+        configuration.set(PROGRAM_NAME, 'configuration', opts.configuration)
+
+    # Finally handle global configuration
+    if (configuration.get(PROGRAM_NAME, 'debug', raw = True) == True) :
+        Trace.debug = True
 
     # Handle command related checks
     if (len(command.rargs) < 1) :
@@ -204,16 +219,20 @@ def main(arguments) :
         return retval
 
     # Save configuration back to file (if needed)
-    debug("Saving configuration")
-    try :
-        ofp = open(configuration.get('GLOBAL','configuration'), 'w')
-        debug("Writing back all configuration values")
-        configuration.write(ofp)
-    except ConfigParser.Error, e:
-        error(e)
-        return 1
-    except :
-        bug()
+    if (configuration.dirty()) :
+        filename = configuration.get(PROGRAM_NAME,'configuration')
+        assert(filename != None)
+        assert(filename != "")
+
+        debug("Writing back all configuration to file `" + filename + "'")
+        try :
+            ofp = open(filename, 'w')
+            configuration.write(ofp)
+        except Configuration.Error, e:
+            error(e)
+            return 1
+        except :
+            bug()
 
     debug("All operations completed successfully")
     return 0
