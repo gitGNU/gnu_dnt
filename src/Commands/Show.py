@@ -95,14 +95,14 @@ def do(configuration, arguments) :
     # Work
 
     # Load DB
-    db_file = configuration.get('GLOBAL', 'database')
+    db_file = configuration.get(PROGRAM_NAME, 'database')
     assert(db_file != None)
 
     db   = DB.Database()
     tree = db.load(db_file)
 
-    v = ShowVisitor(configuration.getboolean('GLOBAL', 'colors'),
-                    configuration.getboolean('GLOBAL', 'verbose'))
+    v = ShowVisitor(configuration.getboolean(PROGRAM_NAME, 'colors'),
+                    configuration.getboolean(PROGRAM_NAME, 'verbose'))
     tree.accept(v)
 
     return 0
