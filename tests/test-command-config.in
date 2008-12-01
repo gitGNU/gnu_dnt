@@ -40,8 +40,8 @@ cat conf.txt
 $DNT --configuration conf.txt config --show || exit 1
 cat conf.txt
 
-$DNT --configuration conf.txt config --get --key dnt.alfa || exit 1
-value=`$DNT --configuration conf.txt config --get --key dnt.alfa > /dev/null 2>&1`
+$DNT_NOFLAGS --configuration conf.txt config --get --key dnt.alfa || exit 1
+value=`$DNT_NOFLAGS --configuration conf.txt config --get --key dnt.alfa`
 if test "$value" != "3" ; then
     exit 1
 fi
