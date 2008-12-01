@@ -29,10 +29,18 @@ $DNT config --version || exit 1
 
 # Then perform the command related check
 touch conf.txt || exit 1
+cat conf.txt
 
 $DNT --configuration conf.txt config --show || exit 1
+cat conf.txt
+
 $DNT --configuration conf.txt config --set --key dnt.alfa --value 3 || exit 1
+cat conf.txt
+
 $DNT --configuration conf.txt config --show || exit 1
+cat conf.txt
+
+$DNT --configuration conf.txt config --get --key dnt.alfa || exit 1
 value=`$DNT --configuration conf.txt config --get --key dnt.alfa > /dev/null 2>&1`
 if test "$value" != "3" ; then
     exit 1
