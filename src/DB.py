@@ -75,18 +75,24 @@ def fromxml(xml) :
     #debug("Returning " + str(entry))
     return entry
 
-def toxml(tree, xml) :
-    debug("Tree -> XML in progress")
+def toxml(node, xml) :
+    debug("Tree -> XML for node `" + str(node) + "' in progress")
     assert(xml != None)
 
-    if (tree == None) :
-        return
+    if (node == None) :
+	debug("Node `" + str(node) + "'has no children")
+	return
 
-    child = ET.Element(tree)
-    child.text = tree.text
+    child = ET.SubElement(xml, "entry")
+    assert(child != None)
 
-    for i in tree.children() :
-        toxml(i, child)
+    child.text = node.text
+
+    for i in node.children() :
+	debug("Navigating node `" + str(i) + "'")
+	toxml(i, child)
+
+    debug("Child `" + str(node) + "' navigation completed")
 
 class Database :
     def __init__(self) :
@@ -96,11 +102,14 @@ class Database :
 	assert(name != None)
 	debug("Loading DB from `" + name + "'")
 
-	xml  = None
-        root = None
 	try :
+            xml  = None
+            root = None
+
 	    xml  = ET.parse(name)
-            root = xml.getroot()
+	    root = xml.getroot()
+            #ET.dump(root)
+
 	except IOError, e :
 	    raise Exceptions.Database("problems reading database " +
 				      "`" + name + "' (" + str(e) + ")")
@@ -110,13 +119,7 @@ class Database :
 	except :
 	    bug()
 
-	if (xml == None) :
-	    raise Exceptions.Database("missing root in input file " +
-				      "`" + name + "'")
-
-        # Operation completed successfully
-        assert(xml != None)
-	#ET.dump(xml)
+	assert(xml != None)
 
 	return fromxml(root)
 
@@ -124,14 +127,16 @@ class Database :
 	assert(name != None)
 	debug("Saving DB into `" + name + "'")
 
-        xml = None
 	try :
-	    xml  = ET.Element('xml')
+	    xml = ET.Element(PROGRAM_NAME)
+	    toxml(tree, xml)
+            assert(xml != None)
+
+            #ET.dump(xml)
+
 	    root = ET.ElementTree(xml)
-
-            toxml(tree, root)
-
 	    root.write(name)
+
 	except IOError, e :
 	    raise Exceptions.Database("problems writing database " +
 				      "`" + name + "' (" + str(e) + ")")
@@ -140,10 +145,6 @@ class Database :
 				      "`" + name + "' (" + str(e) + ")")
 	except :
 	    bug()
-
-        # Operation completed successfully
-        assert(xml != None)
-        #ET.dump(xml)
 
 # Test
 if (__name__ == '__main__') :
