@@ -37,14 +37,14 @@ commands_PYTHON =				\
 	Commands/Touch.py
 
 pkgvpython_PYTHON =				\
-	Color.py				\
-	DB.py					\
-	Debug.py				\
-	Entry.py				\
-	Node.py					\
-	ID.py					\
 	Trace.py				\
 	Exceptions.py				\
+	Debug.py				\
+	Color.py				\
+	DB.py					\
+	Node.py					\
+	Entry.py				\
+	ID.py					\
 	Command.py
 
 nodist_pkgvpython_PYTHON =			\

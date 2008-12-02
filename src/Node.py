@@ -20,6 +20,7 @@ import sys
 
 import Debug
 from   Trace import *
+import Exceptions
 
 class Node(object) :
     def __init__(self) :
@@ -37,8 +38,10 @@ class Node(object) :
     def children(self) :
 	return self.__children
 
-    def child(self, i, node) :
-	assert(i >= 0)
+    def child(self, i = 0, node = None) :
+#	assert(i >= 0)
+#        if (i == 0) :
+#            raise Exceptions.Tree("cannot add/remove root")
 	if (node == None) :
 	    self.__children.remove(i)
 	else :

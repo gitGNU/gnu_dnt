@@ -18,8 +18,7 @@
 
 import sys
 
-import Trace
-from   Entry import *
+#import Trace
 
 class Base(Exception):
     def __init__(self, value) :
@@ -112,5 +111,5 @@ class Tree(Base):
 
 # Test
 if (__name__ == '__main__') :
-    debug("Test completed")
+#    debug("Test completed")
     sys.exit(0)
