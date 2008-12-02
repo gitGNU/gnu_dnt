@@ -34,7 +34,7 @@ def error(s) :
 
 def warning(s) :
     assert(s != None)
-    sys.stdout(PROGRAM_NAME + ": " + str(s) + '\n')
+    sys.stdout.write(PROGRAM_NAME + ": " + str(s) + '\n')
 
 # Test
 if (__name__ == '__main__') :
