@@ -18,12 +18,13 @@
 
 import sys
 
-from   Debug      import *
-from   Trace      import *
-from   Command    import *
+from   Debug         import *
+from   Trace         import *
+from   Command       import *
 import Exceptions
-
-from   ID         import *
+from   Configuration import *
+import DB
+from   ID            import *
 
 def description() :
     return "add a new node"
@@ -59,6 +60,16 @@ def do(configuration, arguments) :
     debug("Adding node with:")
     debug("  node-text = " + node_text)
     debug("  parent-id = " + str(parent_id))
+
+    try :
+        db_file = configuration.get(PROGRAM_NAME, 'database')
+        db = DB.Database()
+        tree = db.load(db_file)
+        assert(tree != None)
+
+    except Exception, e :
+        error(str(e))
+        return 1
 
     return 0
 
