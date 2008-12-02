@@ -17,7 +17,7 @@
 #
 
 import sys
-from   elementtree.ElementTree import ElementTree
+from   xml.etree   import ElementTree as ET
 
 import Trace
 from   Entry       import *
@@ -59,7 +59,7 @@ def fromxml(xml) :
 	priority = string_to_priority("medium")
 	time     = ""
     else :
-	raise Exceptions.Database("unknown element")
+	raise Exceptions.Database("unknown element `" + xml.tag + "'")
 
     entry = Entry(text, priority, time)
     #debug("Created node " + str(entry))
@@ -77,14 +77,16 @@ def fromxml(xml) :
 
 def toxml(tree, xml) :
     debug("Tree -> XML in progress")
-    assert(tree != None)
     assert(xml != None)
 
-    print xml
+    if (tree == None) :
+        return
 
-    debug("Tree -> XML completed")
+    child = ET.Element(tree)
+    child.text = tree.text
 
-    return xml
+    for i in tree.children() :
+        toxml(i, child)
 
 class Database :
     def __init__(self) :
@@ -94,47 +96,54 @@ class Database :
 	assert(name != None)
 	debug("Loading DB from `" + name + "'")
 
+	xml  = None
+        root = None
 	try :
-	    x = ElementTree(name)
-            all = x.parse()
-            print all
-	except IOError :
+	    xml  = ET.parse(name)
+            root = xml.getroot()
+	except IOError, e :
 	    raise Exceptions.Database("problems reading database " +
-				      "`" + name + "'")
+				      "`" + name + "' (" + str(e) + ")")
 	except Exception, e :
 	    raise Exceptions.Database("problems parsing input database " +
 				      "`" + name + "' (" + str(e) + ")")
 	except :
 	    bug()
 
-	if (all == None) :
+	if (xml == None) :
 	    raise Exceptions.Database("missing root in input file " +
 				      "`" + name + "'")
-	xml = all.getroot()
 
-	return fromxml(xml)
+        # Operation completed successfully
+        assert(xml != None)
+	#ET.dump(xml)
+
+	return fromxml(root)
 
     def save(self, name, tree) :
 	assert(name != None)
 	debug("Saving DB into `" + name + "'")
 
+        xml = None
 	try :
-	    et = ElementTree()
-            #xml = ET.SubElement(et.getroot(), "note")
-            #xml.text = "1.2.0"
-	    #toxml(tree, xml)
-	    #assert(xml != None)
+	    xml  = ET.Element('xml')
+	    root = ET.ElementTree(xml)
 
-	    debug("Writing XML file")
-	    et.write(name)
-	except IOError :
+            toxml(tree, root)
+
+	    root.write(name)
+	except IOError, e :
 	    raise Exceptions.Database("problems writing database " +
-				      "`" + name + "'")
+				      "`" + name + "' (" + str(e) + ")")
 	except Exception, e :
 	    raise Exceptions.Database("problems formatting database " +
 				      "`" + name + "' (" + str(e) + ")")
 	except :
 	    bug()
+
+        # Operation completed successfully
+        assert(xml != None)
+        #ET.dump(xml)
 
 # Test
 if (__name__ == '__main__') :
