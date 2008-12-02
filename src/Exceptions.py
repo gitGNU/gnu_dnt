@@ -103,6 +103,13 @@ class ForceNeeded(Parameters):
     def __init__(self, value) :
 	Parameters.__init__(self, value + ", use `--force' to override")
 
+#
+# Tree related exceptions
+#
+class Tree(Base):
+    def __init__(self, value) :
+	Base.__init__(self, value)
+
 # Test
 if (__name__ == '__main__') :
     debug("Test completed")
