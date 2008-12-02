@@ -40,9 +40,11 @@ def do(configuration, arguments) :
     (opts, args) = command.parse_args(arguments)
 
     # Parameters setup
+    db_file = configuration.get(PROGRAM_NAME, 'database')
+    assert(db_file != None)
+
     if (opts.force != True) :
         debug("Force mode disabled")
-        db_file = configuration.get(PROGRAM_NAME, 'database')
         assert(db_file != None)
         if (os.path.isfile(db_file)) :
             raise Exceptions.ForceNeeded("database file "
