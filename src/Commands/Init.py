@@ -36,6 +36,10 @@ def do(configuration, arguments) :
                        action = "store_true",
                        dest   = "force",
                        help   = "force operation")
+    command.add_option("-n", "--name",
+                       action = "store",
+                       dest   = "name",
+                       help   = "specify root node name")
 
     (opts, args) = command.parse_args(arguments)
 
@@ -56,8 +60,12 @@ def do(configuration, arguments) :
     # We are in force mode (which means we must write the DB whatsover) or the
     # DB file is not present at all ...
 
+    name = opts.name
+    if (name == None) :
+        name = "Root"
+
     db = DB.Database()
-    tree = None
+    tree = Entry.Entry(name)
     db.save(db_file, tree)
 
     debug("DB file created")
