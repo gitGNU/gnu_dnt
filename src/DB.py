@@ -50,19 +50,20 @@ def fromxml(xml) :
 
     #debug("Handling node tag " + xml.tag)
 
-    if (xml.tag == "note") :
-	text     = xml.text # XXX FIXME: Could be None
-	priority = string_to_priority(xml.attrib['priority'])
-	time     = xml.attrib['time']
-    elif (xml.tag == "todo") :
-	text     = "root"
-	priority = string_to_priority("medium")
-	time     = ""
+    if (xml.tag == "entry") :
+	text     = xml.text
+        try :
+            priority = string_to_priority(xml.attrib['priority'])
+        except :
+            priority = Entry.PRIORITY_MEDIUM
+        try :
+            time     = xml.attrib['time']
+        except :
+            time     = datetime.date.today()
     else :
 	raise Exceptions.Database("unknown element `" + xml.tag + "'")
 
     entry = Entry(text, priority, time)
-    #debug("Created node " + str(entry))
 
     j = 0
     for x in xml.getchildren() :
@@ -83,7 +84,12 @@ def toxml(node, xml) :
 	debug("Node `" + str(node) + "'has no children")
 	return
 
-    child = ET.SubElement(xml, "entry")
+    child = ET.SubElement(xml,
+                          tag = "entry")
+#    ,
+#                          attrib = {
+#            'priority' : string_to_priority(node.priority),
+#            'time'     : node.time })
     assert(child != None)
 
     child.text = node.text
@@ -103,11 +109,15 @@ class Database :
 	debug("Loading DB from `" + name + "'")
 
 	try :
-            xml  = None
-            root = None
-
 	    xml  = ET.parse(name)
+            assert(xml != None)
 	    root = xml.getroot()
+            assert(root != None)
+            if (len(root) > 1) :
+                raise Exceptions.Database("malformed database format " +
+                                          "in file `" + name + "')")
+            root = root[0]
+
             #ET.dump(root)
 
 	except IOError, e :
@@ -128,9 +138,10 @@ class Database :
 	debug("Saving DB into `" + name + "'")
 
 	try :
-	    xml = ET.Element(PROGRAM_NAME)
-	    toxml(tree, xml)
+	    xml = ET.Element(tree.text)
             assert(xml != None)
+	    toxml(tree, xml)
+            assert(tree != None)
 
             #ET.dump(xml)
 
