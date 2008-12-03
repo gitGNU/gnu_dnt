@@ -155,7 +155,6 @@ def main(arguments) :
     else :
         CFG_SEARCH_PATHS.append(DEFAULT_CFG_FILE)
 
-
     # Read all configuration files (if present). The order in the 
     # CFG_SEARCH_PATHS variable is important in order to have the
     # right precedence over all files
@@ -184,7 +183,7 @@ def main(arguments) :
 
     # Finally apply global configurations (each command will apply its own)
     if (configuration.get(PROGRAM_NAME, 'debug', raw = True) == True) :
-        Trace.debug = True
+        Trace.debug_enabled = True
 
     # Start as normal now
     debug("Configuration read from `" + str(cfg_files) + "'")
@@ -216,9 +215,9 @@ def main(arguments) :
         error(e)
     except ValueError, e :
         error(e)
-    except Exceptions.Parameters, e :
+    except Exceptions.EParameters, e :
         hint(e)
-    except Exceptions.Base, e :
+    except Exceptions.EBase, e :
         error(e)
     except SystemExit, e:
         retval = e
@@ -227,6 +226,7 @@ def main(arguments) :
 
     debug("Command returned `" + str(retval) + "'")
     if (retval != 0) :
+        debug("Bailing out")
         return retval
 
     # Save configuration back to file (if needed)
