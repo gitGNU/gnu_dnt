@@ -20,16 +20,26 @@ import sys
 import string
 
 import Debug
-from   Trace import *
+from   Trace      import *
+import Exceptions
 
 class ID :
-    def __init__(self, s = "0") :
-        assert(type(s) == str)
+    def __init__(self, s = "") :
+	assert(type(s) == str)
 
-        x = []
-        for n in string.split(s, ".") :
-            x.append(int(n))
-        self.__id = x
+	if (s == "") :
+	    raise Exceptions.MalformedId("passed id is empty")
+
+	x = []
+	try :
+	    for n in string.split(s, ".") :
+		x.append(int(n))
+	except :
+	    raise Exceptions.MalformedId("id `" + s + "' is malformed")
+
+	assert(len(x) > 0)
+
+	self.__id = x
 
     def __str__(self) :
 	s = ""
@@ -39,20 +49,65 @@ class ID :
 	    s = s + str(self.__id[i])
 	return s
 
+    def tolist(self) :
+        return self.__id
+
+    def parent(self) :
+	if (len(self.__id) <= 1) :
+	    raise Exceptions.Parentless(self.__str__())
+
+	s = ""
+	for i in range(0, len(self.__id) - 1) :
+	    if (i != 0) :
+		s = s + "."
+	    s = s + str(self.__id[i])
+	return ID(s)
+
 # Test
 if (__name__ == '__main__') :
-    def proc(i) :
-        id = ID(i)
-        assert(i == str(id))
-        debug(i + " = " + str(id))
+    def proc_node(i) :
+        assert(type(i) == str)
+	node = ID(i)
+	assert(i == str(node))
+	debug(i + " node   = " + str(node))
 
-    proc("0")
-    proc("0.1")
-    proc("0.1.2")
-    proc("0.1.2.3")
-    proc("1.2.3.4")
-    proc("4.3.2")
-    proc("7.2")
+    def proc_parent(i) :
+        assert(type(i) == str)
+	node = ID(i)
+	assert(i == str(node))
+	parent = node.parent()
+	debug(i + " parent = " + str(parent))
+
+    ok = False
+    try :
+        proc_parent("")
+    except :
+        ok = True
+    if (not ok) :
+        sys.exit(1)
+
+    proc_node("0")
+    proc_node("0.1")
+    proc_node("0.1.2")
+    proc_node("0.1.2.3")
+    proc_node("1.2.3.4")
+    proc_node("4.3.2")
+    proc_node("7.2")
+
+    ok = False
+    try :
+        proc_parent("0")
+    except :
+        ok = True
+    if (not ok) :
+        sys.exit(1)
+
+    proc_parent("0.1")
+    proc_parent("0.1.2")
+    proc_parent("0.1.2.3")
+    proc_parent("1.2.3.4")
+    proc_parent("4.3.2")
+    proc_parent("7.2")
 
     debug("Test completed")
     sys.exit(0)
