@@ -43,8 +43,16 @@ class Node(object) :
 #        if (i == 0) :
 #            raise Exceptions.Tree("cannot add/remove root")
 	if (node == None) :
+            debug("Removing child "
+                  "`" + str(i) + "' "
+                  "from node "
+                  "`" + str(self) + "'")
 	    self.__children.remove(i)
 	else :
+            debug("Adding child "
+                  "`" + str(i) + "' "
+                  "to node "
+                  "`" + str(self) + "'")
 	    self.__children.insert(i, node)
 
     # Iterator related methods
@@ -58,6 +66,11 @@ class Node(object) :
 	tmp = self.__children[self.__index]
 	self.__index = i + 1
 	return tmp
+
+    def dump(self, prefix) :
+        debug(prefix + "Dumping node `" + str(self) + "'")
+        for i in self.__children :
+            i.dump(prefix + " ")
 
 # Test
 if (__name__ == '__main__') :
