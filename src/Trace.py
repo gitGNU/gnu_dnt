@@ -21,19 +21,22 @@ import os
 
 from   Configuration import *
 
-debug = False
+debug_enabled = False
 
 def debug(s) :
     assert(s != None)
-    if (debug == True) :
+    assert(s != "")
+    if (debug_enabled == True) :
 	sys.stdout.write(PROGRAM_NAME + ": " + str(s) + '\n')
 
 def error(s) :
     assert(s != None)
+    assert(s != "")
     sys.stderr.write(PROGRAM_NAME + ": " + str(s) + '\n')
 
 def warning(s) :
     assert(s != None)
+    assert(s != "")
     sys.stdout.write(PROGRAM_NAME + ": " + str(s) + '\n')
 
 # Test
