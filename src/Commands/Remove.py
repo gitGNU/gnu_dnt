@@ -47,9 +47,27 @@ def do(configuration, arguments) :
     if (opts.id == None) :
         raise Exceptions.MissingParameters("node id")
 
-    id = ID(opts.id)
+    node_id = ID(opts.id)
 
     # Work
+    debug("Removing node:")
+    debug("  id = " + str(node_id))
+
+    try :
+	db = DB.Database()
+
+        # Load database from file
+	tree = db.load(db_file)
+	assert(tree != None)
+
+        # Save database back to file
+        db.save(db_file, tree)
+
+    except Exceptions, e :
+	error(str(e))
+	return 1
+    except :
+        bug()
 
     return 0
 
