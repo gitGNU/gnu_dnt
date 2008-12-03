@@ -162,7 +162,7 @@ def do(configuration, arguments) :
 #    except Configuration.NoOptionError, e :
 #	error(e)
 #	return 1
-    except Exceptions.Parameters, e :
+    except Exceptions.EParameters, e :
 	error(e)
 	return 1
     except :
