@@ -33,13 +33,13 @@ def description() :
 def do(configuration, arguments) :
     command = Command("init")
     command.add_option("-f", "--force",
-                       action = "store_true",
-                       dest   = "force",
-                       help   = "force operation")
+		       action = "store_true",
+		       dest   = "force",
+		       help   = "force operation")
     command.add_option("-n", "--name",
-                       action = "store",
-                       dest   = "name",
-                       help   = "specify root node name")
+		       action = "store",
+		       dest   = "name",
+		       help   = "specify root node name")
 
     (opts, args) = command.parse_args(arguments)
 
@@ -48,12 +48,12 @@ def do(configuration, arguments) :
     assert(db_file != None)
 
     if (opts.force != True) :
-        debug("Force mode disabled")
-        assert(db_file != None)
-        if (os.path.isfile(db_file)) :
-            raise Exceptions.ForceNeeded("database file "
-                                         "`" + db_file + "' "
-                                         "already exists")
+	debug("Force mode disabled")
+	assert(db_file != None)
+	if (os.path.isfile(db_file)) :
+	    raise Exceptions.ForceNeeded("database file "
+					 "`" + db_file + "' "
+					 "already exists")
 
     # Work
 
@@ -62,11 +62,21 @@ def do(configuration, arguments) :
 
     name = opts.name
     if (name == None) :
-        name = "Root"
+	name = "Root"
 
-    db = DB.Database()
-    tree = Entry.Entry(name)
-    db.save(db_file, tree)
+    try :
+        db = DB.Database()
+
+        # Create an empty tree
+        tree = Entry.Entry(name)
+        assert(tree != None)
+
+        # Save newly create database to file
+        db.save(db_file, tree)
+
+    except Exception, e :
+	error(str(e))
+	return 1
 
     debug("DB file created")
 
