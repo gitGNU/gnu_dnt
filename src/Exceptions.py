@@ -35,12 +35,12 @@ class EBase(Exception):
 #
 class EDatabase(EBase):
     def __init__(self, value) :
-	Base.__init__(self, value)
+	EBase.__init__(self, value)
 
 class MissingDatabase(EDatabase):
     def __init__(self, value) :
         assert(value != None)
-	Database.__init__(self,
+	EDatabase.__init__(self,
                           "missing database "
                           "`" + value + "' "
                           ", try initializing or importing")
@@ -48,7 +48,7 @@ class MissingDatabase(EDatabase):
 class CorruptedDatabase(EDatabase):
     def __init__(self, value) :
         assert(value != None)
-	Database.__init__(self,
+	EDatabase.__init__(self,
                           "database "
                           "`" + value + "' "
                           "is corrupted")
@@ -58,41 +58,41 @@ class CorruptedDatabase(EDatabase):
 #
 class EID(EBase):
     def __init__(self, value) :
-	Base.__init__(self, value)
+	EBase.__init__(self, value)
 
 class MalformedId(EID):
     def __init__(self, value) :
-	IDBase.__init__(self, value)
+	EIDBase.__init__(self, value)
 
 class Parentless(EID):
     def __init__(self, value) :
-	IDBase.__init__(self, "node `" + value + "' is parentless")
+	EIDBase.__init__(self, "node `" + value + "' is parentless")
 
 #
 # Configuration related exceptions
 #
 class EConfiguration(EBase):
     def __init__(self, value) :
-	Base.__init__(self, value)
+	EBase.__init__(self, value)
 
 class UnknownSection(EConfiguration):
     def __init__(self, value) :
-	Configuration.__init__(self,
+	EConfiguration.__init__(self,
                                "unknown section "
                                "`" + value + "' "
                                "in configuration")
 
 class MissingSection(EConfiguration):
     def __init__(self, value) :
-	Configuration.__init__(self, "missing section")
+	EConfiguration.__init__(self, "missing section")
 
 class MissingKey(EConfiguration):
     def __init__(self, value) :
-	Configuration.__init__(self, "missing key")
+	EConfiguration.__init__(self, "missing key")
 
 class UnknownKey(EConfiguration):
     def __init__(self, value) :
-	Configuration.__init__(self,
+	EConfiguration.__init__(self,
                                "unknown key "
                                "`" + value + "' "
                                "in configuration")
@@ -102,41 +102,41 @@ class UnknownKey(EConfiguration):
 #
 class EParameters(EBase):
     def __init__(self, value) :
-	Base.__init__(self, value)
+	EBase.__init__(self, value)
 
 class MissingParameters(EParameters):
     def __init__(self, value = "parameter(s)") :
-	Parameters.__init__(self, "missing " + value)
+	EParameters.__init__(self, "missing " + value)
 
 class TooManyParameters(EParameters):
     def __init__(self) :
-	Parameters.__init__(self, "too many parameter(s)")
+	EParameters.__init__(self, "too many parameter(s)")
 
 class UnknownArgument(EParameters):
     def __init__(self) :
-	Parameters.__init__(self, "unknown argument")
+	EParameters.__init__(self, "unknown argument")
 
 class UnknownParameter(EParameters):
     def __init__(self, value) :
-	Parameters.__init__(self, "unknown parameter `" + value + "'")
+	EParameters.__init__(self, "unknown parameter `" + value + "'")
 
 class WrongParameters(EParameters):
     def __init__(self, value = None) :
 	s = ""
 	if (value != None) :
 	    s = ", " + value
-	Parameters.__init__(self, "wrong parameters" + s)
+	EParameters.__init__(self, "wrong parameters" + s)
 
 class ForceNeeded(EParameters):
     def __init__(self, value) :
-	Parameters.__init__(self, value + ", use `--force' to override")
+	EParameters.__init__(self, value + ", use `--force' to override")
 
 #
 # Tree related exceptions
 #
 class TreeBase(EBase):
     def __init__(self, value) :
-	Base.__init__(self, value)
+	EBase.__init__(self, value)
 
 # Test
 if (__name__ == '__main__') :
