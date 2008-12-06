@@ -39,19 +39,19 @@ class EDatabase(EBase):
 
 class MissingDatabase(EDatabase):
     def __init__(self, value) :
-        assert(value != None)
+	assert(value != None)
 	EDatabase.__init__(self,
-                          "missing database "
-                          "`" + value + "' "
-                          ", try initializing or importing")
+                           "missing database "
+                           "`" + value + "' "
+                           ", try initializing or importing")
 
 class CorruptedDatabase(EDatabase):
     def __init__(self, value) :
-        assert(value != None)
+	assert(value != None)
 	EDatabase.__init__(self,
-                          "database "
-                          "`" + value + "' "
-                          "is corrupted")
+                           "database "
+                           "`" + value + "' "
+                           "is corrupted")
 
 #
 # ID related exceptions
@@ -78,9 +78,9 @@ class EConfiguration(EBase):
 class UnknownSection(EConfiguration):
     def __init__(self, value) :
 	EConfiguration.__init__(self,
-                               "unknown section "
-                               "`" + value + "' "
-                               "in configuration")
+                                "unknown section "
+                                "`" + value + "' "
+                                "in configuration")
 
 class MissingSection(EConfiguration):
     def __init__(self, value) :
@@ -93,9 +93,9 @@ class MissingKey(EConfiguration):
 class UnknownKey(EConfiguration):
     def __init__(self, value) :
 	EConfiguration.__init__(self,
-                               "unknown key "
-                               "`" + value + "' "
-                               "in configuration")
+                                "unknown key "
+                                "`" + value + "' "
+                                "in configuration")
 
 #
 # Parameters related exceptions
@@ -140,5 +140,5 @@ class TreeBase(EBase):
 
 # Test
 if (__name__ == '__main__') :
-#    debug("Test completed")
+    #    debug("Test completed")
     sys.exit(0)
