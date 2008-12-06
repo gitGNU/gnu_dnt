@@ -89,7 +89,7 @@ def do(configuration, arguments) :
         entry = Entry.Entry(node_text)
         parent.child(i, entry)
 
-        tree.dump("")
+        #tree.dump("")
 
         # Save database back to file
         db.save(db_file, tree)
