@@ -76,18 +76,16 @@ def do(configuration, arguments) :
         if (parent == None) :
             error("Cannot find node `" + str(parent_id) + "'")
             return 1
+
         debug("Parent node for "
               "`" + str(parent_id) + "' "
               "is "
               "`" + str(parent) +"'")
 
-        i = len(parent.children())
-        debug("len = " + str(i))
-        i = i + 1
-        debug("i   = " + str(i))
-
         entry = Entry.Entry(node_text)
-        parent.child(i, entry)
+        assert(entry)
+ 
+        parent.add(entry)
 
         #tree.dump("")
 

@@ -78,7 +78,7 @@ def do(configuration, arguments) :
         if ((len(node.children()) > 0) and (opts.recursive != True)) :
             raise Exceptions.MissingParameters("--recursive")
 
-        del node
+        parent.remove(node)
 
         # Save database back to file
         db.save(db_file, tree)
