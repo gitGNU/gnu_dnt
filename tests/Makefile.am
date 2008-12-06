@@ -82,6 +82,7 @@ SUCCESS_TESTS +=				\
 	test-command-add			\
 	test-command-remove			\
 	test-command-init			\
+	test-command-clean			\
 	test-command-touch			\
 	test-command-config
 
@@ -183,6 +184,18 @@ test-command-init: $(srcdir)/test-command-init.in Makefile
 	}
 EXTRA_DIST += test-command-init.in
 CLEANFILES += test-command-init
+
+test-command-clean: $(srcdir)/test-command-clean.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-clean.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-clean.in
+CLEANFILES += test-command-clean
 
 test-command-touch: $(srcdir)/test-command-touch.in Makefile
 	( rm -f $@ $@.tmp && \
