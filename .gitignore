@@ -51,6 +51,7 @@ tests/test-command-config
 tests/test-command-add
 tests/test-command-edit
 tests/test-command-init
+tests/test-command-clean
 tests/test-command-move
 tests/test-command-remove
 tests/test-command-touch
