@@ -68,7 +68,7 @@ class Node(object) :
                 break
             i = i + 1
         assert(found == False)
-        self.child(i, node)
+        self.__children.append(node)
 
     # Remove a child node based on object
     def remove(self, node) :
@@ -81,7 +81,7 @@ class Node(object) :
                 break
             i = i + 1
         assert(found == True)
-        self.child(i, None)
+        self.__children.remove(node)
 
     # Iterator related methods
     def __iter__(self):
