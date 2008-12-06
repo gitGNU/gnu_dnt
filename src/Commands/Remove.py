@@ -68,6 +68,9 @@ def do(configuration, arguments) :
         if (node == None) :
             raise Exceptions.WrongParameters("unknown node id")
 
+        parent = node.parent
+        assert(parent != None)
+
         debug("Node "
               "`" + str(node_id) + "' "
               "has " + str(len(node.children())) + " child/children")
