@@ -54,6 +54,7 @@ class Node(object) :
                   "to node "
                   "`" + str(self) + "'")
 	    self.__children.insert(i, node)
+        node.parent = self
 
     # Iterator related methods
     def __iter__(self):
