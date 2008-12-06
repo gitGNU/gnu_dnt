@@ -22,8 +22,9 @@ from   Debug      import *
 from   Trace      import *
 from   Command    import *
 import Exceptions
-
+import DB
 from   ID         import *
+import Entry
 
 def description() :
     return "remove node(s)"
@@ -47,6 +48,8 @@ def do(configuration, arguments) :
     if (opts.id == None) :
         raise Exceptions.MissingParameters("node id")
 
+    db_file = configuration.get(PROGRAM_NAME, 'database')
+    assert(db_file != None)
     node_id = ID(opts.id)
 
     # Work
@@ -60,10 +63,24 @@ def do(configuration, arguments) :
 	tree = db.load(db_file)
 	assert(tree != None)
 
+        debug("Looking for node `" + str(node_id) + "'")
+        node = Entry.find(tree, node_id)
+        if (node == None) :
+            raise Exceptions.WrongParameters("unknown node id")
+
+        debug("Node "
+              "`" + str(node_id) + "' "
+              "has " + str(len(node.children())) + " child/children")
+
+        if ((len(node.children()) > 0) and (opts.recursive != True)) :
+            raise Exceptions.MissingParameters("--recursive")
+
+        del node
+
         # Save database back to file
         db.save(db_file, tree)
 
-    except Exceptions, e :
+    except Exceptions.EBase, e :
 	error(str(e))
 	return 1
     except :
