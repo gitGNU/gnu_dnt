@@ -80,6 +80,8 @@ def do(configuration, arguments) :
 
         parent.remove(node)
 
+        #tree.dump("")
+
         # Save database back to file
         db.save(db_file, tree)
 
