@@ -34,6 +34,7 @@ commands_PYTHON =				\
 	Commands/Move.py			\
 	Commands/Remove.py			\
 	Commands/Show.py			\
+	Commands/Clean.py			\
 	Commands/Touch.py
 
 pkgvpython_PYTHON =				\
