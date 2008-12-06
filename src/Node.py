@@ -38,6 +38,7 @@ class Node(object) :
     def children(self) :
 	return self.__children
 
+    # Add/Remove a node based on id
     def child(self, i = 0, node = None) :
 #	assert(i >= 0)
 #        if (i == 0) :
@@ -55,6 +56,32 @@ class Node(object) :
                   "`" + str(self) + "'")
 	    self.__children.insert(i, node)
         node.parent = self
+
+    # Add a child node based on object
+    def add(self, node) :
+        assert(node != None)
+        i     = 0
+        found = False
+        for j in self.__children :
+            if (j == node) :
+                found = True
+                break
+            i = i + 1
+        assert(found == False)
+        self.child(i, node)
+
+    # Remove a child node based on object
+    def remove(self, node) :
+        assert(node != None)
+        i     = 0
+        found = False
+        for j in self.__children :
+            if (j == node) :
+                found = True
+                break
+            i = i + 1
+        assert(found == True)
+        self.child(i, None)
 
     # Iterator related methods
     def __iter__(self):
