@@ -35,23 +35,61 @@ class EBase(Exception):
 #
 class EDatabase(EBase):
     def __init__(self, value) :
+	assert(value != None)
 	EBase.__init__(self, value)
+
+class UnknownPriority(EDatabase):
+    def __init__(self, value) :
+	assert(value != None)
+	EDatabase.__init__(self, "unknown priority `" + value + "'")
+
+class UnknownElement(EDatabase):
+    def __init__(self, value) :
+	assert(value != None)
+	EDatabase.__init__(self, "unknown element `" + value + "'")
 
 class MissingDatabase(EDatabase):
     def __init__(self, value) :
 	assert(value != None)
 	EDatabase.__init__(self,
-                           "missing database "
-                           "`" + value + "' "
-                           ", try initializing or importing")
+			   "missing database "
+			   "`" + value + "' "
+			   ", try initializing or importing")
+
+class MalformedDatabase(EDatabase):
+    def __init__(self, value) :
+        tmp = ""
+        if (value != None) :
+            tmp = "`" + name + "'"
+	    EDatabase.__init__(self, "malformed database " + tmp)
 
 class CorruptedDatabase(EDatabase):
     def __init__(self, value) :
-	assert(value != None)
-	EDatabase.__init__(self,
+        assert(value != None)
+        EDatabase.__init__(self,
                            "database "
                            "`" + value + "' "
                            "is corrupted")
+
+class ProblemsReading(EDatabase):
+    def __init__(self, name, value) :
+        assert(name != None)
+        tmp = ""
+        if (value != None) :
+            tmp = ", " + value
+	    EDatabase.__init__(self,
+			       "problems reading database "
+			       "`" + name+ "'" + tmp)
+
+class ProblemsWriting(EDatabase):
+    def __init__(self, name, value) :
+        assert(name != None)
+        tmp = ""
+        if (value != None) :
+            tmp = ", " + value
+	    EDatabase.__init__(self,
+			       "problems writing database "
+			       "`" + name+ "'" + tmp)
 
 #
 # ID related exceptions
@@ -78,9 +116,9 @@ class EConfiguration(EBase):
 class UnknownSection(EConfiguration):
     def __init__(self, value) :
 	EConfiguration.__init__(self,
-                                "unknown section "
-                                "`" + value + "' "
-                                "in configuration")
+				"unknown section "
+				"`" + value + "' "
+				"in configuration")
 
 class MissingSection(EConfiguration):
     def __init__(self, value) :
@@ -93,9 +131,9 @@ class MissingKey(EConfiguration):
 class UnknownKey(EConfiguration):
     def __init__(self, value) :
 	EConfiguration.__init__(self,
-                                "unknown key "
-                                "`" + value + "' "
-                                "in configuration")
+				"unknown key "
+				"`" + value + "' "
+				"in configuration")
 
 #
 # Parameters related exceptions
