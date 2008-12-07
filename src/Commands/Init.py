@@ -17,6 +17,7 @@
 #
 
 import sys
+import os
 
 from   Debug         import *
 from   Trace         import *
