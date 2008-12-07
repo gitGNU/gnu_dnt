@@ -42,7 +42,7 @@ def string_to_priority(p) :
     elif (t == "verylow") :
 	return Entry.PRIORITY_VERYLOW
     else :
-	raise Exceptions.Database("unknown priority " + p)
+	raise Exceptions.EDatabase.UnknownPriority(p)
 
 # Internal use (XML->Tree)
 def fromxml(xml) :
@@ -61,7 +61,7 @@ def fromxml(xml) :
 	except :
 	    time     = datetime.date.today()
     else :
-	raise Exceptions.Database("unknown element `" + xml.tag + "'")
+	raise Exceptions.EDatabase.UnknownElement(xml.tag)
 
     entry = Entry(text, priority, time)
 
@@ -114,27 +114,24 @@ class Database :
 	    root = xml.getroot()
 	    assert(root != None)
 	    if (len(root) > 1) :
-		raise Exceptions.Database("malformed database format " +
-					  "in file `" + name + "')")
+		raise Exceptions.MalformedDatabase(name)
 	    root = root[0]
 
 	    #ET.dump(root)
 
 	except IOError, e :
-	    raise Exceptions.Database("problems reading database " +
-				      "`" + name + "' (" + str(e) + ")")
+	    raise Exceptions.ProblemsReading(name, str(e))
 	except Exception, e :
-	    raise Exceptions.Database("problems parsing input database " +
-				      "`" + name + "' (" + str(e) + ")")
+	    raise Exceptions.ProblemsReading(name, str(e))
 	except :
 	    bug()
 
 	assert(xml != None)
 
-        tree = fromxml(root)
-        assert(tree != None)
+	tree = fromxml(root)
+	assert(tree != None)
 
-        debug("DB `" + name + " ' loaded successfully")
+	debug("DB `" + name + " ' loaded successfully")
 
 	return tree
 
@@ -154,15 +151,13 @@ class Database :
 	    root.write(name)
 
 	except IOError, e :
-	    raise Exceptions.Database("problems writing database " +
-				      "`" + name + "' (" + str(e) + ")")
+	    raise Exceptions.ProblemsWriting(name, str(e))
 	except Exception, e :
-	    raise Exceptions.Database("problems formatting database " +
-				      "`" + name + "' (" + str(e) + ")")
+	    raise Exceptions.ProblemsWriting(name, str(e))
 	except :
 	    bug()
 
-        debug("DB `" + name + " ' saved successfully")
+	debug("DB `" + name + " ' saved successfully")
 
 # Test
 if (__name__ == '__main__') :
