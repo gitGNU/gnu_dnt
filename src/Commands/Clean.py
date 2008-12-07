@@ -32,8 +32,25 @@ def do(configuration, arguments) :
     (opts, args) = command.parse_args(arguments)
 
     # Parameters setup
+    db_file = configuration.get(PROGRAM_NAME, 'database')
+    assert(db_file != None)
 
     # Work
+    try :
+	os.stat(db_file)
+    except OSError, e:
+	warning("Nothing to do, directory already clean")
+	return 0
+    except :
+	bug()
+
+    try :
+	os.unlink(db_file)
+    except IOError, e:
+	error("Cannot clean the directory")
+	return 1
+    except :
+	bug()
 
     return 0
 
