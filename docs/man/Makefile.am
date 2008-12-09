@@ -23,7 +23,9 @@ include $(top_srcdir)/Makefile.sub
 dist_man_MANS =					\
 	dnt.1					\
 	dnt-add.1				\
+	dnt-clean.1				\
 	dnt-config.1				\
+	dnt-dump.1				\
 	dnt-edit.1				\
 	dnt-init.1				\
 	dnt-move.1				\
@@ -33,7 +35,9 @@ dist_man_MANS =					\
 
 man_aux       = dnt.x				\
 		dnt-add.x			\
+		dnt-clean.x			\
 		dnt-config.x			\
+		dnt-dump.x			\
 		dnt-edit.x			\
 		dnt-init.x			\
 		dnt-move.x			\
@@ -69,6 +73,17 @@ dnt-add.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Add.py $(top_
 	    --output=dnt-add.1 \
 	    "$(top_builddir)/src/dnt add"
 
+dnt-clean.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Clean.py $(top_srcdir)/configure.ac
+	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	export PYTHONPATH ; \
+	$(HELP2MAN) \
+	    --include=$(srcdir)/dnt-clean.x \
+	    --source="@PACKAGE_NAME@" \
+	    --manual="User Commands" \
+	    --section=1	\
+	    --output=dnt-clean.1 \
+	    "$(top_builddir)/src/dnt clean"
+
 dnt-config.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Config.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
@@ -79,6 +94,17 @@ dnt-config.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Config.py 
 	    --section=1	\
 	    --output=dnt-config.1 \
 	    "$(top_builddir)/src/dnt config"
+
+dnt-dump.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Dump.py $(top_srcdir)/configure.ac
+	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	export PYTHONPATH ; \
+	$(HELP2MAN) \
+	    --include=$(srcdir)/dnt-dump.x \
+	    --source="@PACKAGE_NAME@" \
+	    --manual="User Commands" \
+	    --section=1	\
+	    --output=dnt-dump.1 \
+	    "$(top_builddir)/src/dnt dump"
 
 dnt-edit.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Edit.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
