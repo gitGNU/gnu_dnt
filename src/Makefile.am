@@ -29,6 +29,7 @@ commands_PYTHON =				\
 	Commands/__init__.py			\
 	Commands/Add.py				\
 	Commands/Config.py			\
+	Commands/Dump.py			\
 	Commands/Edit.py			\
 	Commands/Init.py			\
 	Commands/Move.py			\
