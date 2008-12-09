@@ -55,6 +55,7 @@ tests/test-command-clean
 tests/test-command-move
 tests/test-command-remove
 tests/test-command-touch
+tests/test-command-dump
 
 site/in/.sitetool
 site/in/site.stamp
