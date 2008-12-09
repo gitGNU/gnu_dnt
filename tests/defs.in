@@ -76,8 +76,8 @@ test -z "$MAKE"   && MAKE=make
 
 test -n "$VERBOSE"     && FLAGS="$FLAGS --verbose"
 test -n "$DEBUG"       && FLAGS="$FLAGS --debug"
-test -z "$DNT"         && DNT="wrapper dnt $FLAGS"
-test -z "$DNT_NOFLAGS" && DNT_NOFLAGS="wrapper dnt"
+test -z "$DNT"         && DNT="wrapper dnt --database test.db $FLAGS"
+test -z "$DNT_NOFLAGS" && DNT_NOFLAGS="wrapper dnt --database test.db"
 test -z "$WRAPPER"     && WRAPPER="wrapper"
 
 PATH=`pwd`:$PATH
