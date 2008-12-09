@@ -28,5 +28,18 @@ $DNT init --help    || exit 1
 $DNT init --version || exit 1
 
 # Then perform the command related check
+rm -f test.db
+$DNT --database test.db init || exit 1
+if test ! -f test.db ; then
+   exit 1
+fi
+rm -f test.db
+
+touch test.db || exit 1
+$DNT --database test.db init --force || exit 1
+if test ! -f test.db ; then
+   exit 1
+fi
+rm -f test.db
 
 exit 0

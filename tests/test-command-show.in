@@ -28,5 +28,27 @@ $DNT show --help    || exit 1
 $DNT show --version || exit 1
 
 # Then perform the command related check
+$DNT init || exit 1
+$DNT add -t "test1"  || exit 1
+$DNT add -t "test2"  || exit 1
+$DNT add -t "test3"  || exit 1
+
+$DNT add -t "test11" -p 1 || exit 1
+$DNT add -t "test21" -p 2 || exit 1
+$DNT add -t "test31" -p 3 || exit 1
+
+$DNT add -t "test111" -p 1.1 || exit 1
+$DNT add -t "test211" -p 2.1 || exit 1
+$DNT add -t "test311" -p 3.1 || exit 1
+
+$DNT add -t "test211" -p 1.1 || exit 1
+$DNT add -t "test311" -p 1.1 || exit 1
+$DNT add -t "test411" -p 1.1 || exit 1
+
+$DNT add -t "test12" -p 1 || exit 1
+$DNT add -t "test13" -p 1 || exit 1
+$DNT add -t "test14" -p 1 || exit 1
+
+$DNT show || exit 1
 
 exit 0

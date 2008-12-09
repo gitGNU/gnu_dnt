@@ -28,5 +28,15 @@ $DNT clean --help    || exit 1
 $DNT clean --version || exit 1
 
 # Then perform the command related check
+rm -f test.db
+$DNT --database test.db init || exit 1
+if test ! -f test.db ; then
+   exit 1
+fi
+rm -f test.db
+$DNT --database test.db clean || exit 1
+if test -f test.db ; then
+   exit 1
+fi
 
 exit 0
