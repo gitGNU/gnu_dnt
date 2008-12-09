@@ -95,15 +95,23 @@ def do(configuration, arguments) :
     # Work
 
     # Load DB
-    db_file = configuration.get(PROGRAM_NAME, 'database')
-    assert(db_file != None)
+    try :
+        db_file = configuration.get(PROGRAM_NAME, 'database')
+        assert(db_file != None)
+        
+        db   = DB.Database()
+        tree = db.load(db_file)
+        assert(tree != None)
+        
+        v = ShowVisitor(configuration.getboolean(PROGRAM_NAME, 'colors'),
+                        configuration.getboolean(PROGRAM_NAME, 'verbose'))
+        tree.accept(v)
 
-    db   = DB.Database()
-    tree = db.load(db_file)
-
-    v = ShowVisitor(configuration.getboolean(PROGRAM_NAME, 'colors'),
-                    configuration.getboolean(PROGRAM_NAME, 'verbose'))
-    tree.accept(v)
+    except Exceptions, e :
+	error(str(e))
+	return 1
+    except :
+        bug()
 
     return 0
 
