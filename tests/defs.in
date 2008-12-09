@@ -120,6 +120,10 @@ chmod -R a+rwx testSubDir-$testname > /dev/null 2>&1
 rm -rf testSubDir-$testname > /dev/null 2>&1
 mkdir testSubDir-$testname
 
+PYTHONPATH=$srcdir/../src
+export PYTHONPATH
+echo $PYTHONPATH
+
 echo "=== Running test $0"
 
 # Copy in some files we need.
