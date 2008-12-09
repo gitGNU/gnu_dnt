@@ -69,7 +69,8 @@ def do(configuration, arguments) :
             raise Exceptions.WrongParameters("unknown node id")
 
         parent = node.parent
-        assert(parent != None)
+        if (parent == None) :
+            raise Exceptions.WrongParameters("cannot remove root node")
 
         debug("Node "
               "`" + str(node_id) + "' "
