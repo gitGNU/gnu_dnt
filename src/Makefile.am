@@ -42,6 +42,7 @@ pkgvpython_PYTHON =				\
 	Trace.py				\
 	Exceptions.py				\
 	Debug.py				\
+	Time.py					\
 	Color.py				\
 	DB.py					\
 	Node.py					\
