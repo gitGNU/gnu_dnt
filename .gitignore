@@ -46,16 +46,16 @@ tests/wrapper
 tests/testSubDir-*
 tests/test-success
 tests/test-fail
-tests/test-command-show
-tests/test-command-config
-tests/test-command-add
-tests/test-command-edit
-tests/test-command-init
-tests/test-command-clean
-tests/test-command-move
-tests/test-command-remove
-tests/test-command-touch
-tests/test-command-dump
+tests/test-command-show-01
+tests/test-command-config-01
+tests/test-command-add-01
+tests/test-command-edit-01
+tests/test-command-init-01
+tests/test-command-clean-01
+tests/test-command-move-01
+tests/test-command-remove-01
+tests/test-command-touch-01
+tests/test-command-dump-01
 
 site/in/.sitetool
 site/in/site.stamp
