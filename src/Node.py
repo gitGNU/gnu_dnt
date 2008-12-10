@@ -18,8 +18,8 @@
 
 import sys
 
-import Debug
-from   Trace import *
+from   Debug      import *
+from   Trace      import *
 import Exceptions
 
 class Node(object) :
