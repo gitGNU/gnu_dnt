@@ -76,16 +76,16 @@ FAIL_TESTS    +=				\
 	test-fail
 SUCCESS_TESTS +=				\
 	test-success				\
-	test-command-init			\
-	test-command-clean			\
-	test-command-add			\
-	test-command-remove			\
-	test-command-edit			\
-	test-command-move			\
-	test-command-show			\
-	test-command-dump			\
-	test-command-touch			\
-	test-command-config
+	test-command-init-01			\
+	test-command-clean-01			\
+	test-command-add-01			\
+	test-command-remove-01			\
+	test-command-edit-01			\
+	test-command-move-01			\
+	test-command-show-01			\
+	test-command-dump-01			\
+	test-command-touch-01			\
+	test-command-config-01
 
 XFAIL_TESTS  = $(FAIL_TESTS)
 TESTS        = $(FAIL_TESTS) $(SUCCESS_TESTS)
@@ -114,125 +114,125 @@ test-fail: $(srcdir)/test-fail.in Makefile
 EXTRA_DIST += test-fail.in
 CLEANFILES += test-fail
 
-test-command-show: $(srcdir)/test-command-show.in Makefile
+test-command-show-01: $(srcdir)/test-command-show-01.in Makefile
 	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-show.in > $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-01.in > $@.tmp && \
 	  chmod +x $@.tmp && \
 	  chmod a-w $@.tmp && \
 	  mv -f $@.tmp $@ ) || { \
 	        rm -f $@ $@.tmp ; \
 	        exit 1 ; \
 	}
-EXTRA_DIST += test-command-show.in
-CLEANFILES += test-command-show
+EXTRA_DIST += test-command-show-01.in
+CLEANFILES += test-command-show-01
 
-test-command-edit: $(srcdir)/test-command-edit.in Makefile
+test-command-edit-01: $(srcdir)/test-command-edit-01.in Makefile
 	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-edit.in > $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-edit-01.in > $@.tmp && \
 	  chmod +x $@.tmp && \
 	  chmod a-w $@.tmp && \
 	  mv -f $@.tmp $@ ) || { \
 	        rm -f $@ $@.tmp ; \
 	        exit 1 ; \
 	}
-EXTRA_DIST += test-command-edit.in
-CLEANFILES += test-command-edit
+EXTRA_DIST += test-command-edit-01.in
+CLEANFILES += test-command-edit-01
 
-test-command-move: $(srcdir)/test-command-move.in Makefile
+test-command-move-01: $(srcdir)/test-command-move-01.in Makefile
 	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-move.in > $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-move-01.in > $@.tmp && \
 	  chmod +x $@.tmp && \
 	  chmod a-w $@.tmp && \
 	  mv -f $@.tmp $@ ) || { \
 	        rm -f $@ $@.tmp ; \
 	        exit 1 ; \
 	}
-EXTRA_DIST += test-command-move.in
-CLEANFILES += test-command-move
+EXTRA_DIST += test-command-move-01.in
+CLEANFILES += test-command-move-01
 
-test-command-add: $(srcdir)/test-command-add.in Makefile
+test-command-add-01: $(srcdir)/test-command-add-01.in Makefile
 	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-add.in > $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-add-01.in > $@.tmp && \
 	  chmod +x $@.tmp && \
 	  chmod a-w $@.tmp && \
 	  mv -f $@.tmp $@ ) || { \
 	        rm -f $@ $@.tmp ; \
 	        exit 1 ; \
 	}
-EXTRA_DIST += test-command-add.in
-CLEANFILES += test-command-add
+EXTRA_DIST += test-command-add-01.in
+CLEANFILES += test-command-add-01
 
-test-command-remove: $(srcdir)/test-command-remove.in Makefile
+test-command-remove-01: $(srcdir)/test-command-remove-01.in Makefile
 	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-remove.in > $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-remove-01.in > $@.tmp && \
 	  chmod +x $@.tmp && \
 	  chmod a-w $@.tmp && \
 	  mv -f $@.tmp $@ ) || { \
 	        rm -f $@ $@.tmp ; \
 	        exit 1 ; \
 	}
-EXTRA_DIST += test-command-remove.in
-CLEANFILES += test-command-remove
+EXTRA_DIST += test-command-remove-01.in
+CLEANFILES += test-command-remove-01
 
-test-command-init: $(srcdir)/test-command-init.in Makefile
+test-command-init-01: $(srcdir)/test-command-init-01.in Makefile
 	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-init.in > $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-init-01.in > $@.tmp && \
 	  chmod +x $@.tmp && \
 	  chmod a-w $@.tmp && \
 	  mv -f $@.tmp $@ ) || { \
 	        rm -f $@ $@.tmp ; \
 	        exit 1 ; \
 	}
-EXTRA_DIST += test-command-init.in
-CLEANFILES += test-command-init
+EXTRA_DIST += test-command-init-01.in
+CLEANFILES += test-command-init-01
 
-test-command-clean: $(srcdir)/test-command-clean.in Makefile
+test-command-clean-01: $(srcdir)/test-command-clean-01.in Makefile
 	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-clean.in > $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-clean-01.in > $@.tmp && \
 	  chmod +x $@.tmp && \
 	  chmod a-w $@.tmp && \
 	  mv -f $@.tmp $@ ) || { \
 	        rm -f $@ $@.tmp ; \
 	        exit 1 ; \
 	}
-EXTRA_DIST += test-command-clean.in
-CLEANFILES += test-command-clean
+EXTRA_DIST += test-command-clean-01.in
+CLEANFILES += test-command-clean-01
 
-test-command-touch: $(srcdir)/test-command-touch.in Makefile
+test-command-touch-01: $(srcdir)/test-command-touch-01.in Makefile
 	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-touch.in > $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-touch-01.in > $@.tmp && \
 	  chmod +x $@.tmp && \
 	  chmod a-w $@.tmp && \
 	  mv -f $@.tmp $@ ) || { \
 	        rm -f $@ $@.tmp ; \
 	        exit 1 ; \
 	}
-EXTRA_DIST += test-command-touch.in
-CLEANFILES += test-command-touch
+EXTRA_DIST += test-command-touch-01.in
+CLEANFILES += test-command-touch-01
 
-test-command-dump: $(srcdir)/test-command-dump.in Makefile
+test-command-dump-01: $(srcdir)/test-command-dump-01.in Makefile
 	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-dump.in > $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-dump-01.in > $@.tmp && \
 	  chmod +x $@.tmp && \
 	  chmod a-w $@.tmp && \
 	  mv -f $@.tmp $@ ) || { \
 	        rm -f $@ $@.tmp ; \
 	        exit 1 ; \
 	}
-EXTRA_DIST += test-command-dump.in
-CLEANFILES += test-command-dump
+EXTRA_DIST += test-command-dump-01.in
+CLEANFILES += test-command-dump-01
 
-test-command-config: $(srcdir)/test-command-config.in Makefile
+test-command-config-01: $(srcdir)/test-command-config-01.in Makefile
 	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-config.in > $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-config-01.in > $@.tmp && \
 	  chmod +x $@.tmp && \
 	  chmod a-w $@.tmp && \
 	  mv -f $@.tmp $@ ) || { \
 	        rm -f $@ $@.tmp ; \
 	        exit 1 ; \
 	}
-EXTRA_DIST += test-command-config.in
-CLEANFILES += test-command-config
+EXTRA_DIST += test-command-config-01.in
+CLEANFILES += test-command-config-01
 
 clean-local:
 	rm -rf testSubDir-*
