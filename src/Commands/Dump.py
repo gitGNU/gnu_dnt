@@ -31,20 +31,20 @@ def description() :
 def do(configuration, arguments) :
     command = Command("dump")
     command.add_option("-o", "--output",
-		       action = "store",
-		       type   = "string",
-		       dest   = "text",
-		       help   = "specify output file name")
+                       action = "store",
+                       type   = "string",
+                       dest   = "output",
+                       help   = "specify output file name")
 
     (opts, args) = command.parse_args(arguments)
 
     # Parameters setup
     if (opts.output == None) :
-	raise Exceptions.MissingParameters("output file name")
+        raise Exceptions.MissingParameters("output file name")
 
     # Work
 
-    return 0
+    debug("Success")
 
 # Test
 if (__name__ == '__main__') :

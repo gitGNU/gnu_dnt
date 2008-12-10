@@ -65,23 +65,16 @@ def do(configuration, arguments) :
     if (name == None) :
 	name = "Root"
 
-    try :
-        db = DB.Database()
+    db = DB.Database()
 
-        # Create an empty tree
-        tree = Entry.Entry(name)
-        assert(tree != None)
+    # Create an empty tree
+    tree = Entry.Entry(name)
+    assert(tree != None)
 
-        # Save newly create database to file
-        db.save(db_file, tree)
+    # Save newly create database to file
+    db.save(db_file, tree)
 
-    except Exception, e :
-	error(str(e))
-	return 1
-
-    debug("DB file created")
-
-    return 0
+    debug("Success")
 
 # Test
 if (__name__ == '__main__') :

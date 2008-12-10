@@ -31,10 +31,10 @@ def description() :
 def do(configuration, arguments) :
     command = Command("edit")
     command.add_option("-i", "--id",
-		       action = "store",
-		       type   = "string",
-		       dest   = "id",
-		       help   = "specify node id to edit")
+                       action = "store",
+                       type   = "string",
+                       dest   = "id",
+                       help   = "specify node id to edit")
 
     (opts, args) = command.parse_args(arguments)
 
@@ -45,7 +45,7 @@ def do(configuration, arguments) :
     # Work
     id = ID(opts.id)
 
-    return 0
+    debug("Success")
 
 # Test
 if (__name__ == '__main__') :

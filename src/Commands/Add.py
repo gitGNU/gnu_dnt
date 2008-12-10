@@ -33,26 +33,26 @@ def description() :
 def do(configuration, arguments) :
     command = Command("add")
     command.add_option("-t", "--text",
-		       action = "store",
-		       type   = "string",
-		       dest   = "text",
-		       help   = "specify node text")
+                       action = "store",
+                       type   = "string",
+                       dest   = "text",
+                       help   = "specify node text")
     command.add_option("-p", "--parent-id",
-		       action = "store",
-		       type   = "string",
-		       dest   = "parent",
-		       help   = "specify parent node id")
+                       action = "store",
+                       type   = "string",
+                       dest   = "parent",
+                       help   = "specify parent node id")
 
     (opts, args) = command.parse_args(arguments)
 
     # Parameters setup
     if (opts.text == None) :
-	raise Exceptions.MissingParameters("node text")
+        raise Exceptions.MissingParameters("node text")
     if (opts.text == "") :
-	raise Exceptions.WrongParameters("node text is empty")
+        raise Exceptions.WrongParameters("node text is empty")
     if (opts.parent == None) :
-	warning("Parent id is missing, using root as parent for this node")
-	opts.parent = "0"
+        warning("Parent id is missing, using root as parent for this node")
+        opts.parent = "0"
 
     db_file   = configuration.get(PROGRAM_NAME, 'database')
     assert(db_file != None)
@@ -64,41 +64,34 @@ def do(configuration, arguments) :
     debug("  node-text = " + node_text)
     debug("  parent-id = " + str(parent_id))
 
-    try :
-	db = DB.Database()
+    db = DB.Database()
 
-        # Load database from file
-	tree = db.load(db_file)
-	assert(tree != None)
+    # Load database from file
+    tree = db.load(db_file)
+    assert(tree != None)
 
-        debug("Looking for node `" + str(parent_id) + "'")
-        parent = Entry.find(tree, parent_id)
-        if (parent == None) :
-            error("Cannot find node `" + str(parent_id) + "'")
-            return 1
+    debug("Looking for node `" + str(parent_id) + "'")
+    parent = Entry.find(tree, parent_id)
+    if (parent == None) :
+        error("Cannot find node `" + str(parent_id) + "'")
+        return 1
 
-        debug("Parent node for "
-              "`" + str(parent_id) + "' "
-              "is "
-              "`" + str(parent) +"'")
+    debug("Parent node for "
+          "`" + str(parent_id) + "' "
+          "is "
+          "`" + str(parent) +"'")
 
-        entry = Entry.Entry(node_text)
-        assert(entry)
- 
-        parent.add(entry)
+    entry = Entry.Entry(node_text)
+    assert(entry)
 
-        #tree.dump("")
+    parent.add(entry)
 
-        # Save database back to file
-        db.save(db_file, tree)
+    #tree.dump("")
 
-    except Exceptions, e :
-	error(str(e))
-	return 1
-    except :
-        bug()
+    # Save database back to file
+    db.save(db_file, tree)
 
-    return 0
+    debug("Success")
 
 # Test
 if (__name__ == '__main__') :
