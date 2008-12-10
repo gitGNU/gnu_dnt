@@ -18,7 +18,7 @@
 
 import sys
 
-#import Trace
+from   Trace import *
 
 class EBase(Exception):
     def __init__(self, value) :
@@ -29,6 +29,13 @@ class EBase(Exception):
 	return self.__value
 
     __repr__ = __str__
+
+#
+# OS related exceptions
+#
+class EOS(EBase):
+    def __init__(self, value) :
+	EBase.__init__(self, value)
 
 #
 # Database related exceptions
@@ -178,5 +185,5 @@ class TreeBase(EBase):
 
 # Test
 if (__name__ == '__main__') :
-    #    debug("Test completed")
+    debug("Test completed")
     sys.exit(0)
