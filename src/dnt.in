@@ -64,6 +64,11 @@ def hint(s) :
 
 def version() :
     print(PROGRAM_NAME + " (" + PACKAGE_NAME + ") " + PACKAGE_VERSION)
+    print("Copyright (C) 2008 Francesco Salvestrini")
+    print("")
+    print("This is free software.  You may redistribute copies of it under the terms of")
+    print("the GNU General Public License <http://www.gnu.org/licenses/gpl.html>.")
+    print("There is NO WARRANTY, to the extent permitted by law.")
 
 commands = {
     'init'   : { 'description' : Commands.Init.description,
@@ -216,21 +221,23 @@ def main(arguments) :
     retval = 1
     try :
         assert(callable(command_do))
-        retval = command_do(configuration, parameters)
+        command_do(configuration, parameters)
+        retval = 0
     except IOError, e :
         error(e)
     except ValueError, e :
         error(e)
     except Exceptions.EParameters, e :
         hint(e)
-    except Exceptions.EBase, e :
-        error(e)
     except SystemExit, e:
         retval = e
+    # Our exceptions at last
+    except Exceptions.EBase, e :
+        error(e)
     except :
         bug()
 
-    debug("Command returned `" + str(retval) + "'")
+    debug("Return value is `" + str(retval) + "'")
     if (retval != 0) :
         debug("Bailing out")
         return retval
@@ -256,6 +263,6 @@ def main(arguments) :
 
     debug("All operations completed successfully")
     return 0
-    
+
 if (__name__ == '__main__') :
     sys.exit(main(sys.argv))
