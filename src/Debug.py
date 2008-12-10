@@ -30,9 +30,9 @@ from   Trace import *
 def bug(s = "") :
     tmp1 = "Bug hit"
     if s != "" :
-	tmp2 = tmp1 + ": " + s
+        tmp2 = tmp1 + ": " + s
     else :
-	tmp2 = tmp1 + "!"
+        tmp2 = tmp1 + "!"
 
     traceback.print_exc(file=sys.stdout)
 

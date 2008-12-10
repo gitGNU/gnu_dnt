@@ -27,7 +27,7 @@ def debug(s) :
     assert(s != None)
     assert(s != "")
     if (debug_enabled == True) :
-	sys.stdout.write(PROGRAM_NAME + ": " + str(s) + '\n')
+        sys.stdout.write(PROGRAM_NAME + ": " + str(s) + '\n')
 
 def error(s) :
     assert(s != None)

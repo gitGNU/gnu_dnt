@@ -24,32 +24,32 @@ from   Trace    import *
 
 class Command(OptionParser) :
     def __init__(self, name = "", format = "[OPTION]...", footer = "") :
-	assert(name != None)
-	assert(type(name) == str)
-	assert(format != None)
-	assert(type(format) == str)
-	assert(footer != None)
-	assert(type(footer) == str)
+        assert(name != None)
+        assert(type(name) == str)
+        assert(format != None)
+        assert(type(format) == str)
+        assert(footer != None)
+        assert(type(footer) == str)
 
-	self.__footer = footer
+        self.__footer = footer
 
-	# XXX FIXME: This is really awful ...
-	if (name == "") :
-	    usage_format   = "Usage: %prog " + format
-	    version_format = "%prog " + \
-		"(" + PACKAGE_NAME + " " + PACKAGE_VERSION + ")"
-	else :
-	    usage_format   = "Usage: %prog " + name + " " + format
-	    version_format = "%prog " + name + " " + \
+        # XXX FIXME: This is really awful ...
+        if (name == "") :
+            usage_format   = "Usage: %prog " + format
+            version_format = "%prog " + \
+                "(" + PACKAGE_NAME + " " + PACKAGE_VERSION + ")"
+        else :
+            usage_format   = "Usage: %prog " + name + " " + format
+            version_format = "%prog " + name + " " + \
                 "(" + PACKAGE_NAME + " " + PACKAGE_VERSION + ")"
 
-	OptionParser.__init__(self,
-			      prog    = PROGRAM_NAME,
-			      usage   = usage_format,
-			      version = version_format,
-			      #epilog  = footer
-			      )
-	OptionParser.disable_interspersed_args(self)
+        OptionParser.__init__(self,
+                              prog    = PROGRAM_NAME,
+                              usage   = usage_format,
+                              version = version_format,
+                              #epilog  = footer
+                              )
+        OptionParser.disable_interspersed_args(self)
 
     # Override OptParse print_version() method
     def print_version(self, file = None) :
@@ -63,24 +63,24 @@ class Command(OptionParser) :
 
 
     def name_get(self) :
-	return self.__text
+        return self.__text
     def name_set(self, n) :
-	assert(type(n) == str)
-	assert(n != "")
-	assert(n == string.rstrip(string.lstrip(n)))
+        assert(type(n) == str)
+        assert(n != "")
+        assert(n == string.rstrip(string.lstrip(n)))
 
-	self.__name = n
+        self.__name = n
 
     name = property(name_get, name_set)
 
     def print_help(self, file = None) :
-	# Force output to stdout
-	OptionParser.print_help(self, sys.stdout)
-	sys.stdout.write("\n")
-	if (self.__footer != "") :
-	    sys.stdout.write(self.__footer)
-	    sys.stdout.write("\n")
-	sys.stdout.write("Report bugs to <" + PACKAGE_BUGREPORT + ">\n")
+        # Force output to stdout
+        OptionParser.print_help(self, sys.stdout)
+        sys.stdout.write("\n")
+        if (self.__footer != "") :
+            sys.stdout.write(self.__footer)
+            sys.stdout.write("\n")
+        sys.stdout.write("Report bugs to <" + PACKAGE_BUGREPORT + ">\n")
 
 # Test
 if (__name__ == '__main__') :

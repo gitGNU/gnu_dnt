@@ -38,47 +38,47 @@ class Entry(Node) :
     PRIORITY_VERYLOW  = 1
 
     __legal_priorities = ( PRIORITY_VERYHIGH,
-			   PRIORITY_HIGH,
-			   PRIORITY_MEDIUM,
-			   PRIORITY_LOW,
-			   PRIORITY_VERYLOW )
+                           PRIORITY_HIGH,
+                           PRIORITY_MEDIUM,
+                           PRIORITY_LOW,
+                           PRIORITY_VERYLOW )
 
     def __init__(self,
                  t = "",
                  p = PRIORITY_MEDIUM,
                  d = Time.today()) :
-	#Node.__init__(self)
-	super(Entry, self).__init__()
+        #Node.__init__(self)
+        super(Entry, self).__init__()
         self.text_set(t)
-	self.priority_set(p)
-	self.time_set(d)
+        self.priority_set(p)
+        self.time_set(d)
         debug("Entry `" + str(self) + "' created successfully")
 
     def text_get(self) :
-	return self.__text
+        return self.__text
     def text_set(self, t) :
-	assert(type(t) == str)
-	assert(t != "")
+        assert(type(t) == str)
+        assert(t != "")
 
-	# Remove leading and trailing whitespaces from input string
-	self.__text = string.rstrip(string.lstrip(t))
+        # Remove leading and trailing whitespaces from input string
+        self.__text = string.rstrip(string.lstrip(t))
 
     text = property(text_get, text_set)
 
     def priority_get(self) :
-	return self.__priority
+        return self.__priority
     def priority_set(self, p) :
-	assert(type(p) == int)
-	assert(p in self.__legal_priorities)
+        assert(type(p) == int)
+        assert(p in self.__legal_priorities)
 
-	self.__priority = p
+        self.__priority = p
 
     priority = property(priority_get, priority_set)
 
     def time_get(self) :
-	return self.__time
+        return self.__time
     def time_set(self, t) :
-	self.__time = t
+        self.__time = t
 
     time = property(time_get, time_set)
 
@@ -86,8 +86,8 @@ class Entry(Node) :
         return '<Entry #%x>' % (id(self))
 
     def accept(self, visitor) :
-	assert(visitor != None)
-	visitor.visit(self)
+        assert(visitor != None)
+        visitor.visit(self)
 
 def find(node, id) :
     assert(node != None)
@@ -136,10 +136,10 @@ if (__name__ == '__main__') :
     root.child(1, e2)
 
     class Visitor :
-	def visit(self, e) :
+        def visit(self, e) :
             debug("Visiting entry " + str(e))
-	    for j in e.children() :
-		j.accept(self) # Re-accept myself
+            for j in e.children() :
+                j.accept(self) # Re-accept myself
 
     v = Visitor()
     root.accept(v)

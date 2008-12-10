@@ -25,58 +25,58 @@ import Exceptions
 
 class ID :
     def __init__(self, s = "") :
-	assert(type(s) == str)
+        assert(type(s) == str)
 
-	if (s == "") :
-	    raise Exceptions.MalformedId("passed id is empty")
+        if (s == "") :
+            raise Exceptions.MalformedId("passed id is empty")
 
-	x = []
-	try :
-	    for n in string.split(s, ".") :
-		x.append(int(n))
-	except :
-	    raise Exceptions.MalformedId("id `" + s + "' is malformed")
+        x = []
+        try :
+            for n in string.split(s, ".") :
+                x.append(int(n))
+        except :
+            raise Exceptions.MalformedId("id `" + s + "' is malformed")
 
-	assert(len(x) > 0)
+        assert(len(x) > 0)
 
-	self.__id = x
+        self.__id = x
 
     def __str__(self) :
-	s = ""
-	for i in range(0, len(self.__id)) :
-	    if (i != 0) :
-		s = s + "."
-	    s = s + str(self.__id[i])
-	return s
+        s = ""
+        for i in range(0, len(self.__id)) :
+            if (i != 0) :
+                s = s + "."
+            s = s + str(self.__id[i])
+        return s
 
     def tolist(self) :
         return self.__id
 
     def parent(self) :
-	if (len(self.__id) <= 1) :
-	    raise Exceptions.Parentless(self.__str__())
+        if (len(self.__id) <= 1) :
+            raise Exceptions.Parentless(self.__str__())
 
-	s = ""
-	for i in range(0, len(self.__id) - 1) :
-	    if (i != 0) :
-		s = s + "."
-	    s = s + str(self.__id[i])
-	return ID(s)
+        s = ""
+        for i in range(0, len(self.__id) - 1) :
+            if (i != 0) :
+                s = s + "."
+            s = s + str(self.__id[i])
+        return ID(s)
 
 # Test
 if (__name__ == '__main__') :
     def proc_node(i) :
         assert(type(i) == str)
-	node = ID(i)
-	assert(i == str(node))
-	debug(i + " node   = " + str(node))
+        node = ID(i)
+        assert(i == str(node))
+        debug(i + " node   = " + str(node))
 
     def proc_parent(i) :
         assert(type(i) == str)
-	node = ID(i)
-	assert(i == str(node))
-	parent = node.parent()
-	debug(i + " parent = " + str(parent))
+        node = ID(i)
+        assert(i == str(node))
+        parent = node.parent()
+        debug(i + " parent = " + str(parent))
 
     ok = False
     try :

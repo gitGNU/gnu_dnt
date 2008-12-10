@@ -24,37 +24,37 @@ import Exceptions
 
 class Node(object) :
     def __init__(self) :
-	self.__children = []
-	self.__index    = 0
+        self.__children = []
+        self.__index    = 0
         self.__parent   = None
 
     def parent_get(self) :
-	return self.__parent
+        return self.__parent
     def parent_set(self, node) :
-	self.__parent = node
+        self.__parent = node
 
     parent = property(parent_get, parent_set)
 
     def children(self) :
-	return self.__children
+        return self.__children
 
     # Add/Remove a node based on id
     def child(self, i = 0, node = None) :
-#	assert(i >= 0)
+#       assert(i >= 0)
 #        if (i == 0) :
 #            raise Exceptions.Tree("cannot add/remove root")
-	if (node == None) :
+        if (node == None) :
             debug("Removing child "
                   "`" + str(i) + "' "
                   "from node "
                   "`" + str(self) + "'")
-	    self.__children.remove(i)
-	else :
+            self.__children.remove(i)
+        else :
             debug("Adding child "
                   "`" + str(i) + "' "
                   "to node "
                   "`" + str(self) + "'")
-	    self.__children.insert(i, node)
+            self.__children.insert(i, node)
         node.parent = self
 
     # Add a child node based on object
@@ -85,15 +85,15 @@ class Node(object) :
 
     # Iterator related methods
     def __iter__(self):
-	return self
+        return self
 
     def next(self):
-	i = self.__index
-	if (i >= len(self.__children)) :
-	    raise StopIteration
-	tmp = self.__children[self.__index]
-	self.__index = i + 1
-	return tmp
+        i = self.__index
+        if (i >= len(self.__children)) :
+            raise StopIteration
+        tmp = self.__children[self.__index]
+        self.__index = i + 1
+        return tmp
 
     def dump(self, prefix) :
         debug(prefix + "Dumping node `" + str(self) + "'")
