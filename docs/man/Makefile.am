@@ -30,8 +30,7 @@ dist_man_MANS =					\
 	dnt-init.1				\
 	dnt-move.1				\
 	dnt-remove.1				\
-	dnt-show.1				\
-	dnt-touch.1
+	dnt-show.1
 
 man_aux       = dnt.x				\
 		dnt-add.x			\
@@ -42,8 +41,7 @@ man_aux       = dnt.x				\
 		dnt-init.x			\
 		dnt-move.x			\
 		dnt-remove.x			\
-		dnt-show.x			\
-		dnt-touch.x
+		dnt-show.x
 
 EXTRA_DIST = $(man_aux)
 
@@ -160,17 +158,6 @@ dnt-show.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Show.py $(to
 	    --section=1	\
 	    --output=dnt-show.1 \
 	    "$(top_builddir)/src/dnt show"
-
-dnt-touch.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Touch.py $(top_srcdir)/configure.ac
-	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
-	export PYTHONPATH ; \
-	$(HELP2MAN) \
-	    --include=$(srcdir)/dnt-touch.x \
-	    --source="@PACKAGE_NAME@" \
-	    --manual="User Commands" \
-	    --section=1	\
-	    --output=dnt-touch.1 \
-	    "$(top_builddir)/src/dnt touch"
 
 ##
 ## Maintainer related targets

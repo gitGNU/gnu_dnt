@@ -51,7 +51,6 @@ try :
     import Commands.Move
     import Commands.Remove
     import Commands.Show
-    import Commands.Touch
     import Commands.Dump
 except ImportError :
     # XXX FIXME: Add better error reporting ....
@@ -87,8 +86,6 @@ commands = {
                  'do'          : Commands.Remove.do           },
     'show'   : { 'description' : Commands.Show.description,
                  'do'          : Commands.Show.do             },
-    'touch'  : { 'description' : Commands.Touch.description,
-                 'do'          : Commands.Touch.do            },
     'dump'   : { 'description' : Commands.Dump.description,
                  'do'          : Commands.Dump.do             },
     }
