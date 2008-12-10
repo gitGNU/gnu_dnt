@@ -17,14 +17,14 @@
 #
 
 import sys
-import datetime
 import string
 
-import Debug
-import Trace
+from   Debug import *
+from   Trace import *
 from   ID    import *
 from   Node  import *
 from   Color import *
+import Time
 
 class Entry(Node) :
     __text     = ""
@@ -46,7 +46,7 @@ class Entry(Node) :
     def __init__(self,
                  t = "",
                  p = PRIORITY_MEDIUM,
-                 d = datetime.date.today()) :
+                 d = Time.today()) :
 	#Node.__init__(self)
 	super(Entry, self).__init__()
         self.text_set(t)
