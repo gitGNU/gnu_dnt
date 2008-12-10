@@ -19,7 +19,7 @@
 import sys
 import string
 
-import Debug
+from   Debug      import *
 from   Trace      import *
 import Exceptions
 
