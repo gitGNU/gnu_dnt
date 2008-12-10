@@ -51,6 +51,17 @@ class Command(OptionParser) :
 			      )
 	OptionParser.disable_interspersed_args(self)
 
+    # Override OptParse print_version() method
+    def print_version(self, file = None) :
+        OptionParser.print_version(self, file)
+        print >> file, ""
+        print >> file, "Copyright (C) 2008 Francesco Salvestrini"
+        print >> file, ""
+        print >> file, "This is free software.  You may redistribute copies of it under the terms of"
+        print >> file, "the GNU General Public License <http://www.gnu.org/licenses/gpl.html>."
+        print >> file, "There is NO WARRANTY, to the extent permitted by law."
+
+
     def name_get(self) :
 	return self.__text
     def name_set(self, n) :
