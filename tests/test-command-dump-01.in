@@ -24,8 +24,8 @@
 . $testdir/defs || exit 1
 
 # Always check --help and --version
-$DNT touch --help    || exit 1
-$DNT touch --version || exit 1
+$DNT dump --help    || exit 1
+$DNT dump --version || exit 1
 
 # Then perform the command related check
 
