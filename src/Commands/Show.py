@@ -18,14 +18,13 @@
 
 import sys
 
-import Debug
-import Trace
+from   Debug      import *
+from   Trace      import *
 from   Command    import *
 import Exceptions
-
 import Color
 import DB
-from   Entry    import *
+from   Entry      import *
 
 def description() :
     return "display node(s)"
@@ -95,25 +94,26 @@ def do(configuration, arguments) :
     # Work
 
     # Load DB
+    db_file = configuration.get(PROGRAM_NAME, 'database')
+    assert(db_file != None)
+
+    db   = DB.Database()
+    tree = db.load(db_file)
+    assert(tree != None)
+
     try :
-        db_file = configuration.get(PROGRAM_NAME, 'database')
-        assert(db_file != None)
-        
-        db   = DB.Database()
-        tree = db.load(db_file)
-        assert(tree != None)
-        
-        v = ShowVisitor(configuration.getboolean(PROGRAM_NAME, 'colors'),
-                        configuration.getboolean(PROGRAM_NAME, 'verbose'))
-        tree.accept(v)
-
-    except Exceptions, e :
-	error(str(e))
-	return 1
+        colors = configuration.getboolean(PROGRAM_NAME, 'colors')
     except :
-        bug()
+        colors = False
+    try :
+        verbose = configuration.getboolean(PROGRAM_NAME, 'verbose')
+    except :
+        verbose = False
 
-    return 0
+    v = ShowVisitor(colors, verbose)
+    tree.accept(v)
+
+    debug("Success")
 
 # Test
 if (__name__ == '__main__') :
