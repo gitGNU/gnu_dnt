@@ -56,43 +56,37 @@ def do(configuration, arguments) :
     debug("Removing node:")
     debug("  id = " + str(node_id))
 
-    try :
-	db = DB.Database()
+    db = DB.Database()
 
-        # Load database from file
-	tree = db.load(db_file)
-	assert(tree != None)
+    # Load database from file
+    tree = db.load(db_file)
+    assert(tree != None)
 
-        debug("Looking for node `" + str(node_id) + "'")
-        node = Entry.find(tree, node_id)
-        if (node == None) :
-            raise Exceptions.WrongParameters("unknown node id")
+    debug("Looking for node `" + str(node_id) + "'")
+    node = Entry.find(tree, node_id)
+    if (node == None) :
+        raise Exceptions.WrongParameters("unknown node "
+                                         "`" + str(node_id) + "'")
 
-        parent = node.parent
-        if (parent == None) :
-            raise Exceptions.WrongParameters("cannot remove root node")
+    parent = node.parent
+    if (parent == None) :
+        raise Exceptions.WrongParameters("cannot remove root node")
 
-        debug("Node "
-              "`" + str(node_id) + "' "
-              "has " + str(len(node.children())) + " child/children")
+    debug("Node "
+          "`" + str(node_id) + "' "
+          "has " + str(len(node.children())) + " child/children")
 
-        if ((len(node.children()) > 0) and (opts.recursive != True)) :
-            raise Exceptions.MissingParameters("--recursive")
+    if ((len(node.children()) > 0) and (opts.recursive != True)) :
+        raise Exceptions.MissingParameters("--recursive")
 
-        parent.remove(node)
+    parent.remove(node)
 
-        #tree.dump("")
+    #tree.dump("")
 
-        # Save database back to file
-        db.save(db_file, tree)
+    # Save database back to file
+    db.save(db_file, tree)
 
-    except Exceptions.EBase, e :
-	error(str(e))
-	return 1
-    except :
-        bug()
-
-    return 0
+    debug("Success")
 
 # Test
 if (__name__ == '__main__') :
