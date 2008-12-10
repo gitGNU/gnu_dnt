@@ -19,8 +19,9 @@
 import sys
 from   xml.etree   import ElementTree as ET
 
-import Trace
+from   Trace       import *
 from   Entry       import *
+import Time
 import Exceptions
 
 #
@@ -32,17 +33,17 @@ def string_to_priority(p) :
     assert(type(p) == str)
     t = string.lower(p)
     if (t == "veryhigh") :
-	return Entry.PRIORITY_VERYHIGH
+        return Entry.PRIORITY_VERYHIGH
     elif (t == "high") :
-	return Entry.PRIORITY_HIGH
+        return Entry.PRIORITY_HIGH
     elif (t == "medium") :
-	return Entry.PRIORITY_MEDIUM
+        return Entry.PRIORITY_MEDIUM
     elif (t == "low") :
-	return Entry.PRIORITY_LOW
+        return Entry.PRIORITY_LOW
     elif (t == "verylow") :
-	return Entry.PRIORITY_VERYLOW
+        return Entry.PRIORITY_VERYLOW
     else :
-	raise Exceptions.EDatabase.UnknownPriority(p)
+        raise Exceptions.EDatabase.UnknownPriority(p)
 
 # Internal use (XML->Tree)
 def fromxml(xml) :
@@ -51,27 +52,27 @@ def fromxml(xml) :
     #debug("Handling node tag " + xml.tag)
 
     if (xml.tag == "entry") :
-	text     = xml.text
-	try :
-	    priority = string_to_priority(xml.attrib['priority'])
-	except :
-	    priority = Entry.PRIORITY_MEDIUM
-	try :
-	    time     = xml.attrib['time']
-	except :
-	    time     = datetime.date.today()
+        text     = xml.text
+        try :
+            priority = string_to_priority(xml.attrib['priority'])
+        except :
+            priority = Entry.PRIORITY_MEDIUM
+        try :
+            time     = xml.attrib['time']
+        except :
+            time     = Time.today()
     else :
-	raise Exceptions.EDatabase.UnknownElement(xml.tag)
+        raise Exceptions.EDatabase.UnknownElement(xml.tag)
 
     entry = Entry(text, priority, time)
 
     j = 0
     for x in xml.getchildren() :
-	debug("Working with child `" + str(x) + "'")
-	tmp = fromxml(x)
-	if (tmp != None) :
-	    entry.child(j, tmp)
-	    j = j + 1
+        debug("Working with child `" + str(x) + "'")
+        tmp = fromxml(x)
+        if (tmp != None) :
+            entry.child(j, tmp)
+            j = j + 1
 
     #debug("Returning " + str(entry))
     return entry
@@ -81,11 +82,11 @@ def toxml(node, xml) :
     assert(xml != None)
 
     if (node == None) :
-	debug("Node `" + str(node) + "'has no children")
-	return
+        debug("Node `" + str(node) + "'has no children")
+        return
 
     child = ET.SubElement(xml,
-			  tag = "entry")
+                          tag = "entry")
 #    ,
 #                          attrib = {
 #            'priority' : string_to_priority(node.priority),
@@ -95,69 +96,69 @@ def toxml(node, xml) :
     child.text = node.text
 
     for i in node.children() :
-	debug("Navigating node `" + str(i) + "'")
-	toxml(i, child)
+        debug("Navigating node `" + str(i) + "'")
+        toxml(i, child)
 
     debug("Child `" + str(node) + "' navigation completed")
 
 class Database :
     def __init__(self) :
-	debug("Creating empty DB")
+        debug("Creating empty DB")
 
     def load(self, name) :
-	assert(name != None)
-	debug("Loading DB from `" + name + "'")
+        assert(name != None)
+        debug("Loading DB from `" + name + "'")
 
-	try :
-	    xml  = ET.parse(name)
-	    assert(xml != None)
-	    root = xml.getroot()
-	    assert(root != None)
-	    if (len(root) > 1) :
-		raise Exceptions.MalformedDatabase(name)
-	    root = root[0]
+        try :
+            xml  = ET.parse(name)
+            assert(xml != None)
+            root = xml.getroot()
+            assert(root != None)
+            if (len(root) > 1) :
+                raise Exceptions.MalformedDatabase(name)
+            root = root[0]
 
-	    #ET.dump(root)
+            #ET.dump(root)
 
-	except IOError, e :
-	    raise Exceptions.ProblemsReading(name, str(e))
-	except Exception, e :
-	    raise Exceptions.ProblemsReading(name, str(e))
-	except :
-	    bug()
+        except IOError, e :
+            raise Exceptions.ProblemsReading(name, str(e))
+        except Exception, e :
+            raise Exceptions.ProblemsReading(name, str(e))
+        except :
+            bug()
 
-	assert(xml != None)
+        assert(xml != None)
 
-	tree = fromxml(root)
-	assert(tree != None)
+        tree = fromxml(root)
+        assert(tree != None)
 
-	debug("DB `" + name + " ' loaded successfully")
+        debug("DB `" + name + " ' loaded successfully")
 
-	return tree
+        return tree
 
     def save(self, name, tree) :
-	assert(name != None)
-	debug("Saving DB into `" + name + "'")
+        assert(name != None)
+        debug("Saving DB into `" + name + "'")
 
-	try :
-	    xml = ET.Element(tree.text)
-	    assert(xml != None)
-	    toxml(tree, xml)
-	    assert(tree != None)
+        try :
+            xml = ET.Element(tree.text)
+            assert(xml != None)
+            toxml(tree, xml)
+            assert(tree != None)
 
-	    ET.dump(xml)
+            #ET.dump(xml)
 
-	    root = ET.ElementTree(xml)
-	    root.write(name)
+            root = ET.ElementTree(xml)
+            root.write(name)
 
-	except IOError, e :
-	    raise Exceptions.ProblemsWriting(name, str(e))
-	except Exception, e :
-	    raise Exceptions.ProblemsWriting(name, str(e))
-	except :
-	    bug()
+        except IOError, e :
+            raise Exceptions.ProblemsWriting(name, str(e))
+        except Exception, e :
+            raise Exceptions.ProblemsWriting(name, str(e))
+        except :
+            bug()
 
-	debug("DB `" + name + " ' saved successfully")
+        debug("DB `" + name + " ' saved successfully")
 
 # Test
 if (__name__ == '__main__') :
