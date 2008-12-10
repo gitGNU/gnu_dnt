@@ -37,22 +37,21 @@ def do(configuration, arguments) :
 
     # Work
     try :
-	os.stat(db_file)
+        os.stat(db_file)
     except OSError, e:
-	warning("Nothing to do, directory already clean")
-	return 0
+        warning("Nothing to do, directory already clean")
+        return
     except :
-	bug()
+        bug()
 
     try :
-	os.unlink(db_file)
+        os.unlink(db_file)
     except IOError, e:
-	error("Cannot clean the directory")
-	return 1
+        raise Exceptions.EOS("Cannot remove `" + db_file + "'")
     except :
-	bug()
+        bug()
 
-    return 0
+    debug("Success")
 
 # Test
 if (__name__ == '__main__') :
