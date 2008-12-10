@@ -26,7 +26,7 @@ import Exceptions
 import ID
 
 def description() :
-    return "change timestamp(s)"
+    return "change node(s) timestamps"
 
 def do(configuration, arguments) :
     command = Command("touch")
@@ -54,7 +54,7 @@ def do(configuration, arguments) :
 
     # Work
 
-    return 0
+    debug("Success")
 
 # Test
 if (__name__ == '__main__') :
