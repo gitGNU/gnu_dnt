@@ -24,6 +24,7 @@ from   Command    import *
 import Exceptions
 import Color
 import DB
+import Priority
 from   Entry      import *
 
 def description() :
@@ -35,6 +36,13 @@ class ShowVisitor :
         self.__verbose = be_verbose
         self.__indent  = ""
         self.__index   = 0
+        self.__cmap    = {
+            Priority.Priority.PRIORITY_VERYHIGH : red,
+            Priority.Priority.PRIORITY_HIGH     : yellow,
+            Priority.Priority.PRIORITY_MEDIUM   : white,
+            Priority.Priority.PRIORITY_LOW      : cyan,
+            Priority.Priority.PRIORITY_VERYLOW  : blue,
+            }
 
     def visit(self, e) :
         assert(e != None)
@@ -44,17 +52,9 @@ class ShowVisitor :
         if (self.__colors) :
             color_index = green
             p           = e.priority_get()
-            if (p == Entry.PRIORITY_VERYHIGH) :
-                color_text = red
-            elif (p == Entry.PRIORITY_HIGH) :
-                color_text = yellow
-            elif (p == Entry.PRIORITY_MEDIUM) :
-                color_text = white
-            elif (p == Entry.PRIORITY_LOW) :
-                color_text = cyan
-            elif (p == Entry.PRIORITY_VERYLOW) :
-                color_text = blue
-            else :
+            try :
+                color_text  = self.__cmap[p]
+            except KeyError :
                 color_text = white
         else :
             color_index = lambda x: x # pass-through
@@ -66,6 +66,11 @@ class ShowVisitor :
         print(self.__indent                 +
               color_index(str(self.__index) + ".") +
               color_text(e.text))
+        if (self.__verbose) :
+            l = " " * (len(str(self.__index)) + len("."))
+            print(self.__indent + l + "start = " + e.start.tostring())
+            print(self.__indent + l + "end   = " + e.end.tostring())
+            print("")
 
         old_indent = self.__indent
         old_index  = self.__index
