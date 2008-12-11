@@ -34,7 +34,7 @@ my $version = "0.1";
 # Utilities
 #
 
-my $debug_enabled = 1;
+my $debug_enabled = 0;
 
 sub debug($)
 {

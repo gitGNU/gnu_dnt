@@ -34,7 +34,8 @@ DOWNLOAD = 					\
 	ax_with_prog.m4
 
 MACROS =					\
-	$(DOWNLOAD)
+	$(DOWNLOAD)				\
+	ax_prog_python_modules.m4
 
 update-local: Makefile
 	rm -r -f fetch-dir && \
