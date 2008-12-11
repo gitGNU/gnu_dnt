@@ -191,7 +191,7 @@ def main(arguments) :
 
     # Finally apply global configurations (each command will apply its own)
     if (configuration.get(PROGRAM_NAME, 'debug', raw = True) == True) :
-        Trace.debug_enabled = True
+        debug_enabled = True
 
     # Start as normal now
     debug("Configuration read from `" + str(cfg_files) + "'")
