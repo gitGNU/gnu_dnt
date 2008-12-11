@@ -19,39 +19,31 @@
 import sys
 import string
 
-from   Debug import *
-from   Trace import *
-from   ID    import *
-from   Node  import *
-from   Color import *
+from   Debug    import *
+from   Trace    import *
+from   ID       import *
+from   Node     import *
+from   Color    import *
+import Priority
 import Time
 
 class Entry(Node) :
     __text     = ""
-    __priority = ""
-    __time     = ""
-
-    PRIORITY_VERYHIGH = 5
-    PRIORITY_HIGH     = 4
-    PRIORITY_MEDIUM   = 3
-    PRIORITY_LOW      = 2
-    PRIORITY_VERYLOW  = 1
-
-    __legal_priorities = ( PRIORITY_VERYHIGH,
-                           PRIORITY_HIGH,
-                           PRIORITY_MEDIUM,
-                           PRIORITY_LOW,
-                           PRIORITY_VERYLOW )
+    __priority = None
+    __start    = None
+    __end      = None
 
     def __init__(self,
                  t = "",
-                 p = PRIORITY_MEDIUM,
-                 d = Time.today()) :
+                 p = Priority.Priority(),
+                 s = Time.Time(),
+                 e = Time.Time()) :
         #Node.__init__(self)
         super(Entry, self).__init__()
         self.text_set(t)
         self.priority_set(p)
-        self.time_set(d)
+        self.start_set(s)
+        self.end_set(e)
         debug("Entry `" + str(self) + "' created successfully")
 
     def text_get(self) :
@@ -68,21 +60,30 @@ class Entry(Node) :
     def priority_get(self) :
         return self.__priority
     def priority_set(self, p) :
-        assert(type(p) == int)
-        assert(p in self.__legal_priorities)
-
         self.__priority = p
 
     priority = property(priority_get, priority_set)
 
-    def time_get(self) :
-        return self.__time
-    def time_set(self, t) :
-        self.__time = t
+    def start_get(self) :
+        return self.__start
+    def start_set(self, t) :
+        self.__start = t
 
-    time = property(time_get, time_set)
+    start = property(start_get, start_set)
 
-    def __repr__(self) :
+    def end_get(self) :
+        return self.__end
+    def end_set(self, t) :
+        self.__end = t
+
+    end = property(end_get, end_set)
+
+    def done(self) :
+        if (self.__start < self.__end) :
+            return False
+        return True
+
+    def __str__(self) :
         return '<Entry #%x>' % (id(self))
 
     def accept(self, visitor) :
@@ -135,7 +136,7 @@ if (__name__ == '__main__') :
     root.child(0, e1)
     root.child(1, e2)
 
-    class Visitor :
+    class Visitor(object) :
         def visit(self, e) :
             debug("Visiting entry " + str(e))
             for j in e.children() :
