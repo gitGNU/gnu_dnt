@@ -43,6 +43,7 @@ pkgvpython_PYTHON =				\
 	Debug.py				\
 	Time.py					\
 	Color.py				\
+	Priority.py				\
 	DB.py					\
 	Node.py					\
 	Entry.py				\
