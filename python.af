@@ -1,0 +1,15 @@
+# Input file for python-autofrisk
+
+files-glob src/dnt\.in
+files-glob src/.*py
+files-glob src/Commands/.*py
+
+non-critical-internal Commands\..*
+
+#non-critical-external strict[ \t]*.*
+#non-critical-external diagnostics[ \t]*.*
+#non-critical-external warnings[ \t]*.*
+#non-critical-external vars[ \t]*.*
+#non-critical-external [0-9]\..*
+#non-critical-external POSIX[ \t]*.*
+#non-critical-external base[ \t]*.*
