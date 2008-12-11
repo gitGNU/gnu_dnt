@@ -18,6 +18,7 @@
 
 import sys
 import datetime
+import time
 
 from   Debug import *
 from   Trace import *
@@ -25,7 +26,25 @@ from   Trace import *
 def today() :
     return datetime.date.today()
 
+class Time(object) :
+    since_epoch__ = 0
+
+    def __init__(self, t = datetime.datetime.now()) :
+        self.__since_epoch = time.mktime(t.timetuple())
+
+    def __str__(self) :
+        now = datetime.datetime.fromtimestamp(self.since_epoch__)
+        return now.ctime()
+
+    def fromstring(self) :
+        pass
+
+    def tostring(self) :
+        return self.__str__()
+
 # Test
 if (__name__ == '__main__') :
+    t = Time()
+    debug("Time is = " + str(t))
     debug("Test completed")
     sys.exit(0)
