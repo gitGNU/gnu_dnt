@@ -38,17 +38,25 @@ class EOS(EBase):
         EBase.__init__(self, value)
 
 #
+# Priority related exceptions
+#
+class EPriority(EBase):
+    def __init__(self, value) :
+        assert(value != None)
+        EBase.__init__(self, value)
+
+class UnknownPriority(EPriority):
+    def __init__(self, value) :
+        assert(value != None)
+        EPriority.__init__(self, "unknown priority `" + value + "'")
+
+#
 # Database related exceptions
 #
 class EDatabase(EBase):
     def __init__(self, value) :
         assert(value != None)
         EBase.__init__(self, value)
-
-class UnknownPriority(EDatabase):
-    def __init__(self, value) :
-        assert(value != None)
-        EDatabase.__init__(self, "unknown priority `" + value + "'")
 
 class UnknownElement(EDatabase):
     def __init__(self, value) :
