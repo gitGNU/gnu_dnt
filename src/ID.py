@@ -23,7 +23,7 @@ from   Debug      import *
 from   Trace      import *
 import Exceptions
 
-class ID :
+class ID(object) :
     def __init__(self, s = "") :
         assert(type(s) == str)
 
