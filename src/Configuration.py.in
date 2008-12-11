@@ -53,6 +53,9 @@ class Configuration(ConfigParser.ConfigParser) :
     def modified(self) :
         return self.__modified
 
+    def clean(self) :
+        self.__modified = False
+
 # Test
 if (__name__ == '__main__') :
     # Do not use our machineries here (debug, warning, error etc.)
