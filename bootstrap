@@ -90,6 +90,18 @@ rm -rf autom4te.cache                                || exit 1
 rm -rf `find ./ -name ".deps"`                       || exit 1
 
 #
+# Autofrisk python modules
+#
+echo "$ME: Python autofrisk ..."
+./tools/maint/python-autofrisk ./python.af && \
+    cat ./python.af.m4 > ./tools/autotools/m4/python_autofrisk.m4 && \
+    rm -f ./python.af.m4 || {
+    rm -f ./python.af.m4
+    rm -f ./tools/autotools/m4/python_autofrisk.m4
+    exit 1
+}
+
+#
 # configure.ac
 #
 echo "$ME: Building configure.ac from configure.ac.in"
