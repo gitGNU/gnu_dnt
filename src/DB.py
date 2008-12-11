@@ -22,28 +22,13 @@ from   xml.etree   import ElementTree as ET
 from   Trace       import *
 from   Entry       import *
 import Time
+import Priority
 import Exceptions
 
 #
 # XXX FIXME:
 #     Please rearrange using SAX instead of DOM
 #
-
-def string_to_priority(p) :
-    assert(type(p) == str)
-    t = string.lower(p)
-    if (t == "veryhigh") :
-        return Entry.PRIORITY_VERYHIGH
-    elif (t == "high") :
-        return Entry.PRIORITY_HIGH
-    elif (t == "medium") :
-        return Entry.PRIORITY_MEDIUM
-    elif (t == "low") :
-        return Entry.PRIORITY_LOW
-    elif (t == "verylow") :
-        return Entry.PRIORITY_VERYLOW
-    else :
-        raise Exceptions.EDatabase.UnknownPriority(p)
 
 # Internal use (XML->Tree)
 def fromxml(xml) :
@@ -53,18 +38,28 @@ def fromxml(xml) :
 
     if (xml.tag == "entry") :
         text     = xml.text
+
         try :
-            priority = string_to_priority(xml.attrib['priority'])
+            priority = priority.fromstring(xml.attrib['priority'])
         except :
-            priority = Entry.PRIORITY_MEDIUM
+            priority = Priority.Priority()
+
         try :
-            time     = xml.attrib['time']
+            start    = Time.Time().fromstring(xml.attrib['start'])
         except :
-            time     = Time.today()
+            warning("No start time for entry, using default")
+            start    = Time.Time()
+
+        try :
+            end      = Time.Time().fromstring(xml.attrib['end'])
+        except :
+            warning("No end time for entry, using default")
+            end      = Time.Time()
+
     else :
         raise Exceptions.EDatabase.UnknownElement(xml.tag)
 
-    entry = Entry(text, priority, time)
+    entry = Entry(text, priority, start, end)
 
     j = 0
     for x in xml.getchildren() :
@@ -86,11 +81,11 @@ def toxml(node, xml) :
         return
 
     child = ET.SubElement(xml,
-                          tag = "entry")
-#    ,
-#                          attrib = {
-#            'priority' : string_to_priority(node.priority),
-#            'time'     : node.time })
+                          tag = "entry",
+                          attrib = {
+            'priority' : node.priority.tostring(),
+            'start'    : node.start.tostring(),
+            'end'      : node.end.tostring() })
     assert(child != None)
 
     child.text = node.text
@@ -101,7 +96,7 @@ def toxml(node, xml) :
 
     debug("Child `" + str(node) + "' navigation completed")
 
-class Database :
+class Database(object) :
     def __init__(self) :
         debug("Creating empty DB")
 
@@ -154,7 +149,7 @@ class Database :
         except IOError, e :
             raise Exceptions.ProblemsWriting(name, str(e))
         except Exception, e :
-            raise Exceptions.ProblemsWriting(name, str(e))
+            bug() #raise Exceptions.ProblemsWriting(name, str(e))
         except :
             bug()
 
