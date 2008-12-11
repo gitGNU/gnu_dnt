@@ -42,6 +42,10 @@ def bug(s = "") :
     # Like _exit(), exit immediately ...
     os._exit(1)
 
+def bug_on(v) :
+    if (v == False) :
+        bug()
+
 # Test
 if (__name__ == '__main__') :
     debug("Test completed")
