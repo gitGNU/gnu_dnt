@@ -52,6 +52,8 @@ try :
     import Commands.Remove
     import Commands.Show
     import Commands.Dump
+    import Commands.Touch
+    import Commands.Done
 except ImportError :
     # XXX FIXME: Add better error reporting ....
     print("Cannot import package's commands ...")
@@ -88,6 +90,10 @@ commands = {
                  'do'          : Commands.Show.do             },
     'dump'   : { 'description' : Commands.Dump.description,
                  'do'          : Commands.Dump.do             },
+    'touch'  : { 'description' : Commands.Touch.description,
+                 'do'          : Commands.Touch.do            },
+    'done'   : { 'description' : Commands.Done.description,
+                 'do'          : Commands.Done.do             },
     }
 
 def main(arguments) :
