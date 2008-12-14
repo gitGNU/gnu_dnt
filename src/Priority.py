@@ -28,14 +28,24 @@ class Priority(object) :
     PRIORITY_LOW      = 2
     PRIORITY_VERYLOW  = 1
 
-    #__legal_priorities = ( PRIORITY_VERYHIGH,
-    #                       PRIORITY_HIGH,
-    #                       PRIORITY_MEDIUM,
-    #                       PRIORITY_LOW,
-    #                       PRIORITY_VERYLOW )
+    __legal_priorities = ( PRIORITY_VERYHIGH,
+                           PRIORITY_HIGH,
+                           PRIORITY_MEDIUM,
+                           PRIORITY_LOW,
+                           PRIORITY_VERYLOW )
 
     def __init__(self, p = PRIORITY_MEDIUM) :
         self.__priority = p
+
+    def increase(self) :
+        self.__priority = self.__priority + 1
+        if (self.__priority > PRIORITY_VERYHIGH) :
+            self.__priority = PRIORITY_VERYHIGH
+
+    def decrease(self) :
+        self.__priority = self.__priority - 1
+        if (self.__priority < PRIORITY_VERYLOW) :
+            self.__priority = PRIORITY_VERYLOW
 
     def fromstring(self, p) :
         bug_on(not(self.__priority in self.__legal_priorities))
