@@ -271,9 +271,9 @@ for my $filename (@files) {
 	my $line;
 
 	$line = $_;
-	if ($line =~ /^[ \t]+import[ \t]+(.*)$/) {
+	if ($line =~ /^[ \t]*import[ \t]+(.*)[ \t]*$/) {
 	    $modules{$1} = "INCLUDE";
-	} elsif ($line =~ /^[ \t]+from[ \t]+(.*)[ \t]+import[\t]+.*$/) {
+	} elsif ($line =~ /^[ \t]*from[ \t]+(.*)[ \t]+import[\t]+.*$/) {
 	    $modules{$1} = "INCLUDE";
 	}
     }
