@@ -47,13 +47,13 @@ def fromxml(xml) :
         try :
             start    = Time.Time().fromstring(xml.attrib['start'])
         except :
-            warning("No start time for entry, using default")
+            warning("No start time for entry `" + text + "', using default")
             start    = Time.Time()
 
         try :
             end      = Time.Time().fromstring(xml.attrib['end'])
         except :
-            warning("No end time for entry, using default")
+            warning("No end time for entry `" + text +"', using default")
             end      = Time.Time()
 
     else :
