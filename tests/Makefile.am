@@ -84,6 +84,8 @@ SUCCESS_TESTS +=				\
 	test-command-move-01			\
 	test-command-show-01			\
 	test-command-dump-01			\
+	test-command-touch-01			\
+	test-command-done-01			\
 	test-command-config-01
 
 XFAIL_TESTS  = $(FAIL_TESTS)
@@ -208,6 +210,30 @@ test-command-dump-01: $(srcdir)/test-command-dump-01.in Makefile
 	}
 EXTRA_DIST += test-command-dump-01.in
 CLEANFILES += test-command-dump-01
+
+test-command-touch-01: $(srcdir)/test-command-touch-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-touch-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-touch-01.in
+CLEANFILES += test-command-touch-01
+
+test-command-done-01: $(srcdir)/test-command-done-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-done-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-done-01.in
+CLEANFILES += test-command-done-01
 
 test-command-config-01: $(srcdir)/test-command-config-01.in Makefile
 	( rm -f $@ $@.tmp && \
