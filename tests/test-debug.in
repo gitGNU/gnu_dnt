@@ -25,11 +25,15 @@ required="diff"
 
 . $testdir/defs || exit 1
 
-rm -f test.log
+rm -f test1.log
+rm -f test2.log
 
 $DNT_NOFLAGS         --help > test1.log || exit 1
 $DNT_NOFLAGS --debug --help > test2.log || exit 1
 
 diff test1.log test2.log || exit 1
+
+rm -f test1.log
+rm -f test2.log
 
 exit 0
