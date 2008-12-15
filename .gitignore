@@ -48,6 +48,8 @@ tests/wrapper
 tests/testSubDir-*
 tests/test-success
 tests/test-fail
+tests/test-debug
+tests/test-verbose
 tests/test-command-show-01
 tests/test-command-config-01
 tests/test-command-add-01
