@@ -25,8 +25,7 @@ bin_SCRIPTS =					\
 
 commandsdir = $(pkgvpythondir)/Commands
 
-commands_PYTHON =				\
-	Commands/__init__.py			\
+commands_SRCS = 				\
 	Commands/Add.py				\
 	Commands/Config.py			\
 	Commands/Dump.py			\
@@ -38,6 +37,10 @@ commands_PYTHON =				\
 	Commands/Touch.py			\
 	Commands/Done.py			\
 	Commands/Clean.py
+
+commands_PYTHON =				\
+	Commands/__init__.py			\
+	$(commands_SRCS)
 
 pkgvpython_PYTHON =				\
 	Trace.py				\
