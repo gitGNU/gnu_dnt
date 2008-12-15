@@ -76,6 +76,8 @@ FAIL_TESTS    +=				\
 	test-fail
 SUCCESS_TESTS +=				\
 	test-success				\
+	test-verbose				\
+	test-debug				\
 	test-command-init-01			\
 	test-command-clean-01			\
 	test-command-add-01			\
@@ -114,6 +116,30 @@ test-fail: $(srcdir)/test-fail.in Makefile
 	}
 EXTRA_DIST += test-fail.in
 CLEANFILES += test-fail
+
+test-verbose: $(srcdir)/test-verbose.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-verbose.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-verbose.in
+CLEANFILES += test-verbose
+
+test-debug: $(srcdir)/test-debug.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-debug.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-debug.in
+CLEANFILES += test-debug
 
 test-command-show-01: $(srcdir)/test-command-show-01.in Makefile
 	( rm -f $@ $@.tmp && \

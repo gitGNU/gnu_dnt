@@ -95,11 +95,11 @@ then
 	( $tool --version ) || exit 77
 	;;
     esac
-    # Additional variables to define if some $tool is required.
-    case $tool in
-      gcc)
-	;;
-    esac
+    ## Additional variables to define if some $tool is required.
+    #case $tool in
+    #  gcc)
+    #    ;;
+    #esac
   done
 fi
 
