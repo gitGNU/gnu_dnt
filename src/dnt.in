@@ -43,17 +43,7 @@ except ImportError :
     sys.exit(-1)
 
 try :
-    import Commands.Init
-    import Commands.Clean
-    import Commands.Config
-    import Commands.Add
-    import Commands.Edit
-    import Commands.Move
-    import Commands.Remove
-    import Commands.Show
-    import Commands.Dump
-    import Commands.Touch
-    import Commands.Done
+    import Commands
 except ImportError :
     # XXX FIXME: Add better error reporting ....
     print("Cannot import package's commands ...")
@@ -71,31 +61,6 @@ def version() :
     print("the GNU General Public License <http://www.gnu.org/licenses/gpl.html>.")
     print("There is NO WARRANTY, to the extent permitted by law.")
 
-commands = {
-    'init'   : { 'description' : Commands.Init.description,
-                 'do'          : Commands.Init.do             },
-    'clean'  : { 'description' : Commands.Clean.description,
-                 'do'          : Commands.Clean.do            },
-    'add'    : { 'description' : Commands.Add.description,
-                 'do'          : Commands.Add.do              },
-    'config' : { 'description' : Commands.Config.description,
-                 'do'          : Commands.Config.do           },
-    'edit'   : { 'description' : Commands.Edit.description,
-                 'do'          : Commands.Edit.do             },
-    'move'   : { 'description' : Commands.Move.description,
-                 'do'          : Commands.Move.do             },
-    'remove' : { 'description' : Commands.Remove.description,
-                 'do'          : Commands.Remove.do           },
-    'show'   : { 'description' : Commands.Show.description,
-                 'do'          : Commands.Show.do             },
-    'dump'   : { 'description' : Commands.Dump.description,
-                 'do'          : Commands.Dump.do             },
-    'touch'  : { 'description' : Commands.Touch.description,
-                 'do'          : Commands.Touch.do            },
-    'done'   : { 'description' : Commands.Done.description,
-                 'do'          : Commands.Done.do             },
-    }
-
 def main(arguments) :
     # Setup the configuration with some default values
     configuration = Configuration()
@@ -108,10 +73,10 @@ def main(arguments) :
 
     # Build the command line parser
     footer = "Commands:\n"
-    for i in commands.keys() :
+    for i in Commands.commands.keys() :
         footer = \
             footer + \
-            ("  %-16s %s" %(i, commands[i]['description']())) + \
+            ("  %-16s %s" %(i, Commands.commands[i]['description']())) + \
             "\n"
     footer = footer + "\n"
     footer = footer + \
@@ -209,7 +174,7 @@ def main(arguments) :
 
     cmd = command.rargs[0]
     try :
-        command_do = commands[cmd]['do']
+        command_do = Commands.commands[cmd]['do']
     except KeyError :
         hint("Unknown command `" + cmd + "'")
         return 1
