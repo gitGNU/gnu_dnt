@@ -28,8 +28,11 @@ required="diff"
 rm -f test1.log
 rm -f test2.log
 
-$DNT_NOFLAGS           --help > test1.log || exit 1
-$DNT_NOFLAGS --verbose --help > test2.log || exit 1
+$DNT init          || exit 1
+$DNT add -t "test" || exit 1
+
+$DNT_NOFLAGS           --show > test1.log || exit 1
+$DNT_NOFLAGS --verbose --show > test2.log || exit 1
 
 diff test1.log test2.log || {
      rm -f test1.log
