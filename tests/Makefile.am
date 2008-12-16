@@ -76,8 +76,6 @@ FAIL_TESTS    +=				\
 	test-fail
 SUCCESS_TESTS +=				\
 	test-success				\
-	test-verbose				\
-	test-debug				\
 	test-command-init-01			\
 	test-command-clean-01			\
 	test-command-add-01			\
@@ -88,7 +86,9 @@ SUCCESS_TESTS +=				\
 	test-command-dump-01			\
 	test-command-touch-01			\
 	test-command-done-01			\
-	test-command-config-01
+	test-command-config-01			\
+	test-verbose				\
+	test-debug
 
 XFAIL_TESTS  = $(FAIL_TESTS)
 TESTS        = $(FAIL_TESTS) $(SUCCESS_TESTS)
