@@ -20,6 +20,7 @@ import sys
 from   xml.etree   import ElementTree as ET
 
 from   Trace       import *
+from   Root        import *
 from   Entry       import *
 import Time
 import Priority
@@ -37,7 +38,7 @@ def fromxml(xml) :
     #debug("Handling node tag " + xml.tag)
 
     if (xml.tag == "entry") :
-        text     = xml.text
+        text = xml.text
 
         try :
             priority = priority.fromstring(xml.attrib['priority'])
@@ -80,12 +81,22 @@ def toxml(node, xml) :
         debug("Node `" + str(node) + "'has no children")
         return
 
+    attribs = { }
+    if (node.priority != None) :
+        attribs['priority'] = node.priority.tostring()
+    if (node.start    != None) :
+        attribs['start']    = node.start.tostring()
+    if (node.end      != None) :
+        attribs['end']      = node.end.tostring()
+
     child = ET.SubElement(xml,
                           tag = "entry",
-                          attrib = {
-            'priority' : node.priority.tostring(),
-            'start'    : node.start.tostring(),
-            'end'      : node.end.tostring() })
+                          attrib = attribs)
+#    {
+#            'priority' : node.priority.tostring(),
+#            'start'    : node.start.tostring(),
+#            'end'      : node.end.tostring()
+#            })
     assert(child != None)
 
     child.text = node.text
@@ -107,11 +118,11 @@ class Database(object) :
         try :
             xml  = ET.parse(name)
             assert(xml != None)
-            root = xml.getroot()
-            assert(root != None)
-            if (len(root) > 1) :
+            xmlroot = xml.getroot()
+            assert(xmlroot != None)
+            if (len(xmlroot) > 1) :
                 raise Exceptions.MalformedDatabase(name)
-            root = root[0]
+            root = xmlroot[0]
 
             #ET.dump(root)
 
