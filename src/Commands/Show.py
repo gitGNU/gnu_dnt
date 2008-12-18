@@ -25,6 +25,7 @@ import Exceptions
 import Color
 import DB
 import Priority
+from   Root       import *
 from   Entry      import *
 
 def description() :
@@ -44,7 +45,7 @@ class ShowVisitor :
             Priority.Priority.PRIORITY_VERYLOW  : blue,
             }
 
-    def visit(self, e) :
+    def visitEntry(self, e) :
         assert(e != None)
 
         #debug("Visiting entry " + str(e))
@@ -78,12 +79,39 @@ class ShowVisitor :
             if (flag == True) :
                 print("")
 
+    def visitRoot(self, r) :
+        assert(r != None)
+
+        #debug("Visiting root " + str(r))
+
+        if (self.__colors) :
+            color_index = green
+            color_text = white
+        else :
+            color_index = lambda x: x # pass-through
+            color_text  = lambda x: x # pass-through
+
+        assert(color_index != None)
+        assert(color_text != None)
+
+        print(self.__indent                 +
+              color_index(str(self.__index) + ".") +
+              color_text(r.text))
+
+    def visit(self, n) :
+        if (type(n) == Root) :
+            self.visitRoot(n)
+        elif (type(n) == Entry) :
+            self.visitEntry(n)
+        else :
+            bug()
+
         old_indent = self.__indent
         old_index  = self.__index
 
         self.__indent = self.__indent + "    "
         self.__index  = 0
-        for j in e.children() :
+        for j in n.children() :
             self.__index = self.__index + 1
             j.accept(self) # Re-accept myself
 
