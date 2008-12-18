@@ -51,7 +51,9 @@ pkgvpython_PYTHON =				\
 	Priority.py				\
 	DB.py					\
 	Node.py					\
+	Tree.py					\
 	Entry.py				\
+	Root.py					\
 	ID.py					\
 	Command.py
 

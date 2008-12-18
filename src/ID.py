@@ -53,6 +53,7 @@ class ID(object) :
         return self.__id
 
     def parent(self) :
+        # XXX FIXME: Should it be better to return None ?
         if (len(self.__id) <= 1) :
             raise Exceptions.Parentless(self.__str__())
 
