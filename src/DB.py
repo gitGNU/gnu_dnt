@@ -31,18 +31,33 @@ import Exceptions
 #     Please rearrange using SAX instead of DOM
 #
 
-# Internal use (XML->Tree)
+#
+# NOTE:
+#     Root/Entry mix is allowed (at the moment)
+#
+
 def fromxml(xml) :
     debug("XML -> Tree in progress")
 
-    #debug("Handling node tag " + xml.tag)
+    #debug("Handling tag " + xml.tag)
+    if (xml.text == None) :
+        raise Exceptions.EDatabase.MalformedDatabase()
 
-    if (xml.tag == "entry") :
+    node = None
+
+    if (xml.tag == "root") :
+        text = xml.text
+
+        # Build a root node
+        node = Root(text)
+
+    elif (xml.tag == "entry") :
         text = xml.text
 
         try :
             priority = priority.fromstring(xml.attrib['priority'])
         except :
+            warning("No priority for entry `" + text + "', using default")
             priority = Priority.Priority()
 
         try :
@@ -57,21 +72,24 @@ def fromxml(xml) :
             warning("No end time for entry `" + text +"', using default")
             end      = Time.Time()
 
+        # Build an entry node
+        node = Entry(text, priority, start, end)
+
     else :
         raise Exceptions.EDatabase.UnknownElement(xml.tag)
 
-    entry = Entry(text, priority, start, end)
+    assert(node != None)
 
     j = 0
     for x in xml.getchildren() :
         debug("Working with child `" + str(x) + "'")
         tmp = fromxml(x)
         if (tmp != None) :
-            entry.child(j, tmp)
+            node.child(j, tmp)
             j = j + 1
 
     #debug("Returning " + str(entry))
-    return entry
+    return node
 
 def toxml(node, xml) :
     debug("Tree -> XML for node `" + str(node) + "' in progress")
@@ -81,25 +99,32 @@ def toxml(node, xml) :
         debug("Node `" + str(node) + "'has no children")
         return
 
-    attribs = { }
-    if (node.priority != None) :
-        attribs['priority'] = node.priority.tostring()
-    if (node.start    != None) :
-        attribs['start']    = node.start.tostring()
-    if (node.end      != None) :
-        attribs['end']      = node.end.tostring()
+    tag        = ""
+    attributes = { }
+    if (type(node) == Root) :
+        debug("Creating root XML element");
+        tag = "root"
+    elif (type(node) == Entry) :
+        debug("Creating entry XML element");
+        if (node.priority != None) :
+            attributes['priority'] = node.priority.tostring()
+        if (node.start    != None) :
+            attributes['start']    = node.start.tostring()
+        if (node.end      != None) :
+            attributes['end']      = node.end.tostring()
+        tag = "entry"
 
-    child = ET.SubElement(xml,
-                          tag = "entry",
-                          attrib = attribs)
-#    {
-#            'priority' : node.priority.tostring(),
-#            'start'    : node.start.tostring(),
-#            'end'      : node.end.tostring()
-#            })
-    assert(child != None)
-
+    child      = ET.Element(tag, attributes)
     child.text = node.text
+
+    #print(str(xml) + " (" + str(type(xml)) + ") = " + str(dir(xml)))
+
+    if (hasattr(xml, "_setroot")) :
+        xml._setroot(child)
+    elif (hasattr(xml, "append")):
+        xml.append(child)
+    else :
+        bug()
 
     for i in node.children() :
         debug("Navigating node `" + str(i) + "'")
@@ -109,22 +134,28 @@ def toxml(node, xml) :
 
 class Database(object) :
     def __init__(self) :
-        debug("Creating empty DB")
+        debug("DB `" + str(self) + "' created successfully")
 
     def load(self, name) :
         assert(name != None)
         debug("Loading DB from `" + name + "'")
 
         try :
+            debug("Parsing XML file")
             xml  = ET.parse(name)
             assert(xml != None)
+            debug("XML file parsing completed successfully")
+
             xmlroot = xml.getroot()
             assert(xmlroot != None)
-            if (len(xmlroot) > 1) :
-                raise Exceptions.MalformedDatabase(name)
-            root = xmlroot[0]
+            debug("Got root node")
 
-            #ET.dump(root)
+            #ET.dump(xmlroot)
+
+            #if (len(xmlroot) > 1) :
+            #    raise Exceptions.MalformedDatabase(name)
+
+            root = xmlroot #[0]
 
         except IOError, e :
             raise Exceptions.ProblemsReading(name, str(e))
@@ -135,6 +166,7 @@ class Database(object) :
 
         assert(xml != None)
 
+        debug("XML transformation in progress")
         tree = fromxml(root)
         assert(tree != None)
 
@@ -147,15 +179,17 @@ class Database(object) :
         debug("Saving DB into `" + name + "'")
 
         try :
-            xml = ET.Element(tree.text)
+            #xml = ET.Element(tree.text)
+            xml = ET.ElementTree()
             assert(xml != None)
             toxml(tree, xml)
             assert(tree != None)
 
             #ET.dump(xml)
 
-            root = ET.ElementTree(xml)
-            root.write(name)
+            #root = ET.ElementTree(xml)
+            #root.write(name)
+            xml.write(name)
 
         except IOError, e :
             raise Exceptions.ProblemsWriting(name, str(e))
