@@ -40,7 +40,6 @@ class Time(object) :
         self.since_epoch__ = int(s)
 
     def tostring(self) :
-        debug("since-epoch = " + str(self.since_epoch__))
         return str(self.since_epoch__)
 
 # Test
