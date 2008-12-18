@@ -38,7 +38,6 @@ class Entry(Node) :
                  p = Priority.Priority(),
                  s = Time.Time(),
                  e = Time.Time()) :
-        #Node.__init__(self)
         super(Entry, self).__init__()
         self.text_set(t)
         self.priority_set(p)
@@ -89,39 +88,6 @@ class Entry(Node) :
     def accept(self, visitor) :
         assert(visitor != None)
         visitor.visit(self)
-
-def find(node, id) :
-    assert(node != None)
-    assert(id != None)
-
-    debug("Looking for id `" + str(id) + "' into node `" + str(node) +"'")
-    l = id.tolist()
-    assert(len(l) > 0)
-
-    tmp = node
-    for i in l :
-        if (i == 0) :
-            continue
-
-        assert(i >= 1)
-        try :
-            debug("Looking for child "
-                  "`" + str(i) + "' "
-                  "in node "
-                  "`" + str(tmp) + "'")
-            tmp = (tmp.children())[i - 1]
-        except IndexError :
-            debug("Child `" + str(i) + "' "
-                  "is missing in node "
-                  "`" + str(tmp) +"'")
-            return None
-        except :
-            bug()
-
-        if (tmp == None) :
-            return tmp
-
-    return tmp
 
 # Test
 if (__name__ == '__main__') :
