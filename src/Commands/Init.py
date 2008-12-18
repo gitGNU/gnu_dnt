@@ -25,6 +25,7 @@ from   Command       import *
 import Exceptions
 from   Configuration import *
 import DB
+import Root
 import Entry
 from   ID            import *
 
@@ -63,12 +64,12 @@ def do(configuration, arguments) :
 
     name = opts.name
     if (name == None) :
-        name = "Root"
+        name = "Nameless DNT database"
 
     db = DB.Database()
 
     # Create an empty tree
-    tree = Entry.Entry(name)
+    tree = Root.Root(name)
     assert(tree != None)
 
     # Save newly create database to file
