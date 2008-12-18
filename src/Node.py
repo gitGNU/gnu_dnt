@@ -27,6 +27,7 @@ class Node(object) :
         self.__children = []
         self.__index    = 0
         self.__parent   = None
+        debug("Node `" + str(self) + "' created successfully")
 
     def parent_get(self) :
         return self.__parent
