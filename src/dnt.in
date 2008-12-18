@@ -153,13 +153,13 @@ def main(arguments) :
 
     # Override configuration options with command line ones
     if (opts.colors == True) :
-        configuration.set(PROGRAM_NAME, 'colors', True)
+        configuration.set(PROGRAM_NAME, 'colors',        True)
     if (opts.verbose == True) :
-        configuration.set(PROGRAM_NAME, 'verbose', True)
+        configuration.set(PROGRAM_NAME, 'verbose',       True)
     if (opts.debug == True) :
-        configuration.set(PROGRAM_NAME, 'debug', True)
+        configuration.set(PROGRAM_NAME, 'debug',         True)
     if (opts.database != None) :
-        configuration.set(PROGRAM_NAME, 'database', opts.database)
+        configuration.set(PROGRAM_NAME, 'database',      opts.database)
     if (opts.configuration != None) :
         configuration.set(PROGRAM_NAME, 'configuration', opts.configuration)
 

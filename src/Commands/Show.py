@@ -93,11 +93,6 @@ class ShowVisitor :
 def do(configuration, arguments) :
     command = Command("show")
 
-    command.add_option("-v", "--verbose",
-                       action = "store_true",
-                       dest   = "verbose",
-                       help   = "display verbosely")
-
     (opts, args) = command.parse_args(arguments)
 
     # Parameters setup
@@ -113,12 +108,14 @@ def do(configuration, arguments) :
     assert(tree != None)
 
     try :
-        colors = configuration.getboolean(PROGRAM_NAME, 'colors')
+        colors = configuration.get(PROGRAM_NAME, 'colors', raw = True)
     except :
+        debug("No colors related configuration, default to false")
         colors = False
     try :
-        verbose = configuration.getboolean(PROGRAM_NAME, 'verbose')
+        verbose = configuration.get(PROGRAM_NAME, 'verbose', raw = True)
     except :
+        debug("No verboseness related configuration, default to false")
         verbose = False
 
     v = ShowVisitor(colors, verbose)
