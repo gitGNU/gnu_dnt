@@ -36,11 +36,12 @@ class Time(object) :
         now = datetime.datetime.fromtimestamp(self.since_epoch__)
         return now.ctime()
 
-    def fromstring(self) :
-        pass
+    def fromstring(self, s) :
+        self.since_epoch__ = int(s)
 
     def tostring(self) :
-        return self.__str__()
+        debug("since-epoch = " + str(self.since_epoch__))
+        return str(self.since_epoch__)
 
 # Test
 if (__name__ == '__main__') :
