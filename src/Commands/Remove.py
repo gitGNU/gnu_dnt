@@ -25,6 +25,7 @@ import Exceptions
 import DB
 from   ID         import *
 import Entry
+import Tree
 
 def description() :
     return "remove node(s)"
@@ -63,7 +64,7 @@ def do(configuration, arguments) :
     assert(tree != None)
 
     debug("Looking for node `" + str(node_id) + "'")
-    node = Entry.find(tree, node_id)
+    node = Tree.find(tree, node_id)
     if (node == None) :
         raise Exceptions.WrongParameters("unknown node "
                                          "`" + str(node_id) + "'")

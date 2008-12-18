@@ -26,6 +26,7 @@ from   Configuration import *
 import DB
 from   ID            import *
 import Entry
+import Tree
 
 def description() :
     return "add a new node"
@@ -71,7 +72,7 @@ def do(configuration, arguments) :
     assert(tree != None)
 
     debug("Looking for node `" + str(parent_id) + "'")
-    parent = Entry.find(tree, parent_id)
+    parent = Tree.find(tree, parent_id)
     if (parent == None) :
         error("Cannot find node `" + str(parent_id) + "'")
         return 1
