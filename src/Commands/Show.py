@@ -67,10 +67,16 @@ class ShowVisitor :
               color_index(str(self.__index) + ".") +
               color_text(e.text))
         if (self.__verbose) :
-            l = " " * (len(str(self.__index)) + len("."))
-            print(self.__indent + l + "start = " + e.start.tostring())
-            print(self.__indent + l + "end   = " + e.end.tostring())
-            print("")
+            l    = " " * (len(str(self.__index)) + len("."))
+            flag = False
+            if (e.start != None) :
+                print(self.__indent + l + "start = " + e.start.tostring())
+                flag = True
+            if (e.end != None) :
+                print(self.__indent + l + "end   = " + e.end.tostring())
+                flag = True
+            if (flag == True) :
+                print("")
 
         old_indent = self.__indent
         old_index  = self.__index
