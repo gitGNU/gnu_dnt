@@ -81,6 +81,7 @@ SUCCESS_TESTS +=				\
 	test-command-add-01			\
 	test-command-remove-01			\
 	test-command-edit-01			\
+	test-command-fix-01			\
 	test-command-move-01			\
 	test-command-show-01			\
 	test-command-dump-01			\
@@ -164,6 +165,18 @@ test-command-edit-01: $(srcdir)/test-command-edit-01.in Makefile
 	}
 EXTRA_DIST += test-command-edit-01.in
 CLEANFILES += test-command-edit-01
+
+test-command-fix-01: $(srcdir)/test-command-fix-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-fix-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-fix-01.in
+CLEANFILES += test-command-fix-01
 
 test-command-move-01: $(srcdir)/test-command-move-01.in Makefile
 	( rm -f $@ $@.tmp && \
