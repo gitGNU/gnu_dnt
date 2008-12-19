@@ -39,6 +39,8 @@ docs/man/dnt-*.1
 docs/info/dnt.info
 
 src/dnt
+src/dnt-to-devtodo
+src/devtodo-to-dnt
 src/*.pyc
 src/Commands/*.pyc
 src/Configuration.py
