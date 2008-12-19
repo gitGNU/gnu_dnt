@@ -24,6 +24,7 @@ try :
     import Config
     import Add
     import Edit
+    import Fix
     import Move
     import Remove
     import Show
@@ -46,6 +47,8 @@ commands = {
                  'do'          : Config.do           },
     'edit'   : { 'description' : Edit.description,
                  'do'          : Edit.do             },
+    'fix'    : { 'description' : Fix.description,
+                 'do'          : Fix.do              },
     'move'   : { 'description' : Move.description,
                  'do'          : Move.do             },
     'remove' : { 'description' : Remove.description,
