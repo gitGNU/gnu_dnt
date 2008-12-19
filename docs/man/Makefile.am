@@ -27,6 +27,7 @@ dist_man_MANS =					\
 	dnt-config.1				\
 	dnt-dump.1				\
 	dnt-edit.1				\
+	dnt-fix.1				\
 	dnt-init.1				\
 	dnt-move.1				\
 	dnt-remove.1				\
@@ -40,6 +41,7 @@ man_aux       = dnt.x				\
 		dnt-config.x			\
 		dnt-dump.x			\
 		dnt-edit.x			\
+		dnt-fix.x			\
 		dnt-init.x			\
 		dnt-move.x			\
 		dnt-remove.x			\
@@ -118,6 +120,17 @@ dnt-edit.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Edit.py $(to
 	    --section=1	\
 	    --output=dnt-edit.1 \
 	    "$(top_builddir)/src/dnt edit"
+
+dnt-fix.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Fix.py $(top_srcdir)/configure.ac
+	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	export PYTHONPATH ; \
+	$(HELP2MAN) \
+	    --include=$(srcdir)/dnt-fix.x \
+	    --source="@PACKAGE_NAME@" \
+	    --manual="User Commands" \
+	    --section=1	\
+	    --output=dnt-fix.1 \
+	    "$(top_builddir)/src/dnt fix"
 
 dnt-init.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Init.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
