@@ -36,6 +36,7 @@ commands_SRCS = 				\
 	Commands/Config.py			\
 	Commands/Dump.py			\
 	Commands/Edit.py			\
+	Commands/Fix.py				\
 	Commands/Init.py			\
 	Commands/Move.py			\
 	Commands/Remove.py			\
