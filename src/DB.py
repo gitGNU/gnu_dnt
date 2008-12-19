@@ -40,37 +40,42 @@ def fromxml(xml) :
     debug("XML -> Tree in progress")
 
     #debug("Handling tag " + xml.tag)
-    if (xml.text == None) :
-        raise Exceptions.EDatabase.MalformedDatabase()
-
     node = None
 
     if (xml.tag == "root") :
         text = xml.text
+        if (text == None) :
+            warning("Database has no name, using default one")
+            text = "Default DB name"
 
         # Build a root node
         node = Root(text)
 
     elif (xml.tag == "entry") :
         text = xml.text
+        if (text == None) :
+            raise Exceptions.MalformedDatabase()
 
+        priority = Priority.Priority()
         try :
-            priority = priority.fromstring(xml.attrib['priority'])
-        except :
+            priority.fromstring(xml.attrib['priority'])
+        except Exception, e :
+            #debug(str(e))
             warning("No priority for entry `" + text + "', using default")
-            priority = Priority.Priority()
 
+        start = Time.Time()
         try :
-            start    = Time.Time().fromstring(xml.attrib['start'])
-        except :
+            start.fromstring(xml.attrib['start'])
+        except Exception, e:
+            #debug(str(e))
             warning("No start time for entry `" + text + "', using default")
-            start    = Time.Time()
 
+        end = Time.Time()
         try :
-            end      = Time.Time().fromstring(xml.attrib['end'])
-        except :
+            end.fromstring(xml.attrib['end'])
+        except Exception, e:
+            #debug(str(e))
             warning("No end time for entry `" + text +"', using default")
-            end      = Time.Time()
 
         # Build an entry node
         node = Entry(text, priority, start, end)
@@ -152,10 +157,7 @@ class Database(object) :
 
             #ET.dump(xmlroot)
 
-            #if (len(xmlroot) > 1) :
-            #    raise Exceptions.MalformedDatabase(name)
-
-            root = xmlroot #[0]
+            root = xmlroot
 
         except IOError, e :
             raise Exceptions.ProblemsReading(name, str(e))
@@ -189,7 +191,7 @@ class Database(object) :
 
             #root = ET.ElementTree(xml)
             #root.write(name)
-            xml.write(name)
+            xml.write(name, encoding = "")
 
         except IOError, e :
             raise Exceptions.ProblemsWriting(name, str(e))
