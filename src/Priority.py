@@ -18,6 +18,7 @@
 
 import sys
 
+from   Debug       import *
 from   Trace       import *
 import Exceptions
 
@@ -47,8 +48,7 @@ class Priority(object) :
         if (self.__priority < PRIORITY_VERYLOW) :
             self.__priority = PRIORITY_VERYLOW
 
-    def fromstring(self, p) :
-        bug_on(not(self.__priority in self.__legal_priorities))
+    def fromstring(self, t) :
         if (t == "veryhigh") :
             return self.PRIORITY_VERYHIGH
         elif (t == "high") :
