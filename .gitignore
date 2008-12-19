@@ -56,6 +56,7 @@ tests/test-command-show-01
 tests/test-command-config-01
 tests/test-command-add-01
 tests/test-command-edit-01
+tests/test-command-fix-01
 tests/test-command-init-01
 tests/test-command-clean-01
 tests/test-command-move-01
