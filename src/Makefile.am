@@ -23,6 +23,12 @@ include $(top_srcdir)/Makefile.sub
 bin_SCRIPTS =					\
 	dnt
 
+if XSLTPROC_AVAILABLE
+bin_SCRIPTS +=					\
+	dnt-to-devtodo				\
+	devtodo-to-dnt
+endif
+
 commandsdir = $(pkgvpythondir)/Commands
 
 commands_SRCS = 				\
@@ -87,6 +93,28 @@ dnt: $(srcdir)/dnt.in Makefile
 		exit 1 ; \
 	}
 EXTRA_DIST += dnt.in
+
+dnt-to-devtodo: $(srcdir)/dnt-to-devtodo.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/dnt-to-devtodo.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+		rm -f $@ $@.tmp ; \
+		exit 1 ; \
+	}
+EXTRA_DIST += dnt-to-devtodo.in
+
+devtodo-to-dnt: $(srcdir)/devtodo-to-dnt.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/devtodo-to-dnt.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+		rm -f $@ $@.tmp ; \
+		exit 1 ; \
+	}
+EXTRA_DIST += devtodo-to-dnt.in
 
 Configuration.py: $(srcdir)/Configuration.py.in Makefile
 	( rm -f $@ $@.tmp && \

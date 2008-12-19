@@ -53,6 +53,9 @@ AX_PATH_MISSING([WGET],     [wget])
 AX_PATH_MISSING([DEVTODO],  [devtodo])
 AX_PATH_MISSING([PERL],     [perl])
 
+AC_PATH_PROG([XSLTPROC],             [xsltproc])
+AM_CONDITIONAL([XSLTPROC_AVAILABLE], [ test ! "$XSLTPROC" = ""   ])
+
 #
 # Runtime related programs
 #
@@ -98,6 +101,8 @@ AC_CONFIG_FILES([
 	docs/info/Makefile
 
 	src/Makefile
+
+	data/Makefile
 
 	tests/Makefile
 
