@@ -72,11 +72,11 @@ class MissingDatabase(EDatabase):
                            ", try initializing or importing")
 
 class MalformedDatabase(EDatabase):
-    def __init__(self, value) :
+    def __init__(self, value = None) :
         tmp = ""
         if (value != None) :
-            tmp = "`" + name + "'"
-            EDatabase.__init__(self, "malformed database " + tmp)
+            tmp = " `" + value + "'"
+        EDatabase.__init__(self, "malformed database" + tmp)
 
 class CorruptedDatabase(EDatabase):
     def __init__(self, value) :
