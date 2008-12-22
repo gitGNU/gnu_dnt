@@ -35,12 +35,31 @@ def do(configuration, arguments) :
                        type   = "string",
                        dest   = "output",
                        help   = "specify output file name")
+    command.add_option("-p", "--pager",
+                       action = "store",
+                       type   = "string",
+                       dest   = "pager",
+                       help   = "specify pager to use")
 
     (opts, args) = command.parse_args(arguments)
 
     # Parameters setup
     if (opts.output == None) :
         raise Exceptions.MissingParameters("output file name")
+
+    pager = None
+    # Prefer parameter
+    if (pager == None) :
+        pager = opts.pager
+    # Fall-back to configuration
+    if (pager == None) :
+        pager = configuration.get(command.name, 'pager', raw = True)
+    # Fall-back to the environment
+    if (pager == None) :
+        pager = os.environ["PAGER"]
+    # Finally bang with error
+    if (pager == None) :
+        raise MissingParameters("pager")
 
     # Work
 
