@@ -37,11 +37,12 @@ function help {
     echo "Usage: $me [OPTION]..."
     echo ""
     echo "Options:"
-    echo "  -i, --input=FILE     specify input file"
-    echo "  -o, --output=FILE    specify output file"
-    echo "  -f, --force          force operation"
-    echo "  -h, --help           print this help, then exit"
-    echo "  -V, --version        print version number, then exit"
+    echo "  -i, --input=FILE          specify input file"
+    echo "  -o, --output=FILE         specify output file"
+    echo "  -f, --force               force operation"
+    echo "  -l, --libdir=DIRECTORY    specify library directory"
+    echo "  -h, --help                print this help, then exit"
+    echo "  -V, --version             print version number, then exit"
     echo ""
     echo "Report bugs to <@PACKAGE_BUGREPORT@>"
 }
@@ -54,6 +55,7 @@ fi
 force="no"
 input=""
 output=""
+libdir="@pkgvdatadir@"
 
 while test $# -gt 0 ; do
     case $1 in
@@ -61,6 +63,8 @@ while test $# -gt 0 ; do
         --input*=*)   input=`echo $1 | @SED@ 's,^[^=]*=,,'` ;;
         -o|--output)  shift ; output=$1 ;;
         --output*=*)  output=`echo $1 | @SED@ 's,^[^=]*=,,'` ;;
+        -l|--libdir)  shift ; libdir=$1 ;;
+        --libdir*=*)  libdir=`echo $1 | @SED@ 's,^[^=]*=,,'` ;;
         -h|--help)    help    ; exit 0 ;;
         -V|--version) version ; exit 0 ;;
         *)
@@ -81,6 +85,11 @@ if test x"$output" = x"" ; then
     exit 1
 fi
 
+if test x"$libdir" = x"" ; then
+    hint "Missing library directory"
+    exit 1
+fi
+
 if test x"$force" != x"yes" ; then
     if test -f "$output" ; then
         hint "Output file already exists, use \`--force' to override"
@@ -88,7 +97,7 @@ if test x"$force" != x"yes" ; then
     fi
 fi
 
-XSLT="@pkgvdatadir@/${me}.xslt"
+XSLT="${libdir}/${me}.xslt"
 if test ! -f $XSLT ; then
     error "Cannot access \`$XSLT' file"
     exit 1
