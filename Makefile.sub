@@ -52,6 +52,7 @@ do_subst_MAINTAINER = \
 do_subst_SPECIFIC = \
   -e 's,[@]PYTHON[@],$(PYTHON),g' \
   -e 's,[@]XSLTPROC[@],$(XSLTPROC),g' \
+  -e 's,[@]SED[@],$(SED),g' \
   -e 's,[@]pkgvpythondir[@],$(pkgvpythondir),g' \
   -e 's,[@]sysconfdir[@],$(sysconfdir),g'
 
