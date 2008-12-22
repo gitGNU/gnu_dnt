@@ -16,6 +16,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
+import os
 import sys
 
 from   Debug      import *
@@ -35,12 +36,31 @@ def do(configuration, arguments) :
                        type   = "string",
                        dest   = "id",
                        help   = "specify node id to edit")
+    command.add_option("-e", "--editor",
+                       action = "store",
+                       type   = "string",
+                       dest   = "editor",
+                       help   = "specify editor to use")
 
     (opts, args) = command.parse_args(arguments)
 
     # Parameters setup
     if (opts.id == None) :
         raise Exceptions.MissingParameters("node id")
+
+    editor = None
+    # Prefer parameter
+    if (editor == None) :
+        editor = opts.editor
+    # Fall-back to configuration
+    if (editor == None) :
+        editor = configuration.get(command.name, 'editor', raw = True)
+    # Fall-back to the environment
+    if (editor == None) :
+        editor = os.environ["EDITOR"]
+    # Finally bang with error
+    if (editor == None) :
+        raise MissingParameters("editor")
 
     # Work
     id = ID(opts.id)
