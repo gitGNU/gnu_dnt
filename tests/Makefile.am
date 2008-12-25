@@ -88,6 +88,8 @@ SUCCESS_TESTS +=				\
 	test-command-touch-01			\
 	test-command-done-01			\
 	test-command-config-01			\
+	test-devtodo-to-dnt-01			\
+	test-dnt-to-devtodo-01			\
 	test-verbose				\
 	test-debug
 
@@ -117,6 +119,30 @@ test-fail: $(srcdir)/test-fail.in Makefile
 	}
 EXTRA_DIST += test-fail.in
 CLEANFILES += test-fail
+
+test-dnt-to-devtodo-01: $(srcdir)/test-dnt-to-devtodo-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-dnt-to-devtodo-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-dnt-to-devtodo-01.in
+CLEANFILES += test-dnt-to-devtodo-01
+
+test-devtodo-to-dnt-01: $(srcdir)/test-devtodo-to-dnt-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-devtodo-to-dnt-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-devtodo-to-dnt-01.in
+CLEANFILES += test-devtodo-to-dnt-01
 
 test-verbose: $(srcdir)/test-verbose.in Makefile
 	( rm -f $@ $@.tmp && \
