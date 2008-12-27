@@ -38,7 +38,7 @@ def do(configuration, arguments) :
     command.add_option("-e", "--end",
                        action = "store",
                        type   = "string",
-                       dest   = "output",
+                       dest   = "end",
                        help   = "specify end time")
 
     (opts, args) = command.parse_args(arguments)
