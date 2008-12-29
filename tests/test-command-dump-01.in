@@ -28,5 +28,7 @@ $DNT dump --help    || exit 1
 $DNT dump --version || exit 1
 
 # Then perform the command related check
+$DNT init || exit 1
+$DNT dump || exit 1
 
 exit 0
