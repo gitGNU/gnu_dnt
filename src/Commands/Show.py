@@ -32,9 +32,11 @@ def description() :
     return "display node(s)"
 
 class ShowVisitor :
-    def __init__(self, colors, be_verbose) :
+    def __init__(self, colors, be_verbose, show_all) :
         self.__colors  = colors
         self.__verbose = be_verbose
+        self.__all     = show_all
+
         self.__indent  = ""
         self.__index   = 0
         self.__cmap    = {
@@ -64,20 +66,27 @@ class ShowVisitor :
         assert(color_index != None)
         assert(color_text != None)
 
-        print(self.__indent                 +
-              color_index(str(self.__index) + ".") +
-              color_text(e.text))
-        if (self.__verbose) :
-            l    = " " * (len(str(self.__index)) + len("."))
-            flag = False
-            if (e.start != None) :
-                print(self.__indent + l + "start = " + e.start.tostring())
-                flag = True
-            if (e.end != None) :
-                print(self.__indent + l + "end   = " + e.end.tostring())
-                flag = True
-            if (flag == True) :
-                print("")
+        if (e.done()) :
+            header = "-"
+        else :
+            header = " "
+
+        if ((not e.done()) or (e.done() and self.__all)) :
+            print(header                               +
+                  self.__indent                        +
+                  color_index(str(self.__index) + ".") +
+                  color_text(e.text))
+            if (self.__verbose) :
+                l    = " " * (len(header) + len(str(self.__index)) + len("."))
+                flag = False
+                if (e.start != None) :
+                    print(self.__indent + l + "start = " + e.start.tostring())
+                    flag = True
+                if (e.end != None) :
+                    print(self.__indent + l + "end   = " + e.end.tostring())
+                    flag = True
+                if (flag == True) :
+                    print("")
 
     def visitRoot(self, r) :
         assert(r != None)
@@ -120,6 +129,10 @@ class ShowVisitor :
 
 def do(configuration, arguments) :
     command = Command("show")
+    command.add_option("-a", "--all",
+                       action = "store_true",
+                       dest   = "all",
+                       help   = "show all nodes")
 
     (opts, args) = command.parse_args(arguments)
 
@@ -146,7 +159,11 @@ def do(configuration, arguments) :
         debug("No verboseness related configuration, default to false")
         verbose = False
 
-    v = ShowVisitor(colors, verbose)
+    show_all = False
+    if (opts.all == True) :
+        show_all = True
+
+    v = ShowVisitor(colors, verbose, show_all)
     tree.accept(v)
 
     debug("Success")
