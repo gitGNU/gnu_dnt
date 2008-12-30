@@ -55,7 +55,7 @@ def do(configuration, arguments) :
     # Fall-back to configuration
     if (editor == None) :
         try :
-            editor = configuration.get(command.name, 'editor', raw = True
+            editor = configuration.get(command.name, 'editor', raw = True)
         except :
             # No editor found on configuration
             pass
