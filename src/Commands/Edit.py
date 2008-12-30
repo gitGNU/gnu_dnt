@@ -54,7 +54,11 @@ def do(configuration, arguments) :
         editor = opts.editor
     # Fall-back to configuration
     if (editor == None) :
-        editor = configuration.get(command.name, 'editor', raw = True)
+        try :
+            editor = configuration.get(command.name, 'editor', raw = True
+        except :
+            # No editor found on configuration
+            pass
     # Fall-back to the environment
     if (editor == None) :
         editor = os.environ["EDITOR"]
