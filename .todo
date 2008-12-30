@@ -10,7 +10,10 @@
         Check the ConfigParser getboolean() problem (we must use get(..., raw=True, ...))
     </note>
     <note priority="veryhigh" time="1230589983">
-        dump command fails miserably (when the pager cannot be fetched from configuration)
+        dump command fails miserably (command.name access error ???)
+    </note>
+    <note priority="veryhigh" time="1230664010">
+        edit command fails miserably like the dump command
     </note>
     <note priority="high" time="1229468129">
         Add devtodo-2-dnt importer
