@@ -31,16 +31,17 @@ class Command(OptionParser) :
         assert(footer != None)
         assert(type(footer) == str)
 
+        self.__name   = name
         self.__footer = footer
 
         # XXX FIXME: This is really awful ...
-        if (name == "") :
+        if (self.__name == "") :
             usage_format   = "Usage: %prog " + format
             version_format = "%prog " + \
                 "(" + PACKAGE_NAME + " " + PACKAGE_VERSION + ")"
         else :
-            usage_format   = "Usage: %prog " + name + " " + format
-            version_format = "%prog " + name + " " + \
+            usage_format   = "Usage: %prog " + self.__name + " " + format
+            version_format = "%prog " + self.__name + " " + \
                 "(" + PACKAGE_NAME + " " + PACKAGE_VERSION + ")"
 
         OptionParser.__init__(self,
@@ -63,10 +64,11 @@ class Command(OptionParser) :
 
 
     def name_get(self) :
-        return self.__text
+        return self.__name
     def name_set(self, n) :
         assert(type(n) == str)
         assert(n != "")
+        assert(n != None)
         assert(n == string.rstrip(string.lstrip(n)))
 
         self.__name = n
