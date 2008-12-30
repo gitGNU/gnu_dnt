@@ -65,8 +65,9 @@ while test $# -gt 0 ; do
         --output*=*)  output=`echo $1 | @SED@ 's,^[^=]*=,,'` ;;
         -l|--libdir)  shift ; libdir=$1 ;;
         --libdir*=*)  libdir=`echo $1 | @SED@ 's,^[^=]*=,,'` ;;
-        -h|--help)    help    ; exit 0 ;;
-        -V|--version) version ; exit 0 ;;
+        -f|--force)   force="yes" ; exit 0 ;;
+        -h|--help)    help        ; exit 0 ;;
+        -V|--version) version     ; exit 0 ;;
         *)
             hint "Unknown option \`$1'"
             exit 1
