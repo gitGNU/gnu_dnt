@@ -115,11 +115,11 @@ class EID(EBase):
 
 class MalformedId(EID):
     def __init__(self, value) :
-        EIDBase.__init__(self, value)
+        EID.__init__(self, value)
 
 class Parentless(EID):
     def __init__(self, value) :
-        EIDBase.__init__(self, "node `" + value + "' is parentless")
+        EID.__init__(self, "node `" + value + "' is parentless")
 
 #
 # Configuration related exceptions
