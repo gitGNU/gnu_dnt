@@ -59,13 +59,13 @@ libdir="@pkgvdatadir@"
 
 while test $# -gt 0 ; do
     case $1 in
-        -i|--input)   shift ; input=$1 ;;
-        --input*=*)   input=`echo $1 | @SED@ 's,^[^=]*=,,'` ;;
-        -o|--output)  shift ; output=$1 ;;
+        -i|--input)   shift ; input=$1                       ;;
+        --input*=*)   input=`echo $1 | @SED@ 's,^[^=]*=,,'`  ;;
+        -o|--output)  shift ; output=$1                      ;;
         --output*=*)  output=`echo $1 | @SED@ 's,^[^=]*=,,'` ;;
-        -l|--libdir)  shift ; libdir=$1 ;;
+        -l|--libdir)  shift ; libdir=$1                      ;;
         --libdir*=*)  libdir=`echo $1 | @SED@ 's,^[^=]*=,,'` ;;
-        -f|--force)   force="yes" ; exit 0 ;;
+        -f|--force)   force="yes"          ;;
         -h|--help)    help        ; exit 0 ;;
         -V|--version) version     ; exit 0 ;;
         *)
