@@ -94,7 +94,7 @@ class ProblemsReading(EDatabase):
             tmp = ", " + value
             EDatabase.__init__(self,
                                "problems reading database "
-                               "`" + name+ "'" + tmp)
+                               "`" + name + "'" + tmp)
 
 class ProblemsWriting(EDatabase):
     def __init__(self, name, value) :
@@ -104,7 +104,7 @@ class ProblemsWriting(EDatabase):
             tmp = ", " + value
             EDatabase.__init__(self,
                                "problems writing database "
-                               "`" + name+ "'" + tmp)
+                               "`" + name + "'" + tmp)
 
 #
 # ID related exceptions
