@@ -53,7 +53,11 @@ def do(configuration, arguments) :
         pager = opts.pager
     # Fall-back to configuration
     if (pager == None) :
-        pager = configuration.get(command.name, 'pager', raw = True)
+        try :
+            pager = configuration.get(command.name, 'pager', raw = True)
+        except :
+            # No pager found on configuration
+            pass
     # Fall-back to the environment
     if (pager == None) :
         pager = os.environ["PAGER"]
