@@ -21,6 +21,8 @@
 include $(top_srcdir)/Makefile.sub
 
 dist_man_MANS =					\
+	devtodo-to-dnt.1			\
+	dnt-to-devtodo.1			\
 	dnt.1					\
 	dnt-add.1				\
 	dnt-clean.1				\
@@ -35,19 +37,22 @@ dist_man_MANS =					\
 	dnt-done.1				\
 	dnt-show.1
 
-man_aux       = dnt.x				\
-		dnt-add.x			\
-		dnt-clean.x			\
-		dnt-config.x			\
-		dnt-dump.x			\
-		dnt-edit.x			\
-		dnt-fix.x			\
-		dnt-init.x			\
-		dnt-move.x			\
-		dnt-remove.x			\
-		dnt-touch.x			\
-		dnt-done.x			\
-		dnt-show.x
+man_aux       =					\
+	devtodo-to-dnt.x			\
+	dnt-to-devtodo.x			\
+	dnt.x					\
+	dnt-add.x				\
+	dnt-clean.x				\
+	dnt-config.x				\
+	dnt-dump.x				\
+	dnt-edit.x				\
+	dnt-fix.x				\
+	dnt-init.x				\
+	dnt-move.x				\
+	dnt-remove.x				\
+	dnt-touch.x				\
+	dnt-done.x				\
+	dnt-show.x
 
 EXTRA_DIST = $(man_aux)
 
@@ -55,6 +60,28 @@ EXTRA_DIST = $(man_aux)
 ## NOTE:
 ##     Distributed files should never depend on non-distributed built files
 ##
+dnt-to-devtodo.1: $(top_srcdir)/src/dnt-to-devtodo.in $(top_srcdir)/configure.ac
+	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	export PYTHONPATH ; \
+	$(HELP2MAN) \
+	    --include=$(srcdir)/dnt-to-devtodo.x \
+	    --source="@PACKAGE_NAME@" \
+	    --manual="User Commands" \
+	    --section=1	\
+	    --output=dnt-to-devtodo.1 \
+	    $(top_builddir)/src/dnt-to-devtodo
+
+devtodo-to-dnt.1: $(top_srcdir)/src/devtodo-to-dnt.in $(top_srcdir)/configure.ac
+	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	export PYTHONPATH ; \
+	$(HELP2MAN) \
+	    --include=$(srcdir)/devtodo-to-dnt.x \
+	    --source="@PACKAGE_NAME@" \
+	    --manual="User Commands" \
+	    --section=1	\
+	    --output=devtodo-to-dnt.1 \
+	    $(top_builddir)/src/devtodo-to-dnt
+
 dnt.1: $(top_srcdir)/src/dnt.in $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
