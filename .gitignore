@@ -36,6 +36,8 @@ tools/autotools/m4/python_autofrisk.m4
 
 docs/man/dnt.1
 docs/man/dnt-*.1
+docs/man/dnt-to-devtodo.1
+docs/man/devtodo-to-dnt.1
 docs/info/dnt.info
 
 src/dnt
