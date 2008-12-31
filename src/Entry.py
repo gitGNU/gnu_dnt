@@ -34,15 +34,15 @@ class Entry(Node) :
     __end      = None
 
     def __init__(self,
-                 t = "",
+                 t,
                  p = Priority.Priority(),
                  s = Time.Time(),
                  e = Time.Time()) :
         super(Entry, self).__init__()
         self.text_set(t)
         self.priority_set(p)
-        self.start_set(s)
-        self.end_set(e)
+        self._start_set(s)
+        self._end_set(e)
         debug("Entry `" + str(self) + "' created successfully")
 
     def text_get(self) :
@@ -65,22 +65,34 @@ class Entry(Node) :
 
     def start_get(self) :
         return self.__start
-    def start_set(self, t) :
+    def _start_set(self, t) :
         self.__start = t
+    def start_set(self, t) :
+        if (t > self.__end) :
+            raise ValueError("start date after end date")
+        self._start_set(t)
 
     start = property(start_get, start_set)
 
     def end_get(self) :
         return self.__end
-    def end_set(self, t) :
+    def _end_set(self, t) :
         self.__end = t
+    def end_set(self, t) :
+        if (t < self.__start) :
+            raise ValueError("end date before start date")
+        self._end_set(t)
 
     end = property(end_get, end_set)
 
     def done(self) :
-        if (self.__start < self.__end) :
-            return False
-        return True
+        if (self.__end <= Time.Time()) :
+            return True
+        return False
+
+        #if (self.__start < self.__end) :
+        #    return False
+        #return True
 
     def __str__(self) :
         return '<Entry #%x>' % (id(self))
@@ -110,6 +122,10 @@ if (__name__ == '__main__') :
 
     v = Visitor()
     root.accept(v)
+
+    e3 = Entry("test")
+    e3.end = e3.start
+    assert(e3.done())
 
     debug("Test completed")
     sys.exit(0)
