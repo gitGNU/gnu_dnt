@@ -54,6 +54,8 @@ tests/test-success
 tests/test-fail
 tests/test-debug
 tests/test-verbose
+tests/test-help
+tests/test-version
 tests/test-dnt-to-devtodo-01
 tests/test-devtodo-to-dnt-01
 tests/test-command-show-01
