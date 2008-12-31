@@ -31,6 +31,9 @@ from   Entry      import *
 def description() :
     return "display node(s)"
 
+def authors() :
+    return ( "Francesco Salvestrini" )
+
 class ShowVisitor :
     def __init__(self, colors, be_verbose, show_all) :
         self.__colors  = colors

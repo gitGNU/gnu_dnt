@@ -38,29 +38,52 @@ except ImportError :
 
 commands = {
     'init'   : { 'description' : Init.description,
-                 'do'          : Init.do             },
+                 'do'          : Init.do,
+                 'authors'     : Init.authors        },
+
     'clean'  : { 'description' : Clean.description,
-                 'do'          : Clean.do            },
+                 'do'          : Clean.do,
+                 'authors'     : Clean.authors       },
+
     'add'    : { 'description' : Add.description,
-                 'do'          : Add.do              },
+                 'do'          : Add.do,
+                 'authors'     : Add.authors         },
+
     'config' : { 'description' : Config.description,
-                 'do'          : Config.do           },
+                 'do'          : Config.do,
+                 'authors'     : Config.authors      },
+
     'edit'   : { 'description' : Edit.description,
-                 'do'          : Edit.do             },
+                 'do'          : Edit.do,
+                 'authors'     : Edit.authors        },
+
     'fix'    : { 'description' : Fix.description,
-                 'do'          : Fix.do              },
+                 'do'          : Fix.do,
+                 'authors'     : Fix.authors         },
+
     'move'   : { 'description' : Move.description,
-                 'do'          : Move.do             },
+                 'do'          : Move.do,
+                 'authors'     : Move.authors        },
+
     'remove' : { 'description' : Remove.description,
-                 'do'          : Remove.do           },
+                 'do'          : Remove.do,
+                 'authors'     : Remove.authors      },
+
     'show'   : { 'description' : Show.description,
-                 'do'          : Show.do             },
+                 'do'          : Show.do,
+                 'authors'     : Show.authors        },
+
     'dump'   : { 'description' : Dump.description,
-                 'do'          : Dump.do             },
+                 'do'          : Dump.do,
+                 'authors'     : Dump.authors        },
+
     'touch'  : { 'description' : Touch.description,
-                 'do'          : Touch.do            },
+                 'do'          : Touch.do,
+                 'authors'     : Touch.authors       },
+
     'done'   : { 'description' : Done.description,
-                 'do'          : Done.do             },
+                 'do'          : Done.do,
+                 'authors'     : Done.authors        },
     }
 
 # Test

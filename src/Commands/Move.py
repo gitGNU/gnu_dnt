@@ -31,6 +31,9 @@ import Tree
 def description() :
     return "reparent node(s)"
 
+def authors() :
+    return ( "Francesco Salvestrini" )
+
 def do(configuration, arguments) :
     command = Command("move")
     command.add_option("-n", "--node-id",

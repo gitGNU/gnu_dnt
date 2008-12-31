@@ -30,6 +30,9 @@ import Tree
 def description() :
     return "fix database"
 
+def authors() :
+    return ( "Francesco Salvestrini" )
+
 def do(configuration, arguments) :
     command = Command("fix")
 

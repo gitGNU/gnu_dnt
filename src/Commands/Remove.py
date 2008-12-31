@@ -30,6 +30,9 @@ import Tree
 def description() :
     return "remove node(s)"
 
+def authors() :
+    return ( "Francesco Salvestrini" )
+
 def do(configuration, arguments) :
     command = Command("remove")
 

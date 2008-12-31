@@ -32,6 +32,9 @@ from   ID            import *
 def description() :
     return "initialize the database"
 
+def authors() :
+    return ( "Francesco Salvestrini" )
+
 def do(configuration, arguments) :
     command = Command("init")
     command.add_option("-f", "--force",

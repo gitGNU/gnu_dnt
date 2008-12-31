@@ -28,6 +28,9 @@ import ID
 def description() :
     return "dump the database in a friendly format"
 
+def authors() :
+    return ( "Francesco Salvestrini" )
+
 def do(configuration, arguments) :
     command = Command("dump")
     command.add_option("-o", "--output",

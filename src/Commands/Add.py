@@ -31,6 +31,9 @@ import Tree
 def description() :
     return "add a new node"
 
+def authors() :
+    return ( "Francesco Salvestrini" )
+
 def do(configuration, arguments) :
     command = Command("add")
     command.add_option("-t", "--text",

@@ -31,6 +31,9 @@ from   ID         import *
 def description() :
     return "manage current configuration"
 
+def authors() :
+    return ( "Francesco Salvestrini" )
+
 def _key_exists(configuration, section, option) :
     debug("configuration = "
           "`" + str(configuration) + "', "

@@ -28,6 +28,9 @@ import ID
 def description() :
     return "mark node (and its children) as done"
 
+def authors() :
+    return ( "Francesco Salvestrini" )
+
 def do(configuration, arguments) :
     command = Command("dump")
     command.add_option("-i", "--id",

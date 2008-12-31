@@ -29,6 +29,9 @@ from   ID         import *
 def description() :
     return "edit a node"
 
+def authors() :
+    return ( "Francesco Salvestrini" )
+
 def do(configuration, arguments) :
     command = Command("edit")
     command.add_option("-i", "--id",

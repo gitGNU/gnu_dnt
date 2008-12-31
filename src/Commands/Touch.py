@@ -28,6 +28,9 @@ import ID
 def description() :
     return "touch node start and/or end date"
 
+def authors() :
+    return ( "Francesco Salvestrini" )
+
 def do(configuration, arguments) :
     command = Command("dump")
     command.add_option("-s", "--start",
