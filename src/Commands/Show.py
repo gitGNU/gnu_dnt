@@ -78,15 +78,15 @@ class ShowVisitor :
                   color_text(e.text))
             if (self.__verbose) :
                 l    = " " * (len(header) + len(str(self.__index)) + len("."))
-                flag = False
+                print(self.__indent +     l + "prio  = " +
+                      e.priority.tostring())
                 if (e.start != None) :
-                    print(self.__indent + l + "start = " + e.start.tostring())
-                    flag = True
+                    print(self.__indent + l + "start = " +
+                          e.start.tostring())
                 if (e.end != None) :
-                    print(self.__indent + l + "end   = " + e.end.tostring())
-                    flag = True
-                if (flag == True) :
-                    print("")
+                    print(self.__indent + l + "end   = " +
+                          e.end.tostring())
+                print("")
 
     def visitRoot(self, r) :
         assert(r != None)
