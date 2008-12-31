@@ -50,17 +50,17 @@ class Priority(object) :
 
     def fromstring(self, t) :
         if (t == "veryhigh") :
-            return self.PRIORITY_VERYHIGH
+            self.__priority = self.PRIORITY_VERYHIGH
         elif (t == "high") :
-            return self.PRIORITY_HIGH
+            self.__priority = self.PRIORITY_HIGH
         elif (t == "medium") :
-            return self.PRIORITY_MEDIUM
+            self.__priority = self.PRIORITY_MEDIUM
         elif (t == "low") :
-            return self.PRIORITY_LOW
+            self.__priority = self.PRIORITY_LOW
         elif (t == "verylow") :
-            return self.PRIORITY_VERYLOW
+            self.__priority = self.PRIORITY_VERYLOW
         else :
-            raise Exceptions.EPriority.UnknownPriority(p)
+            raise Exceptions.EPriority.UnknownPriority(t)
 
     def tostring(self) :
         p = self.__priority
