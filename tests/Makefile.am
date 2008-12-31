@@ -76,6 +76,10 @@ FAIL_TESTS    +=				\
 	test-fail
 SUCCESS_TESTS +=				\
 	test-success				\
+	test-verbose				\
+	test-debug				\
+	test-help				\
+	test-version				\
 	test-command-init-01			\
 	test-command-clean-01			\
 	test-command-add-01			\
@@ -89,9 +93,7 @@ SUCCESS_TESTS +=				\
 	test-command-done-01			\
 	test-command-config-01			\
 	test-devtodo-to-dnt-01			\
-	test-dnt-to-devtodo-01			\
-	test-verbose				\
-	test-debug
+	test-dnt-to-devtodo-01
 
 XFAIL_TESTS  = $(FAIL_TESTS)
 TESTS        = $(FAIL_TESTS) $(SUCCESS_TESTS)
@@ -167,6 +169,30 @@ test-debug: $(srcdir)/test-debug.in Makefile
 	}
 EXTRA_DIST += test-debug.in
 CLEANFILES += test-debug
+
+test-help: $(srcdir)/test-help.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-help.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-help.in
+CLEANFILES += test-help
+
+test-version: $(srcdir)/test-version.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-version.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-version.in
+CLEANFILES += test-version
 
 test-command-show-01: $(srcdir)/test-command-show-01.in Makefile
 	( rm -f $@ $@.tmp && \
