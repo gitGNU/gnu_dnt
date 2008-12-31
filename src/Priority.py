@@ -77,6 +77,9 @@ class Priority(object) :
         else :
             bug()
 
+    def value(self) :
+        return self.__priority
+
 # Test
 if (__name__ == '__main__') :
     debug("Test completed")
