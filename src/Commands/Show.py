@@ -54,10 +54,11 @@ class ShowVisitor :
 
         if (self.__colors) :
             color_index = green
-            p           = e.priority_get()
+            p           = e.priority.value()
             try :
                 color_text  = self.__cmap[p]
             except KeyError :
+                bug("Unknown key `" + p.tostring() + "'")
                 color_text = white
         else :
             color_index = lambda x: x # pass-through
