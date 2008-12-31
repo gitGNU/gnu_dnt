@@ -56,12 +56,14 @@ def fromxml(xml) :
         if (text == None) :
             raise Exceptions.MalformedDatabase()
 
+        debug("Priority is:      `" + xml.attrib['priority'] + "'")
         priority = Priority.Priority()
         try :
             priority.fromstring(xml.attrib['priority'])
         except Exception, e :
             #debug(str(e))
             warning("No priority for entry `" + text + "', using default")
+        debug("Priority will be: `" + priority.tostring() + "'")
 
         start = Time.Time()
         try :
