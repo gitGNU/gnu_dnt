@@ -49,6 +49,9 @@ $DNT add -t "test12" -p 1 || exit 1
 $DNT add -t "test13" -p 1 || exit 1
 $DNT add -t "test14" -p 1 || exit 1
 
-$DNT show || exit 1
+$DNT_NOFLAGS show                 || exit 1
+$DNT_NOFLAGS show --all           || exit 1
+$DNT_NOFLAGS --verbose show       || exit 1
+$DNT_NOFLAGS --verbose show --all || exit 1
 
 exit 0
