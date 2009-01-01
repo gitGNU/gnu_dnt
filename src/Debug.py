@@ -26,24 +26,65 @@ import traceback
 #
 from   Trace import *
 
-# XXX FIXME: Add __FILE__ and __LINE__ equivalents ...
+#def _stack_dump() :
+#    traceback.print_stack(file)
+
+#def _stack_dump() :
+#    type, value, tb = sys.exc_info()
+#    stack = traceback.extract_tb(tb)
+#
+#    if (len(stack) > 0) :
+#        error("Backtrace (most recent call last):")
+#        for (filename, line_number, function_name, text) in stack:
+#            error("  File \"%s\", line %s, in %s"
+#                  %(filename, line_number, function_name))
+#            error("    %s"
+#                  %(text))
+#    else :
+#        error("No backtrace available !")
+
+def _stack_dump() :
+    stack = traceback.extract_stack()
+
+    if (len(stack) >= 0) :
+        error("Backtrace (most recent call last):")
+        for (filename, line_number, function_name, text) in stack:
+            error("  File \"%s\", line %s, in %s"
+                  %(filename, line_number, function_name))
+            error("    %s"
+                  %(text))
+    else :
+        error("No backtrace available !")
+
+_bug_in_progress = False
+
 def bug(s = "") :
+    global _bug_in_progress
+
+    if (_bug_in_progress) :
+        error("Bug in progress while dumping a bug ...")
+        return
+
+    _bug_in_progress = True
+
     tmp1 = "Bug hit"
     if s != "" :
         tmp2 = tmp1 + ": " + s
     else :
         tmp2 = tmp1 + "!"
-
-    traceback.print_exc(file=sys.stdout)
-
     error(tmp2)
+
+    _stack_dump()
+
     error("Please report to <" + PACKAGE_BUGREPORT + ">")
+
+    _bug_in_progress = False
 
     # Like _exit(), exit immediately ...
     os._exit(1)
 
 def bug_on(v) :
-    if (v == False) :
+    if (v == True) :
         bug()
 
 # Test
