@@ -43,19 +43,20 @@ from   Trace import *
 #    else :
 #        error("No backtrace available !")
 
-def _stack_dump() :
+def _stack_dump(shortcut = True) :
     stack = traceback.extract_stack()
 
     if (len(stack) >= 0) :
         error("Stack backtrace:")
-        #stack = stack.revert()
+
         frame_no = 0
         for (filename, line_number, function_name, text) in stack:
-            # Avoid dumping past bug() or bug_on()
-            if ((function_name == "bug") or (function_name == "bug_on")) :
-                error("  %s - ... Useless internals follow ..."
-                      %(str(frame_no)))
-                return
+            if (shortcut == True) :
+                # Avoid dumping past bug() or bug_on()
+                if ((function_name == "bug") or (function_name == "bug_on")) :
+                    error("  %s - ... Useless internals follow ..."
+                          %(str(frame_no)))
+                    return
             error("  %s - File \"%s\", line %s, in %s"
                   %(str(frame_no), filename, line_number, function_name))
             error("    %s"
