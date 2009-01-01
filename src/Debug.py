@@ -47,14 +47,22 @@ def _stack_dump() :
     stack = traceback.extract_stack()
 
     if (len(stack) >= 0) :
-        error("Backtrace (most recent call last):")
+        error("Stack backtrace:")
+        #stack = stack.revert()
+        frame_no = 0
         for (filename, line_number, function_name, text) in stack:
-            error("  File \"%s\", line %s, in %s"
-                  %(filename, line_number, function_name))
+            # Avoid dumping past bug() or bug_on()
+            if ((function_name == "bug") or (function_name == "bug_on")) :
+                error("  %s - ... Useless internals follow ..."
+                      %(str(frame_no)))
+                return
+            error("  %s - File \"%s\", line %s, in %s"
+                  %(str(frame_no), filename, line_number, function_name))
             error("    %s"
                   %(text))
+            frame_no = frame_no + 1
     else :
-        error("No backtrace available !")
+        error("No stack backtrace available !")
 
 _bug_in_progress = False
 
