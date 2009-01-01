@@ -82,7 +82,9 @@ CLEANFILES =					\
 	$(nodist_pkgvpython_PYTHON)		\
 	$(bin_SCRIPTS)				\
 	*.pyc					\
-	Commands/*.pyc
+	*.pyo					\
+	Commands/*.pyc				\
+	Commands/*.pyo
 
 dnt: $(srcdir)/dnt.in Makefile
 	( rm -f $@ $@.tmp && \
