@@ -25,4 +25,4 @@
 
 $DNT_NOFLAGS --help || exit 1
 
-exit 1
+exit 0
