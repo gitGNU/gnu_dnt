@@ -18,6 +18,12 @@
             Fixed
         </comment>
     </note>
+    <note priority="high" time="1230733148" done="1230733158">
+        Fix colors in show command
+        <comment>
+            Fixed
+        </comment>
+    </note>
     <note priority="medium" time="1228941711" done="1229468104">
         Add touch command
         <comment>
@@ -27,11 +33,11 @@
     <note priority="veryhigh" time="1229587888">
         Check the ConfigParser getboolean() problem (we must use get(..., raw=True, ...))
     </note>
-    <note priority="high" time="1230733148" done="1230733158">
-        Fix colors in show command
-        <comment>
-            Fixed
-        </comment>
+    <note priority="veryhigh" time="1230926257">
+        Rearrange Exceptions in order to use supe(Class...)
+    </note>
+    <note priority="veryhigh" time="1230934015">
+        Rearranged the whole Exceptions classes in order to replace 'value' with 'message'
     </note>
     <note priority="low" time="1227122807">
         Rearrange the build process in order to use EXEEXT (if needed)
