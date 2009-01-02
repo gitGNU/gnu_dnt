@@ -25,4 +25,4 @@
 
 $DNT_NOFLAGS --version || exit 1
 
-exit 1
+exit 0
