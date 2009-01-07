@@ -1,4 +1,4 @@
-#! @PYTHON@ -t
+#! @PYTHON@ -tt
 
 #
 # Copyright (C) 2008 Francesco Salvestrini
@@ -18,38 +18,48 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
+# NOTE: Import Trace at first, in order to use traces consistently
+try :
+    # XXX FIXME: The ugliest way to read debug_enabled variable
+    from   Trace         import *
+    import Trace
+except ImportError :
+    # XXX FIXME: Add better error reporting ....
+    print("Cannot import package's own bootstrap modules, bailing out ...")
+    sys.exit(-1)
+# We are now able to use Trace module facilities
+
+# Now start importing python modules
 try :
     import os
     import sys
     import traceback
     import getopt
 except ImportError :
-    # XXX FIXME: Add better error reporting ....
-    print("Cannot import system modules ...")
+    error("Cannot import required system modules, bailing out ...")
     sys.exit(-1)
+
+try :
+    import warnings
+except ImportError :
+    warning("Cannot import optional system modules, continuing ...")
 
 sys.path.append("@pkgvpythondir@")
 
 try :
-    # XXX FIXME: The ugliest way to readh debug_enabled variable
-    from   Trace         import *
-    import Trace
-
-    from   Debug         import *
-    from   Entry         import *
-    from   Command       import *
-    from   Configuration import *
+    from   Debug            import *
+    from   Entry            import *
+    from   Configuration    import *
     import Exceptions
+    from   Commands.Command import *
 except ImportError :
-    # XXX FIXME: Add better error reporting ....
-    print("Cannot import package's own modules ...")
+    error("Cannot import package's own modules, bailing out ...")
     sys.exit(-1)
 
 try :
     import Commands
 except ImportError :
-    # XXX FIXME: Add better error reporting ....
-    print("Cannot import package's commands ...")
+    error("Cannot import package's commands ...")
     sys.exit(-1)
 
 def hint(s) :
@@ -64,7 +74,15 @@ def version() :
     print("the GNU General Public License <http://www.gnu.org/licenses/gpl.html>.")
     print("There is NO WARRANTY, to the extent permitted by law.")
 
+class MainCommand(Command) :
+    def __init__(self, name, format, footer) :
+        Command.__init__(self, name, format, footer)
+
+    def authors(self) :
+        return [ "Francesco Salvestrini" ]
+
 def main(arguments) :
+
     # Setup the configuration with some default values
     configuration = Configuration()
     configuration.add_section(PROGRAM_NAME)
@@ -74,23 +92,42 @@ def main(arguments) :
     configuration.set(PROGRAM_NAME, 'database',      DEFAULT_DB_FILE)
     configuration.set(PROGRAM_NAME, 'configuration', DEFAULT_CFG_FILE)
 
+    # Compute maximum command name length
+    cmd_name_max_len = 0
+    for cmd_name in Commands.commands.keys() :
+        cmd_name_max_len = max(cmd_name_max_len, len(cmd_name))
+    assert(cmd_name_max_len > 0)
+
     # Build the command line parser
     footer = "Commands:\n"
-    for i in Commands.commands.keys() :
-        footer = \
-            footer + \
-            ("  %-16s %s" %(i, Commands.commands[i]['description']())) + \
-            "\n"
+    for cmd_name in Commands.commands.keys() :
+        #print("cmd_name          = " + cmd_name)
+
+        cmd_instance = Commands.commands[cmd_name]
+        #print("cmd_instance      = " + str(cmd_instance))
+        assert(cmd_instance != None)
+
+        assert(hasattr(cmd_instance, "description"))
+        #assert(callable(cmd_instance.description))
+
+        #cmd_description = cmd_instance.description()
+        cmd_description = ""
+
+        footer = footer + (("  %-" + str(cmd_name_max_len + 4) + "s%s")
+                           %(cmd_name, cmd_description)) + "\n"
+
     footer = footer + "\n"
     footer = footer + \
         "See `" + PROGRAM_NAME + " COMMAND --help' " + \
         "for more information about a specific command.\n" + \
-        "The program looks for configuration files in the following order:\n\n" 
+        "The program looks for configuration files in the following order:\n\n"
     for i in CFG_SEARCH_PATHS :
         # Do not use os.path.expandvars() here, we must preserve the vars name
         footer = footer + "  " + i + "\n"
 
-    command = Command("", "[OPTION]... [COMMAND] [COMMAND-OPTION]...", footer)
+    command = MainCommand("",
+                          "[OPTION]... [COMMAND] [COMMAND-OPTION]...",
+                          footer)
     command.add_option("-v", "--verbose",
                        action = "store_true",
                        dest   = "verbose",
@@ -137,7 +174,7 @@ def main(arguments) :
     else :
         CFG_SEARCH_PATHS.append(DEFAULT_CFG_FILE)
 
-    # Read all configuration files (if present). The order in the 
+    # Read all configuration files (if present). The order in the
     # CFG_SEARCH_PATHS variable is important in order to have the
     # right precedence over all files
     cfg_files = []
@@ -181,48 +218,70 @@ def main(arguments) :
         hint("Missing command")
         return 1
 
-    cmd = command.rargs[0]
+    cmd_name     = command.rargs[0]
+    cmd_instance = None
     try :
-        command_do = Commands.commands[cmd]['do']
+        cmd_instance = Commands.commands[cmd_name]
     except KeyError :
-        hint("Unknown command `" + cmd + "'")
+        hint("Unknown command `" + cmd_name + "'")
         return 1
     except :
         bug()
+    assert(cmd_instance != None)
+    debug("Command is:     `" + cmd_name + "'")
+
+    cmd_parameters = []
+    if (len(command.rargs) >= 2) :
+        cmd_parameters = command.rargs[1:]
+    debug("Parameters are: `" + str(cmd_parameters) + "'")
 
     if (configuration.get(PROGRAM_NAME, 'verbose', raw = True) == True) :
-        print("Running command `" + cmd + "'")
+        line = cmd_name + " "
+        for i in cmd_parameters :
+            line = line + i
+        print("Running command `" + line + "'")
 
-    parameters = []
-    if (len(command.rargs) >= 2) :
-        parameters = command.rargs[1:]
+    assert(hasattr(cmd_instance, "do"))
+    assert(callable(cmd_instance.do))
 
     # Run the command
     retval = 1
     try :
-        assert(callable(command_do))
-        command_do(configuration, parameters)
+        debug("Calling " + cmd_name + ".do()")
+        cmd_instance.do(configuration, cmd_parameters)
+        debug("Completed " + cmd_name + ".do()")
         retval = 0
+
+    # Transform our exceptions first
+    except Exceptions.ExplicitExit, e :
+        debug("Exit explicitly from option parsing with code " + str(e.code()))
+        retval = e.code()
+    except Exceptions.EParameters, e :
+        hint(e)
+    except Exceptions.EBase, e :
+        error(e)
+
+    # Transform other exceptions last
     except IOError, e :
         error(e)
     except ValueError, e :
         error(e)
-    except Exceptions.EParameters, e :
-        hint(e)
     except SystemExit, e:
-        retval = e
-    # Our exceptions at last
-    except Exceptions.EBase, e :
-        error(e)
+        bug("Explicit system exit called in subcommand "
+            "`" + cmd_name + "' (not allowed in subcommands)")
     except Exception, e :
-        bug(str(e))
+        bug("Unhandled exception in subcommand "
+            "`" + cmd_name + "' (" + str(e) + ")")
     except :
-        bug()
+        bug("Unknown exception in subcommand "
+            "`" + cmd_name + "' (" + str(e) + ")")
 
-    debug("Return value is `" + str(retval) + "'")
+    assert(type(retval) == int)
+
     if (retval != 0) :
-        debug("Bailing out")
+        debug("Got an error (" + str(retval) + "), bailing out ...")
         return retval
+    debug("No error running command")
 
     # Save configuration back to file (if needed)
     if (configuration.modified()) :
@@ -247,4 +306,51 @@ def main(arguments) :
     return 0
 
 if (__name__ == '__main__') :
-    sys.exit(main(sys.argv))
+    retval = 1
+    try :
+        retval = main(sys.argv)
+
+    # We need to catch command related exceptions like we do in the subcommands
+    # try-except blocks (see the main block) because we are using the same
+    # class
+    except Exceptions.ExplicitExit, e :
+        debug("Exit explicitly from option parsing with code " + str(e.code()))
+        retval = e.code()
+    except Exceptions.EParameters, e :
+        hint(e)
+    except Exceptions.EBase, e :
+        error(e)
+
+    # AssertionError exceptions should be catched only here (in order to
+    # transform all them into bug()
+    except AssertionError, e :
+        try :
+            message = str(e)
+        except TypeError :
+            message = "cannot stringify assertion"
+        except :
+            message = "???"
+        if (message != "") :
+            message = "(" + message + ")"
+        bug("Assertion error " + message)
+
+    # Transform unhandled exceptions into bugs
+    except Exception, e :
+        try :
+            message = str(e)
+        except TypeError :
+            message = "cannot stringify exception"
+        except :
+            message = "???"
+        if (message != "") :
+            message = "(" + message + ")"
+        bug("Unhandled exception detected in main loop " + message)
+
+    # Transform unknown exceptions into bugs too
+    except :
+        bug("Unknown exception detected in main loop")
+
+    assert(type(retval) == int)
+
+    debug("Program execution completed with return value " + str(retval))
+    sys.exit(retval)
