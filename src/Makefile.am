@@ -47,9 +47,11 @@ commands_SRCS = 				\
 
 commands_PYTHON =				\
 	Commands/__init__.py			\
+	Commands/Command.py			\
 	$(commands_SRCS)
 
 pkgvpython_PYTHON =				\
+	__init__.py				\
 	Trace.py				\
 	Exceptions.py				\
 	Debug.py				\
@@ -61,8 +63,7 @@ pkgvpython_PYTHON =				\
 	Tree.py					\
 	Entry.py				\
 	Root.py					\
-	ID.py					\
-	Command.py
+	ID.py
 
 nodist_pkgvpython_PYTHON =			\
 	Configuration.py

@@ -17,13 +17,16 @@
 #
 
 import sys
-from   optparse import OptionParser, IndentedHelpFormatter
+from   optparse   import OptionParser, IndentedHelpFormatter
 import textwrap
 
-from   Trace    import *
+from   Trace      import *
+from   Debug      import *
+import Exceptions
 
 class Command(OptionParser) :
-    def __init__(self, name = "", format = "[OPTION]...", footer = "") :
+    # NOTE: An empty string is an allowed name (main uses it)
+    def __init__(self, name, format = "[OPTION]...", footer = "") :
         assert(name != None)
         assert(type(name) == str)
         assert(format != None)
@@ -55,9 +58,22 @@ class Command(OptionParser) :
     # Override OptParse print_version() method
     def print_version(self, file = None) :
         OptionParser.print_version(self, file)
+
+        assert(hasattr(self, "authors"))
+        assert(callable(self.authors))
+        assert(type(self.authors()) == list)
+
         print >> file, ""
-        print >> file, "Copyright (C) 2008 Francesco Salvestrini"
+        j = 0
+        for i in self.authors() :
+            if (j == 0) :
+                header = "Copyright (C) 2008 "
+            else :
+                header = "                   "
+            print >> file, header + i
+            j = j + 1
         print >> file, ""
+
         print >> file, "This is free software.  You may redistribute copies of it under the terms of"
         print >> file, "the GNU General Public License <http://www.gnu.org/licenses/gpl.html>."
         print >> file, "There is NO WARRANTY, to the extent permitted by law."
@@ -75,6 +91,7 @@ class Command(OptionParser) :
 
     name = property(name_get, name_set)
 
+    # Override OptParse print_help() method
     def print_help(self, file = None) :
         # Force output to stdout
         OptionParser.print_help(self, sys.stdout)
@@ -83,6 +100,32 @@ class Command(OptionParser) :
             sys.stdout.write(self.__footer)
             sys.stdout.write("\n")
         sys.stdout.write("Report bugs to <" + PACKAGE_BUGREPORT + ">\n")
+
+    # Override OptParse error() method
+    def error(self, msg) :
+        raise EParameters(msg)
+
+    def exit(self, status = 0, msg = None):
+        debug("Explicit exit called from command")
+        try :
+            OptionParser.exit(self, status, msg)
+        except SystemExit, e:
+            # Wrapping SistemExit exception with our own exception
+            raise Exceptions.ExplicitExit(e, e.code)
+        except :
+            bug("Unhandled exception in option parser")
+
+    ## This method should be provided by the subclass
+    #def description(self) :
+    #    bug()
+
+    ## This method must be provided by the subclass
+    #def authors(self) :
+    #    bug()
+
+    ## This method should be provided by the subclass
+    #def do(self, configuration, arguments) :
+    #    bug()
 
 # Test
 if (__name__ == '__main__') :
