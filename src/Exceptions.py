@@ -17,15 +17,15 @@
 #
 
 import sys
+import exceptions
 
 from   Trace import *
 
-class EBase(Exception):
+class EBase(Exception) :
     def __init__(self, value) :
         self.__value = value
 
     def __str__(self) :
-        #return repr(self.__value)
         return self.__value
 
     __repr__ = __str__
@@ -35,6 +35,7 @@ class EBase(Exception):
 #
 class EOS(EBase):
     def __init__(self, value) :
+        assert(value != None)
         EBase.__init__(self, value)
 
 #
@@ -153,9 +154,26 @@ class UnknownKey(EConfiguration):
 #
 # Parameters related exceptions
 #
+
 class EParameters(EBase):
     def __init__(self, value) :
         EBase.__init__(self, value)
+
+class ExplicitExit(EParameters) :
+    def __init__(self, value, code) :
+        assert(value != None)
+        assert(type(code) == int)
+        EParameters.__init__(self, value)
+        self.__code = code
+
+    # XXX FIXME:
+    #     We need to change the str() nethod due to the SystemException str()
+    #     different behavior
+    def __str__(self) :
+        return "explicit exit with code " + str(self.__code)
+
+    def code(self) :
+        return self.__code
 
 class MissingParameters(EParameters):
     def __init__(self, value = "parameter(s)") :
