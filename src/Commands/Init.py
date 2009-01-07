@@ -19,66 +19,71 @@
 import sys
 import os
 
-from   Debug         import *
-from   Trace         import *
-from   Command       import *
+from   Debug            import *
+from   Trace            import *
+from   Commands.Command import *
 import Exceptions
-from   Configuration import *
+from   Configuration    import *
 import DB
 import Root
 import Entry
-from   ID            import *
+from   ID               import *
 
-def description() :
-    return "initialize the database"
+class SubCommand(Command) :
+    def __init__(self) :
+        Command.__init__(self, "init")
 
-def authors() :
-    return ( "Francesco Salvestrini" )
+    def description(self) :
+        return "initialize the database"
 
-def do(configuration, arguments) :
-    command = Command("init")
-    command.add_option("-f", "--force",
-                       action = "store_true",
-                       dest   = "force",
-                       help   = "force operation")
-    command.add_option("-n", "--name",
-                       action = "store",
-                       dest   = "name",
-                       help   = "specify root node name")
+    def authors(self) :
+        return [ "Francesco Salvestrini" ]
 
-    (opts, args) = command.parse_args(arguments)
+    def do(self, configuration, arguments) :
+        Command.add_option(self,
+                           "-f", "--force",
+                           action = "store_true",
+                           dest   = "force",
+                           help   = "force operation")
+        Command.add_option(self,
+                           "-n", "--name",
+                           action = "store",
+                           dest   = "name",
+                           help   = "specify root node name")
 
-    # Parameters setup
-    db_file = configuration.get(PROGRAM_NAME, 'database')
-    assert(db_file != None)
+        (opts, args) = Command.parse_args(self, arguments)
 
-    if (opts.force != True) :
-        debug("Force mode disabled")
+        # Parameters setup
+        db_file = configuration.get(PROGRAM_NAME, 'database')
         assert(db_file != None)
-        if (os.path.isfile(db_file)) :
-            raise Exceptions.ForceNeeded("database file "
-                                         "`" + db_file + "' "
-                                         "already exists")
 
-    # Work
+        if (opts.force != True) :
+            debug("Force mode disabled")
+            assert(db_file != None)
+            if (os.path.isfile(db_file)) :
+                raise Exceptions.ForceNeeded("database file "
+                                             "`" + db_file + "' "
+                                             "already exists")
 
-    # We are in force mode (which means we must write the DB whatsover) or the
-    # DB file is not present at all ...
+        # Work
 
-    name = opts.name
-    if (name == None) :
-        name = "Nameless DNT database"
+            # We are in force mode (which means we must write the DB whatsover)
+            # or the DB file is not present at all ...
 
-    db = DB.Database()
+        name = opts.name
+        if (name == None) :
+            name = "Nameless DNT database"
 
-    # Create an empty tree
-    tree = Root.Root(name)
-    assert(tree != None)
+        db = DB.Database()
 
-    # Save newly create database to file
-    db.save(db_file, tree)
+        # Create an empty tree
+        tree = Root.Root(name)
+        assert(tree != None)
 
-    debug("Success")
+        # Save newly create database to file
+        db.save(db_file, tree)
+
+        debug("Success")
 
 # Test
 if (__name__ == '__main__') :

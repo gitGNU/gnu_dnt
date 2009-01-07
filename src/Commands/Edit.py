@@ -19,60 +19,67 @@
 import os
 import sys
 
-from   Debug      import *
-from   Trace      import *
-from   Command    import *
+from   Debug            import *
+from   Trace            import *
+from   Commands.Command import *
 import Exceptions
 
-from   ID         import *
+from   ID               import *
 
-def description() :
-    return "edit a node"
+class SubCommand(Command) :
+    def __init__(self) :
+        Command.__init__(self, "edit")
 
-def authors() :
-    return ( "Francesco Salvestrini" )
+    def description(self) :
+        return "edit a node"
 
-def do(configuration, arguments) :
-    command = Command("edit")
-    command.add_option("-i", "--id",
-                       action = "store",
-                       type   = "string",
-                       dest   = "id",
-                       help   = "specify node id to edit")
-    command.add_option("-e", "--editor",
-                       action = "store",
-                       type   = "string",
-                       dest   = "editor",
-                       help   = "specify editor to use")
+    def authors(self) :
+        return [ "Francesco Salvestrini" ]
 
-    (opts, args) = command.parse_args(arguments)
+    def do(self, configuration, arguments) :
+        Command.add_option(self,
+                           "-i", "--id",
+                           action = "store",
+                           type   = "string",
+                           dest   = "id",
+                           help   = "specify node id to edit")
+        Command.add_option(self,
+                           "-e", "--editor",
+                           action = "store",
+                           type   = "string",
+                           dest   = "editor",
+                           help   = "specify editor to use")
 
-    # Parameters setup
-    if (opts.id == None) :
-        raise Exceptions.MissingParameters("node id")
+        (opts, args) = Command.parse_args(self, arguments)
 
-    editor = None
-    # Prefer parameter
-    if (editor == None) :
-        editor = opts.editor
-    # Fall-back to configuration
-    if (editor == None) :
-        try :
-            editor = configuration.get(command.name, 'editor', raw = True)
-        except :
-            # No editor found on configuration
-            pass
-    # Fall-back to the environment
-    if (editor == None) :
-        editor = os.environ["EDITOR"]
-    # Finally bang with error
-    if (editor == None) :
-        raise MissingParameters("editor")
+        # Parameters setup
+        if (opts.id == None) :
+            raise Exceptions.MissingParameters("node id")
 
-    # Work
-    id = ID(opts.id)
+            editor = None
+            # Prefer parameter
+            if (editor == None) :
+                editor = opts.editor
+            # Fall-back to configuration
+            if (editor == None) :
+                try :
+                    editor = configuration.get(Command.name,
+                                               'editor',
+                                               raw = True)
+                except :
+                    # No editor found on configuration
+                    pass
+            # Fall-back to the environment
+            if (editor == None) :
+                editor = os.environ["EDITOR"]
+            # Finally bang with error
+            if (editor == None) :
+                raise MissingParameters("editor")
 
-    debug("Success")
+            # Work
+            id = ID(opts.id)
+
+            debug("Success")
 
 # Test
 if (__name__ == '__main__') :

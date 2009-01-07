@@ -18,86 +18,91 @@
 
 import sys
 
-from   Debug         import *
-from   Trace         import *
-from   Command       import *
+from   Debug            import *
+from   Trace            import *
+from   Commands.Command import *
 import Exceptions
-from   Configuration import *
+from   Configuration    import *
 import DB
-from   ID            import *
+from   ID               import *
 import Entry
 import Tree
 
-def description() :
-    return "reparent node(s)"
+class SubCommand(Command) :
+    def __init__(self) :
+        Command.__init__(self, "move")
 
-def authors() :
-    return ( "Francesco Salvestrini" )
+    def description(self) :
+        return "reparent node(s)"
 
-def do(configuration, arguments) :
-    command = Command("move")
-    command.add_option("-n", "--node-id",
-                       action = "store",
-                       type   = "string",
-                       dest   = "node",
-                       help   = "specify target node id")
-    command.add_option("-p", "--parent-id",
-                       action = "store",
-                       type   = "string",
-                       dest   = "parent",
-                       help   = "specify destination parent node id")
+    def authors(self) :
+        return [ "Francesco Salvestrini" ]
 
-    (opts, args) = command.parse_args(arguments)
+    def do(self, configuration, arguments) :
+        Command.add_option(self,
+                           "-n", "--node-id",
+                           action = "store",
+                           type   = "string",
+                           dest   = "node",
+                           help   = "specify target node id")
+        Command.add_option(self,
+                           "-p", "--parent-id",
+                           action = "store",
+                           type   = "string",
+                           dest   = "parent",
+                           help   = "specify destination parent node id")
 
-    # Parameters setup
-    if (opts.node == None) :
-        raise Exceptions.MissingParameters("node id")
-    node_id = ID(opts.node)
-    if (opts.parent == None) :
-        raise Exceptions.MissingParameters("parent id")
-    parent_id = ID(opts.parent)
+        (opts, args) = Command.parse_args(self, arguments)
 
-    # Work
-    db_file   = configuration.get(PROGRAM_NAME, 'database')
-    assert(db_file != None)
+        # Parameters setup
+        if (opts.node == None) :
+            raise Exceptions.MissingParameters("node id")
+        node_id = ID(opts.node)
+        if (opts.parent == None) :
+            raise Exceptions.MissingParameters("parent id")
+        parent_id = ID(opts.parent)
 
-    debug("Moving node:")
-    debug("  node-id   = " + str(node_id))
-    debug("  parent-id = " + str(parent_id))
+        # Work
+        db_file   = configuration.get(PROGRAM_NAME, 'database')
+        assert(db_file != None)
 
-    db = DB.Database()
+        debug("Moving node:")
+        debug("  node-id   = " + str(node_id))
+        debug("  parent-id = " + str(parent_id))
 
-    # Load database from file
-    tree = db.load(db_file)
-    assert(tree != None)
+        db = DB.Database()
 
-    debug("Looking for node `" + str(parent_id) + "'")
-    parent = Tree.find(tree, parent_id)
-    if (parent == None) :
-        raise Exceptions.WrongParameters("unknown node "
-                                         "`" + str(parent_id) + "'")
+        # Load database from file
+        tree = db.load(db_file)
+        assert(tree != None)
 
-    debug("Looking for node `" + str(node_id) + "'")
-    node = Tree.find(tree, node_id)
-    if (node == None) :
-        raise Exceptions.WrongParameters("unknown node "
-                                     "`" + str(node_id) + "'")
+        debug("Looking for node `" + str(parent_id) + "'")
+        parent = Tree.find(tree, parent_id)
+        if (parent == None) :
+            raise Exceptions.WrongParameters("unknown node "
+                                             "`" + str(parent_id) + "'")
 
-    # Remove parent subtree link
-    node_parent = node.parent
-    if (node_parent == None) :
-        bug()
-    node_parent.remove(node)
+        debug("Looking for node `" + str(node_id) + "'")
+        node = Tree.find(tree, node_id)
+        if (node == None) :
+            raise Exceptions.WrongParameters("unknown node "
+                                         "`" + str(node_id) + "'")
 
-    # Link node subtree into parent substree
-    parent.add(node)
+        # Remove parent subtree link
+        node_parent = node.parent
+        if (node_parent == None) :
+            bug()
+        node_parent.remove(node)
 
-    #tree.dump("")
+        # Link node subtree into parent substree
+        parent.add(node)
 
-    # Save database back to file
-    db.save(db_file, tree)
+        #tree.dump("")
 
-    debug("Success")
+        # Save database back to file
+        db.save(db_file, tree)
+
+        debug("Success")
 
 # Test
 if (__name__ == '__main__') :

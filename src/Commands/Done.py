@@ -18,34 +18,38 @@
 
 import sys
 
-from   Debug      import *
-from   Trace      import *
-from   Command    import *
+from   Debug            import *
+from   Trace            import *
+from   Commands.Command import *
 import Exceptions
 
 import ID
 
-def description() :
-    return "mark node (and its children) as done"
+class SubCommand(Command) :
+    def __init__(self) :
+        Command.__init__(self, "done")
 
-def authors() :
-    return ( "Francesco Salvestrini" )
+    def description(self) :
+        return "mark node (and its children) as done"
 
-def do(configuration, arguments) :
-    command = Command("dump")
-    command.add_option("-i", "--id",
-                       action = "store",
-                       type   = "string",
-                       dest   = "id",
-                       help   = "specify node")
+    def authors(self) :
+        return [ "Francesco Salvestrini" ]
 
-    (opts, args) = command.parse_args(arguments)
+    def do(self, configuration, arguments) :
+        Command.add_option(self,
+                           "-i", "--id",
+                           action = "store",
+                           type   = "string",
+                           dest   = "id",
+                           help   = "specify node")
 
-    # Parameters setup
+        (opts, args) = Command.parse_args(self, arguments)
 
-    # Work
+        # Parameters setup
 
-    debug("Success")
+        # Work
+
+        debug("Success")
 
 # Test
 if (__name__ == '__main__') :

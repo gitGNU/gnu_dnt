@@ -16,74 +16,41 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-from Trace import *
+import sys
+
+from   Trace import *
 
 try :
-    import Init
+    import Add
     import Clean
     import Config
-    import Add
+    import Done
+    import Dump
     import Edit
     import Fix
+    import Init
     import Move
     import Remove
     import Show
-    import Dump
     import Touch
-    import Done
 except ImportError :
     # XXX FIXME: Add better error reporting ....
     print("Cannot import package's commands ...")
     sys.exit(-1)
 
 commands = {
-    'init'   : { 'description' : Init.description,
-                 'do'          : Init.do,
-                 'authors'     : Init.authors        },
-
-    'clean'  : { 'description' : Clean.description,
-                 'do'          : Clean.do,
-                 'authors'     : Clean.authors       },
-
-    'add'    : { 'description' : Add.description,
-                 'do'          : Add.do,
-                 'authors'     : Add.authors         },
-
-    'config' : { 'description' : Config.description,
-                 'do'          : Config.do,
-                 'authors'     : Config.authors      },
-
-    'edit'   : { 'description' : Edit.description,
-                 'do'          : Edit.do,
-                 'authors'     : Edit.authors        },
-
-    'fix'    : { 'description' : Fix.description,
-                 'do'          : Fix.do,
-                 'authors'     : Fix.authors         },
-
-    'move'   : { 'description' : Move.description,
-                 'do'          : Move.do,
-                 'authors'     : Move.authors        },
-
-    'remove' : { 'description' : Remove.description,
-                 'do'          : Remove.do,
-                 'authors'     : Remove.authors      },
-
-    'show'   : { 'description' : Show.description,
-                 'do'          : Show.do,
-                 'authors'     : Show.authors        },
-
-    'dump'   : { 'description' : Dump.description,
-                 'do'          : Dump.do,
-                 'authors'     : Dump.authors        },
-
-    'touch'  : { 'description' : Touch.description,
-                 'do'          : Touch.do,
-                 'authors'     : Touch.authors       },
-
-    'done'   : { 'description' : Done.description,
-                 'do'          : Done.do,
-                 'authors'     : Done.authors        },
+    'add'    : Add    . SubCommand(),
+    'clean'  : Clean  . SubCommand(),
+    'config' : Config . SubCommand(),
+    'done'   : Done   . SubCommand(),
+    'dump'   : Dump   . SubCommand(),
+    'edit'   : Edit   . SubCommand(),
+    'fix'    : Fix    . SubCommand(),
+    'init'   : Init   . SubCommand(),
+    'move'   : Move   . SubCommand(),
+    'remove' : Remove . SubCommand(),
+    'show'   : Show   . SubCommand(),
+    'touch'  : Touch  . SubCommand(),
     }
 
 # Test

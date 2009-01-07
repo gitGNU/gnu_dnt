@@ -18,59 +18,64 @@
 
 import sys
 
-from   Debug      import *
-from   Trace      import *
-from   Command    import *
+from   Debug            import *
+from   Trace            import *
+from   Commands.Command import *
 import Exceptions
 
 import ID
 
-def description() :
-    return "dump the database in a friendly format"
+class SubCommand(Command) :
+    def __init__(self) :
+        Command.__init__(self, "dump")
 
-def authors() :
-    return ( "Francesco Salvestrini" )
+    def description(self) :
+        return "dump the database in a friendly format"
 
-def do(configuration, arguments) :
-    command = Command("dump")
-    command.add_option("-o", "--output",
-                       action = "store",
-                       type   = "string",
-                       dest   = "output",
-                       help   = "specify output file name")
-    command.add_option("-p", "--pager",
-                       action = "store",
-                       type   = "string",
-                       dest   = "pager",
-                       help   = "specify pager to use")
+    def authors(self) :
+        return [ "Francesco Salvestrini" ]
 
-    (opts, args) = command.parse_args(arguments)
+    def do(self, configuration, arguments) :
+        Command.add_option(self,
+                           "-o", "--output",
+                           action = "store",
+                           type   = "string",
+                           dest   = "output",
+                           help   = "specify output file name")
+        Command.add_option(self,
+                           "-p", "--pager",
+                           action = "store",
+                           type   = "string",
+                           dest   = "pager",
+                           help   = "specify pager to use")
 
-    # Parameters setup
-    if (opts.output == None) :
-        raise Exceptions.MissingParameters("output file name")
+        (opts, args) = Command.parse_args(self, arguments)
 
-    pager = None
-    # Prefer parameter
-    if (pager == None) :
-        pager = opts.pager
-    # Fall-back to configuration
-    if (pager == None) :
-        try :
-            pager = configuration.get(command.name, 'pager', raw = True)
-        except :
-            # No pager found on configuration
-            pass
-    # Fall-back to the environment
-    if (pager == None) :
-        pager = os.environ["PAGER"]
-    # Finally bang with error
-    if (pager == None) :
-        raise MissingParameters("pager")
+        # Parameters setup
+        if (opts.output == None) :
+            raise Exceptions.MissingParameters("output file name")
 
-    # Work
+        pager = None
+        # Prefer parameter
+        if (pager == None) :
+            pager = opts.pager
+        # Fall-back to configuration
+        if (pager == None) :
+            try :
+                pager = configuration.get(command.name, 'pager', raw = True)
+            except :
+                # No pager found on configuration
+                pass
+        # Fall-back to the environment
+        if (pager == None) :
+            pager = os.environ["PAGER"]
+        # Finally bang with error
+        if (pager == None) :
+            raise MissingParameters("pager")
 
-    debug("Success")
+        # Work
+
+        debug("Success")
 
 # Test
 if (__name__ == '__main__') :

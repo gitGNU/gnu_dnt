@@ -18,43 +18,45 @@
 
 import sys
 
-from   Debug      import *
-from   Trace      import *
-from   Command    import *
+from   Debug            import *
+from   Trace            import *
+from   Commands.Command import *
 import Exceptions
 import DB
-from   ID         import *
+from   ID               import *
 import Entry
 import Tree
 
-def description() :
-    return "fix database"
+class SubCommand(Command) :
+    def __init__(self) :
+        Command.__init__(self, "fix")
 
-def authors() :
-    return ( "Francesco Salvestrini" )
+    def description(self) :
+        return "fix database"
 
-def do(configuration, arguments) :
-    command = Command("fix")
+    def authors(self) :
+        return [ "Francesco Salvestrini" ]
 
-    (opts, args) = command.parse_args(arguments)
+    def do(self, configuration, arguments) :
+        (opts, args) = Command.parse_args(self, arguments)
 
-    # Parameters setup
+        # Parameters setup
 
-    db_file = configuration.get(PROGRAM_NAME, 'database')
+        db_file = configuration.get(PROGRAM_NAME, 'database')
 
-    # Work
-    db = DB.Database()
+        # Work
+        db = DB.Database()
 
-    # Load database from file
-    tree = db.load(db_file)
-    assert(tree != None)
+        # Load database from file
+        tree = db.load(db_file)
+        assert(tree != None)
 
-    #tree.dump("")
+        #tree.dump("")
 
-    # Save database back to file
-    db.save(db_file, tree)
+        # Save database back to file
+        db.save(db_file, tree)
 
-    debug("Success")
+        debug("Success")
 
 # Test
 if (__name__ == '__main__') :

@@ -18,39 +18,44 @@
 
 import sys
 
-from   Debug      import *
-from   Trace      import *
-from   Command    import *
+from   Debug            import *
+from   Trace            import *
+from   Commands.Command import *
 import Exceptions
 
 import ID
 
-def description() :
-    return "touch node start and/or end date"
+class SubCommand(Command) :
+    def __init__(self) :
+        Command.__init__(self, "touch")
 
-def authors() :
-    return ( "Francesco Salvestrini" )
+    def description(self) :
+        return "touch node start and/or end date"
 
-def do(configuration, arguments) :
-    command = Command("dump")
-    command.add_option("-s", "--start",
-                       action = "store",
-                       type   = "string",
-                       dest   = "start",
-                       help   = "specify start time")
-    command.add_option("-e", "--end",
-                       action = "store",
-                       type   = "string",
-                       dest   = "end",
-                       help   = "specify end time")
+    def authors(self) :
+        return [ "Francesco Salvestrini" ]
 
-    (opts, args) = command.parse_args(arguments)
+    def do(self, configuration, arguments) :
+        Command.add_option(self,
+                           "-s", "--start",
+                           action = "store",
+                           type   = "string",
+                           dest   = "start",
+                           help   = "specify start time")
+        Command.add_option(self,
+                           "-e", "--end",
+                           action = "store",
+                           type   = "string",
+                           dest   = "end",
+                           help   = "specify end time")
 
-    # Parameters setup
+        (opts, args) = Command.parse_args(self, arguments)
 
-    # Work
+        # Parameters setup
 
-    debug("Success")
+        # Work
+
+        debug("Success")
 
 # Test
 if (__name__ == '__main__') :

@@ -18,43 +18,45 @@
 
 import sys
 
-from   Debug      import *
-from   Trace      import *
-from   Command    import *
+from   Debug            import *
+from   Trace            import *
+from   Commands.Command import *
 import Exceptions
 
-def description() :
-    return "remove the database"
+class SubCommand(Command) :
+    def __init__(self) :
+        Command.__init__(self, "clean")
 
-def authors() :
-    return ( "Francesco Salvestrini" )
+    def description(self) :
+        return "remove the database"
 
-def do(configuration, arguments) :
-    command = Command("remove")
+    def authors(self) :
+        return [ "Francesco Salvestrini" ]
 
-    (opts, args) = command.parse_args(arguments)
+    def do(self, configuration, arguments) :
+        (opts, args) = Command.parse_args(self, arguments)
 
-    # Parameters setup
-    db_file = configuration.get(PROGRAM_NAME, 'database')
-    assert(db_file != None)
+        # Parameters setup
+        db_file = configuration.get(PROGRAM_NAME, 'database')
+        assert(db_file != None)
 
-    # Work
-    try :
-        os.stat(db_file)
-    except OSError, e:
-        warning("Nothing to do, directory already clean")
-        return
-    except :
-        bug()
+        # Work
+        try :
+            os.stat(db_file)
+        except OSError, e:
+            warning("Nothing to do, directory already clean")
+            return
+        except :
+            bug()
 
-    try :
-        os.unlink(db_file)
-    except IOError, e:
-        raise Exceptions.EOS("Cannot remove `" + db_file + "'")
-    except :
-        bug()
+        try :
+            os.unlink(db_file)
+        except IOError, e:
+            raise Exceptions.EOS("Cannot remove `" + db_file + "'")
+        except :
+            bug()
 
-    debug("Success")
+        debug("Success")
 
 # Test
 if (__name__ == '__main__') :

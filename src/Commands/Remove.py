@@ -18,79 +18,83 @@
 
 import sys
 
-from   Debug      import *
-from   Trace      import *
-from   Command    import *
+from   Debug            import *
+from   Trace            import *
+from   Commands.Command import *
 import Exceptions
 import DB
-from   ID         import *
+from   ID               import *
 import Entry
 import Tree
 
-def description() :
-    return "remove node(s)"
+class SubCommand(Command) :
+    def __init__(self) :
+        Command.__init__(self, "remove")
 
-def authors() :
-    return ( "Francesco Salvestrini" )
+    def description(self) :
+        return "remove node(s)"
 
-def do(configuration, arguments) :
-    command = Command("remove")
+    def authors(self) :
+        return [ "Francesco Salvestrini" ]
 
-    command.add_option("-i", "--id",
-                       action = "store",
-                       type   = "string",
-                       dest   = "id",
-                       help   = "specify node id to remove")
-    command.add_option("-r", "--recursive",
-                       action = "store_true",
-                       dest   = "recursive",
-                       help   = "remove node and its children recursively")
+    def do(self, configuration, arguments) :
+        Command.add_option(self,
+                           "-i", "--id",
+                           action = "store",
+                           type   = "string",
+                           dest   = "id",
+                           help   = "specify node id to remove")
+        Command.add_option(self,
+                           "-r", "--recursive",
+                           action = "store_true",
+                           dest   = "recursive",
+                           help   = "remove node and its children recursively")
 
-    (opts, args) = command.parse_args(arguments)
+        (opts, args) = Command.parse_args(self, arguments)
 
-    # Parameters setup
-    if (opts.id == None) :
-        raise Exceptions.MissingParameters("node id")
+        # Parameters setup
+        if (opts.id == None) :
+            raise Exceptions.MissingParameters("node id")
 
-    db_file = configuration.get(PROGRAM_NAME, 'database')
-    assert(db_file != None)
-    node_id = ID(opts.id)
+        db_file = configuration.get(PROGRAM_NAME, 'database')
+        assert(db_file != None)
+        node_id = ID(opts.id)
 
-    # Work
-    debug("Removing node:")
-    debug("  id = " + str(node_id))
+        # Work
+        debug("Removing node:")
+        debug("  id = " + str(node_id))
 
-    db = DB.Database()
+        db = DB.Database()
 
-    # Load database from file
-    tree = db.load(db_file)
-    assert(tree != None)
+        # Load database from file
+        tree = db.load(db_file)
+        assert(tree != None)
 
-    debug("Looking for node `" + str(node_id) + "'")
-    node = Tree.find(tree, node_id)
-    if (node == None) :
-        raise Exceptions.WrongParameters("unknown node "
-                                         "`" + str(node_id) + "'")
+        debug("Looking for node `" + str(node_id) + "'")
+        node = Tree.find(tree, node_id)
+        if (node == None) :
+            raise Exceptions.WrongParameters("unknown node "
+                                             "`" + str(node_id) + "'")
 
-    parent = node.parent
-    if (parent == None) :
-        raise Exceptions.WrongParameters("cannot remove root node")
+        parent = node.parent
+        if (parent == None) :
+            raise Exceptions.WrongParameters("cannot remove root node")
 
-    debug("Node "
-          "`" + str(node_id) + "' "
-          "has " + str(len(node.children())) + " child/children")
+        debug("Node "
+              "`" + str(node_id) + "' "
+              "has " + str(len(node.children())) + " child/children")
 
-    if ((len(node.children()) > 0) and (opts.recursive != True)) :
-        raise Exceptions.MissingParameters("--recursive")
+        if ((len(node.children()) > 0) and (opts.recursive != True)) :
+            raise Exceptions.MissingParameters("--recursive")
 
-    parent.remove(node)
+        parent.remove(node)
 
-    #tree.dump("")
+        #tree.dump("")
 
-    # Save database back to file
-    db.save(db_file, tree)
+        # Save database back to file
+        db.save(db_file, tree)
 
-    debug("Success")
+        debug("Success")
 
 # Test
 if (__name__ == '__main__') :

@@ -18,21 +18,15 @@
 
 import sys
 
-from   Debug      import *
-from   Trace      import *
-from   Command    import *
+from   Debug            import *
+from   Trace            import *
+from   Commands.Command import *
 import Exceptions
 import Color
 import DB
 import Priority
-from   Root       import *
-from   Entry      import *
-
-def description() :
-    return "display node(s)"
-
-def authors() :
-    return ( "Francesco Salvestrini" )
+from   Root             import *
+from   Entry            import *
 
 class ShowVisitor :
     def __init__(self, colors, be_verbose, show_all) :
@@ -89,7 +83,7 @@ class ShowVisitor :
                           e.start.tostring())
                 if (e.end != None) :
                     print(self.__indent + l + "end   = " +
-                          e.end.tostring())
+                                  e.end.tostring())
                 print("")
 
     def visitRoot(self, r) :
@@ -104,8 +98,8 @@ class ShowVisitor :
             color_index = lambda x: x # pass-through
             color_text  = lambda x: x # pass-through
 
-        assert(color_index != None)
-        assert(color_text != None)
+            assert(color_index != None)
+            assert(color_text != None)
 
         print(self.__indent                 +
               color_index(str(self.__index) + ".") +
@@ -124,6 +118,7 @@ class ShowVisitor :
 
         self.__indent = self.__indent + "    "
         self.__index  = 0
+
         for j in n.children() :
             self.__index = self.__index + 1
             j.accept(self) # Re-accept myself
@@ -131,46 +126,55 @@ class ShowVisitor :
         self.__indent = old_indent
         self.__index  = old_index
 
-def do(configuration, arguments) :
-    command = Command("show")
-    command.add_option("-a", "--all",
-                       action = "store_true",
-                       dest   = "all",
-                       help   = "show all nodes")
+class SubCommand(Command) :
+    def __init__(self) :
+        Command.__init__(self, "show")
 
-    (opts, args) = command.parse_args(arguments)
+    def description(self) :
+        return "display node(s)"
 
-    # Parameters setup
+    def authors(self) :
+        return [ "Francesco Salvestrini" ]
 
-    # Work
+    def do(self, configuration, arguments) :
+        Command.add_option(self, "-a", "--all",
+                           action = "store_true",
+                           dest   = "all",
+                           help   = "show all nodes")
 
-    # Load DB
-    db_file = configuration.get(PROGRAM_NAME, 'database')
-    assert(db_file != None)
+        (opts, args) = Command.parse_args(self, arguments)
 
-    db   = DB.Database()
-    tree = db.load(db_file)
-    assert(tree != None)
+        # Parameters setup
 
-    try :
-        colors = configuration.get(PROGRAM_NAME, 'colors', raw = True)
-    except :
-        debug("No colors related configuration, default to false")
-        colors = False
-    try :
-        verbose = configuration.get(PROGRAM_NAME, 'verbose', raw = True)
-    except :
-        debug("No verboseness related configuration, default to false")
-        verbose = False
+        # Work
 
-    show_all = False
-    if (opts.all == True) :
-        show_all = True
+        # Load DB
+        db_file = configuration.get(PROGRAM_NAME, 'database')
+        assert(db_file != None)
 
-    v = ShowVisitor(colors, verbose, show_all)
-    tree.accept(v)
+        db   = DB.Database()
+        tree = db.load(db_file)
+        assert(tree != None)
 
-    debug("Success")
+        try :
+            colors = configuration.get(PROGRAM_NAME, 'colors', raw = True)
+        except :
+            debug("No colors related configuration, default to false")
+            colors = False
+        try :
+            verbose = configuration.get(PROGRAM_NAME, 'verbose', raw = True)
+        except :
+            debug("No verboseness related configuration, default to false")
+            verbose = False
+
+        show_all = False
+        if (opts.all == True) :
+            show_all = True
+
+        v = ShowVisitor(colors, verbose, show_all)
+        tree.accept(v)
+
+        debug("Success")
 
 # Test
 if (__name__ == '__main__') :

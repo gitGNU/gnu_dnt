@@ -18,150 +18,158 @@
 
 import sys
 
-from   Debug         import *
-from   Trace         import *
-from   Command       import *
+from   Debug            import *
+from   Trace            import *
+from   Commands.Command import *
 import Exceptions
-from   Configuration import *
+from   Configuration    import *
 
 import DB
 import Entry
 from   ID         import *
 
-def description() :
-    return "manage current configuration"
+class SubCommand(Command) :
+    def __init__(self) :
+        Command.__init__(self, "config")
 
-def authors() :
-    return ( "Francesco Salvestrini" )
+    def description(self) :
+        return "manage current configuration"
 
-def _key_exists(configuration, section, option) :
-    debug("configuration = "
-          "`" + str(configuration) + "', "
-          "section = "
-          "`" + section + "', "
-          "option = "
-          "`" + option + "'")
+    def authors(self) :
+        return [ "Francesco Salvestrini" ]
 
-    if (section == None or section == "") :
-        return False
-    if (not configuration.has_section(section)) :
-        return False
-    if (option == None or option == "") :
-        return False
-    if (not configuration.has_option(section, option)) :
-        return False
-    return True
+    def _key_exists(self, configuration, section, option) :
+        debug("configuration = "
+              "`" + str(configuration) + "', "
+              "section = "
+              "`" + section + "', "
+              "option = "
+              "`" + option + "'")
 
-def do(configuration, arguments) :
-    command = Command("config")
+        if (section == None or section == "") :
+            return False
+        if (not configuration.has_section(section)) :
+            return False
+        if (option == None or option == "") :
+            return False
+        if (not configuration.has_option(section, option)) :
+            return False
+        return True
 
-    # Parameters setup
-    command.add_option("-s", "--set",
-                       action = "store_true",
-                       dest   = "set",
-                       help   = "set a (local) configuration key value")
-    command.add_option("-g", "--get",
-                       action = "store_true",
-                       dest   = "get",
-                       help   = "get a configuration key value")
-    command.add_option("-S", "--show",
-                       action = "store_true",
-                       dest   = "show",
-                       help   = "show all configuration values")
+    def do(self, configuration, arguments) :
+        # Parameters setup
+        Command.add_option(self,
+                           "-s", "--set",
+                           action = "store_true",
+                           dest   = "set",
+                           help   = "set a (local) configuration key value")
+        Command.add_option(self,
+                           "-g", "--get",
+                           action = "store_true",
+                           dest   = "get",
+                           help   = "get a configuration key value")
+        Command.add_option(self,
+                           "-S", "--show",
+                           action = "store_true",
+                           dest   = "show",
+                           help   = "show all configuration values")
+        Command.add_option(self,
+                           "-k", "--key",
+                           action = "store",
+                           dest   = "key",
+                           help   = "specify key to get/set")
+        Command.add_option(self,
+                           "-v", "--value",
+                           action = "store",
+                           dest   = "value",
+                           help   = "specify value to set")
 
-    command.add_option("-k", "--key",
-                       action = "store",
-                       dest   = "key",
-                       help   = "specify key to get/set")
-    command.add_option("-v", "--value",
-                       action = "store",
-                       dest   = "value",
-                       help   = "specify value to set")
+        # Parameters parsing
+        (opts, args) = Command.parse_args(self, arguments)
 
-    # Parameters parsing
-    (opts, args) = command.parse_args(arguments)
+        # Parameters checks
+        if (opts.set != True and opts.get != True and opts.show != True) :
+            raise Exceptions.MissingParameters()
+        if (opts.set == True and opts.get == True) :
+            raise Exceptions.TooManyParameters()
+        if ((opts.set == True or opts.get == True) and opts.show == True) :
+            raise Exceptions.WrongParameters("set or get with show " +
+                                             "cannot be mixed")
 
-    # Parameters checks
-    if (opts.set != True and opts.get != True and opts.show != True) :
-        raise Exceptions.MissingParameters()
-    if (opts.set == True and opts.get == True) :
-        raise Exceptions.TooManyParameters()
-    if ((opts.set == True or opts.get == True) and opts.show == True) :
-        raise Exceptions.WrongParameters("set or get with show cannot be mixed")
+            if (opts.set == True) :
+                if (opts.key == None) :
+                    raise Exceptions.MissingParameters("key in order to set "
+                                                       "a configuration entry")
+                if (opts.value == None) :
+                    raise Exceptions.MissingParameters("value in order to set "
+                                                       "a configuration entry")
+            if (opts.get == True) :
+                if (opts.key == None) :
+                    raise Exceptions.MissingParameters("key in order to get "
+                                                       "a configuration entry")
+            # Work
+            if (opts.get == True) :
+                debug("Performing get")
+                assert(opts.key != None)
 
-    if (opts.set == True) :
-        if (opts.key == None) :
-            raise Exceptions.MissingParameters("key in order to set a "
-                                               "configuration entry")
-        if (opts.value == None) :
-            raise Exceptions.MissingParameters("value in order to set a "
-                                               "configuration entry")
-    if (opts.get == True) :
-        if (opts.key == None) :
-            raise Exceptions.MissingParameters("key in order to get a "
-                                               "configuration entry")
-    # Work
-    if (opts.get == True) :
-        debug("Performing get")
-        assert(opts.key != None)
+                try :
+                    (section, option) = opts.key.rsplit('.',1)
+                except ValueError :
+                    raise Exceptions.WrongParameters("key "
+                                                     "`" + opts.key + "' "
+                                                     "is malformed")
+                debug("section = `" + section + "'")
+                debug("option  = `" + option + "'")
 
-        try :
-            (section, option) = opts.key.rsplit('.',1)
-        except ValueError :
-            raise Exceptions.WrongParameters("key "
-                                             "`" + opts.key + "' "
-                                             "is malformed")
-        debug("section = `" + section + "'")
-        debug("option  = `" + option + "'")
+                if (not _key_exists(configuration, section, option)) :
+                    raise Exceptions.WrongParameters("key "
+                                                     "`" + opts.key + "' "
+                                                     "is unavailable")
 
-        if (not _key_exists(configuration, section, option)) :
-            raise Exceptions.WrongParameters("key "
-                                             "`" + opts.key + "' "
-                                             "is unavailable")
+                debug("Getting value for `" + section + "." + option + "'")
+                value = configuration.get(section, option, raw = True)
+                sys.stdout.write(str(value) + '\n')
 
-        debug("Getting value for `" + section + "." + option + "'")
-        value = configuration.get(section, option, raw = True)
-        sys.stdout.write(str(value) + '\n')
+            elif (opts.set == True) :
+                debug("Performing set")
+                assert(opts.key   != None)
+                assert(opts.value != None)
 
-    elif (opts.set == True) :
-        debug("Performing set")
-        assert(opts.key   != None)
-        assert(opts.value != None)
+                try :
+                    (section, option) = opts.key.rsplit('.',1)
+                except ValueError :
+                    raise Exceptions.WrongParameters("key "
+                                                     "`" + opts.key + "' "
+                                                     "is malformed")
+                debug("section = `" + section + "'")
+                debug("option  = `" + option     + "'")
 
-        try :
-            (section, option) = opts.key.rsplit('.',1)
-        except ValueError :
-            raise Exceptions.WrongParameters("key "
-                                             "`" + opts.key + "' "
-                                             "is malformed")
-        debug("section = `" + section + "'")
-        debug("option  = `" + option     + "'")
+                value = opts.value
+                debug("value   = `" + value   + "'")
 
-        value = opts.value
-        debug("value   = `" + value   + "'")
+                debug("Setting `" + section + "." + option + "' " +
+                      "to `" + value + "'")
+                configuration.set(section, option, value)
 
-        debug("Setting `" + section + "." + option + "' to `" + value + "'")
-        configuration.set(section, option, value)
+            elif (opts.show == True) :
+                debug("Showing all key/value pairs")
+                # Compute maximum key length
+                l = 0
+                for s in configuration.sections() :
+                    for o in configuration.options(s) :
+                        l = max(l, len(s + "." + o))
 
-    elif (opts.show == True) :
-        debug("Showing all key/value pairs")
-        # Compute maximum key length
-        l = 0
-        for s in configuration.sections() :
-            for o in configuration.options(s) :
-                l = max(l, len(s + "." + o))
+                # Write all key-value pairs
+                for s in configuration.sections() :
+                    for o in configuration.options(s) :
+                        v = configuration.get(s, o, raw = True)
+                        print(("%-" + str(l) + "s = %s")
+                              %(s + "." + o,  str(v)))
 
-        # Write all key-value pairs
-        for s in configuration.sections() :
-            for o in configuration.options(s) :
-                v = configuration.get(s, o, raw = True)
-                print(("%-" + str(l) + "s = %s")
-                      %(s + "." + o,  str(v)))
+            else :
+                bug()
 
-    else :
-        bug()
-
-    debug("Success")
+            debug("Success")
 
 # Test
 if (__name__ == '__main__') :
