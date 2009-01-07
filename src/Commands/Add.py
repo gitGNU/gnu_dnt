@@ -32,7 +32,7 @@ class SubCommand(Command):
     def __init__(self) :
         Command.__init__(self, "add")
 
-    def description(self) :
+    def short_help(self) :
         return "add a new node"
 
     def authors(self) :

@@ -116,7 +116,7 @@ class Command(OptionParser) :
             bug("Unhandled exception in option parser")
 
     ## This method should be provided by the subclass
-    #def description(self) :
+    #def short_help(self) :
     #    bug()
 
     ## This method must be provided by the subclass

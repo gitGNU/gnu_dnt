@@ -130,7 +130,7 @@ class SubCommand(Command) :
     def __init__(self) :
         Command.__init__(self, "show")
 
-    def description(self) :
+    def short_help(self) :
         return "display node(s)"
 
     def authors(self) :

@@ -33,7 +33,7 @@ class SubCommand(Command) :
     def __init__(self) :
         Command.__init__(self, "init")
 
-    def description(self) :
+    def short_help(self) :
         return "initialize the database"
 
     def authors(self) :

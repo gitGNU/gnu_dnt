@@ -29,7 +29,7 @@ class SubCommand(Command) :
     def __init__(self) :
         Command.__init__(self, "touch")
 
-    def description(self) :
+    def short_help(self) :
         return "touch node start and/or end date"
 
     def authors(self) :

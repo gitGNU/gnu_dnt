@@ -30,7 +30,7 @@ class SubCommand(Command) :
     def __init__(self) :
         Command.__init__(self, "edit")
 
-    def description(self) :
+    def short_help(self) :
         return "edit a node"
 
     def authors(self) :

@@ -31,7 +31,7 @@ class SubCommand(Command) :
     def __init__(self) :
         Command.__init__(self, "fix")
 
-    def description(self) :
+    def short_help(self) :
         return "fix database"
 
     def authors(self) :

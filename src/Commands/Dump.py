@@ -29,7 +29,7 @@ class SubCommand(Command) :
     def __init__(self) :
         Command.__init__(self, "dump")
 
-    def description(self) :
+    def short_help(self) :
         return "dump the database in a friendly format"
 
     def authors(self) :

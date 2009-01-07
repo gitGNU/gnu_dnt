@@ -107,11 +107,10 @@ def main(arguments) :
         #print("cmd_instance      = " + str(cmd_instance))
         assert(cmd_instance != None)
 
-        assert(hasattr(cmd_instance, "description"))
-        #assert(callable(cmd_instance.description))
+        assert(hasattr(cmd_instance, "short_help"))
+        assert(callable(cmd_instance.short_help))
 
-        #cmd_description = cmd_instance.description()
-        cmd_description = ""
+        cmd_description = cmd_instance.short_help()
 
         footer = footer + (("  %-" + str(cmd_name_max_len + 4) + "s%s")
                            %(cmd_name, cmd_description)) + "\n"

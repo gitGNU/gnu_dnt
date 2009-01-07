@@ -27,7 +27,7 @@ class SubCommand(Command) :
     def __init__(self) :
         Command.__init__(self, "clean")
 
-    def description(self) :
+    def short_help(self) :
         return "remove the database"
 
     def authors(self) :

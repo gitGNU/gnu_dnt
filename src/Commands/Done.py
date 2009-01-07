@@ -29,7 +29,7 @@ class SubCommand(Command) :
     def __init__(self) :
         Command.__init__(self, "done")
 
-    def description(self) :
+    def short_help(self) :
         return "mark node (and its children) as done"
 
     def authors(self) :
