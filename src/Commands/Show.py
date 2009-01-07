@@ -18,15 +18,15 @@
 
 import sys
 
-from   Debug            import *
-from   Trace            import *
-from   Commands.Command import *
+from   Debug         import *
+from   Trace         import *
+from   Command       import *
 import Exceptions
 import Color
 import DB
 import Priority
-from   Root             import *
-from   Entry            import *
+from   Root          import *
+from   Entry         import *
 
 class ShowVisitor :
     def __init__(self, colors, be_verbose, show_all) :

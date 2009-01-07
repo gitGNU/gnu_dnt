@@ -18,12 +18,12 @@
 
 import sys
 
-from   Debug            import *
-from   Trace            import *
-from   Commands.Command import *
+from   Debug         import *
+from   Trace         import *
+from   Command       import *
 import Exceptions
 import DB
-from   ID               import *
+from   ID            import *
 import Entry
 import Tree
 

@@ -51,7 +51,7 @@ try :
     from   Entry            import *
     from   Configuration    import *
     import Exceptions
-    from   Commands.Command import *
+    from   Command          import *
 except ImportError :
     error("Cannot import package's own modules, bailing out ...")
     sys.exit(-1)

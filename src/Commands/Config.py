@@ -18,11 +18,11 @@
 
 import sys
 
-from   Debug            import *
-from   Trace            import *
-from   Commands.Command import *
+from   Debug         import *
+from   Trace         import *
+from   Command       import *
 import Exceptions
-from   Configuration    import *
+from   Configuration import *
 
 import DB
 import Entry

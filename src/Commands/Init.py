@@ -19,15 +19,15 @@
 import sys
 import os
 
-from   Debug            import *
-from   Trace            import *
-from   Commands.Command import *
+from   Debug         import *
+from   Trace         import *
+from   Command       import *
 import Exceptions
-from   Configuration    import *
+from   Configuration import *
 import DB
 import Root
 import Entry
-from   ID               import *
+from   ID            import *
 
 class SubCommand(Command) :
     def __init__(self) :
