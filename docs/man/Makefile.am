@@ -93,7 +93,7 @@ dnt.1: $(top_srcdir)/src/dnt.in $(top_srcdir)/configure.ac
 	    --output=dnt.1 \
 	    $(top_builddir)/src/dnt
 
-dnt-add.1: $(top_srcdir)/src/Commands/Command.py $(top_srcdir)/src/Commands/Add.py $(top_srcdir)/configure.ac
+dnt-add.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Add.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
@@ -104,7 +104,7 @@ dnt-add.1: $(top_srcdir)/src/Commands/Command.py $(top_srcdir)/src/Commands/Add.
 	    --output=dnt-add.1 \
 	    "$(top_builddir)/src/dnt add"
 
-dnt-clean.1: $(top_srcdir)/src/Commands/Command.py $(top_srcdir)/src/Commands/Clean.py $(top_srcdir)/configure.ac
+dnt-clean.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Clean.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
@@ -115,7 +115,7 @@ dnt-clean.1: $(top_srcdir)/src/Commands/Command.py $(top_srcdir)/src/Commands/Cl
 	    --output=dnt-clean.1 \
 	    "$(top_builddir)/src/dnt clean"
 
-dnt-config.1: $(top_srcdir)/src/Commands/Command.py $(top_srcdir)/src/Commands/Config.py $(top_srcdir)/configure.ac
+dnt-config.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Config.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
@@ -126,7 +126,7 @@ dnt-config.1: $(top_srcdir)/src/Commands/Command.py $(top_srcdir)/src/Commands/C
 	    --output=dnt-config.1 \
 	    "$(top_builddir)/src/dnt config"
 
-dnt-dump.1: $(top_srcdir)/src/Commands/Command.py $(top_srcdir)/src/Commands/Dump.py $(top_srcdir)/configure.ac
+dnt-dump.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Dump.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
@@ -137,7 +137,7 @@ dnt-dump.1: $(top_srcdir)/src/Commands/Command.py $(top_srcdir)/src/Commands/Dum
 	    --output=dnt-dump.1 \
 	    "$(top_builddir)/src/dnt dump"
 
-dnt-edit.1: $(top_srcdir)/src/Commands/Command.py $(top_srcdir)/src/Commands/Edit.py $(top_srcdir)/configure.ac
+dnt-edit.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Edit.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
@@ -148,7 +148,7 @@ dnt-edit.1: $(top_srcdir)/src/Commands/Command.py $(top_srcdir)/src/Commands/Edi
 	    --output=dnt-edit.1 \
 	    "$(top_builddir)/src/dnt edit"
 
-dnt-fix.1: $(top_srcdir)/src/Commands/Command.py $(top_srcdir)/src/Commands/Fix.py $(top_srcdir)/configure.ac
+dnt-fix.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Fix.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
@@ -159,7 +159,7 @@ dnt-fix.1: $(top_srcdir)/src/Commands/Command.py $(top_srcdir)/src/Commands/Fix.
 	    --output=dnt-fix.1 \
 	    "$(top_builddir)/src/dnt fix"
 
-dnt-init.1: $(top_srcdir)/src/Commands/Command.py $(top_srcdir)/src/Commands/Init.py $(top_srcdir)/configure.ac
+dnt-init.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Init.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
@@ -170,7 +170,7 @@ dnt-init.1: $(top_srcdir)/src/Commands/Command.py $(top_srcdir)/src/Commands/Ini
 	    --output=dnt-init.1 \
 	    "$(top_builddir)/src/dnt init"
 
-dnt-move.1: $(top_srcdir)/src/Commands/Command.py $(top_srcdir)/src/Commands/Move.py $(top_srcdir)/configure.ac
+dnt-move.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Move.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
@@ -181,7 +181,7 @@ dnt-move.1: $(top_srcdir)/src/Commands/Command.py $(top_srcdir)/src/Commands/Mov
 	    --output=dnt-move.1 \
 	    "$(top_builddir)/src/dnt move"
 
-dnt-remove.1: $(top_srcdir)/src/Commands/Command.py $(top_srcdir)/src/Commands/Remove.py $(top_srcdir)/configure.ac
+dnt-remove.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Remove.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
@@ -192,7 +192,7 @@ dnt-remove.1: $(top_srcdir)/src/Commands/Command.py $(top_srcdir)/src/Commands/R
 	    --output=dnt-remove.1 \
 	    "$(top_builddir)/src/dnt remove"
 
-dnt-touch.1: $(top_srcdir)/src/Commands/Command.py $(top_srcdir)/src/Commands/Touch.py $(top_srcdir)/configure.ac
+dnt-touch.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Touch.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
@@ -203,7 +203,7 @@ dnt-touch.1: $(top_srcdir)/src/Commands/Command.py $(top_srcdir)/src/Commands/To
 	    --output=dnt-touch.1 \
 	    "$(top_builddir)/src/dnt touch"
 
-dnt-done.1: $(top_srcdir)/src/Commands/Command.py $(top_srcdir)/src/Commands/Done.py $(top_srcdir)/configure.ac
+dnt-done.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Done.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
@@ -214,7 +214,7 @@ dnt-done.1: $(top_srcdir)/src/Commands/Command.py $(top_srcdir)/src/Commands/Don
 	    --output=dnt-done.1 \
 	    "$(top_builddir)/src/dnt done"
 
-dnt-show.1: $(top_srcdir)/src/Commands/Command.py $(top_srcdir)/src/Commands/Show.py $(top_srcdir)/configure.ac
+dnt-show.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Show.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
