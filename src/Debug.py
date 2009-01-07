@@ -83,7 +83,7 @@ def bug(s = "") :
         tmp2 = tmp1 + "!"
     error(tmp2)
 
-    _stack_dump()
+    _stack_dump(False)
 
     error("Please report to <" + PACKAGE_BUGREPORT + ">")
 
