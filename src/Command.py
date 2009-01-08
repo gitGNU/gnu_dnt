@@ -103,7 +103,7 @@ class Command(OptionParser) :
 
     # Override OptParse error() method
     def error(self, msg) :
-        raise EParameters(msg)
+        raise Exceptions.EParameters(msg)
 
     def exit(self, status = 0, msg = None):
         debug("Explicit exit called from command")
