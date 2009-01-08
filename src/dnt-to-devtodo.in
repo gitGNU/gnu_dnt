@@ -37,8 +37,8 @@ function help {
     echo "Usage: $me [OPTION]..."
     echo ""
     echo "Options:"
-    echo "  -i, --input=FILE          specify input file"
-    echo "  -o, --output=FILE         specify output file"
+    echo "  -i, --input=FILE          specify input file (default $input)"
+    echo "  -o, --output=FILE         specify output file (default $output)"
     echo "  -f, --force               force operation"
     echo "  -l, --libdir=DIRECTORY    specify library directory"
     echo "  -h, --help                print this help, then exit"
@@ -47,14 +47,14 @@ function help {
     echo "Report bugs to <@PACKAGE_BUGREPORT@>"
 }
 
-if test $# -eq 0 ; then
-    hint "Missing parameter(s)"
-    exit 1
-fi
+#if test $# -eq 0 ; then
+#    hint "Missing parameter(s)"
+#    exit 1
+#fi
 
 force="no"
-input=""
-output=""
+input=".dnt.db"
+output=".todo"
 libdir="@pkgvdatadir@"
 
 while test $# -gt 0 ; do
