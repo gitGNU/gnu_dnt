@@ -23,24 +23,33 @@ import time
 from   Debug import *
 from   Trace import *
 
-def today() :
-    return datetime.date.today()
-
 class Time(object) :
-    since_epoch__ = 0
+    __time = None
 
     def __init__(self, t = datetime.datetime.now()) :
-        self.__since_epoch = time.mktime(t.timetuple())
+        self.__time = t
 
     def __str__(self) :
-        now = datetime.datetime.fromtimestamp(self.since_epoch__)
-        return now.ctime()
+        assert(self.__time != None)
+        return self.tostring()
 
+    # XXX FIXME: Add try/except here ...
     def fromstring(self, s) :
-        self.since_epoch__ = int(s)
+        assert(self.__time != None)
+        a = s.split(" ")
+        d = a.split("-")
+        t = a.split(":")
+        year    = d[0]
+        month   = d[1]
+        day     = d[2]
+        hour    = t[0]
+        minutes = t[1]
+        secs    = t[2]
+        self.__time = datetime.datetime(year, month, day, hour, minutes, secs)
 
     def tostring(self) :
-        return str(self.since_epoch__)
+        assert(self.__time != None)
+        return  self.__time.strftime("%Y-%m-%d %H:%M:%S")
 
 # Test
 if (__name__ == '__main__') :
