@@ -198,7 +198,7 @@ class Database(object) :
         except IOError, e :
             raise Exceptions.ProblemsWriting(name, str(e))
         except Exception, e :
-            bug() #raise Exceptions.ProblemsWriting(name, str(e))
+            raise Exceptions.ProblemsWriting(name, str(e))
         except :
             bug()
 
