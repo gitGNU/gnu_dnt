@@ -127,5 +127,9 @@ if (__name__ == '__main__') :
     e3.end = e3.start
     assert(e3.done())
 
+#    e3.end   = e3.start
+#    e3.start = e3.start - 1
+#    assert(not(e3.done()))
+
     debug("Test completed")
     sys.exit(0)
