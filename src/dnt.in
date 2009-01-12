@@ -265,7 +265,7 @@ def main(arguments) :
         error(e)
     except ValueError, e :
         error(e)
-    except SystemExit, e:
+    except SystemExit, e :
         bug("Explicit system exit called in subcommand "
             "`" + cmd_name + "' (not allowed in subcommands)")
     except Exception, e :
@@ -295,7 +295,7 @@ def main(arguments) :
             ofp = open(filename, 'w')
             configuration.write(ofp)
             ofp.close()
-        except Configuration.Error, e:
+        except Configuration.Error, e :
             error(e)
             return 1
         except :

@@ -109,7 +109,7 @@ class Command(OptionParser) :
         debug("Explicit exit called from command")
         try :
             OptionParser.exit(self, status, msg)
-        except SystemExit, e:
+        except SystemExit, e :
             # Wrapping SistemExit exception with our own exception
             raise Exceptions.ExplicitExit(e, e.code)
         except :

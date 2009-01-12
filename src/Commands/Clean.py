@@ -43,7 +43,7 @@ class SubCommand(Command) :
         # Work
         try :
             os.stat(db_file)
-        except OSError, e:
+        except OSError, e :
             warning("Nothing to do, directory already clean")
             return
         except :
@@ -51,7 +51,7 @@ class SubCommand(Command) :
 
         try :
             os.unlink(db_file)
-        except IOError, e:
+        except IOError, e :
             raise Exceptions.EOS("Cannot remove `" + db_file + "'")
         except :
             bug()
