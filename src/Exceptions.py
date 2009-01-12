@@ -39,6 +39,19 @@ class EOS(EBase):
         EBase.__init__(self, value)
 
 #
+# Time related exceptions
+#
+class ETime(EBase):
+    def __init__(self, value) :
+        assert(value != None)
+        EBase.__init__(self, value)
+
+class WrongTimeFormat(ETime) :
+    def __init__(self, value) :
+        assert(value != None)
+        ETime.__init__(self, "wrong time format `" + value + "'")
+
+#
 # Priority related exceptions
 #
 class EPriority(EBase):
