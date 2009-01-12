@@ -72,11 +72,11 @@ class Time(object) :
     def __sub__(self, other) :
         self.__time = self.__time - other.time()
 
-    def __eq__(self, other) :
-        return (self.__time == other.time())
+#    def __eq__(self, other) :
+#        return (self.__time == other.time())
 
-    def __ne__(self, other) :
-        return (self.__time != other.time())
+#    def __ne__(self, other) :
+#        return (self.__time != other.time())
 
     def __gt__(self, other) :
         return (self.__time > other.time())
