@@ -34,15 +34,15 @@
         Check the ConfigParser getboolean() problem (we must use get(..., raw=True, ...))
     </note>
     <note priority="veryhigh" time="1230926257">
-        Rearrange Exceptions in order to use supe(Class...)
+        Rearrange Exceptions in order to use super(Class...)
     </note>
     <note priority="veryhigh" time="1230934015">
-        Rearranged the whole Exceptions classes in order to replace 'value' with 'message'
+        Rearrange the whole Exceptions classes in order to replace 'value' with 'message'
     </note>
     <note priority="veryhigh" time="1231436828">
         Replace fromstring() and tostring() with proper builtins (where applicable)
     </note>
-    <note priority="veryhigh" time="1231780779">
+    <note priority="high" time="1231780779">
         Add toxml() and fromxml() to Entry and Root classes
     </note>
     <note priority="low" time="1227122807">
