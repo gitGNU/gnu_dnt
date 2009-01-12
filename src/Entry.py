@@ -34,15 +34,15 @@ class Entry(Node) :
     __end      = None
 
     def __init__(self,
-                 t,
-                 p = Priority.Priority(),
-                 s = Time.Time(),
-                 e = Time.Time()) :
+                 text,
+                 priority = Priority.Priority(),
+                 start    = Time.Time(),
+                 end      = None) :
         super(Entry, self).__init__()
-        self.text_set(t)
-        self.priority_set(p)
-        self._start_set(s)
-        self._end_set(e)
+        self.text_set(text)
+        self.priority_set(priority)
+        self._start_set(start)
+        self._end_set(end)
         debug("Entry `" + str(self) + "' created successfully")
 
     def text_get(self) :
@@ -86,6 +86,8 @@ class Entry(Node) :
     end = property(end_get, end_set)
 
     def done(self) :
+        if (self.__end == None) :
+            return False
         if (self.__end <= Time.Time()) :
             return True
         return False
