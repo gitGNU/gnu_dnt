@@ -64,7 +64,7 @@ class Time(object) :
             raise Exceptions.WrongTimeFormat(str(i))
 
     def toint(self) :
-        return int(self.__time.toordinal())
+        return int(time.mktime(self.__time.timetuple()))
 
     def __add__(self, other) :
         self.__time = self.__time + other.time()
@@ -72,23 +72,23 @@ class Time(object) :
     def __sub__(self, other) :
         self.__time = self.__time - other.time()
 
-#    def __eq__(self, other) :
-#        return (self.__time == other.time())
-#
-#    def __ne__(self, other) :
-#        return (self.__time != other.time())
-#
-#    def __ge__(self, other) :
-#        pass
-#
-#    def __gt__(self, other) :
-#        pass
-#
-#    def __le__(self, other) :
-#        pass
-#
-#    def __lt__(self, other) :
-#        pass
+    def __eq__(self, other) :
+        return (self.__time == other.time())
+
+    def __ne__(self, other) :
+        return (self.__time != other.time())
+
+    def __gt__(self, other) :
+        return (self.__time > other.time())
+
+    def __ge__(self, other) :
+        return (self.__time >= other.time())
+
+    def __lt__(self, other) :
+        return (self.__time < other.time())
+
+    def __le__(self, other) :
+        return (self.__time <= other.time())
 
 # Test
 if (__name__ == '__main__') :
