@@ -27,33 +27,89 @@ class Time(object) :
     __time = None
 
     def __init__(self, t = datetime.datetime.now()) :
-        self.__time = t
+        if (type(t) == str) :
+            self.fromstring(t)
+        elif (type(t) == int) :
+            self.fromint(t)
+        elif (type(t) == datetime.datetime) :
+            self.__time = t
+        else :
+            bug()
+        assert(type(self.__time) == datetime.datetime)
 
     def __str__(self) :
         assert(self.__time != None)
         return self.tostring()
 
-    # XXX FIXME: Add try/except here ...
+    def time(self) :
+        return self.__time
+
     def fromstring(self, s) :
-        assert(self.__time != None)
-        a = s.split(" ")
-        d = a.split("-")
-        t = a.split(":")
-        year    = d[0]
-        month   = d[1]
-        day     = d[2]
-        hour    = t[0]
-        minutes = t[1]
-        secs    = t[2]
-        self.__time = datetime.datetime(year, month, day, hour, minutes, secs)
+        assert(type(s) == str)
+        try :
+            args = time.strptime(s,"%Y-%m-%d %H:%M:%S")[0:5]
+            self.__time = datetime.datetime(*args)
+        except :
+            raise Exceptions.WrongTimeFormat(s)
 
     def tostring(self) :
-        assert(self.__time != None)
-        return  self.__time.strftime("%Y-%m-%d %H:%M:%S")
+        return self.__time.strftime("%Y-%m-%d %H:%M:%S")
+
+    def fromint(self, i) :
+        assert(type(i) == int)
+        try :
+            self.__time = datetime.datetime.fromordinal(i)
+        except :
+            raise Exceptions.WrongTimeFormat(str(i))
+
+    def toint(self) :
+        return int(self.__time.toordinal())
+
+    def __add__(self, other) :
+        self.__time = self.__time + other.time()
+
+    def __sub__(self, other) :
+        self.__time = self.__time - other.time()
+
+#    def __eq__(self, other) :
+#        return (self.__time == other.time())
+#
+#    def __ne__(self, other) :
+#        return (self.__time != other.time())
+#
+#    def __ge__(self, other) :
+#        pass
+#
+#    def __gt__(self, other) :
+#        pass
+#
+#    def __le__(self, other) :
+#        pass
+#
+#    def __lt__(self, other) :
+#        pass
 
 # Test
 if (__name__ == '__main__') :
-    t = Time()
-    debug("Time is = " + str(t))
+    now = Time()
+    debug("Time is = " + str(now))
+
+    now = Time(datetime.datetime.now())
+    debug("Time is = " + str(now))
+
+    now = Time("1980-02-03 10:11:12")
+    debug("Time is = " + str(now))
+    now.fromstring("1970-4-5 10:00:11")
+    debug("Time is = " + str(now))
+
+    t1 = Time("2008-11-2 1:1:1")
+    debug("Time is = " + str(t1))
+
+    t2 = Time("2008-11-2 1:1:1")
+    debug("Time is = " + str(t2))
+
+#    assert(t2 == t1)
+#    assert(t1 == t2)
+
     debug("Test completed")
     sys.exit(0)
