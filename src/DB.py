@@ -65,25 +65,48 @@ def fromxml(xml) :
             warning("No priority for entry `" + text + "', using default")
         debug("Priority will be: `" + priority.tostring() + "'")
 
-        start = Time.Time()
+        # NOTE:
+        #     Use the current time from Entry.start, use None as default value
+        #     for Entry.end
+        start = None
+        value = None
         try :
-            start.fromstring(xml.attrib['start'])
-        except Exception, e:
-            #debug(str(e))
-            warning("No start time for entry `" + text + "', using default")
+            value = xml.attrib['start']
+            try :
+                debug("Start time value: `" + value + "'")
+                start = Time.Time(int(value))
+            except ValueError, e :
+                error("Wrong start time format for entry " +
+                      "`" + text +"' (" + str(e) + ")")
+            except Exception, e :
+                bug(str(e))
+        except Exception, e :
+            error("Missing start time for entry "
+                  "`" + text + "'")
+            raise Exceptions.MalformedDatabase()
 
-        end = Time.Time()
+        end   = None
+        value = None
         try :
-            end.fromstring(xml.attrib['end'])
-        except Exception, e:
-            #debug(str(e))
-            warning("No end time for entry `" + text +"', using default")
+            value = xml.attrib['end']
+            try :
+                debug("End time value: `" + value + "'")
+                end  = Time.Time(int(value))
+            except ValueError, e :
+                error("Wrong end time format for entry "
+                      "`" + text +"' (" + str(e) + ")")
+                raise Exceptions.MalformedDatabase()
+            except Exception, e :
+                bug(str(e))
+        except :
+            debug("No end time for entry "
+                  "`" + text +"'")
 
         # Build an entry node
         node = Entry(text, priority, start, end)
 
     else :
-        raise Exceptions.EDatabase.UnknownElement(xml.tag)
+        raise Exceptions.UnknownElement(xml.tag)
 
     assert(node != None)
 
@@ -116,9 +139,9 @@ def toxml(node, xml) :
         if (node.priority != None) :
             attributes['priority'] = node.priority.tostring()
         if (node.start    != None) :
-            attributes['start']    = node.start.tostring()
+            attributes['start']    = str(node.start.toint())
         if (node.end      != None) :
-            attributes['end']      = node.end.tostring()
+            attributes['end']      = str(node.end.toint())
         tag = "entry"
 
     child      = ET.Element(tag, attributes)
