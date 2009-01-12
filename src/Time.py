@@ -20,8 +20,9 @@ import sys
 import datetime
 import time
 
-from   Debug import *
-from   Trace import *
+from   Debug      import *
+from   Trace      import *
+import Exceptions
 
 class Time(object) :
     __time = None
@@ -58,7 +59,7 @@ class Time(object) :
     def fromint(self, i) :
         assert(type(i) == int)
         try :
-            self.__time = datetime.datetime.fromordinal(i)
+            self.__time = datetime.datetime.fromtimestamp(i)
         except :
             raise Exceptions.WrongTimeFormat(str(i))
 
@@ -92,6 +93,9 @@ class Time(object) :
 # Test
 if (__name__ == '__main__') :
     now = Time()
+    debug("Time is = " + str(now))
+
+    now = Time(700000)
     debug("Time is = " + str(now))
 
     now = Time(datetime.datetime.now())
