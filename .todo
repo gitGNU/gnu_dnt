@@ -42,6 +42,12 @@
     <note priority="veryhigh" time="1231436828">
         Replace fromstring() and tostring() with proper builtins (where applicable)
     </note>
+    <note priority="veryhigh" time="1231780779">
+        Add toxml() and fromxml() to Entry and Root classes
+    </note>
+    <note priority="veryhigh" time="1231781609">
+        Add a test case which calls show into an uninitialized directory
+    </note>
     <note priority="low" time="1227122807">
         Rearrange the build process in order to use EXEEXT (if needed)
     </note>
