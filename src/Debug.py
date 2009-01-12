@@ -89,8 +89,13 @@ def bug(s = "") :
 
     _bug_in_progress = False
 
+    # NOTE:
+    #     In order to detect bugs in our regression tests we must exit
+    #     with an error code which differs from 77 (automake skip test) and
+    #     +1/-1. We deliberately choose 33
+
     # Like _exit(), exit immediately ...
-    os._exit(1)
+    os._exit(33)
 
 def bug_on(v) :
     if (v == True) :
