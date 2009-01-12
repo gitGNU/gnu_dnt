@@ -76,13 +76,13 @@ class ShowVisitor :
                   color_text(e.text))
             if (self.__verbose) :
                 l    = " " * (len(header) + len(str(self.__index)) + len("."))
-                print(self.__indent +     l + "prio  = " +
+                print(self.__indent +     l + "priority  = " +
                       e.priority.tostring())
                 if (e.start != None) :
-                    print(self.__indent + l + "start = " +
+                    print(self.__indent + l + "start     = " +
                           e.start.tostring())
                 if (e.end != None) :
-                    print(self.__indent + l + "end   = " +
+                    print(self.__indent + l + "end       = " +
                                   e.end.tostring())
                 print("")
 

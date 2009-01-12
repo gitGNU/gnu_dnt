@@ -90,7 +90,7 @@ class SubCommand(Command):
               "is "
               "`" + str(parent) +"'")
 
-        entry = Entry.Entry(node_text)
+        entry = Entry.Entry(text = node_text)
         assert(entry)
 
         parent.add(entry)
