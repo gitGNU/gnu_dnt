@@ -39,7 +39,7 @@ class ShowVisitor :
         self.__cmap    = {
             Priority.Priority.PRIORITY_VERYHIGH : bright_red,
             Priority.Priority.PRIORITY_HIGH     : bright_yellow,
-            Priority.Priority.PRIORITY_MEDIUM   : normal_white,
+            Priority.Priority.PRIORITY_MEDIUM   : bright_white,
             Priority.Priority.PRIORITY_LOW      : normal_cyan,
             Priority.Priority.PRIORITY_VERYLOW  : normal_blue,
             }
@@ -92,7 +92,15 @@ class ShowVisitor :
                 else :
                     line1 = line1 + "Unknown"
 
-                line2 = self.__indent + l + color_info("Priority:") + " " + e.priority.tostring()
+                line2 = self.__indent + l +         \
+                    color_info("Priority:") + " " + \
+                    e.priority.tostring() +         \
+                    " " + color_info("Duration:") + " "
+                if (e.end != None) :
+                    d = e.end - e.start
+                    line2 = line2 + d.tostring()
+                else :
+                    line2 = line2 + "Incomplete"
 
                 print(line1)
                 print(line2)
