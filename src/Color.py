@@ -20,14 +20,34 @@ import sys
 
 from   Trace import *
 
+# NOTE:
+#     See http://en.wikipedia.org/wiki/ANSI_escape_code for a detailed
+#     description
+
+#def bright_header(color) :
+#    return '\033[1;' + str(color) + 'm'
+#
+#def bright_footer(color) :
+#    return '\033[1;m'
+#
+#def normal_header(color) :
+#    return '\033[' + str(color) + 'm'
+#
+#def normal_footer(color) :
+#    return '\033[m'
+
 def gray(t) :
     return '\033[1;30m' + t + '\033[1;m'
 
-def red(t) :
+def bright_red(t) :
     return '\033[1;31m' + t + '\033[1;m'
+def red(t) :
+    return '\033[31m'   + t + '\033[m'
 
-def green(t) :
+def bright_green(t) :
     return '\033[1;32m' + t + '\033[1;m'
+def green(t) :
+    return '\033[32m'   + t + '\033[m'
 
 def yellow(t) :
     return '\033[1;33m' + t + '\033[1;m'
