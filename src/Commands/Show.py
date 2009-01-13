@@ -37,11 +37,11 @@ class ShowVisitor :
         self.__indent  = ""
         self.__index   = 0
         self.__cmap    = {
-            Priority.Priority.PRIORITY_VERYHIGH : red,
-            Priority.Priority.PRIORITY_HIGH     : yellow,
-            Priority.Priority.PRIORITY_MEDIUM   : white,
-            Priority.Priority.PRIORITY_LOW      : cyan,
-            Priority.Priority.PRIORITY_VERYLOW  : blue,
+            Priority.Priority.PRIORITY_VERYHIGH : bright_red,
+            Priority.Priority.PRIORITY_HIGH     : bright_yellow,
+            Priority.Priority.PRIORITY_MEDIUM   : normal_white,
+            Priority.Priority.PRIORITY_LOW      : normal_cyan,
+            Priority.Priority.PRIORITY_VERYLOW  : normal_blue,
             }
 
     def visitEntry(self, e) :
@@ -50,7 +50,8 @@ class ShowVisitor :
         #debug("Visiting entry " + str(e))
 
         if (self.__colors) :
-            color_index = green
+            color_info  = normal_green
+            color_index = normal_green
             p           = e.priority.value()
             try :
                 color_text  = self.__cmap[p]
@@ -58,8 +59,10 @@ class ShowVisitor :
                 bug("Unknown key `" + p.tostring() + "'")
                 color_text = white
         else :
-            color_index = lambda x: x # pass-through
-            color_text  = lambda x: x # pass-through
+            # A bunch of pass-through lambdas
+            color_index = lambda x: x
+            color_text  = lambda x: x
+            color_info  = lambda x: x
 
         assert(color_index != None)
         assert(color_text != None)
@@ -76,14 +79,23 @@ class ShowVisitor :
                   color_text(e.text))
             if (self.__verbose) :
                 l    = " " * (len(header) + len(str(self.__index)) + len("."))
-                print(self.__indent +     l + "priority  = " +
-                      e.priority.tostring())
+                line1 = self.__indent + l
+
+                line1 = line1 + color_info("Start:") + " "
                 if (e.start != None) :
-                    print(self.__indent + l + "start     = " +
-                          e.start.tostring())
+                    line1 = line1 + e.start.tostring()
+                else :
+                    line1 = line1 + "Unknown"
+                line1 = line1 + " " + color_info("End:") + " "
                 if (e.end != None) :
-                    print(self.__indent + l + "end       = " +
-                                  e.end.tostring())
+                    line1 = line1 + e.end.tostring()
+                else :
+                    line1 = line1 + "Unknown"
+
+                line2 = self.__indent + l + color_info("Priority:") + " " + e.priority.tostring()
+
+                print(line1)
+                print(line2)
                 print("")
 
     def visitRoot(self, r) :
@@ -92,8 +104,8 @@ class ShowVisitor :
         #debug("Visiting root " + str(r))
 
         if (self.__colors) :
-            color_index = green
-            color_text = white
+            color_index = normal_green
+            color_text = normal_white
         else :
             color_index = lambda x: x # pass-through
             color_text  = lambda x: x # pass-through
