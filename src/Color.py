@@ -18,54 +18,76 @@
 
 import sys
 
+from   Debug import *
 from   Trace import *
 
 # NOTE:
 #     See http://en.wikipedia.org/wiki/ANSI_escape_code for a detailed
 #     description
 
-#def bright_header(color) :
-#    return '\033[1;' + str(color) + 'm'
-#
-#def bright_footer(color) :
-#    return '\033[1;m'
-#
-#def normal_header(color) :
-#    return '\033[' + str(color) + 'm'
-#
-#def normal_footer(color) :
-#    return '\033[m'
+_color_codes = [ "30", "31", "32", "33", "34", "35", "36", "37", "38" ]
 
-def gray(t) :
-    return '\033[1;30m' + t + '\033[1;m'
+COLOR_IDX_BLACK   = 0
+COLOR_IDX_RED     = 1
+COLOR_IDX_GREEN   = 2
+COLOR_IDX_YELLOW  = 3
+COLOR_IDX_BLUE    = 4
+COLOR_IDX_MAGENTA = 5
+COLOR_IDX_CYAN    = 6
+COLOR_IDX_WHITE   = 7
+
+def _bright(color, text) :
+    try :
+        t = '\033[1;' + _color_codes[color] + 'm' + text + '\033[1;m'
+#    except IndexError, e :
+#        t = text
+    except Exception, e:
+        bug(str(e))
+    return t
+
+def _normal(color, text) :
+    try :
+        t = '\033[' + _color_codes[color] + 'm' + text + '\033[m'
+#    except IndexError, e :
+#        t = text
+    except Exception, e:
+        bug(str(e))
+    return t
 
 def bright_red(t) :
-    return '\033[1;31m' + t + '\033[1;m'
-def red(t) :
-    return '\033[31m'   + t + '\033[m'
+    return _bright(COLOR_IDX_RED, t)
+def normal_red(t) :
+    return _normal(COLOR_IDX_RED, t)
 
 def bright_green(t) :
-    return '\033[1;32m' + t + '\033[1;m'
-def green(t) :
-    return '\033[32m'   + t + '\033[m'
+    return _bright(COLOR_IDX_GREEN, t)
+def normal_green(t) :
+    return _normal(COLOR_IDX_GREEN, t)
 
-def yellow(t) :
-    return '\033[1;33m' + t + '\033[1;m'
+def bright_yellow(t) :
+    return _bright(COLOR_IDX_YELLOW, t)
+def normal_yellow(t) :
+    return _normal(COLOR_IDX_YELLOW, t)
 
-def blue(t) :
-    return '\033[1;34m' + t + '\033[1;m'
+def bright_blue(t) :
+    return _bright(COLOR_IDX_BLUE, t)
+def normal_blue(t) :
+    return _normal(COLOR_IDX_BLUE, t)
 
-def magenta(t) :
-    return '\033[1;35m' + t + '\033[1;m'
+def bright_magenta(t) :
+    return _bright(COLOR_IDX_MAGENTA, t)
+def normal_magenta(t) :
+    return _normal(COLOR_IDX_MAGENTA, t)
 
-def cyan(t) :
-    return '\033[1;36m' + t + '\033[1;m'
+def bright_cyan(t) :
+    return _bright(COLOR_IDX_CYAN, t)
+def normal_cyan(t) :
+    return _normal(COLOR_IDX_CYAN, t)
 
-def white(t) :
-    return '\033[1;37m' + t + '\033[1;m'
-
-def crimson(t) :
-    return '\033[1;38m' + t + '\033[1;m'
+def bright_white(t) :
+    return _bright(COLOR_IDX_WHITE, t)
+def normal_white(t) :
+    return _normal(COLOR_IDX_WHITE, t)
 
 # '\033[1;41mHighlighted Red like Radish\033[1;m'
 # '\033[1;42mHighlighted Green like Grass\033[1;m'
