@@ -24,6 +24,49 @@ from   Debug      import *
 from   Trace      import *
 import Exceptions
 
+class TimeDiff(object) :
+    __time = None
+
+    def __init__(self, t) :
+        self.__time = t
+
+    def fromstring(self, s) :
+        assert(type(s) == str)
+        bug()
+
+    def tostring(self) :
+        t = self.__time.seconds
+
+        seconds = t % 60
+        t       = t / 60
+
+        minutes = t % 60
+        t       = t / 60
+
+        hours   = t % 60
+        t       = t / 60
+
+        assert(t < 24)
+
+        t       = self.__time.days
+
+        days    = t % 30
+        t       = t / 30
+
+        months  = t / 12
+        t       = t % 12
+
+        years   = t / 365
+        t       = t % 365
+
+        return \
+            str(years)   + "y " + \
+            str(months)  + "m " + \
+            str(days)    + "d " + \
+            str(hours)   + "h " + \
+            str(minutes) + "m " + \
+            str(seconds) + "s"
+
 class Time(object) :
     __time = None
 
@@ -67,10 +110,12 @@ class Time(object) :
         return int(time.mktime(self.__time.timetuple()))
 
     def __add__(self, other) :
-        self.__time = self.__time + other.time()
+        assert(type(other) == Time)
+        return TimeDiff(self.__time + other.time())
 
     def __sub__(self, other) :
-        self.__time = self.__time - other.time()
+        assert(type(other) == Time)
+        return TimeDiff(self.__time - other.time())
 
 #    def __eq__(self, other) :
 #        return (self.__time == other.time())
