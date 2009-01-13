@@ -89,15 +89,6 @@ def bright_white(t) :
 def normal_white(t) :
     return _normal(COLOR_IDX_WHITE, t)
 
-# '\033[1;41mHighlighted Red like Radish\033[1;m'
-# '\033[1;42mHighlighted Green like Grass\033[1;m'
-# '\033[1;43mHighlighted Brown like Bear\033[1;m'
-# '\033[1;44mHighlighted Blue like Blood\033[1;m'
-# '\033[1;45mHighlighted Magenta like Mimosa\033[1;m'
-# '\033[1;46mHighlighted Cyan like Caribbean\033[1;m'
-# '\033[1;47mHighlighted Gray like Ghost\033[1;m'
-# '\033[1;48mHighlighted Crimson like Chianti\033[1;m'
-
 # Test
 if (__name__ == '__main__') :
     debug("Test completed")
