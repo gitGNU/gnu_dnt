@@ -5,7 +5,7 @@ common = {
 };
 
 vars = {
-	var-sitename = "Filter Chains Processor";
+	var-sitename = "Development (Note) Tracker";
 };
 
 include "contents.as"
