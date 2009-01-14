@@ -235,9 +235,9 @@ def main(arguments) :
     debug("Parameters are: `" + str(cmd_parameters) + "'")
 
     if (configuration.get(PROGRAM_NAME, 'verbose', raw = True) == True) :
-        line = cmd_name + " "
+        line = cmd_name
         for i in cmd_parameters :
-            line = line + i
+            line = line + " " + i
         print("Running command `" + line + "'")
 
     assert(hasattr(cmd_instance, "do"))
