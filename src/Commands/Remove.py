@@ -23,7 +23,7 @@ from   Trace         import *
 from   Command       import *
 import Exceptions
 import DB
-from   ID            import *
+import ID
 import Entry
 import Tree
 
@@ -58,7 +58,7 @@ class SubCommand(Command) :
 
         db_file = configuration.get(PROGRAM_NAME, 'database')
         assert(db_file != None)
-        node_id = ID(opts.id)
+        node_id = ID.ID(opts.id)
 
         # Work
         debug("Removing node:")
