@@ -23,7 +23,6 @@ from   Trace      import *
 from   Command    import *
 import Exceptions
 import DB
-from   ID         import *
 import Entry
 import Tree
 

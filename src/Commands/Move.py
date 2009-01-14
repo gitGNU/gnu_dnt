@@ -24,7 +24,7 @@ from   Command       import *
 import Exceptions
 from   Configuration import *
 import DB
-from   ID            import *
+import ID
 import Entry
 import Tree
 
@@ -57,10 +57,10 @@ class SubCommand(Command) :
         # Parameters setup
         if (opts.node == None) :
             raise Exceptions.MissingParameters("node id")
-        node_id = ID(opts.node)
+        node_id = ID.ID(opts.node)
         if (opts.parent == None) :
             raise Exceptions.MissingParameters("parent id")
-        parent_id = ID(opts.parent)
+        parent_id = ID.ID(opts.parent)
 
         # Work
         db_file   = configuration.get(PROGRAM_NAME, 'database')

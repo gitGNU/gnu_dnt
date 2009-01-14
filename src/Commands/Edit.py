@@ -23,8 +23,7 @@ from   Debug      import *
 from   Trace      import *
 from   Command    import *
 import Exceptions
-
-from   ID               import *
+import ID
 
 class SubCommand(Command) :
     def __init__(self) :
@@ -77,7 +76,7 @@ class SubCommand(Command) :
                 raise MissingParameters("editor")
 
             # Work
-            id = ID(opts.id)
+            id = ID.ID(opts.id)
 
             debug("Success")
 
