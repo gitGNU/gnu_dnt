@@ -28,7 +28,7 @@ import Priority
 from   Root          import *
 from   Entry         import *
 
-class ShowVisitor :
+class Visitor :
     def __init__(self, colors, be_verbose, show_all) :
         self.__colors  = colors
         self.__verbose = be_verbose
@@ -191,7 +191,7 @@ class SubCommand(Command) :
         if (opts.all == True) :
             show_all = True
 
-        v = ShowVisitor(colors, verbose, show_all)
+        v = Visitor(colors, verbose, show_all)
         tree.accept(v)
 
         debug("Success")
