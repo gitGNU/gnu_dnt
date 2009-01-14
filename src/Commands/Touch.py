@@ -23,8 +23,6 @@ from   Trace         import *
 from   Command       import *
 import Exceptions
 
-import ID
-
 class SubCommand(Command) :
     def __init__(self) :
         Command.__init__(self, "touch")
@@ -36,6 +34,12 @@ class SubCommand(Command) :
         return [ "Francesco Salvestrini" ]
 
     def do(self, configuration, arguments) :
+        Command.add_option(self,
+                           "-i", "--id",
+                           action = "store",
+                           type   = "string",
+                           dest   = "id",
+                           help   = "specify node")
         Command.add_option(self,
                            "-s", "--start",
                            action = "store",
@@ -52,8 +56,23 @@ class SubCommand(Command) :
         (opts, args) = Command.parse_args(self, arguments)
 
         # Parameters setup
+        if (opts.id == None) :
+            raise Exceptions.MissingParameter("node id")
 
         # Work
+        debug("Touching node `" + str(id) + "'")
+
+        db   = DB.Database()
+        tree = db.load(db_file)
+        assert(tree != None)
+
+        node = Tree.find(tree, id)
+        if (id == None) :
+            raise Exceptions.NodeUnavailable(str(id))
+        assert(node != None)
+
+        # Save database back to file
+        db.save(db_file, tree)
 
         debug("Success")
 
