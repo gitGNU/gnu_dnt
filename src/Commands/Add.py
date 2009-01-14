@@ -24,7 +24,7 @@ from   Command       import *
 import Exceptions
 from   Configuration import *
 import DB
-from   ID            import *
+import ID
 import Entry
 import Tree
 
@@ -65,7 +65,7 @@ class SubCommand(Command):
 
         db_file   = configuration.get(PROGRAM_NAME, 'database')
         assert(db_file != None)
-        parent_id = ID(opts.parent)
+        parent_id = ID.ID(opts.parent)
         node_text = opts.text
 
         # Work
@@ -74,16 +74,13 @@ class SubCommand(Command):
         debug("  parent-id = " + str(parent_id))
 
         db = DB.Database()
-
-        # Load database from file
         tree = db.load(db_file)
         assert(tree != None)
 
         debug("Looking for node `" + str(parent_id) + "'")
         parent = Tree.find(tree, parent_id)
         if (parent == None) :
-            error("Cannot find node `" + str(parent_id) + "'")
-            return 1
+            raise Exceptions.NodeUnavailable(str(parent_id))
 
         debug("Parent node for "
               "`" + str(parent_id) + "' "
