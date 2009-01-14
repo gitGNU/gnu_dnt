@@ -17,13 +17,17 @@
 #
 
 import sys
+import datetime
 
 from   Debug      import *
 from   Trace      import *
 from   Command    import *
 import Exceptions
-
 import ID
+import DB
+import Entry
+import Tree
+import Time
 
 class SubCommand(Command) :
     def __init__(self) :
@@ -46,8 +50,29 @@ class SubCommand(Command) :
         (opts, args) = Command.parse_args(self, arguments)
 
         # Parameters setup
+        if (opts.id == None) :
+            raise Exceptions.MissingParameter("node id")
+
+        db_file   = configuration.get(PROGRAM_NAME, 'database')
+        assert(db_file != None)
+        id = ID.ID(opts.id)
 
         # Work
+        debug("Marking node `" + str(id) + "' as done")
+
+        db   = DB.Database()
+        tree = db.load(db_file)
+        assert(tree != None)
+
+        node = Tree.find(tree, id)
+        if (id == None) :
+            raise Exceptions.NodeUnavailable(str(id))
+        assert(node != None)
+
+        node.end = Time.Time(datetime.datetime.now())
+
+        # Save database back to file
+        db.save(db_file, tree)
 
         debug("Success")
 
