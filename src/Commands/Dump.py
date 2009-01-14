@@ -23,8 +23,6 @@ from   Trace      import *
 from   Command    import *
 import Exceptions
 
-import ID
-
 class SubCommand(Command) :
     def __init__(self) :
         Command.__init__(self, "dump")

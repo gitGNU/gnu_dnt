@@ -27,7 +27,6 @@ from   Configuration import *
 import DB
 import Root
 import Entry
-from   ID            import *
 
 class SubCommand(Command) :
     def __init__(self) :
