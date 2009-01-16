@@ -23,38 +23,39 @@ from   Trace    import *
 from   ID       import *
 from   Node     import *
 
-def find(node, id) :
+def _find_recursive(node, l) :
     assert(node != None)
-    assert(id != None)
 
-    debug("Looking for id `" + str(id) + "' into node `" + str(node) +"'")
-    l = id.tolist()
-    assert(len(l) > 0)
+    assert(len(l) >= 0)
+    if (len(l) == 0) :
+        return None
+
+    debug("Looking for element `" + str(l) + "' into node `" + str(node) + "'")
 
     tmp = node
-    for i in l :
-        if (i == 0) :
-            continue
-
-        assert(i >= 1)
-        try :
-            debug("Looking for child "
-                  "`" + str(i) + "' "
-                  "in node "
-                  "`" + str(tmp) + "'")
-            tmp = (tmp.children())[i - 1]
-        except IndexError :
-            debug("Child `" + str(i) + "' "
-                  "is missing in node "
-                  "`" + str(tmp) +"'")
-            return None
-        except :
-            bug()
-
-        if (tmp == None) :
-            return tmp
-
+    i   = l[0]
+    try :
+        debug("Descending into node `" + str(i) + "' in `" + str(tmp) + "'")
+        tmp = (tmp.children())[i]
+    except IndexError :
+        debug("Child `" + str(i) + "' is missing in `" + str(tmp) + "'")
+        tmp = None
+    except Exception, e:
+        bug(str(e))
     return tmp
+
+def find(node, id) :
+    assert(node != None)
+    assert(id   != None)
+
+    debug("Looking for id `" + str(id) + "' into node `" + str(node) + "'")
+
+    l = id.tolist()
+    debug("Splitted id is " + str(l))
+
+    n = _find_recursive(node, l)
+    debug("Got `" + str(n) + "'")
+    return n
 
 # Test
 if (__name__ == '__main__') :
