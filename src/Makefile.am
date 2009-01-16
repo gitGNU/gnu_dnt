@@ -59,6 +59,7 @@ pkgvpython_PYTHON =				\
 	Color.py				\
 	Priority.py				\
 	DB.py					\
+	Visitor.py				\
 	Node.py					\
 	Tree.py					\
 	Entry.py				\
