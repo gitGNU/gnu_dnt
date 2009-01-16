@@ -18,49 +18,60 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
+try :
+    import sys
+except Exception, e:
+    print("Cannot import required system modules, bailing out ...")
+    print(str(e))
+    exit(-1)
+
+try :
+    import os
+    import getopt
+except Exception, e:
+    print("Cannot import required system modules, bailing out ...")
+    print(str(e))
+    sys.exit(-1)
+
+sys.path.append("@pkgvpythondir@")
+# Now start importing our modules
+
 # NOTE: Import Trace at first, in order to use traces consistently
 try :
     # XXX FIXME: The ugliest way to read debug_enabled variable
-    from   Trace         import *
+    from   Trace import *
     import Trace
-except ImportError :
+except Exception, e:
     # XXX FIXME: Add better error reporting ....
     print("Cannot import package's own bootstrap modules, bailing out ...")
     sys.exit(-1)
-# We are now able to use Trace module facilities
 
-# Now start importing python modules
-try :
-    import os
-    import sys
-    import traceback
-    import getopt
-except ImportError :
-    error("Cannot import required system modules, bailing out ...")
-    sys.exit(-1)
+# We are now able to use Trace module facilities
 
 try :
     import warnings
-except ImportError :
+except Exception, e:
     warning("Cannot import optional system modules, continuing ...")
 
-sys.path.append("@pkgvpythondir@")
+try :
+    from   Debug import *
+except Exception, e:
+    error("Cannot import package's debugging modules, bailing out ...")
+    sys.exit(-1)
+
+# We are now able to use Debug module facilities
 
 try :
-    from   Debug            import *
-    from   Entry            import *
-    from   Configuration    import *
+    from   Entry         import *
+    from   Configuration import *
     import Exceptions
-    from   Command          import *
-except ImportError :
+    from   Command       import *
+    import Commands
+except ImportError, e:
     error("Cannot import package's own modules, bailing out ...")
     sys.exit(-1)
-
-try :
-    import Commands
-except ImportError :
-    error("Cannot import package's commands ...")
-    sys.exit(-1)
+#except Exception, e:
+#    bug(str(e))
 
 def hint(s) :
     print(s)
