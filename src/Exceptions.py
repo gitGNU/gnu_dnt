@@ -222,7 +222,7 @@ class ETree(EBase):
     def __init__(self, value) :
         EBase.__init__(self, value)
 
-class NodeUnavailable(EBase):
+class NodeUnavailable(ETree):
     def __init__(self, value) :
         ETree.__init__(self, "Cannot find node `" + value + "'")
 
