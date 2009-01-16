@@ -25,17 +25,17 @@ import Exceptions
 import Color
 import DB
 import Priority
+from   Visitor       import *
 from   Root          import *
 from   Entry         import *
 
-class Visitor :
-    def __init__(self, colors, be_verbose, show_all) :
-        self.__colors  = colors
-        self.__verbose = be_verbose
-        self.__all     = show_all
-
-        self.__indent  = ""
+class ShowVisitor(Visitor) :
+    def __init__(self, colors, verbose, show_all) :
+        Visitor.__init__(self)
         self.__index   = 0
+        self.__colors  = colors
+        self.__verbose = verbose
+        self.__all     = show_all
         self.__cmap    = {
             Priority.Priority.PRIORITY_VERYHIGH : bright_red,
             Priority.Priority.PRIORITY_HIGH     : bright_yellow,
@@ -74,12 +74,12 @@ class Visitor :
 
         if ((not e.done()) or (e.done() and self.__all)) :
             print(header                               +
-                  self.__indent                        +
+                  self.indent()                        +
                   color_index(str(self.__index) + ".") +
                   color_text(e.text))
             if (self.__verbose) :
                 l    = " " * (len(header) + len(str(self.__index)) + len("."))
-                line1 = self.__indent + l
+                line1 = self.indent() + l
 
                 line1 = line1 + color_info("Start:") + " "
                 if (e.start != None) :
@@ -92,7 +92,7 @@ class Visitor :
                 else :
                     line1 = line1 + "Unknown"
 
-                line2 = self.__indent + l +         \
+                line2 = self.indent() + l +         \
                     color_info("Priority:") + " " + \
                     e.priority.tostring() +         \
                     " " + color_info("Duration:") + " "
@@ -121,29 +121,18 @@ class Visitor :
             assert(color_index != None)
             assert(color_text != None)
 
-        print(self.__indent                 +
+        print(self.indent()                 +
               color_index(str(self.__index) + ".") +
               color_text(r.text))
 
-    def visit(self, n) :
-        if (type(n) == Root) :
-            self.visitRoot(n)
-        elif (type(n) == Entry) :
-            self.visitEntry(n)
-        else :
-            bug()
+    def indent(self) :
+        return " " # * self.level()
 
-        old_indent = self.__indent
+    def visit(self, n) :
         old_index  = self.__index
 
-        self.__indent = self.__indent + "    "
-        self.__index  = 0
-
-        for j in n.children() :
-            self.__index = self.__index + 1
-            j.accept(self) # Re-accept myself
-
-        self.__indent = old_indent
+        self.__index = self.__index + 1
+        Visitor.visit(self, n)
         self.__index  = old_index
 
 class SubCommand(Command) :
@@ -181,17 +170,20 @@ class SubCommand(Command) :
         except :
             debug("No colors related configuration, default to false")
             colors = False
+        assert(colors != None)
+
         try :
             verbose = configuration.get(PROGRAM_NAME, 'verbose', raw = True)
         except :
             debug("No verboseness related configuration, default to false")
             verbose = False
+        assert(verbose != None)
 
         show_all = False
         if (opts.all == True) :
             show_all = True
 
-        v = Visitor(colors, verbose, show_all)
+        v = ShowVisitor(colors, verbose, show_all)
         tree.accept(v)
 
         debug("Success")
