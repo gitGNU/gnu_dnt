@@ -101,6 +101,7 @@ class Entry(Node) :
 
     def accept(self, visitor) :
         assert(visitor != None)
+        assert(hasattr(visitor, "visit"))
         visitor.visit(self)
 
 # Test
@@ -116,13 +117,13 @@ if (__name__ == '__main__') :
     root.child(0, e1)
     root.child(1, e2)
 
-    class Visitor(object) :
+    class TestVisitor(object) :
         def visit(self, e) :
             debug("Visiting entry " + str(e))
             for j in e.children() :
                 j.accept(self) # Re-accept myself
 
-    v = Visitor()
+    v = TestVisitor()
     root.accept(v)
 
     e3 = Entry("test")
