@@ -32,7 +32,12 @@ from   Entry         import *
 class ShowVisitor(Visitor) :
     def __init__(self, colors, verbose, show_all) :
         Visitor.__init__(self)
-        self.__index   = 0
+
+        # XXX FIXME:
+        #      We need to start from -1 in order to have 0 as id for the
+        #      database name
+        self.__index   = -1
+
         self.__colors  = colors
         self.__verbose = verbose
         self.__all     = show_all
@@ -126,7 +131,7 @@ class ShowVisitor(Visitor) :
               color_text(r.text))
 
     def indent(self) :
-        return " " # * self.level()
+        return " " * self.level()
 
     def visit(self, n) :
         old_index  = self.__index
