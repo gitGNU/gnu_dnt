@@ -17,7 +17,6 @@
 #
 
 import sys
-import datetime
 
 from   Debug      import *
 from   Trace      import *
@@ -28,6 +27,21 @@ import DB
 import Entry
 import Tree
 import Time
+from   Visitor    import *
+
+class DoneVisitor(Visitor) :
+    def __init__(self, verbose) :
+        Visitor.__init__(self)
+        self.__verbose = verbose
+
+    def visitEntry(self, e) :
+        assert(e != None)
+
+        if (not e.done()) :
+            e.end = Time.Time()
+
+    def visitRoot(self, r) :
+        assert(r != None)
 
 class SubCommand(Command) :
     def __init__(self) :
@@ -51,25 +65,36 @@ class SubCommand(Command) :
 
         # Parameters setup
         if (opts.id == None) :
-            raise Exceptions.MissingParameter("node id")
-
-        db_file   = configuration.get(PROGRAM_NAME, 'database')
-        assert(db_file != None)
-        id = ID.ID(opts.id)
+            raise Exceptions.MissingParameters("node id")
 
         # Work
-        debug("Marking node `" + str(id) + "' as done")
+
+        # Load DB
+        db_file   = configuration.get(PROGRAM_NAME, 'database')
+        assert(db_file != None)
 
         db   = DB.Database()
         tree = db.load(db_file)
         assert(tree != None)
 
+        id = ID.ID(opts.id)
+
+        try :
+            verbose = configuration.get(PROGRAM_NAME, 'verbose', raw = True)
+        except :
+            debug("No verboseness related configuration, default to false")
+            verbose = False
+        assert(verbose != None)
+
+        debug("Marking node `" + str(id) + "' as done")
+
         node = Tree.find(tree, id)
-        if (id == None) :
+        if (node == None) :
             raise Exceptions.NodeUnavailable(str(id))
         assert(node != None)
 
-        node.end = Time.Time(datetime.datetime.now())
+        v = DoneVisitor(verbose)
+        tree.accept(v)
 
         # Save database back to file
         db.save(db_file, tree)
