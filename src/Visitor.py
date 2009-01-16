@@ -51,8 +51,9 @@ class Visitor(object) :
         old_level = self.__level
         for j in n.children() :
             self.__level = self.__level + 1
-            j.accept(self) # Re-accept myself
-        self.__level = old_level
+            # Please, re-accept myself ;-)
+            j.accept(self)
+            self.__level = old_level
 
 # Test
 if (__name__ == '__main__') :
