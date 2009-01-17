@@ -70,6 +70,7 @@ class Node(object) :
             i = i + 1
         assert(found == False)
         self.__children.append(node)
+        debug("Node `" + str(node) + "' added to node `" + str(self) + "'")
 
     # Remove a child node based on object
     def remove(self, node) :
@@ -83,6 +84,7 @@ class Node(object) :
             i = i + 1
         assert(found == True)
         self.__children.remove(node)
+        debug("Node `" + str(node) + "' removed to node `" + str(self) + "'")
 
     # Iterator related methods
     def __iter__(self):
