@@ -25,24 +25,35 @@ from   Node     import *
 
 def _find_recursive(node, l) :
     assert(node != None)
+    assert(len(l) > 0)
 
-    assert(len(l) >= 0)
-    if (len(l) == 0) :
-        return None
+    if (l[0] == 0) :
+        # Caller is looking for this node ...
+        assert(len(l) == 1)
+        return node
 
     debug("Looking for element `" + str(l) + "' into node `" + str(node) + "'")
 
     tmp = node
-    i   = l[0]
+    i   = l[0] - 1
+
+    if ((i < 0) or (i >= len(tmp.children()))) :
+        return None
+
     try :
         debug("Descending into node `" + str(i) + "' in `" + str(tmp) + "'")
         tmp = (tmp.children())[i]
     except IndexError :
         debug("Child `" + str(i) + "' is missing in `" + str(tmp) + "'")
-        tmp = None
+        return None
     except Exception, e:
         bug(str(e))
-    return tmp
+
+    l.pop(0)
+    if (len(l) == 0) :
+        return tmp
+    else :
+        return _find_recursive(tmp, l)
 
 def find(node, id) :
     assert(node != None)
@@ -51,6 +62,8 @@ def find(node, id) :
     debug("Looking for id `" + str(id) + "' into node `" + str(node) + "'")
 
     l = id.tolist()
+    assert(len(l) > 0)
+
     debug("Splitted id is " + str(l))
 
     n = _find_recursive(node, l)
