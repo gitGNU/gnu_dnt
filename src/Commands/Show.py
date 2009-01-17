@@ -36,7 +36,6 @@ class ShowVisitor(Visitor) :
         # XXX FIXME:
         #      We need to start from -1 in order to have 0 as id for the
         #      database name
-        self.__index   = -1
 
         self.__colors  = colors
         self.__verbose = verbose
@@ -80,10 +79,10 @@ class ShowVisitor(Visitor) :
         if ((not e.done()) or (e.done() and self.__all)) :
             print(header                               +
                   self.indent()                        +
-                  color_index(str(self.__index) + ".") +
+                  color_index(str(self.index()) + ".") +
                   color_text(e.text))
             if (self.__verbose) :
-                l    = " " * (len(header) + len(str(self.__index)) + len("."))
+                l    = " " * (len(header) + len(str(self.index())) + len("."))
                 line1 = self.indent() + l
 
                 line1 = line1 + color_info("Start:") + " "
@@ -127,18 +126,11 @@ class ShowVisitor(Visitor) :
             assert(color_text != None)
 
         print(self.indent()                 +
-              color_index(str(self.__index) + ".") +
+              color_index(str(self.index()) + ".") +
               color_text(r.text))
 
     def indent(self) :
         return " " * self.level()
-
-    def visit(self, n) :
-        old_index  = self.__index
-
-        self.__index = self.__index + 1
-        Visitor.visit(self, n)
-        self.__index  = old_index
 
 class SubCommand(Command) :
     def __init__(self) :
