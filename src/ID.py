@@ -50,7 +50,8 @@ class ID(object) :
         return s
 
     def tolist(self) :
-        return self.__id
+        # Give the caller a copy of our internal data ...
+        return list(self.__id)
 
     def parent(self) :
         # XXX FIXME: Should it be better to return None ?
