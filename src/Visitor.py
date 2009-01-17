@@ -26,8 +26,9 @@ import Root
 import Tree
 
 class Visitor(object) :
-    def __init__(self) :
-        self.__level   = 0
+    def __init__(self, level = 0, index = 0) :
+        self.__level = level
+        self.__index = index
 
 # The following method must be provided by the subclass
 #    def visitEntry(self, e) :
@@ -40,6 +41,9 @@ class Visitor(object) :
     def level(self) :
         return self.__level
 
+    def index(self) :
+        return self.__index
+
     def visit(self, n) :
         if (type(n) == Root.Root) :
             self.visitRoot(n)
@@ -49,11 +53,14 @@ class Visitor(object) :
             bug("Unknown type " + str(type(n)) + " for Visitor")
 
         old_level = self.__level
+        self.__level = self.__level + 1
+        index = 0
         for j in n.children() :
-            self.__level = self.__level + 1
+            index = index + 1
+            self.__index = index
             # Please, re-accept myself ;-)
             j.accept(self)
-            self.__level = old_level
+        self.__level = old_level
 
 # Test
 if (__name__ == '__main__') :
