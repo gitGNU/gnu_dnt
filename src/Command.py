@@ -80,7 +80,8 @@ class Command(OptionParser) :
 
 
     def name_get(self) :
-        return self.__name
+        # Give the caller a copy of our internal data ...
+        return str(self.__name)
     def name_set(self, n) :
         assert(type(n) == str)
         assert(n != "")
