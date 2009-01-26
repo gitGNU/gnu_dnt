@@ -121,6 +121,21 @@ class ProblemsWriting(EDatabase):
                                "`" + name + "'" + tmp)
 
 #
+# File related exceptions
+#
+class EFile(EBase):
+    def __init__(self, value) :
+        EBase.__init__(self, value)
+
+class CannotWrite(EFile):
+    def __init__(self, value) :
+        EFile.__init__(self, "cannot write to file `" + value + "'")
+
+class CannotRead(EFile):
+    def __init__(self, value) :
+        EFile.__init__(self, "cannot read from file `" + value + "'")
+
+#
 # ID related exceptions
 #
 class EID(EBase):
