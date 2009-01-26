@@ -17,6 +17,7 @@
 #
 
 import sys
+import textwrap
 
 from   Debug         import *
 from   Trace         import *
@@ -30,13 +31,16 @@ from   Root          import *
 from   Entry         import *
 
 class ShowVisitor(Visitor) :
-    def __init__(self, colors, verbose, show_all) :
+    def __init__(self, colors, verbose, show_all, width) :
         Visitor.__init__(self)
+
+        assert(type(width) == int)
 
         # XXX FIXME:
         #      We need to start from -1 in order to have 0 as id for the
         #      database name
 
+        self.__width   = width
         self.__colors  = colors
         self.__verbose = verbose
         self.__all     = show_all
@@ -180,7 +184,7 @@ class SubCommand(Command) :
         if (opts.all == True) :
             show_all = True
 
-        v = ShowVisitor(colors, verbose, show_all)
+        v = ShowVisitor(colors, verbose, show_all, 70)
         tree.accept(v)
 
         debug("Success")
