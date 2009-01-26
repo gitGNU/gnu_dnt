@@ -58,7 +58,7 @@ class SubCommand(Command):
         if (opts.text == None) :
             raise Exceptions.MissingParameters("node text")
         if (opts.text == "") :
-            raise Exceptions.WrongParameters("node text is empty")
+            raise Exceptions.WrongParameter("node text is empty")
         if (opts.parent == None) :
             warning("Parent id is missing, using root as parent for this node")
             opts.parent = "0"

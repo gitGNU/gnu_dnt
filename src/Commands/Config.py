@@ -92,8 +92,8 @@ class SubCommand(Command) :
         if (opts.set == True and opts.get == True) :
             raise Exceptions.TooManyParameters()
         if ((opts.set == True or opts.get == True) and opts.show == True) :
-            raise Exceptions.WrongParameters("set or get with show " +
-                                             "cannot be mixed")
+            raise Exceptions.WrongParameter("set or get with show " +
+                                            "cannot be mixed")
 
             if (opts.set == True) :
                 if (opts.key == None) :
@@ -114,16 +114,16 @@ class SubCommand(Command) :
                 try :
                     (section, option) = opts.key.rsplit('.',1)
                 except ValueError :
-                    raise Exceptions.WrongParameters("key "
-                                                     "`" + opts.key + "' "
-                                                     "is malformed")
+                    raise Exceptions.WrongParameter("key "
+                                                    "`" + opts.key + "' "
+                                                    "is malformed")
                 debug("section = `" + section + "'")
                 debug("option  = `" + option + "'")
 
                 if (not _key_exists(configuration, section, option)) :
-                    raise Exceptions.WrongParameters("key "
-                                                     "`" + opts.key + "' "
-                                                     "is unavailable")
+                    raise Exceptions.WrongParameter("key "
+                                                    "`" + opts.key + "' "
+                                                    "is unavailable")
 
                 debug("Getting value for `" + section + "." + option + "'")
                 value = configuration.get(section, option, raw = True)
@@ -137,9 +137,9 @@ class SubCommand(Command) :
                 try :
                     (section, option) = opts.key.rsplit('.',1)
                 except ValueError :
-                    raise Exceptions.WrongParameters("key "
-                                                     "`" + opts.key + "' "
-                                                     "is malformed")
+                    raise Exceptions.WrongParameter("key "
+                                                    "`" + opts.key + "' "
+                                                    "is malformed")
                 debug("section = `" + section + "'")
                 debug("option  = `" + option     + "'")
 

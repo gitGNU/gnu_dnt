@@ -79,14 +79,14 @@ class SubCommand(Command) :
         debug("Looking for node `" + str(parent_id) + "'")
         parent = Tree.find(tree, parent_id)
         if (parent == None) :
-            raise Exceptions.WrongParameters("unknown node "
-                                             "`" + str(parent_id) + "'")
+            raise Exceptions.WrongParameter("unknown node "
+                                            "`" + str(parent_id) + "'")
 
         debug("Looking for node `" + str(node_id) + "'")
         node = Tree.find(tree, node_id)
         if (node == None) :
-            raise Exceptions.WrongParameters("unknown node "
-                                         "`" + str(node_id) + "'")
+            raise Exceptions.WrongParameter("unknown node "
+                                            "`" + str(node_id) + "'")
 
         # Remove parent subtree link
         node_parent = node.parent

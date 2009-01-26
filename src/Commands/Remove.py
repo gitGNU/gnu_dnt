@@ -73,12 +73,12 @@ class SubCommand(Command) :
         debug("Looking for node `" + str(node_id) + "'")
         node = Tree.find(tree, node_id)
         if (node == None) :
-            raise Exceptions.WrongParameters("unknown node " +
-                                             "`" + str(node_id) + "'")
+            raise Exceptions.WrongParameter("unknown node " +
+                                            "`" + str(node_id) + "'")
 
         parent = node.parent
         if (parent == None) :
-            raise Exceptions.WrongParameters("cannot remove root node")
+            raise Exceptions.WrongParameter("cannot remove root node")
 
         debug("Node "
               "`" + str(node_id) + "' "
