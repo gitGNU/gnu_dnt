@@ -219,12 +219,12 @@ class UnknownParameter(EParameters):
     def __init__(self, value) :
         EParameters.__init__(self, "unknown parameter `" + value + "'")
 
-class WrongParameters(EParameters):
+class WrongParameter(EParameters):
     def __init__(self, value = None) :
         s = ""
         if (value != None) :
             s = ", " + value
-        EParameters.__init__(self, "wrong parameters" + s)
+        EParameters.__init__(self, "wrong parameter, " + s)
 
 class ForceNeeded(EParameters):
     def __init__(self, value) :
