@@ -151,10 +151,22 @@ class SubCommand(Command) :
                            action = "store_true",
                            dest   = "all",
                            help   = "show all nodes")
+        Command.add_option(self,
+                           "-w", "--width",
+                           action = "store",
+                           type   = "string",
+                           dest   = "width",
+                           help   = "specify maximum text width")
 
         (opts, args) = Command.parse_args(self, arguments)
 
         # Parameters setup
+        width = 70
+        if (opts.width != None) :
+            width = opts.width
+        if (width <= 0) :
+            raise Exceptions.WrongParameter("width must be greater than 0")
+        assert(width > 0)
 
         # Work
 
