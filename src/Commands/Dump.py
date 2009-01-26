@@ -17,11 +17,65 @@
 #
 
 import sys
+import textwrap
 
 from   Debug      import *
 from   Trace      import *
 from   Command    import *
 import Exceptions
+import DB
+import Priority
+from   Visitor    import *
+from   Root       import *
+from   Entry      import *
+
+class DumpVisitor(Visitor) :
+    def __init__(self, filehandle, width) :
+        assert(filehandle != None)
+        assert(type(width) == int)
+        Visitor.__init__(self)
+        self.__filehandle = filehandle
+        self.__width      = width
+
+    def visitEntry(self, e) :
+        assert(e != None)
+
+        text = e.text
+        lines = textwrap.wrap(text, self.__width)
+        i     = 0
+        for line in lines :
+            if (i == 0) :
+                self.__filehandle.write("- " + line + "\n")
+            else :
+                self.__filehandle.write("  " + line + "\n")
+                i = i + 1
+
+        if (e.done()) :
+            t = "complete"
+        else :
+            t = "incomplete"
+
+        text = "(" + \
+            "added "     + str(e.start) + ", " + \
+            t + ", " + \
+            "priority " + e.priority.tostring() + ")\n" + \
+            "\n"
+        lines = textwrap.wrap(text, self.__width)
+        for line in lines :
+            self.__filehandle.write("  " + line + "\n")
+
+        self.__filehandle.write("\n")
+
+#	 self.__filehandle.write("- ")
+#        self.__filehandle.write(e.text + "\n")
+#        self.__filehandle.write("  (" +
+#                                "added "     + str(e.start) + ", " +
+#                                t + ", " +
+#                                "priority " + e.priority.tostring() + ")\n")
+#        self.__filehandle.write("\n")
+
+    def visitRoot(self, r) :
+        assert(r != None)
 
 class SubCommand(Command) :
     def __init__(self) :
@@ -41,37 +95,39 @@ class SubCommand(Command) :
                            dest   = "output",
                            help   = "specify output file name")
         Command.add_option(self,
-                           "-p", "--pager",
+                           "-f", "--format",
                            action = "store",
                            type   = "string",
-                           dest   = "pager",
-                           help   = "specify pager to use")
+                           dest   = "format",
+                           help   = "specify dump format")
 
         (opts, args) = Command.parse_args(self, arguments)
 
         # Parameters setup
-        if (opts.output == None) :
-            raise Exceptions.MissingParameters("output file name")
-
-        pager = None
-        # Prefer parameter
-        if (pager == None) :
-            pager = opts.pager
-        # Fall-back to configuration
-        if (pager == None) :
+        ofh = sys.stdout
+        if (opts.output != None) :
+            ofn = opts.output
+            debug("Output file will be `" + ofn + "'")
             try :
-                pager = configuration.get(command.name, 'pager', raw = True)
+                ofh = open(ofn, 'w')
             except :
-                # No pager found on configuration
-                pass
-        # Fall-back to the environment
-        if (pager == None) :
-            pager = os.environ["PAGER"]
-        # Finally bang with error
-        if (pager == None) :
-            raise MissingParameters("pager")
+                raise Exceptions.CannotWrite(ofn)
+        assert(ofh != None)
 
         # Work
+
+        # Load DB
+        db_file = configuration.get(PROGRAM_NAME, 'database')
+        assert(db_file != None)
+
+        db   = DB.Database()
+        tree = db.load(db_file)
+        assert(tree != None)
+
+        v = DumpVisitor(ofh, 70)
+        tree.accept(v)
+
+        ofh.close()
 
         debug("Success")
 
