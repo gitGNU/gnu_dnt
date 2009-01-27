@@ -18,6 +18,7 @@
 
 import sys
 import textwrap
+import re
 
 from   Debug      import *
 from   Trace      import *
@@ -30,49 +31,57 @@ from   Root       import *
 from   Entry      import *
 
 class DumpVisitor(Visitor) :
-    def __init__(self, filehandle, width) :
+    def __init__(self, filehandle, width, format) :
         assert(filehandle != None)
         assert(type(width) == int)
+        assert(format != None)
+
         Visitor.__init__(self)
+
         self.__filehandle = filehandle
         self.__width      = width
+        self.__format     = format
 
     def visitEntry(self, e) :
         assert(e != None)
 
-        text = e.text
-        lines = textwrap.wrap(text, self.__width)
-        i     = 0
-        for line in lines :
-            if (i == 0) :
-                self.__filehandle.write("- " + line + "\n")
+        if (self.__format != None) :
+            text = e.text
+            if (e.start != None) :
+                start = e.start.tostring()
             else :
-                self.__filehandle.write("  " + line + "\n")
-                i = i + 1
+                start = "unknown"
+            if (e.end != None) :
+                end = e.end.tostring()
+            else :
+                end = "unknown"
+            if (e.priority != None) :
+                priority = e.priority.tostring()
+            else :
+                priority = "unknown"
+            if (e.done()) :
+                status = "complete"
+            else :
+                status = "incomplete"
 
-        if (e.done()) :
-            t = "complete"
-        else :
-            t = "incomplete"
+            t = self.__format
+            debug("input  = `" + t + "'")
+            t = re.sub('%t', text,     t)
+            t = re.sub('%s', start,    t)
+            t = re.sub('%e', end,      t)
+            t = re.sub('%p', priority, t)
+            debug("output = `" + t + "'")
 
-        text = "(" + \
-            "added "     + str(e.start) + ", " + \
-            t + ", " + \
-            "priority " + e.priority.tostring() + ")\n" + \
-            "\n"
-        lines = textwrap.wrap(text, self.__width)
-        for line in lines :
-            self.__filehandle.write("  " + line + "\n")
+            for i in t.split('\n') :
+                if (self.__width != 0) :
+                    lines = textwrap.wrap(i, self.__width)
+                else :
+                    lines = i
 
-        self.__filehandle.write("\n")
+                for j in lines :
+                    self.__filehandle.write(j + "\n")
 
-#	 self.__filehandle.write("- ")
-#        self.__filehandle.write(e.text + "\n")
-#        self.__filehandle.write("  (" +
-#                                "added "     + str(e.start) + ", " +
-#                                t + ", " +
-#                                "priority " + e.priority.tostring() + ")\n")
-#        self.__filehandle.write("\n")
+            self.__filehandle.write("\n")
 
     def visitRoot(self, r) :
         assert(r != None)
@@ -112,20 +121,28 @@ class SubCommand(Command) :
         # Parameters setup
         width = 70
         if (opts.width != None) :
-            width = opts.width
-        if (width <= 0) :
-            raise Exceptions.WrongParameter("width must be greater than 0")
-        assert(width > 0)
+            width = int(opts.width)
+        assert(type(width) == int)
+        if (width < 0) :
+            raise Exceptions.WrongParameter("width must be greater or equale "
+                                            "than 0")
+        assert(width >= 0)
+        debug("Width will be " + str(width))
 
-        ofh = sys.stdout
+        filehandle = sys.stdout
         if (opts.output != None) :
-            ofn = opts.output
-            debug("Output file will be `" + ofn + "'")
             try :
-                ofh = open(ofn, 'w')
+                filehandle = open(opts.output, 'w')
             except :
                 raise Exceptions.CannotWrite(ofn)
-        assert(ofh != None)
+        assert(filehandle != None)
+        debug("Output file will be `" + filehandle.name + "'")
+
+        format = "* %t\n  (%s, %e, %p)"
+        if (opts.format != None) :
+            format = opts.format
+        assert(format != None)
+        debug("Format is `" + format + "'")
 
         # Work
 
@@ -137,10 +154,13 @@ class SubCommand(Command) :
         tree = db.load(db_file)
         assert(tree != None)
 
-        v = DumpVisitor(ofh, width)
+        v = DumpVisitor(filehandle, width, format)
         tree.accept(v)
 
-        ofh.close()
+        # Avoid closing precious filehandles
+        if ((filehandle != sys.stdout) and (filehandle != sys.stderr)) :
+            debug("Closing file `" + filehandle.name + "'")
+            filehandle.close()
 
         debug("Success")
 
