@@ -57,6 +57,7 @@ class ShowVisitor(Visitor) :
 
         #debug("Visiting entry " + str(e))
 
+        # Handle colors
         if (self.__colors) :
             color_info  = normal_green
             color_index = normal_green
@@ -71,22 +72,31 @@ class ShowVisitor(Visitor) :
             color_index = lambda x: x
             color_text  = lambda x: x
             color_info  = lambda x: x
-
         assert(color_index != None)
         assert(color_text != None)
 
+        # Build the output
         if (e.done()) :
-            header = "-"
+            mark = "-"
         else :
-            header = " "
+            mark = " "
 
         if ((not e.done()) or (e.done() and self.__all)) :
-            print(header                               +
-                  self.indent()                        +
-                  color_index(str(self.index()) + ".") +
-                  color_text(e.text))
+            header = \
+                self.indent()                        + \
+                mark                                 + \
+                color_index(str(self.index()) + ".")
+            indent = " " * len(header)
+            i = 0
+            for line in textwrap.wrap(e.text, self.__width - len(header)) :
+                if (i == 0) :
+                    print(header + color_text(line))
+                else :
+                    print(indent + color_text(line))
+                i = i + 1
+
             if (self.__verbose) :
-                l    = " " * (len(header) + len(str(self.index())) + len("."))
+                l    = " " * (len(mark) + len(str(self.index())) + len("."))
                 line1 = self.indent() + l
 
                 line1 = line1 + color_info("Start:") + " "
@@ -134,7 +144,7 @@ class ShowVisitor(Visitor) :
               color_text(r.text))
 
     def indent(self) :
-        return " " * self.level()
+        return " " * 2 * self.level()
 
 class SubCommand(Command) :
     def __init__(self) :
@@ -168,16 +178,6 @@ class SubCommand(Command) :
             raise Exceptions.WrongParameter("width must be greater than 0")
         assert(width > 0)
 
-        # Work
-
-        # Load DB
-        db_file = configuration.get(PROGRAM_NAME, 'database')
-        assert(db_file != None)
-
-        db   = DB.Database()
-        tree = db.load(db_file)
-        assert(tree != None)
-
         try :
             colors = configuration.get(PROGRAM_NAME, 'colors', raw = True)
         except :
@@ -192,11 +192,21 @@ class SubCommand(Command) :
             verbose = False
         assert(verbose != None)
 
+        # Work
+
+        # Load DB
+        db_file = configuration.get(PROGRAM_NAME, 'database')
+        assert(db_file != None)
+
+        db   = DB.Database()
+        tree = db.load(db_file)
+        assert(tree != None)
+
         show_all = False
         if (opts.all == True) :
             show_all = True
 
-        v = ShowVisitor(colors, verbose, show_all, 70)
+        v = ShowVisitor(colors, verbose, show_all, width)
         tree.accept(v)
 
         debug("Success")
