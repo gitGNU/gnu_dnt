@@ -73,14 +73,34 @@ class DumpVisitor(Visitor) :
             else :
                 status = "incomplete"
 
+            # Handle colors
+            if (self.__colors) :
+                color_info  = normal_green
+                color_index = normal_green
+                p           = e.priority.value()
+                try :
+                    color_text  = self.__cmap[p]
+                except KeyError :
+                    bug("Unknown key `" + p.tostring() + "'")
+                    color_text = white
+            else :
+                # A bunch of pass-through lambdas
+                color_index = lambda x: x
+                color_text  = lambda x: x
+                color_info  = lambda x: x
+            assert(color_index != None)
+            assert(color_text != None)
+
+            # Perform format substitutions
             t = self.__format
             debug("input  = `" + t + "'")
-            t = re.sub('%t', text,     t)
+            t = re.sub('%t', color_text(text),     t)
             t = re.sub('%s', start,    t)
             t = re.sub('%e', end,      t)
-            t = re.sub('%p', priority, t)
+            t = re.sub('%p', color_text(priority), t)
             debug("output = `" + t + "'")
 
+            # Build the output
             for i in t.split('\n') :
                 if (self.__width != 0) :
                     lines = textwrap.wrap(i, self.__width)
