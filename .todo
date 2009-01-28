@@ -12,6 +12,12 @@
             Fixed
         </comment>
     </note>
+    <note priority="veryhigh" time="1233010167" done="1233180669">
+        Complete show and dump commands in order to respect the --width parameter
+        <comment>
+            Fixed
+        </comment>
+    </note>
     <note priority="high" time="1229468129" done="1230672987">
         Add devtodo-to-dnt importer
         <comment>
@@ -45,9 +51,6 @@
     <note priority="veryhigh" time="1232149768">
         Fix all return passed by reference (where a reference shouldn't be passed at all ...)
     </note>
-    <note priority="veryhigh" time="1233010167">
-        Complete show and dump commands in order to respect the --width parameter (or fetch the width directly from the terminal)
-    </note>
     <note priority="high" time="1231780779">
         Add toxml() and fromxml() to Entry and Root classes
     </note>
@@ -58,6 +61,9 @@
         Fix each command in order to get values from command line, configuration file and (last but not least) some default
         <note priority="high" time="1233010630">
             The show and dump command have the same default width (70) which is hardwired inside the sources, remove ASAP
+            <note priority="veryhigh" time="1233180623">
+                Fix the show and dump commands in order to fetch the value for their width command from the configuration file
+            </note>
         </note>
     </note>
     <note priority="high" time="1233084079">
