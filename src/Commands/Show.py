@@ -76,17 +76,20 @@ class ShowVisitor(Visitor) :
         assert(color_text != None)
 
         # Build the output
-        if (e.done()) :
-            mark = "-"
-        else :
-            mark = " "
-
         if ((not e.done()) or (e.done() and self.__all)) :
+            if (e.done()) :
+                mark = "-"
+            else :
+                mark = " "
+
             header = \
                 self.indent()                        + \
                 mark                                 + \
                 color_index(str(self.index()) + ".")
-            indent = " " * len(header)
+            indent = " " * len(self.indent()                + \
+                                   mark                     + \
+                                   str(self.index()) + ".")
+
             i = 0
             for line in textwrap.wrap(e.text, self.__width - len(header)) :
                 if (i == 0) :
