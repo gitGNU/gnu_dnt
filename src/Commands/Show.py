@@ -174,7 +174,14 @@ class SubCommand(Command) :
         (opts, args) = Command.parse_args(self, arguments)
 
         # Parameters setup
-        width = 70
+        try :
+            width = configuration.get(PROGRAM_NAME, 'width', raw = True)
+        except :
+            width = 70
+            debug("No width related configuration, default to " +
+                  str(width))
+        assert(width != None)
+
         if (opts.width != None) :
             width = opts.width
         if (width <= 0) :
@@ -184,15 +191,17 @@ class SubCommand(Command) :
         try :
             colors = configuration.get(PROGRAM_NAME, 'colors', raw = True)
         except :
-            debug("No colors related configuration, default to false")
             colors = False
+            debug("No colors related configuration, default to " +
+                  str(colors))
         assert(colors != None)
 
         try :
             verbose = configuration.get(PROGRAM_NAME, 'verbose', raw = True)
         except :
-            debug("No verboseness related configuration, default to false")
             verbose = False
+            debug("No verboseness related configuration, default to " +
+                  str(verbose))
         assert(verbose != None)
 
         # Work
