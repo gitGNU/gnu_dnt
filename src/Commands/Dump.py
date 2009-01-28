@@ -161,6 +161,9 @@ class SubCommand(Command) :
             verbose = False
         assert(verbose != None)
 
+        # XXX FIXME:
+        #     verbose has no meaning when the user specifies its own
+        #     format
         if (verbose == True) :
             format = "* %t\n  (%s, %e, %p)"
         else :
