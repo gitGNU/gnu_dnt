@@ -36,7 +36,7 @@ class DumpVisitor(Visitor) :
         assert(type(width) == int)
         assert(format != None)
 
-        Visitor.__init__(self)
+        super(DumpVisitor, self).__init__()
 
         self.__filehandle = filehandle
         self.__width      = width
@@ -74,7 +74,7 @@ class DumpVisitor(Visitor) :
                 status = "incomplete"
 
             # Handle colors
-            if (self.__colors) :
+            if (self.__colors == True) :
                 color_info  = normal_green
                 color_index = normal_green
                 p           = e.priority.value()
@@ -89,7 +89,8 @@ class DumpVisitor(Visitor) :
                 color_text  = lambda x: x
                 color_info  = lambda x: x
             assert(color_index != None)
-            assert(color_text != None)
+            assert(color_text  != None)
+            assert(color_info  != None)
 
             # Perform format substitutions
             t = self.__format
@@ -101,11 +102,12 @@ class DumpVisitor(Visitor) :
             debug("output = `" + t + "'")
 
             # Build the output
+            debug("Wrapping entry text to " + str(self.__width))
             for i in t.split('\n') :
                 if (self.__width != 0) :
                     lines = textwrap.wrap(i, self.__width)
                 else :
-                    lines = i
+                    lines = [ i ]
 
                 for j in lines :
                     self.__filehandle.write(j + "\n")
@@ -160,10 +162,9 @@ class SubCommand(Command) :
             width = int(opts.width)
         assert(type(width) == int)
         if (width < 0) :
-            raise Exceptions.WrongParameter("width must be greater or equale "
+            raise Exceptions.WrongParameter("width must be greater or equal "
                                             "than 0")
         assert(width >= 0)
-        debug("Width will be " + str(width))
 
         filehandle = sys.stdout
         if (opts.output != None) :
