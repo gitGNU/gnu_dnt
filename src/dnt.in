@@ -142,6 +142,10 @@ def main(arguments) :
                        action = "store_true",
                        dest   = "verbose",
                        help   = "display verbosely")
+    command.add_option("-q", "--quiet",
+                       action = "store_false",
+                       dest   = "verbose",
+                       help   = "display quietly")
     command.add_option("-d", "--debug",
                        action = "store_true",
                        dest   = "debug",
@@ -155,7 +159,7 @@ def main(arguments) :
                        action = "store_true",
                        dest   = "colors",
                        help   = "use colors")
-    command.add_option("--no-colors",
+    command.add_option("--mono",
                        action = "store_false",
                        dest   = "colors",
                        help   = "do not use colors")
@@ -204,8 +208,14 @@ def main(arguments) :
     # Override configuration options with command line ones
     if (opts.colors == True) :
         configuration.set(PROGRAM_NAME, 'colors',        True)
+    elif (opts.colors == False) :
+        configuration.set(PROGRAM_NAME, 'colors',        False)
+
     if (opts.verbose == True) :
         configuration.set(PROGRAM_NAME, 'verbose',       True)
+    elif (opts.verbose == False) :
+        configuration.set(PROGRAM_NAME, 'verbose',       False)
+
     if (opts.debug == True) :
         configuration.set(PROGRAM_NAME, 'debug',         True)
     if (opts.database != None) :
@@ -279,6 +289,9 @@ def main(arguments) :
     except SystemExit, e :
         bug("Explicit system exit called in subcommand "
             "`" + cmd_name + "' (not allowed in subcommands)")
+    except AssertionError, e :
+        # Re-raise exception in order to be catched outside here ...
+        raise e
     except Exception, e :
         bug("Unhandled exception in subcommand "
             "`" + cmd_name + "' (" + str(e) + ")")
