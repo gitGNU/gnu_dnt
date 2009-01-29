@@ -70,7 +70,10 @@ tests/test-command-remove-01
 tests/test-command-touch-01
 tests/test-command-done-01
 tests/test-command-dump-01
+tests/test-command-tag-01
 
 site/in/.sitetool
 site/in/site.stamp
+site/in/todos.sxml
+site/in/todos.dump
 site/out/*
