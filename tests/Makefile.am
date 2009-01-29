@@ -90,6 +90,7 @@ SUCCESS_TESTS +=				\
 	test-command-show-01			\
 	test-command-dump-01			\
 	test-command-touch-01			\
+	test-command-tag-01			\
 	test-command-done-01			\
 	test-command-config-01			\
 	test-devtodo-to-dnt-01			\
@@ -313,6 +314,18 @@ test-command-touch-01: $(srcdir)/test-command-touch-01.in Makefile
 	}
 EXTRA_DIST += test-command-touch-01.in
 CLEANFILES += test-command-touch-01
+
+test-command-tag-01: $(srcdir)/test-command-tag-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-tag-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-tag-01.in
+CLEANFILES += test-command-tag-01
 
 test-command-done-01: $(srcdir)/test-command-done-01.in Makefile
 	( rm -f $@ $@.tmp && \
