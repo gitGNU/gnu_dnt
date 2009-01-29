@@ -34,9 +34,36 @@ SITE_SRCS =					\
 	index.scm				\
 	installation.scm			\
 	downloads.scm				\
-	development.scm
+	development.scm				\
+	todos.sxml
 
-EXTRA_DIST = $(SITE_SRCS)
+EXTRA_DIST  = $(SITE_SRCS)
+CLEAN_FILES =
+
+todos.dump: $(top_srcdir)/.dnt.db
+	$(top_builddir)/src/dnt \
+		--database=$(top_srcdir)/.dnt.db \
+		--mono \
+		dump \
+		--format="(li \"%t\")" \
+		--width=0 \
+		--output=todos.dump || { \
+		rm -f todos.dump ; \
+		exit 1 ; \
+	}
+CLEAN_FILES += todos.dump
+
+todos.sxml: todos.dump
+	rm -f todos.sxml && \
+	touch todos.sxml && \
+	echo "(h2 \"TODOs\")" >> todos.sxml && \
+	echo "(ul"	     >> todos.sxml && \
+	cat todos.dump	     >> todos.sxml && \
+	echo ")"		     >> todos.sxml || { \
+		       rm -f todos.sxml ; \
+		       exit 1 ; \
+	}
+CLEAN_FILES += todos.sxml
 
 site: $(SITE_SRCS)
 	$(SITETOOL) -v --mode initialize && \
