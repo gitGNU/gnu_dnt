@@ -29,6 +29,7 @@ class Visitor(object) :
     def __init__(self, level = 0, index = 0) :
         self.__level = level
         self.__index = index
+        debug("Visitor initialized")
 
 # The following method must be provided by the subclass
 #    def visitEntry(self, e) :
