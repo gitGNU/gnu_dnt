@@ -38,12 +38,15 @@ $DNT add -t "test11" -p 1 || exit 1
 $DNT add -t "test21" -p 2 || exit 1
 $DNT add -t "test31" -p 3 || exit 1
 
-$DNT dump                                   || exit 1
 $DNT dump --output /dev/stdout              || exit 1
 $DNT dump --output /dev/stderr              || exit 1
 $DNT dump --output test.dump                || exit 1
+
+$DNT dump                                   || exit 1
 $DNT dump --width=0                         || exit 1
+$DNT dump --width=20                        || exit 1
 $DNT dump --width=80                        || exit 1
+
 $DNT dump            --format="%t"          || exit 1
 $DNT dump            --format="%p"          || exit 1
 $DNT dump            --format="%s"          || exit 1
@@ -51,5 +54,13 @@ $DNT dump            --format="%e"          || exit 1
 $DNT dump            --format="%t %p %s %e" || exit 1
 $DNT dump --width=0  --format="%p %t %e %s" || exit 1
 $DNT dump --width=80 --format="%p %t %e %s" || exit 1
+
+$DNT_NOFLAGS --colors dump > test1.log || exit 1
+$DNT_NOFLAGS --mono   dump > test2.log || exit 1
+diff test1.log test2.log || {
+    rm -f test1.log
+    rm -f test2.log
+    exit 0
+}
 
 exit 0

@@ -54,4 +54,12 @@ $DNT_NOFLAGS show --all           || exit 1
 $DNT_NOFLAGS --verbose show       || exit 1
 $DNT_NOFLAGS --verbose show --all || exit 1
 
+$DNT_NOFLAGS --colors show > test1.log || exit 1
+$DNT_NOFLAGS --mono   show > test2.log || exit 1
+diff test1.log test2.log || {
+    rm -f test1.log
+    rm -f test2.log
+    exit 0
+}
+
 exit 0
