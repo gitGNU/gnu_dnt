@@ -32,7 +32,7 @@ from   Entry         import *
 
 class ShowVisitor(Visitor) :
     def __init__(self, colors, verbose, show_all, width) :
-        Visitor.__init__(self)
+        super(ShowVisitor, self).__init__()
 
         assert(type(width) == int)
 
@@ -55,10 +55,10 @@ class ShowVisitor(Visitor) :
     def visitEntry(self, e) :
         assert(e != None)
 
-        #debug("Visiting entry " + str(e))
+        debug("Visiting entry " + str(e))
 
         # Handle colors
-        if (self.__colors) :
+        if (self.__colors == True) :
             color_info  = normal_green
             color_index = normal_green
             p           = e.priority.value()
@@ -73,7 +73,8 @@ class ShowVisitor(Visitor) :
             color_text  = lambda x: x
             color_info  = lambda x: x
         assert(color_index != None)
-        assert(color_text != None)
+        assert(color_text  != None)
+        assert(color_info  != None)
 
         # Build the output
         if ((not e.done()) or (e.done() and self.__all)) :
@@ -90,8 +91,19 @@ class ShowVisitor(Visitor) :
                                    mark                     + \
                                    str(self.index()) + ".")
 
+            if (self.__width == 0) :
+                lines = [ e.text ]
+            else :
+                rows = self.__width - len(header)
+                debug("Need to wrap text on " + str(rows) + " rows")
+                if (rows <= 0) :
+                    lines = [ "..." ]
+                else :
+                    lines = textwrap.wrap(e.text, rows)
+            debug("Got " + str(len(lines)) + " lines to show")
+
             i = 0
-            for line in textwrap.wrap(e.text, self.__width - len(header)) :
+            for line in lines :
                 if (i == 0) :
                     print(header + color_text(line))
                 else :
@@ -130,7 +142,7 @@ class ShowVisitor(Visitor) :
     def visitRoot(self, r) :
         assert(r != None)
 
-        #debug("Visiting root " + str(r))
+        debug("Visiting root " + str(r))
 
         if (self.__colors) :
             color_index = normal_green
@@ -183,10 +195,12 @@ class SubCommand(Command) :
         assert(width != None)
 
         if (opts.width != None) :
-            width = opts.width
-        if (width <= 0) :
-            raise Exceptions.WrongParameter("width must be greater than 0")
-        assert(width > 0)
+            width = int(opts.width)
+        assert(type(width) == int)
+        if (width < 0) :
+            raise Exceptions.WrongParameter("width must be greater or equal "
+                                            "than 0")
+        assert(width >= 0)
 
         try :
             colors = configuration.get(PROGRAM_NAME, 'colors', raw = True)
