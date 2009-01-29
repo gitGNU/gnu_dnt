@@ -31,7 +31,7 @@ from   Visitor    import *
 
 class DoneVisitor(Visitor) :
     def __init__(self, verbose) :
-        Visitor.__init__(self)
+        super(DoneVisitor, self).__init__()
         self.__verbose = verbose
 
     def visitEntry(self, e) :
