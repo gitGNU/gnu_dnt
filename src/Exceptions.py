@@ -224,7 +224,7 @@ class WrongParameter(EParameters):
         s = ""
         if (value != None) :
             s = ", " + value
-        EParameters.__init__(self, "wrong parameter, " + s)
+        EParameters.__init__(self, "wrong parameter" + s)
 
 class ForceNeeded(EParameters):
     def __init__(self, value) :
