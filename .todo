@@ -59,8 +59,11 @@
     </note>
     <note priority="high" time="1233010414">
         Fix each command in order to get values from command line, configuration file and (last but not least) some default
-        <note priority="high" time="1233010630">
+        <note priority="high" time="1233010630" done="1233358680">
             The show and dump command have the same default width (70) which is hardwired inside the sources, remove ASAP
+            <comment>
+                Added Terminal class in order to cope with the issue
+            </comment>
             <note priority="veryhigh" time="1233180623" done="1233183845">
                 Fix the show and dump commands in order to fetch the value for their width command from the configuration file
                 <comment>
