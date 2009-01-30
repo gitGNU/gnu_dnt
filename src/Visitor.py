@@ -65,5 +65,7 @@ class Visitor(object) :
 
 # Test
 if (__name__ == '__main__') :
+    v = Visitor()
+
     debug("Test completed")
     sys.exit(0)
