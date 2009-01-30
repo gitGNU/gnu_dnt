@@ -82,5 +82,7 @@ class Priority(object) :
 
 # Test
 if (__name__ == '__main__') :
+    p = Priority()
+
     debug("Test completed")
     sys.exit(0)
