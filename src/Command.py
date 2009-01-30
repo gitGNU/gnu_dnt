@@ -130,5 +130,7 @@ class Command(OptionParser) :
 
 # Test
 if (__name__ == '__main__') :
+    c = Command("test")
+
     debug("Test completed")
     sys.exit(0)
