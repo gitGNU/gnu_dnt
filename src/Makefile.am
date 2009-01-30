@@ -65,6 +65,7 @@ pkgvpython_PYTHON =				\
 	Tree.py					\
 	Entry.py				\
 	Root.py					\
+	Terminal.py				\
 	ID.py
 
 nodist_pkgvpython_PYTHON =			\
