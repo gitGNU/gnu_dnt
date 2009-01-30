@@ -58,5 +58,7 @@ class Configuration(ConfigParser.ConfigParser) :
 
 # Test
 if (__name__ == '__main__') :
+    c = Configuration()
+
     # Do not use our machineries here (debug, warning, error etc.)
     sys.exit(0)
