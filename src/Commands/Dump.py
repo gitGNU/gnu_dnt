@@ -29,6 +29,7 @@ import Priority
 from   Visitor    import *
 from   Root       import *
 from   Entry      import *
+import Terminal
 
 class DumpVisitor(Visitor) :
     def __init__(self, colors, verbose, filehandle, width, format) :
@@ -153,7 +154,8 @@ class SubCommand(Command) :
         try :
             width = configuration.get(PROGRAM_NAME, 'width', raw = True)
         except :
-            width = 70
+            t     = Terminal.Terminal()
+            width = t.columns
             debug("No width related configuration, default to " +
                   str(width))
         assert(width != None)
