@@ -229,5 +229,7 @@ class Database(object) :
 
 # Test
 if (__name__ == '__main__') :
+    db = Database()
+
     debug("Test completed")
     sys.exit(0)
