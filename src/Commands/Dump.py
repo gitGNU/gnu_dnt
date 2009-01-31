@@ -30,12 +30,14 @@ from   Visitor    import *
 from   Root       import *
 from   Entry      import *
 import Terminal
+import Filter
 
 class DumpVisitor(Visitor) :
-    def __init__(self, colors, verbose, filehandle, width, format) :
+    def __init__(self, colors, verbose, filehandle, width, format, filter) :
         assert(filehandle != None)
         assert(type(width) == int)
         assert(format != None)
+        assert(filter != None)
 
         super(DumpVisitor, self).__init__()
 
@@ -44,6 +46,7 @@ class DumpVisitor(Visitor) :
         self.__colors     = colors
         self.__verbose    = verbose
         self.__format     = format
+        self.__filter     = filter.function
         self.__cmap    = {
             Priority.Priority.PRIORITY_VERYHIGH : bright_red,
             Priority.Priority.PRIORITY_HIGH     : bright_yellow,
@@ -54,6 +57,9 @@ class DumpVisitor(Visitor) :
 
     def visitEntry(self, e) :
         assert(e != None)
+
+        if (not self.__filter(e)) :
+            return
 
         if (self.__format != None) :
             text = e.text
@@ -147,6 +153,12 @@ class SubCommand(Command) :
                            type   = "string",
                            dest   = "width",
                            help   = "specify maximum text width")
+        Command.add_option(self,
+                           "-F", "--filter",
+                           action = "store",
+                           type   = "string",
+                           dest   = "filter",
+                           help   = "specify selection filter")
 
         (opts, args) = Command.parse_args(self, arguments)
 
@@ -206,6 +218,9 @@ class SubCommand(Command) :
         assert(format != None)
         debug("Format is `" + format + "'")
 
+        # Build the filter
+        filter = Filter.Filter(opts.filter)
+
         # Work
 
         # Load DB
@@ -216,7 +231,7 @@ class SubCommand(Command) :
         tree = db.load(db_file)
         assert(tree != None)
 
-        v = DumpVisitor(colors, verbose, filehandle, width, format)
+        v = DumpVisitor(colors, verbose, filehandle, width, format, filter)
         tree.accept(v)
 
         # Avoid closing precious filehandles
