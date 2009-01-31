@@ -241,6 +241,17 @@ class NodeUnavailable(ETree):
     def __init__(self, value) :
         ETree.__init__(self, "Cannot find node `" + value + "'")
 
+#
+# Filter related exceptions
+#
+class EFilter(EBase):
+    def __init__(self, value) :
+        EBase.__init__(self, value)
+
+class UnknownFilter(EFilter):
+    def __init__(self, value) :
+        EFilter.__init__(self, "Unknown filter `" + value + "'")
+
 # Test
 if (__name__ == '__main__') :
     debug("Test completed")
