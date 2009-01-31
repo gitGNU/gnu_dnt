@@ -55,6 +55,10 @@ $DNT dump            --format="%t %p %s %e" || exit 1
 $DNT dump --width=0  --format="%p %t %e %s" || exit 1
 $DNT dump --width=80 --format="%p %t %e %s" || exit 1
 
+$DNT dump --filter=all                      || exit 1
+$DNT dump --filter=done                     || exit 1
+$DNT dump --filter=not-done                 || exit 1
+
 $DNT_NOFLAGS --colors dump > test1.log || exit 1
 $DNT_NOFLAGS --mono   dump > test2.log || exit 1
 diff test1.log test2.log || {
