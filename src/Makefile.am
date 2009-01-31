@@ -61,6 +61,7 @@ pkgvpython_PYTHON =				\
 	Priority.py				\
 	DB.py					\
 	Visitor.py				\
+	Filter.py				\
 	Node.py					\
 	Tree.py					\
 	Entry.py				\
