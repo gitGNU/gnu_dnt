@@ -54,6 +54,10 @@ $DNT_NOFLAGS show --all           || exit 1
 $DNT_NOFLAGS --verbose show       || exit 1
 $DNT_NOFLAGS --verbose show --all || exit 1
 
+$DNT dump --filter=all            || exit 1
+$DNT dump --filter=done           || exit 1
+$DNT dump --filter=not-done       || exit 1
+
 $DNT_NOFLAGS --colors show > test1.log || exit 1
 $DNT_NOFLAGS --mono   show > test2.log || exit 1
 diff test1.log test2.log || {
