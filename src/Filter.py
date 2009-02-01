@@ -17,6 +17,7 @@
 #
 
 import sys
+import string
 
 from   Debug      import *
 from   Trace      import *
@@ -28,15 +29,17 @@ class Filter(object) :
         if (s == None) :
             filter = lambda x: True
         else :
-            # Filter is != None
-            if (s == "all") :
-                filter = lambda x: True
-            elif (s == "done") :
-                filter = lambda x: x.done()
-            elif (s == "not-done") :
-                filter = lambda x: not x.done()
-            else :
-                raise Exceptions.UnknownFilter(s)
+            for i in s.split(",") :
+                debug("Handling filter `" + i + "'")
+                # Filter is != None
+                if (i == "all") :
+                    filter = lambda x: True
+                elif (i == "done") :
+                    filter = lambda x: x.done()
+                elif (i == "not-done") :
+                    filter = lambda x: not x.done()
+                else :
+                    raise Exceptions.UnknownFilter(s)
 
         assert(filter != None)
         self.__function = filter
