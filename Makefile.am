@@ -56,16 +56,18 @@ EXTRA_DIST =							\
 ## Maintainer related targets
 ##
 
-TODO:
-	$(top_builddir)/src/dnt				\
-		--database=$(top_srcdir)/.dnt.db	\
-		--mono					\
-		dump					\
-		--format="* %t"				\
-		--width 0				\
-		--output TODO || {			\
-		rm -f TODO ;				\
-		exit 1 ;				\
+DNT_DB = $(top_srcdir)/.dnt.db
+TODO: $(DNT_DB)
+	$(top_builddir)/src/dnt			\
+		--database=$(DNT_DB)		\
+		--mono				\
+		dump				\
+		--format="* %t"			\
+		--width=0			\
+		--filter=not-done		\
+		--output=TODO || {		\
+		rm -f TODO ;			\
+		exit 1 ;			\
 	}
 
 announcement:
