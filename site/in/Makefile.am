@@ -35,19 +35,45 @@ SITE_SRCS =					\
 	installation.scm			\
 	downloads.scm				\
 	development.scm				\
-	todos.sxml
+	todos.sxml				\
+	news.sxml
 
 EXTRA_DIST  = $(SITE_SRCS)
 CLEAN_FILES =
 
+news.dump: $(top_srcdir)/.dnt.db
+	$(top_builddir)/src/dnt --database=$(top_srcdir)/.dnt.db \
+	       --mono \
+	       dump \
+	       --format="(li \"%t\")" \
+	       --width=0 \
+	       --output=news.dump \
+	       --filter="done" || { \
+		rm -f news.dump ; \
+		exit 1 ; \
+	}
+CLEAN_FILES += news.dump
+
+news.sxml: news.dump
+	rm -f news.sxml && \
+	touch news.sxml && \
+	echo "(h2 \"NEWs\")" >> news.sxml && \
+	echo "(ul"           >> news.sxml && \
+	cat news.dump        >> news.sxml && \
+	echo ")"             >> news.sxml || { \
+		rm -f news.sxml ; \
+		exit 1 ; \
+	}
+CLEAN_FILES += news.sxml
+
 todos.dump: $(top_srcdir)/.dnt.db
-	$(top_builddir)/src/dnt \
-		--database=$(top_srcdir)/.dnt.db \
-		--mono \
-		dump \
-		--format="(li \"%t\")" \
-		--width=0 \
-		--output=todos.dump || { \
+	$(top_builddir)/src/dnt --database=$(top_srcdir)/.dnt.db \
+	       --mono \
+	       dump \
+	       --format="(li \"%t\")" \
+	       --width=0 \
+	       --output=todos.dump \
+	       --filter="not-done" || { \
 		rm -f todos.dump ; \
 		exit 1 ; \
 	}
@@ -57,11 +83,11 @@ todos.sxml: todos.dump
 	rm -f todos.sxml && \
 	touch todos.sxml && \
 	echo "(h2 \"TODOs\")" >> todos.sxml && \
-	echo "(ul"	     >> todos.sxml && \
-	cat todos.dump	     >> todos.sxml && \
-	echo ")"		     >> todos.sxml || { \
-		       rm -f todos.sxml ; \
-		       exit 1 ; \
+	echo "(ul"            >> todos.sxml && \
+	cat todos.dump        >> todos.sxml && \
+	echo ")"              >> todos.sxml || { \
+		rm -f todos.sxml ; \
+		exit 1 ; \
 	}
 CLEAN_FILES += todos.sxml
 
