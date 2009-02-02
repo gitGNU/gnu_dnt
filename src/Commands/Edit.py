@@ -55,30 +55,31 @@ class SubCommand(Command) :
         if (opts.id == None) :
             raise Exceptions.MissingParameters("node id")
 
-            editor = None
-            # Prefer parameter
-            if (editor == None) :
-                editor = opts.editor
-            # Fall-back to configuration
-            if (editor == None) :
-                try :
-                    editor = configuration.get(Command.name,
-                                               'editor',
-                                               raw = True)
-                except :
-                    # No editor found on configuration
-                    pass
-            # Fall-back to the environment
-            if (editor == None) :
-                editor = os.environ["EDITOR"]
-            # Finally bang with error
-            if (editor == None) :
-                raise MissingParameters("editor")
+        editor = None
+        # Prefer parameter
+        if (editor == None) :
+            editor = opts.editor
+        # Fall-back to configuration
+        if (editor == None) :
+            try :
+                editor = configuration.get(Command.name,
+                                           'editor',
+                                           raw = True)
+            except :
+                # No editor found on configuration
+                pass
+        # Fall-back to the environment
+        if (editor == None) :
+            editor = os.environ["EDITOR"]
+        # Finally bang with error
+        if (editor == None) :
+            raise MissingParameters("editor")
+        debug("Editor will be `" + editor + "'")
 
-            # Work
-            id = ID.ID(opts.id)
+        # Work
+        id = ID.ID(opts.id)
 
-            debug("Success")
+        debug("Success")
 
 # Test
 if (__name__ == '__main__') :
