@@ -30,12 +30,14 @@ from   Visitor       import *
 from   Root          import *
 from   Entry         import *
 import Terminal
+import Filter
 
 class ShowVisitor(Visitor) :
-    def __init__(self, colors, verbose, show_all, width) :
-        super(ShowVisitor, self).__init__()
-
+    def __init__(self, colors, verbose, show_all, width, filter) :
         assert(type(width) == int)
+        assert(filter != None)
+
+        super(ShowVisitor, self).__init__()
 
         # XXX FIXME:
         #      We need to start from -1 in order to have 0 as id for the
@@ -45,6 +47,7 @@ class ShowVisitor(Visitor) :
         self.__colors  = colors
         self.__verbose = verbose
         self.__all     = show_all
+        self.__filter  = filter.function
         self.__cmap    = {
             Priority.Priority.PRIORITY_VERYHIGH : bright_red,
             Priority.Priority.PRIORITY_HIGH     : bright_yellow,
@@ -55,6 +58,13 @@ class ShowVisitor(Visitor) :
 
     def visitEntry(self, e) :
         assert(e != None)
+
+        if (not self.__filter(e)) :
+            debug("Entry "                 +
+                  "`" + str(e) + "' "      +
+                  "does not match filter " +
+                  "`" + str(self.__filter) + "'")
+            return
 
         debug("Visiting entry " + str(e))
 
@@ -183,6 +193,12 @@ class SubCommand(Command) :
                            type   = "string",
                            dest   = "width",
                            help   = "specify maximum text width")
+        Command.add_option(self,
+                           "-F", "--filter",
+                           action = "store",
+                           type   = "string",
+                           dest   = "filter",
+                           help   = "specify selection filter")
 
         (opts, args) = Command.parse_args(self, arguments)
 
@@ -220,6 +236,13 @@ class SubCommand(Command) :
                   str(verbose))
         assert(verbose != None)
 
+        # Build the filter
+        filter_text = "all"
+        if (opts.filter != None) :
+            filter_text = opts.filter
+        filter = Filter.Filter(filter_text)
+        assert(filter != None)
+
         # Work
 
         # Load DB
@@ -234,7 +257,7 @@ class SubCommand(Command) :
         if (opts.all == True) :
             show_all = True
 
-        v = ShowVisitor(colors, verbose, show_all, width)
+        v = ShowVisitor(colors, verbose, show_all, width, filter)
         tree.accept(v)
 
         debug("Success")
