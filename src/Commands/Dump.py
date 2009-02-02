@@ -223,7 +223,11 @@ class SubCommand(Command) :
         debug("Format is `" + format + "'")
 
         # Build the filter
-        filter = Filter.Filter(opts.filter)
+        filter_text = "all"
+        if (opts.filter != None) :
+            filter_text = opts.filter
+        filter = Filter.Filter(filter_text)
+        assert(filter != None)
 
         # Work
 
