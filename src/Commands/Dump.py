@@ -65,6 +65,8 @@ class DumpVisitor(Visitor) :
                   "`" + str(self.__filter) + "'")
             return
 
+        debug("Visiting entry " + str(e))
+
         if (self.__format != None) :
             text = e.text
             if (e.start != None) :
