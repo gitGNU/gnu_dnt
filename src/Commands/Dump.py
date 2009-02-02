@@ -59,6 +59,10 @@ class DumpVisitor(Visitor) :
         assert(e != None)
 
         if (not self.__filter(e)) :
+            debug("Entry "                 +
+                  "`" + str(e) + "' "      +
+                  "does not match filter " +
+                  "`" + str(self.__filter) + "'")
             return
 
         if (self.__format != None) :
