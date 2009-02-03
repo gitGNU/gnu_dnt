@@ -52,6 +52,9 @@
         </note>
         <note priority="veryhigh" time="1233701639">
             Complete the regression tests suite
+            <note priority="veryhigh" time="1233702821">
+                Fix the --dry-run option handling in main program
+            </note>
         </note>
         <note priority="high" time="1232544628">
             Add a test which create a .todo, dumps it, exports to .dnt, imports back to .todo, dumps it and finally diffs the two outputs
