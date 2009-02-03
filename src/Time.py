@@ -32,7 +32,7 @@ class TimeDiff(object) :
 
     def fromstring(self, s) :
         assert(type(s) == str)
-        bug()
+        raise Exceptions.WrongTimeFormat(s)
 
     def tostring(self) :
         t = self.__time.seconds
