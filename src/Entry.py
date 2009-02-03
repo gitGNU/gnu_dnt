@@ -48,6 +48,7 @@ class Entry(Node) :
     def text_get(self) :
         return self.__text
     def text_set(self, t) :
+        assert(t != None)
         assert(type(t) == str)
         assert(t != "")
 
@@ -59,6 +60,7 @@ class Entry(Node) :
     def priority_get(self) :
         return self.__priority
     def priority_set(self, p) :
+        assert(p != None)
         self.__priority = p
 
     priority = property(priority_get, priority_set)
@@ -68,6 +70,7 @@ class Entry(Node) :
     def _start_set(self, t) :
         self.__start = t
     def start_set(self, t) :
+        assert(t != None)
         if (t > self.__end) :
             raise ValueError("start date after end date")
         self._start_set(t)
@@ -79,6 +82,7 @@ class Entry(Node) :
     def _end_set(self, t) :
         self.__end = t
     def end_set(self, t) :
+        assert(t != None)
         if (t < self.__start) :
             raise ValueError("end date before start date")
         self._end_set(t)
