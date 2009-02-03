@@ -33,7 +33,6 @@ dist_man_MANS =					\
 	dnt-init.1				\
 	dnt-move.1				\
 	dnt-remove.1				\
-	dnt-touch.1				\
 	dnt-done.1				\
 	dnt-show.1
 
