@@ -23,7 +23,12 @@ from   Debug      import *
 from   Trace      import *
 from   Command    import *
 import Exceptions
+import DB
 import ID
+import Entry
+import Tree
+import Time
+import Priority
 
 class SubCommand(Command) :
     def __init__(self) :
@@ -43,11 +48,35 @@ class SubCommand(Command) :
                            dest   = "id",
                            help   = "specify node id to edit")
         Command.add_option(self,
-                           "-e", "--editor",
+                           "-t", "--text",
                            action = "store",
                            type   = "string",
-                           dest   = "editor",
-                           help   = "specify editor to use")
+                           dest   = "text",
+                           help   = "specify node text")
+        Command.add_option(self,
+                           "-p", "--priority",
+                           action = "store",
+                           type   = "string",
+                           dest   = "priority",
+                           help   = "specify node priority")
+        Command.add_option(self,
+                           "-s", "--start",
+                           action = "store",
+                           type   = "string",
+                           dest   = "start",
+                           help   = "specify node start time")
+        Command.add_option(self,
+                           "-e", "--end",
+                           action = "store",
+                           type   = "string",
+                           dest   = "end",
+                           help   = "specify node end time")
+#        Command.add_option(self,
+#                           "-E", "--editor",
+#                           action = "store",
+#                           type   = "string",
+#                           dest   = "editor",
+#                           help   = "specify editor to use")
 
         (opts, args) = Command.parse_args(self, arguments)
 
@@ -55,29 +84,103 @@ class SubCommand(Command) :
         if (opts.id == None) :
             raise Exceptions.MissingParameters("node id")
 
-        editor = None
-        # Prefer parameter
-        if (editor == None) :
-            editor = opts.editor
-        # Fall-back to configuration
-        if (editor == None) :
-            try :
-                editor = configuration.get(Command.name,
-                                           'editor',
-                                           raw = True)
-            except :
-                # No editor found on configuration
-                pass
-        # Fall-back to the environment
-        if (editor == None) :
-            editor = os.environ["EDITOR"]
-        # Finally bang with error
-        if (editor == None) :
-            raise MissingParameters("editor")
-        debug("Editor will be `" + editor + "'")
+        if ((opts.text     == None) and
+            (opts.priority == None) and
+            (opts.start    == None) and
+            (opts.end      == None)) :
+            raise Exceptions.MissingParameters()
+
+#        editor = None
+#        # Prefer parameter
+#        if (editor == None) :
+#            editor = opts.editor
+#        # Fall-back to configuration
+#        if (editor == None) :
+#            try :
+#                editor = configuration.get(Command.name,
+#                                           'editor',
+#                                           raw = True)
+#            except :
+#                # No editor found on configuration
+#                pass
+#        # Fall-back to the environment
+#        if (editor == None) :
+#            editor = os.environ["EDITOR"]
+#        # Finally bang with error
+#        if (editor == None) :
+#            raise MissingParameters("editor")
+#        debug("Editor will be `" + editor + "'")
+
+        db_file = configuration.get(PROGRAM_NAME, 'database')
+        assert(db_file != None)
+        node_id = ID.ID(opts.id)
 
         # Work
-        id = ID.ID(opts.id)
+        debug("Editing node:")
+        debug("  id = " + str(node_id))
+
+        db = DB.Database()
+
+        # Load database from file
+        tree = db.load(db_file)
+        assert(tree != None)
+
+        debug("Looking for node `" + str(node_id) + "'")
+        node = Tree.find(tree, node_id)
+        if (node == None) :
+            raise Exceptions.WrongParameter("unknown node " +
+                                            "`" + str(node_id) + "'")
+
+        # Get the defaults from node
+        text     = None
+        priority = None
+        start    = None
+        end      = None
+        debug("Got default values")
+
+        # Override them all
+        if (opts.text != None) :
+            text = opts.text
+            debug("Got text value from user")
+        if (opts.priority != None) :
+            priority = opts.priority
+            debug("Got priority value from user")
+        if (opts.start != None) :
+            start = opts.start
+            debug("Got start value from user")
+        if (opts.end != None) :
+            end = opts.end
+            debug("Got end value from user")
+        debug("Got values from user")
+
+        # Write back values
+        if (text != None) :
+            node.text = text
+            debug("Wrote node text")
+        if (priority != None) :
+            p = Priority.Priority()
+            assert(p != None)
+            p.fromstring(priority)
+            node.priority = p
+            debug("Wrote node priority")
+        if (start != None) :
+            t = Time.Time()
+            assert(t != None)
+            t.fromstring(start)
+            node.start = t
+            debug("Wrote node start")
+        if (end != None) :
+            t = Time.Time()
+            assert(t != None)
+            t.fromstring(start)
+            node.end = t
+            debug("Wrote node end")
+        debug("Wrote node values")
+
+        # XXX FIXME: We should work recursively (for start and end ...)
+
+        # Save database back to file
+        db.save(db_file, tree)
 
         debug("Success")
 
