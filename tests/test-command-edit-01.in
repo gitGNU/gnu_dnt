@@ -28,5 +28,17 @@ $DNT edit --help    || exit 1
 $DNT edit --version || exit 1
 
 # Then perform the command related check
+$DNT init            || exit 1
+$DNT add -t "test1"  || exit 1
+
+$DNT edit -i 1 --text     "test1"  || exit 1
+$DNT edit -i 1 --priority "high"   || exit 1
+#$DNT edit -i 1 --start    "test1"  || exit 1
+#$DNT edit -i 1 --end      "test1"  || exit 1
+
+$DNT edit -i 1 -t         "test1"  || exit 1
+$DNT edit -i 1 -p         "low"    || exit 1
+#$DNT edit -i 1 -s         "test1"  || exit 1
+#$DNT edit -i 1 -e         "test1"  || exit 1
 
 exit 0
