@@ -14,6 +14,12 @@
                 Fixed
             </comment>
         </note>
+        <note priority="veryhigh" time="1230934015" done="1233696564">
+            Rearrange the Exceptions classes replacing 'value' with 'message' where needed
+            <comment>
+                Done
+            </comment>
+        </note>
         <note priority="veryhigh" time="1233010167" done="1233180669">
             Complete show and dump commands in order to respect the --width parameter
             <comment>
@@ -43,15 +49,6 @@
             <comment>
                 Done
             </comment>
-        </note>
-        <note priority="veryhigh" time="1230934015" done="1233696564">
-            Rearrange the Exceptions classes replacing 'value' with 'message' where needed
-            <comment>
-                Done
-            </comment>
-        </note>
-        <note priority="high" time="1231780779">
-            Add toxml() and fromxml() to Entry and Root classes
         </note>
         <note priority="high" time="1232544628">
             Add a test which create a .todo, dumps it, exports to .dnt, imports back to .todo, dumps it and finally diffs the two outputs
@@ -109,6 +106,9 @@
         </note>
         <note priority="veryhigh" time="1232149768">
             Fix all return passed by reference (where a reference shouldn't be passed at all ...)
+        </note>
+        <note priority="high" time="1231780779">
+            Add toxml() and fromxml() to Entry and Root classes
         </note>
         <note priority="high" time="1233648336">
             Add missing commands
