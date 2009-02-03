@@ -21,12 +21,19 @@ import exceptions
 
 from   Trace import *
 
+#
+# NOTE:
+#     The base exception class assert() for message != None, in order to avoid
+#     unnecessary assert() calls
+#
 class EBase(Exception) :
-    def __init__(self, value) :
-        self.__value = value
+    def __init__(self, message) :
+        assert(message != None)
+        assert(type(message) == str)
+        self.__message = message
 
     def __str__(self) :
-        return self.__value
+        return self.__message
 
     __repr__ = __str__
 
@@ -34,149 +41,138 @@ class EBase(Exception) :
 # OS related exceptions
 #
 class EOS(EBase):
-    def __init__(self, value) :
-        assert(value != None)
-        EBase.__init__(self, value)
+    def __init__(self, message) :
+        EBase.__init__(self, message)
 
 #
 # Time related exceptions
 #
 class ETime(EBase):
-    def __init__(self, value) :
-        assert(value != None)
-        EBase.__init__(self, value)
+    def __init__(self, message) :
+        EBase.__init__(self, message)
 
 class WrongTimeFormat(ETime) :
-    def __init__(self, value) :
-        assert(value != None)
-        ETime.__init__(self, "wrong time format `" + value + "'")
+    def __init__(self, message) :
+        ETime.__init__(self, "wrong time format `" + message + "'")
 
 #
 # Priority related exceptions
 #
 class EPriority(EBase):
-    def __init__(self, value) :
-        assert(value != None)
-        EBase.__init__(self, value)
+    def __init__(self, message) :
+        EBase.__init__(self, message)
 
 class UnknownPriority(EPriority):
-    def __init__(self, value) :
-        assert(value != None)
-        EPriority.__init__(self, "unknown priority `" + value + "'")
+    def __init__(self, message) :
+        EPriority.__init__(self, "unknown priority `" + message + "'")
 
 #
 # Database related exceptions
 #
 class EDatabase(EBase):
-    def __init__(self, value) :
-        assert(value != None)
-        EBase.__init__(self, value)
+    def __init__(self, message) :
+        EBase.__init__(self, message)
 
 class UnknownElement(EDatabase):
-    def __init__(self, value) :
-        assert(value != None)
-        EDatabase.__init__(self, "unknown element `" + value + "'")
+    def __init__(self, message) :
+        EDatabase.__init__(self, "unknown element `" + message + "'")
 
 class MissingDatabase(EDatabase):
-    def __init__(self, value) :
-        assert(value != None)
+    def __init__(self, message) :
         EDatabase.__init__(self,
                            "missing database "
-                           "`" + value + "' "
+                           "`" + message + "' "
                            ", try initializing or importing")
 
 class MalformedDatabase(EDatabase):
-    def __init__(self, value = None) :
+    def __init__(self, message = None) :
         tmp = ""
-        if (value != None) :
-            tmp = " `" + value + "'"
+        if (message != None) :
+            tmp = " `" + message + "'"
         EDatabase.__init__(self, "malformed database" + tmp)
 
 class CorruptedDatabase(EDatabase):
-    def __init__(self, value) :
-        assert(value != None)
+    def __init__(self, message) :
         EDatabase.__init__(self,
                            "database "
-                           "`" + value + "' "
+                           "`" + message + "' "
                            "is corrupted")
 
 class ProblemsReading(EDatabase):
-    def __init__(self, name, value) :
-        assert(name != None)
+    def __init__(self, name, message) :
         tmp = ""
-        if (value != None) :
-            tmp = ", " + value
-            EDatabase.__init__(self,
-                               "problems reading database "
-                               "`" + name + "'" + tmp)
+        if (message != None) :
+            tmp = ", " + message
+        EDatabase.__init__(self,
+                           "problems reading database "
+                           "`" + name + "'" + tmp)
 
 class ProblemsWriting(EDatabase):
-    def __init__(self, name, value) :
-        assert(name != None)
+    def __init__(self, name, message) :
         tmp = ""
-        if (value != None) :
-            tmp = ", " + value
-            EDatabase.__init__(self,
-                               "problems writing database "
-                               "`" + name + "'" + tmp)
+        if (message != None) :
+            tmp = ", " + message
+        EDatabase.__init__(self,
+                           "problems writing database "
+                           "`" + name + "'" + tmp)
 
 #
 # File related exceptions
 #
 class EFile(EBase):
-    def __init__(self, value) :
-        EBase.__init__(self, value)
+    def __init__(self, message) :
+        EBase.__init__(self, message)
 
 class CannotWrite(EFile):
-    def __init__(self, value) :
-        EFile.__init__(self, "cannot write to file `" + value + "'")
+    def __init__(self, message) :
+        EFile.__init__(self, "cannot write to file `" + message + "'")
 
 class CannotRead(EFile):
-    def __init__(self, value) :
-        EFile.__init__(self, "cannot read from file `" + value + "'")
+    def __init__(self, message) :
+        EFile.__init__(self, "cannot read from file `" + message + "'")
 
 #
 # ID related exceptions
 #
 class EID(EBase):
-    def __init__(self, value) :
-        EBase.__init__(self, value)
+    def __init__(self, message) :
+        EBase.__init__(self, message)
 
 class MalformedId(EID):
-    def __init__(self, value) :
-        EID.__init__(self, value)
+    def __init__(self, message) :
+        EID.__init__(self, message)
 
 class Parentless(EID):
-    def __init__(self, value) :
-        EID.__init__(self, "node `" + value + "' is parentless")
+    def __init__(self, message) :
+        EID.__init__(self, "node `" + message + "' is parentless")
 
 #
 # Configuration related exceptions
 #
 class EConfiguration(EBase):
-    def __init__(self, value) :
-        EBase.__init__(self, value)
+    def __init__(self, message) :
+        EBase.__init__(self, message)
 
 class UnknownSection(EConfiguration):
-    def __init__(self, value) :
+    def __init__(self, message) :
         EConfiguration.__init__(self,
                                 "unknown section "
-                                "`" + value + "' "
+                                "`" + message + "' "
                                 "in configuration")
 
 class MissingSection(EConfiguration):
-    def __init__(self, value) :
+    def __init__(self, message) :
         EConfiguration.__init__(self, "missing section")
 
 class MissingKey(EConfiguration):
-    def __init__(self, value) :
+    def __init__(self, message) :
         EConfiguration.__init__(self, "missing key")
 
 class UnknownKey(EConfiguration):
-    def __init__(self, value) :
+    def __init__(self, message) :
         EConfiguration.__init__(self,
                                 "unknown key "
-                                "`" + value + "' "
+                                "`" + message + "' "
                                 "in configuration")
 
 #
@@ -184,14 +180,23 @@ class UnknownKey(EConfiguration):
 #
 
 class EParameters(EBase):
-    def __init__(self, value) :
-        EBase.__init__(self, value)
+    def __init__(self, message) :
+        EBase.__init__(self, message)
 
 class ExplicitExit(EParameters) :
-    def __init__(self, value, code) :
-        assert(value != None)
+    def __init__(self, message, code) :
+        assert(code != None)
         assert(type(code) == int)
-        EParameters.__init__(self, value)
+        
+        #
+        # NOTE:
+        #     Empty messages are allowed for exit code == 0 (message is
+        #     useless)
+        #
+        if (code == 0) :
+            message = ""
+
+        EParameters.__init__(self, message)
         self.__code = code
 
     # XXX FIXME:
@@ -204,8 +209,8 @@ class ExplicitExit(EParameters) :
         return self.__code
 
 class MissingParameters(EParameters):
-    def __init__(self, value = "parameter(s)") :
-        EParameters.__init__(self, "missing " + value)
+    def __init__(self, message = "parameter(s)") :
+        EParameters.__init__(self, "missing " + message)
 
 class TooManyParameters(EParameters):
     def __init__(self) :
@@ -216,41 +221,41 @@ class UnknownArgument(EParameters):
         EParameters.__init__(self, "unknown argument")
 
 class UnknownParameter(EParameters):
-    def __init__(self, value) :
-        EParameters.__init__(self, "unknown parameter `" + value + "'")
+    def __init__(self, message) :
+        EParameters.__init__(self, "unknown parameter `" + message + "'")
 
 class WrongParameter(EParameters):
-    def __init__(self, value = None) :
+    def __init__(self, message = None) :
         s = ""
-        if (value != None) :
-            s = ", " + value
+        if (message != None) :
+            s = ", " + message
         EParameters.__init__(self, "wrong parameter" + s)
 
 class ForceNeeded(EParameters):
-    def __init__(self, value) :
-        EParameters.__init__(self, value + ", use `--force' to override")
+    def __init__(self, message) :
+        EParameters.__init__(self, message + ", use `--force' to override")
 
 #
 # Tree related exceptions
 #
 class ETree(EBase):
-    def __init__(self, value) :
-        EBase.__init__(self, value)
+    def __init__(self, message) :
+        EBase.__init__(self, message)
 
 class NodeUnavailable(ETree):
-    def __init__(self, value) :
-        ETree.__init__(self, "Cannot find node `" + value + "'")
+    def __init__(self, message) :
+        ETree.__init__(self, "Cannot find node `" + message + "'")
 
 #
 # Filter related exceptions
 #
 class EFilter(EBase):
-    def __init__(self, value) :
-        EBase.__init__(self, value)
+    def __init__(self, message) :
+        EBase.__init__(self, message)
 
 class UnknownFilter(EFilter):
-    def __init__(self, value) :
-        EFilter.__init__(self, "Unknown filter `" + value + "'")
+    def __init__(self, message) :
+        EFilter.__init__(self, "Unknown filter `" + message + "'")
 
 # Test
 if (__name__ == '__main__') :
