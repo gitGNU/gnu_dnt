@@ -32,8 +32,6 @@ try :
     import Move
     import Remove
     import Show
-    import Touch
-    import Tag
 except ImportError :
     # XXX FIXME: Add better error reporting ....
     print("Cannot import package's commands ...")
@@ -51,8 +49,6 @@ commands = {
     'move'   : Move   . SubCommand(),
     'remove' : Remove . SubCommand(),
     'show'   : Show   . SubCommand(),
-    'touch'  : Touch  . SubCommand(),
-    'tag'    : Tag    . SubCommand(),
     }
 
 # Test
