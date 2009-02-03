@@ -21,6 +21,8 @@
 # Test to ensure that the test environment has a good set-up
 # Report from Francesco Salvestrini
 
+required=""
+
 . $testdir/defs || exit 1
 
 exit 1
