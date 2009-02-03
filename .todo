@@ -107,6 +107,9 @@
         <note priority="veryhigh" time="1232149768">
             Fix all return passed by reference (where a reference shouldn't be passed at all ...)
         </note>
+        <note priority="veryhigh" time="1233701363">
+            Add interactive entry editing (see cmd.py)
+        </note>
         <note priority="high" time="1231780779">
             Add toxml() and fromxml() to Entry and Root classes
         </note>
