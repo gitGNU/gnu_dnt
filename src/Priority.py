@@ -60,7 +60,7 @@ class Priority(object) :
         elif (t == "verylow") :
             self.__priority = self.PRIORITY_VERYLOW
         else :
-            raise Exceptions.EPriority.UnknownPriority(t)
+            raise Exceptions.UnknownPriority(t)
 
     def tostring(self) :
         p = self.__priority
@@ -82,7 +82,37 @@ class Priority(object) :
 
 # Test
 if (__name__ == '__main__') :
+    q = Priority()
+
     p = Priority()
+    p.fromstring("veryhigh")
+    assert(p != None)
+    s = p.tostring()
+    assert(s != None)
+
+    p = Priority()
+    p.fromstring("high")
+    assert(p != None)
+    s = p.tostring()
+    assert(s != None)
+
+    p = Priority()
+    p.fromstring("medium")
+    assert(p != None)
+    s = p.tostring()
+    assert(s != None)
+
+    p = Priority()
+    p.fromstring("low")
+    assert(p != None)
+    s = p.tostring()
+    assert(s != None)
+
+    p = Priority()
+    p.fromstring("verylow")
+    assert(p != None)
+    s = p.tostring()
+    assert(s != None)
 
     debug("Test completed")
     sys.exit(0)
