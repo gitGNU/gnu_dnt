@@ -187,7 +187,7 @@ class ExplicitExit(EParameters) :
     def __init__(self, message, code) :
         assert(code != None)
         assert(type(code) == int)
-        
+
         #
         # NOTE:
         #     Empty messages are allowed for exit code == 0 (message is
