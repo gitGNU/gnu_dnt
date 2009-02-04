@@ -57,6 +57,7 @@ pkgvpython_PYTHON =				\
 	Time.py					\
 	Color.py				\
 	Priority.py				\
+	Console.py				\
 	DB.py					\
 	Visitor.py				\
 	Filter.py				\
