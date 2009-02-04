@@ -29,6 +29,7 @@ import Entry
 import Tree
 import Time
 import Priority
+import Console
 
 class SubCommand(Command) :
     def __init__(self) :
@@ -84,11 +85,11 @@ class SubCommand(Command) :
         if (opts.id == None) :
             raise Exceptions.MissingParameters("node id")
 
-        if ((opts.text     == None) and
-            (opts.priority == None) and
-            (opts.start    == None) and
-            (opts.end      == None)) :
-            raise Exceptions.MissingParameters()
+#        if ((opts.text     == None) and
+#            (opts.priority == None) and
+#            (opts.start    == None) and
+#            (opts.end      == None)) :
+#            raise Exceptions.MissingParameters()
 
 #        editor = None
 #        # Prefer parameter
@@ -138,19 +139,55 @@ class SubCommand(Command) :
         end      = None
         debug("Got default values")
 
-        # Override them all
+        #
+        # NOTE:
+        #     Override them all, fall-back to interactive mode when input is
+        #     not provided
+        #
+        console = Console.Console()
+        assert(console != None)
+
         if (opts.text != None) :
             text = opts.text
             debug("Got text value from user")
+        else :
+            t = node.text
+            if (t == None) :
+                t = ""
+            text = console.interact(t)
+
         if (opts.priority != None) :
             priority = opts.priority
             debug("Got priority value from user")
+        else :
+            o = node.priority
+            if (o != None) :
+                t = o.tostring()
+            else :
+                t = ""
+            priority = console.interact(t)
+
         if (opts.start != None) :
             start = opts.start
             debug("Got start value from user")
+        else :
+            o = node.start
+            if (o != None) :
+                t = o.tostring()
+            else :
+                t = ""
+            start = console.interact(t)
+
         if (opts.end != None) :
             end = opts.end
             debug("Got end value from user")
+        else :
+            o = node.end
+            if (o != None) :
+                t = o.tostring()
+            else :
+                t = ""
+            end = console.interact(t)
         debug("Got values from user")
 
         # Write back values
@@ -172,7 +209,7 @@ class SubCommand(Command) :
         if (end != None) :
             t = Time.Time()
             assert(t != None)
-            t.fromstring(start)
+            t.fromstring(end)
             node.end = t
             debug("Wrote node end")
         debug("Wrote node values")
