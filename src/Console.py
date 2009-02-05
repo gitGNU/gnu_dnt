@@ -43,16 +43,17 @@ class Console(object) :
         readline.set_startup_hook(lambda: readline.insert_text(self.__buffer))
         try :
             self.__buffer = raw_input(prompt)
-        finally :
-            readline.set_startup_hook(None)
+        except EOFError, e :
+            print("")
+        except KeyboardInterrupt, e :
+            print("")
+            self.__buffer = ""
+            raise Exceptions.ExplicitExit(e, 1)
+        readline.set_startup_hook(None)
 
 #        try :
 #            readline.insert_text(self.__buffer)
 #            self.__buffer = raw_input(prompt)
-#        except EOFError :
-#            sys.write("\n")
-#        except KeyboardInterrupt :
-#            self.__buffer = ""
 
         return self.__buffer
 
