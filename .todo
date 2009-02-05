@@ -147,8 +147,8 @@ all commands, so it has to have the right variable substitution)
         <note priority="veryhigh" time="1232149768">
             Fix all return passed by reference (where a reference shouldn't be passed at all ...)
         </note>
-        <note priority="veryhigh" time="1233822896">
-            Add a maintainer-check target in order to check for AssertionError catched outside the main program
+        <note priority="veryhigh" time="1233871611">
+            Enhance the Time.fromstring() method, in order to be more robust
         </note>
         <note priority="high" time="1231780779">
             Add toxml() and fromxml() to Entry and Root classes
@@ -192,6 +192,9 @@ all commands, so it has to have the right variable substitution)
     </note>
     <note priority="medium" time="1233694932">
         Release 0.3.0
+        <note priority="veryhigh" time="1233822896">
+            Add a maintainer-check target in order to check for AssertionError catched outside the main program
+        </note>
         <note priority="veryhigh" time="1233868672">
             Derive Console in EnumConsole and StringConsole in order to use EnumConsole for selecting items among a set and StringConsole only for strings (see devtodo)
         </note>
