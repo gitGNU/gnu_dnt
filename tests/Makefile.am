@@ -84,6 +84,7 @@ SUCCESS_TESTS +=				\
 	test-command-init-shortopts-01		\
 	test-command-init-longopts-01		\
 	test-command-init-01			\
+	test-command-version-01			\
 	test-command-clean-01			\
 	test-command-add-01			\
 	test-command-remove-01			\
@@ -363,6 +364,18 @@ test-command-init-longopts-01: $(srcdir)/test-command-init-longopts-01.in Makefi
 	}
 EXTRA_DIST += test-command-init-longopts-01.in
 CLEANFILES += test-command-init-longopts-01
+
+test-command-init-version-01: $(srcdir)/test-command-init-version-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-init-version-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-init-version-01.in
+CLEANFILES += test-command-init-version-01
 
 clean-local:
 	rm -rf testSubDir-*
