@@ -81,8 +81,8 @@ SUCCESS_TESTS +=				\
 	test-help				\
 	test-version				\
 	test-command-init-help-01		\
-	test-command-init-shortopts-01		\
-	test-command-init-longopts-01		\
+	test-command-init-opts-short-01		\
+	test-command-init-opts-long-01		\
 	test-command-init-version-01		\
 	test-command-init-01			\
 	test-command-clean-01			\
@@ -341,29 +341,29 @@ test-command-init-help-01: $(srcdir)/test-command-init-help-01.in Makefile
 EXTRA_DIST += test-command-init-help-01.in
 CLEANFILES += test-command-init-help-01
 
-test-command-init-shortopts-01: $(srcdir)/test-command-init-shortopts-01.in Makefile
+test-command-init-opts-short-01: $(srcdir)/test-command-init-opts-short-01.in Makefile
 	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-init-shortopts-01.in > $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-init-opts-short-01.in > $@.tmp && \
 	  chmod +x $@.tmp && \
 	  chmod a-w $@.tmp && \
 	  mv -f $@.tmp $@ ) || { \
 	        rm -f $@ $@.tmp ; \
 	        exit 1 ; \
 	}
-EXTRA_DIST += test-command-init-shortopts-01.in
-CLEANFILES += test-command-init-shortopts-01
+EXTRA_DIST += test-command-init-opts-short-01.in
+CLEANFILES += test-command-init-opts-short-01
 
-test-command-init-longopts-01: $(srcdir)/test-command-init-longopts-01.in Makefile
+test-command-init-opts-long-01: $(srcdir)/test-command-init-opts-long-01.in Makefile
 	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-init-longopts-01.in > $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-init-opts-long-01.in > $@.tmp && \
 	  chmod +x $@.tmp && \
 	  chmod a-w $@.tmp && \
 	  mv -f $@.tmp $@ ) || { \
 	        rm -f $@ $@.tmp ; \
 	        exit 1 ; \
 	}
-EXTRA_DIST += test-command-init-longopts-01.in
-CLEANFILES += test-command-init-longopts-01
+EXTRA_DIST += test-command-init-opts-long-01.in
+CLEANFILES += test-command-init-opts-long-01
 
 test-command-init-version-01: $(srcdir)/test-command-init-version-01.in Makefile
 	( rm -f $@ $@.tmp && \

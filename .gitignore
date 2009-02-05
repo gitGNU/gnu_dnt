@@ -72,8 +72,8 @@ tests/test-command-done-01
 tests/test-command-dump-01
 tests/test-command-tag-01
 tests/test-command-init-help-01
-tests/test-command-init-shortopts-01
-tests/test-command-init-longopts-01
+tests/test-command-init-opts-short-01
+tests/test-command-init-opts-long-01
 tests/test-command-init-version-01
 
 site/in/.sitetool
