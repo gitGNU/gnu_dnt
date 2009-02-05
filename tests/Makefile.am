@@ -92,7 +92,10 @@ SUCCESS_TESTS +=				\
 	test-command-done-01			\
 	test-command-config-01			\
 	test-devtodo-to-dnt-01			\
-	test-dnt-to-devtodo-01
+	test-dnt-to-devtodo-01			\
+	test-command-init-help-01		\
+	test-command-init-shortopts-01		\
+	test-command-init-longopts-01
 
 XFAIL_TESTS  = $(FAIL_TESTS)
 TESTS        = $(FAIL_TESTS) $(SUCCESS_TESTS)
@@ -324,6 +327,42 @@ test-command-config-01: $(srcdir)/test-command-config-01.in Makefile
 	}
 EXTRA_DIST += test-command-config-01.in
 CLEANFILES += test-command-config-01
+
+test-command-init-help-01: $(srcdir)/test-command-init-help-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-init-help-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-init-help-01.in
+CLEANFILES += test-command-init-help-01
+
+test-command-init-shortopts-01: $(srcdir)/test-command-init-shortopts-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-init-shortopts-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-init-shortopts-01.in
+CLEANFILES += test-command-init-shortopts-01
+
+test-command-init-longopts-01: $(srcdir)/test-command-init-longopts-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-init-longopts-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-init-longopts-01.in
+CLEANFILES += test-command-init-longopts-01
 
 clean-local:
 	rm -rf testSubDir-*
