@@ -80,6 +80,9 @@ SUCCESS_TESTS +=				\
 	test-debug				\
 	test-help				\
 	test-version				\
+	test-command-init-help-01		\
+	test-command-init-shortopts-01		\
+	test-command-init-longopts-01		\
 	test-command-init-01			\
 	test-command-clean-01			\
 	test-command-add-01			\
@@ -92,10 +95,7 @@ SUCCESS_TESTS +=				\
 	test-command-done-01			\
 	test-command-config-01			\
 	test-devtodo-to-dnt-01			\
-	test-dnt-to-devtodo-01			\
-	test-command-init-help-01		\
-	test-command-init-shortopts-01		\
-	test-command-init-longopts-01
+	test-dnt-to-devtodo-01
 
 XFAIL_TESTS  = $(FAIL_TESTS)
 TESTS        = $(FAIL_TESTS) $(SUCCESS_TESTS)
