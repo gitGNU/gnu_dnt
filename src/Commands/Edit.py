@@ -193,21 +193,25 @@ class SubCommand(Command) :
 
             if (text == None) :
                 text = ""
-            text = console.interact(text)
+            text = console.interact("text> ", text)
 
             if (priority == None) :
                 priority = "medium"
-            priority = console.interact(priority)
+            priority = console.interact("priority> ", priority)
 
-            if (start != None) :
-                r = console.interact(start)
-                if (r != "") :
-                    start = r
+            if (start == None) :
+                start = ""
+            tmp = console.interact("start> ", start)
+            if (tmp != start) :
+                start = tmp
+            tmp = None
 
             if (end != None) :
-                r = console.interact(end)
-                if (r != "") :
-                    end = r
+                end = ""
+            tmp = console.interact("end> ", end)
+            if (tmp != start) :
+                end = tmp
+            tmp = None
 
         # Update only non-empty fields
         if (text != None) :
