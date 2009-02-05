@@ -27,22 +27,16 @@ class Console(object) :
     def __init__(self) :
         pass
 
-    def interact(self, buffer = "") :
-        assert(buffer != None)
-        self.__buffer = buffer
-
-        try :
-            prompt = sys.ps1
-        except AttributeError :
-            try :
-                prompt = sys.ps2
-            except AttributeError :
-                prompt = ">>> "
+    def interact(self, prompt = "", buffer = "") :
         assert(prompt != None)
+        assert(buffer != None)
+
+        self.__buffer = buffer
+        self.__prompt = prompt
 
         readline.set_startup_hook(lambda: readline.insert_text(self.__buffer))
         try :
-            self.__buffer = raw_input(prompt)
+            self.__buffer = raw_input(self.__prompt)
         except EOFError, e :
             print("")
         except KeyboardInterrupt, e :
