@@ -83,8 +83,8 @@ SUCCESS_TESTS +=				\
 	test-command-init-help-01		\
 	test-command-init-shortopts-01		\
 	test-command-init-longopts-01		\
+	test-command-init-version-01		\
 	test-command-init-01			\
-	test-command-version-01			\
 	test-command-clean-01			\
 	test-command-add-01			\
 	test-command-remove-01			\
