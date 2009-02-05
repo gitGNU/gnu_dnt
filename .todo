@@ -84,8 +84,11 @@
                 <note priority="veryhigh" time="1233827933">
                     Build tests for command fix
                 </note>
-                <note priority="veryhigh" time="1233827933">
+                <note priority="veryhigh" time="1233827933" done="1233874673">
                     Build tests for command init
+                    <comment>
+                        Done
+                    </comment>
                 </note>
                 <note priority="veryhigh" time="1233827933">
                     Build tests for command move
