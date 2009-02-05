@@ -36,6 +36,11 @@ class Console(object) :
 
         readline.set_startup_hook(lambda: readline.insert_text(self.__buffer))
         try :
+            # Try to clean the history (available in Python >= 2.4)
+            try :
+                readline.clear_history()
+            except :
+                pass
             self.__buffer = raw_input(self.__prompt)
         except EOFError, e :
             print("")
