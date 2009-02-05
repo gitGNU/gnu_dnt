@@ -80,6 +80,7 @@ class Time(object) :
         else :
             bug()
         assert(type(self.__time) == datetime.datetime)
+        debug("Time object initialized to `" + self.tostring() + "'")
 
     def __str__(self) :
         assert(self.__time != None)
