@@ -191,27 +191,37 @@ class SubCommand(Command) :
             console = Console.Console()
             assert(console != None)
 
-            if (text == None) :
-                text = ""
-            text = console.interact("text> ", text)
+            tmp = text
+            if (tmp == None) :
+                tmp = ""
+            tmp = console.interact("text> ", tmp)
+            if (tmp != text) :
+                text = tmp
+            del tmp
 
-            if (priority == None) :
-                priority = "medium"
-            priority = console.interact("priority> ", priority)
+            tmp = priority
+            if (tmp == None) :
+                tmp = "medium"
+            tmp = console.interact("priority> ", tmp)
+            if (tmp != priority) :
+                priority = tmp
+            del tmp
 
-            if (start == None) :
-                start = ""
-            tmp = console.interact("start> ", start)
+            tmp = start
+            if (tmp == None) :
+                tmp = ""
+            tmp = console.interact("start> ", tmp)
             if (tmp != start) :
                 start = tmp
-            tmp = None
+            del tmp
 
-            if (end != None) :
-                end = ""
-            tmp = console.interact("end> ", end)
-            if (tmp != start) :
+            tmp = end
+            if (tmp == None) :
+                tmp = ""
+            tmp = console.interact("end> ", tmp)
+            if (tmp != end) :
                 end = tmp
-            tmp = None
+            del tmp
 
         # Update only non-empty fields
         if (text != None) :
