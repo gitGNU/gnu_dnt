@@ -90,11 +90,12 @@ class SubCommand(Command) :
         if (opts.id == None) :
             raise Exceptions.MissingParameters("node id")
 
-#        if ((opts.text     == None) and
-#            (opts.priority == None) and
-#            (opts.start    == None) and
-#            (opts.end      == None)) :
-#            raise Exceptions.MissingParameters()
+        if ((opts.text        == None) and
+            (opts.priority    == None) and
+            (opts.start       == None) and
+            (opts.end         == None) and
+            (opts.interactive == None)) :
+            raise Exceptions.MissingParameters()
 
 #        editor = None
 #        # Prefer parameter
