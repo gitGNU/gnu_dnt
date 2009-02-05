@@ -72,6 +72,11 @@ class SubCommand(Command) :
                            type   = "string",
                            dest   = "end",
                            help   = "specify node end time")
+        Command.add_option(self,
+                           "-I", "--interactive",
+                           action = "store_true",
+                           dest   = "interactive",
+                           help   = "edit information interactively")
 #        Command.add_option(self,
 #                           "-E", "--editor",
 #                           action = "store",
@@ -132,29 +137,20 @@ class SubCommand(Command) :
             raise Exceptions.WrongParameter("unknown node " +
                                             "`" + str(node_id) + "'")
 
-        # Get the defaults from node
+        # Set the starting values
         text     = None
         priority = None
         start    = None
         end      = None
-        debug("Got default values")
 
-        #
-        # NOTE:
-        #     Override them all, fall-back to interactive mode when input is
-        #     not provided
-        #
-        console = Console.Console()
-        assert(console != None)
-
+        # Look for all the values
         if (opts.text != None) :
             text = opts.text
             debug("Got text value from user")
         else :
-            t = node.text
-            if (t == None) :
-                t = ""
-            text = console.interact(t)
+            text = node.text
+            if (text != None) :
+                debug("Got text value from node")
 
         if (opts.priority != None) :
             priority = opts.priority
@@ -162,10 +158,8 @@ class SubCommand(Command) :
         else :
             o = node.priority
             if (o != None) :
-                t = o.tostring()
-            else :
-                t = ""
-            priority = console.interact(t)
+                priority = o.tostring()
+                debug("Got priority value from node")
 
         if (opts.start != None) :
             start = opts.start
@@ -173,10 +167,8 @@ class SubCommand(Command) :
         else :
             o = node.start
             if (o != None) :
-                t = o.tostring()
-            else :
-                t = ""
-            start = console.interact(t)
+                start = o.tostring()
+                debug("Got start value from node")
 
         if (opts.end != None) :
             end = opts.end
@@ -184,34 +176,64 @@ class SubCommand(Command) :
         else :
             o = node.end
             if (o != None) :
-                t = o.tostring()
-            else :
-                t = ""
-            end = console.interact(t)
-        debug("Got values from user")
+                end = o.tostring()
+                debug("Got end value from node")
 
-        # Write back values
+        # Use str() in order to avoid problems with None values
+        debug("Got values from user")
+        debug("text     = `" + str(text)     + "'")
+        debug("priority = `" + str(priority) + "'")
+        debug("start    = `" + str(start)    + "'")
+        debug("end      = `" + str(end)      + "'")
+
+        if (opts.interactive == True) :
+            console = Console.Console()
+            assert(console != None)
+
+            if (text == None) :
+                text = ""
+            text = console.interact(text)
+
+            if (priority == None) :
+                priority = "medium"
+            priority = console.interact(priority)
+
+            if (start != None) :
+                r = console.interact(start)
+                if (r != "") :
+                    start = r
+
+            if (end != None) :
+                r = console.interact(end)
+                if (r != "") :
+                    end = r
+
+        # Update only non-empty fields
         if (text != None) :
             node.text = text
             debug("Wrote node text")
+
         if (priority != None) :
             p = Priority.Priority()
             assert(p != None)
             p.fromstring(priority)
             node.priority = p
             debug("Wrote node priority")
+
         if (start != None) :
             t = Time.Time()
             assert(t != None)
             t.fromstring(start)
             node.start = t
             debug("Wrote node start")
+
         if (end != None) :
             t = Time.Time()
             assert(t != None)
             t.fromstring(end)
             node.end = t
             debug("Wrote node end")
+
         debug("Wrote node values")
 
         # XXX FIXME: We should work recursively (for start and end ...)
