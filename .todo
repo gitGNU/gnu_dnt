@@ -204,6 +204,9 @@ all commands, so it has to have the right variable substitution)
         <note priority="high" time="1233868020">
             Add the description field in Entry class
         </note>
+        <note priority="medium" time="1233872395">
+            Add mans and src/__init__.py generation rules in docs/man/Makefile.am and src/Makefile.am
+        </note>
         <note priority="low" time="1233655993">
             Add alias support (in order to alias remove with del or rm)
         </note>
