@@ -44,6 +44,12 @@
                 Fixed
             </comment>
         </note>
+        <note priority="high" time="1233179287" done="1233939542">
+            Rearrange the --verbose option switch in dump command (it has no meaning when specifying the output format)
+            <comment>
+                Done
+            </comment>
+        </note>
         <note priority="high" time="1233361551" done="1233361565">
             Add filter capabilities to the dump command
             <comment>
@@ -63,6 +69,12 @@
             </note>
             <note priority="veryhigh" time="1233825895">
                 For each command build a test for short options, long options, help and version (the version test will check only for non-empty output)
+                <note priority="veryhigh" time="1233827933" done="1233874673">
+                    Build tests for command init
+                    <comment>
+                        Done
+                    </comment>
+                </note>
                 <note priority="veryhigh" time="1233827933">
                     Build tests for command add
                 </note>
@@ -83,12 +95,6 @@
                 </note>
                 <note priority="veryhigh" time="1233827933">
                     Build tests for command fix
-                </note>
-                <note priority="veryhigh" time="1233827933" done="1233874673">
-                    Build tests for command init
-                    <comment>
-                        Done
-                    </comment>
                 </note>
                 <note priority="veryhigh" time="1233827933">
                     Build tests for command move
@@ -127,13 +133,13 @@ all commands, so it has to have the right variable substitution)
                 <comment>
                     Maybe needs some minor tweaking
                 </comment>
+                <note priority="veryhigh" time="1233929190">
+                    Add --indent-format e --unindent-format (in order to specify different format while increasing or decreasing the indentation levels)
+                </note>
             </note>
             <note priority="high" time="1233084099">
                 Add --format to the show command
             </note>
-        </note>
-        <note priority="high" time="1233179287">
-            Rearrange the --verbose option switch in dump command (it has no meaning when specifying the output format)
         </note>
         <note priority="medium" time="1233608861">
             Add command epilog where needed (e.g: dump and show commands need to explain --format and --show parameters)
@@ -153,6 +159,9 @@ all commands, so it has to have the right variable substitution)
         <note priority="veryhigh" time="1233871611">
             Enhance the Time.fromstring() method, in order to be more robust
         </note>
+        <note priority="veryhigh" time="1233939736">
+            Add comment field on Entry
+        </note>
         <note priority="high" time="1231780779">
             Add toxml() and fromxml() to Entry and Root classes
         </note>
@@ -168,23 +177,11 @@ all commands, so it has to have the right variable substitution)
                 Add dnt-to-devtodo exporter
             </note>
         </note>
-        <note priority="high" time="1233648336">
-            Add missing commands
-            <note priority="medium" time="1228941711">
-                Add touch command
-                <comment>
-                    Added
-                </comment>
-            </note>
-            <note priority="medium" time="1233648287">
-                Add tag command
-            </note>
-        </note>
         <note priority="medium" time="1233178868">
             Rearranged color handling in a common place for show and dump commands
-        </note>
-        <note priority="medium" time="1233868508">
-            Add color support to edit command
+            <note priority="medium" time="1233868508">
+                Add color support to the edit command
+            </note>
         </note>
         <note priority="low" time="1227122807">
             Rearrange the build process in order to use EXEEXT (if needed)
@@ -200,6 +197,21 @@ all commands, so it has to have the right variable substitution)
         </note>
         <note priority="veryhigh" time="1233868672">
             Derive Console in EnumConsole and StringConsole in order to use EnumConsole for selecting items among a set and StringConsole only for strings (see devtodo)
+        </note>
+        <note priority="high" time="1233648336">
+            Add missing commands
+            <note priority="high" time="1233940513">
+                Add copy command
+            </note>
+            <note priority="medium" time="1228941711">
+                Add touch command
+                <comment>
+                    Added
+                </comment>
+            </note>
+            <note priority="medium" time="1233648287">
+                Add tag command
+            </note>
         </note>
         <note priority="high" time="1233656275">
             Add multiple root-support (in order to have multiple DB scattered on different directories)
