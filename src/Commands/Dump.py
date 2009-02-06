@@ -211,9 +211,12 @@ class SubCommand(Command) :
                   str(verbose))
         assert(verbose != None)
 
-        # XXX FIXME:
+        #
+        # NOTE:
         #     verbose has no meaning when the user specifies its own
-        #     format
+        #     format. We will use a different format for quiet and verbose
+        #     mode however ...
+        #
         if (verbose == True) :
             format = "* %t\n  (%s, %e, %p)"
         else :
