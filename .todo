@@ -146,6 +146,18 @@ all commands, so it has to have the right variable substitution)
         </note>
         <note priority="medium" time="1233608861">
             Add command epilog where needed
+            <note priority="medium" time="1234023763" done="1234045941">
+                Add command epilog in fix command
+                <comment>
+                    Done
+                </comment>
+            </note>
+            <note priority="medium" time="1234023772" done="1234046054">
+                Add command epilog in init command
+                <comment>
+                    Done
+                </comment>
+            </note>
             <note priority="medium" time="1234023476">
                 Add command epilog in show command
             </note>
@@ -155,14 +167,8 @@ all commands, so it has to have the right variable substitution)
             <note priority="medium" time="1234023757">
                 Add command epilog in edit command
             </note>
-            <note priority="medium" time="1234023763">
-                Add command epilog in fix command
-            </note>
             <note priority="medium" time="1234023767">
                 Add command epilog in move command
-            </note>
-            <note priority="medium" time="1234023772">
-                Add command epilog in init command
             </note>
             <note priority="medium" time="1234023776">
                 Add command epilog in remove command
@@ -173,8 +179,11 @@ all commands, so it has to have the right variable substitution)
             <note priority="medium" time="1234023786">
                 Add command epilog in done command
             </note>
-            <note priority="medium" time="1234023789">
+            <note priority="medium" time="1234023789" done="1234046102">
                 Add command epilog in clean command
+                <comment>
+                    Done
+                </comment>
             </note>
             <note priority="medium" time="1234023793">
                 Add command epilog in config command
@@ -221,6 +230,9 @@ all commands, so it has to have the right variable substitution)
             <note priority="medium" time="1233868508">
                 Add color support to the edit command
             </note>
+        </note>
+        <note priority="medium" time="1234045911">
+            Add code for interactive mode in fix command
         </note>
         <note priority="low" time="1227122807">
             Rearrange the build process in order to use EXEEXT (if needed)
