@@ -45,6 +45,8 @@ class Priority(object) :
         "verylow"  : PRIORITY_VERYLOW,
         }
 
+    __priorities = [ "veryhigh", "high", "medium", "low", "verylow" ]
+
     def __init__(self, p = PRIORITY_MEDIUM) :
         self.__priority = p
 
@@ -62,6 +64,9 @@ class Priority(object) :
 
     def value(self) :
         return self.__priority
+
+    def priorities(self) :
+        return self.__priorities
 
 # Test
 if (__name__ == '__main__') :
