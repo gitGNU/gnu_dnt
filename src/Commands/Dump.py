@@ -109,8 +109,8 @@ class DumpVisitor(Visitor) :
             t = self.__format
             debug("input  = `" + t + "'")
             t = re.sub('%t', color_text(text),     t)
-            t = re.sub('%s', start,    t)
-            t = re.sub('%e', end,      t)
+            t = re.sub('%s', start,                t)
+            t = re.sub('%e', end,                  t)
             t = re.sub('%p', color_text(priority), t)
             debug("output = `" + t + "'")
 
@@ -132,7 +132,16 @@ class DumpVisitor(Visitor) :
 
 class SubCommand(Command) :
     def __init__(self) :
-        Command.__init__(self, "dump")
+        Command.__init__(self,
+                         name   = "dump",
+                         footer = \
+                             "FORMAT controls the output. Interpreted " +
+                         "sequences are:\n" +
+                         "\n" +
+                         "  %t  entry text\n" +
+                         "  %s  entry start time\n" +
+                         "  %e  entry end time\n" +
+                         "  %p  entry priority")
 
     def short_help(self) :
         return "dump the database in a friendly format"
