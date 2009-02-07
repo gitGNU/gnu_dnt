@@ -45,7 +45,9 @@ class DoneVisitor(Visitor) :
 
 class SubCommand(Command) :
     def __init__(self) :
-        Command.__init__(self, "done")
+        Command.__init__(self,
+                         name   = "done",
+                         footer = "")
 
     def short_help(self) :
         return "mark node (and its children) as done"
