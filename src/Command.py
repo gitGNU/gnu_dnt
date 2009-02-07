@@ -93,14 +93,14 @@ class Command(OptionParser) :
     name = property(name_get, name_set)
 
     # Override OptParse print_help() method
-    def print_help(self, file = None) :
+    def print_help(self, file = sys.stdout) :
         # Force output to stdout
-        OptionParser.print_help(self, sys.stdout)
-        sys.stdout.write("\n")
+        OptionParser.print_help(self, file)
+        file.write("\n")
         if (self.__footer != "") :
-            sys.stdout.write(self.__footer)
-            sys.stdout.write("\n")
-        sys.stdout.write("Report bugs to <" + PACKAGE_BUGREPORT + ">\n")
+            file.write(self.__footer + "\n")
+            file.write("\n")
+        file.write("Report bugs to <" + PACKAGE_BUGREPORT + ">\n")
 
     # Override OptParse error() method
     def error(self, msg) :
