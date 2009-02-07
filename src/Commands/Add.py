@@ -25,12 +25,16 @@ import Exceptions
 from   Configuration import *
 import DB
 import ID
+import Time
+import Priority
 import Entry
 import Tree
 
 class SubCommand(Command):
     def __init__(self) :
-        Command.__init__(self, "add")
+        Command.__init__(self,
+                         name   = "add",
+                         footer = "")
 
     def short_help(self) :
         return "add a new node"
@@ -46,32 +50,71 @@ class SubCommand(Command):
                            dest   = "text",
                            help   = "specify node text")
         Command.add_option(self,
-                           "-p", "--parent-id",
+                           "-i", "--parent-id",
                            action = "store",
                            type   = "string",
                            dest   = "parent",
                            help   = "specify parent node id")
+        Command.add_option(self,
+                           "-s", "--start",
+                           action = "store",
+                           type   = "string",
+                           dest   = "start",
+                           help   = "specify node start time")
+        Command.add_option(self,
+                           "-e", "--end",
+                           action = "store",
+                           type   = "string",
+                           dest   = "end",
+                           help   = "specify node end time")
+        Command.add_option(self,
+                           "-p", "--priority",
+                           action = "store",
+                           type   = "string",
+                           dest   = "priority",
+                           help   = "specify node priority")
 
         (opts, args) = Command.parse_args(self, arguments)
 
         # Parameters setup
-        if (opts.text == None) :
+        debug("Handling text")
+        node_text = opts.text
+        if (node_text == None) :
             raise Exceptions.MissingParameters("node text")
-        if (opts.text == "") :
+        if (node_text == "") :
             raise Exceptions.WrongParameter("node text is empty")
-        if (opts.parent == None) :
-            warning("Parent id is missing, using root as parent for this node")
-            opts.parent = "0"
+
+        debug("Handling parent")
+        node_parent = opts.parent
+        if (node_parent == None) :
+            node_parent = "0"
+
+        debug("Handling start")
+        node_start = Time.Time()
+        if (opts.start != None) :
+            node_start.fromstring(opts.start)
+
+        debug("Handling end")
+        node_end = None
+        if (opts.end != None) :
+            node_end.fromstring(opts.end)
+
+        debug("Handling priority")
+        node_priority = Priority.Priority()
+        if (opts.priority != None) :
+            node_priority.fromstring(opts.priority)
 
         db_file   = configuration.get(PROGRAM_NAME, 'database')
         assert(db_file != None)
-        parent_id = ID.ID(opts.parent)
-        node_text = opts.text
+        parent_id = ID.ID(node_parent)
 
         # Work
         debug("Adding node:")
         debug("  node-text = " + node_text)
         debug("  parent-id = " + str(parent_id))
+#        debug("  priority  = " + str(node_priority))
+#        debug("  start     = " + str(node_start))
+#        debug("  end       = " + str(node_end))
 
         db = DB.Database()
         tree = db.load(db_file)
@@ -87,7 +130,10 @@ class SubCommand(Command):
               "is "
               "`" + str(parent) +"'")
 
-        entry = Entry.Entry(text = node_text)
+        entry = Entry.Entry(text     = node_text,
+                            priority = node_priority,
+                            start    = node_start,
+                            end      = node_end)
         assert(entry)
 
         parent.add(entry)
