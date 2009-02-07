@@ -25,6 +25,7 @@ import Exceptions
 
 class ID(object) :
     def __init__(self, s = "") :
+        assert(s != None)
         assert(type(s) == str)
 
         if (s == "") :
@@ -110,6 +111,12 @@ if (__name__ == '__main__') :
     proc_parent("1.2.3.4")
     proc_parent("4.3.2")
     proc_parent("7.2")
+
+    try :
+        x = ID()
+        sys.exit(1)
+    except :
+        pass
 
     debug("Test completed")
     sys.exit(0)
