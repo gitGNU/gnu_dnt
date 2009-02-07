@@ -29,53 +29,36 @@ class Priority(object) :
     PRIORITY_LOW      = 2
     PRIORITY_VERYLOW  = 1
 
-    __legal_priorities = ( PRIORITY_VERYHIGH,
-                           PRIORITY_HIGH,
-                           PRIORITY_MEDIUM,
-                           PRIORITY_LOW,
-                           PRIORITY_VERYLOW )
+    __priority_to_string = {
+        PRIORITY_VERYHIGH : "veryhigh",
+        PRIORITY_HIGH     : "high",
+        PRIORITY_MEDIUM   : "medium",
+        PRIORITY_LOW      : "low",
+        PRIORITY_VERYLOW  : "verylow",
+        }
+
+    __string_to_priority = {
+        "veryhigh" : PRIORITY_VERYHIGH,
+        "high"     : PRIORITY_HIGH,
+        "medium"   : PRIORITY_MEDIUM,
+        "low"      : PRIORITY_LOW,
+        "verylow"  : PRIORITY_VERYLOW,
+        }
 
     def __init__(self, p = PRIORITY_MEDIUM) :
         self.__priority = p
 
-    def increase(self) :
-        self.__priority = self.__priority + 1
-        if (self.__priority > PRIORITY_VERYHIGH) :
-            self.__priority = PRIORITY_VERYHIGH
-
-    def decrease(self) :
-        self.__priority = self.__priority - 1
-        if (self.__priority < PRIORITY_VERYLOW) :
-            self.__priority = PRIORITY_VERYLOW
-
     def fromstring(self, t) :
-        if (t == "veryhigh") :
-            self.__priority = self.PRIORITY_VERYHIGH
-        elif (t == "high") :
-            self.__priority = self.PRIORITY_HIGH
-        elif (t == "medium") :
-            self.__priority = self.PRIORITY_MEDIUM
-        elif (t == "low") :
-            self.__priority = self.PRIORITY_LOW
-        elif (t == "verylow") :
-            self.__priority = self.PRIORITY_VERYLOW
-        else :
+        try :
+            self.__priority = self.__string_to_priority[t]
+        except :
             raise Exceptions.UnknownPriority(t)
 
     def tostring(self) :
-        p = self.__priority
-        if (p == self.PRIORITY_VERYHIGH) :
-            return "veryhigh"
-        elif (p == self.PRIORITY_HIGH) :
-            return "high"
-        elif (p == self.PRIORITY_MEDIUM) :
-            return "medium"
-        elif (p == self.PRIORITY_LOW) :
-            return "low"
-        elif (p == self.PRIORITY_VERYLOW) :
-            return "verylow"
-        else :
-            bug()
+        try :
+            return self.__priority_to_string[self.__priority]
+        except :
+                bug()
 
     def value(self) :
         return self.__priority
@@ -88,31 +71,31 @@ if (__name__ == '__main__') :
     p.fromstring("veryhigh")
     assert(p != None)
     s = p.tostring()
-    assert(s != None)
+    assert(s == "veryhigh")
 
     p = Priority()
     p.fromstring("high")
     assert(p != None)
     s = p.tostring()
-    assert(s != None)
+    assert(s == "high")
 
     p = Priority()
     p.fromstring("medium")
     assert(p != None)
     s = p.tostring()
-    assert(s != None)
+    assert(s == "medium")
 
     p = Priority()
     p.fromstring("low")
     assert(p != None)
     s = p.tostring()
-    assert(s != None)
+    assert(s == "low")
 
     p = Priority()
     p.fromstring("verylow")
     assert(p != None)
     s = p.tostring()
-    assert(s != None)
+    assert(s == "verylow")
 
     debug("Test completed")
     sys.exit(0)
