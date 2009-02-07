@@ -35,21 +35,21 @@ $DNT add -t "test1"  || exit 1
 $DNT add -t "test2"  || exit 1
 $DNT add -t "test3"  || exit 1
 
-$DNT add -t "test11" -p 1 || exit 1
-$DNT add -t "test21" -p 2 || exit 1
-$DNT add -t "test31" -p 3 || exit 1
+$DNT add -t "test11" -i 1 || exit 1
+$DNT add -t "test21" -i 2 || exit 1
+$DNT add -t "test31" -i 3 || exit 1
 
-$DNT add -t "test111" -p 1.1 || exit 1
-$DNT add -t "test211" -p 2.1 || exit 1
-$DNT add -t "test311" -p 3.1 || exit 1
+$DNT add -t "test111" -i 1.1 || exit 1
+$DNT add -t "test211" -i 2.1 || exit 1
+$DNT add -t "test311" -i 3.1 || exit 1
 
-$DNT add -t "test211" -p 1.1 || exit 1
-$DNT add -t "test311" -p 1.1 || exit 1
-$DNT add -t "test411" -p 1.1 || exit 1
+$DNT add -t "test211" -i 1.1 || exit 1
+$DNT add -t "test311" -i 1.1 || exit 1
+$DNT add -t "test411" -i 1.1 || exit 1
 
-$DNT add -t "test12" -p 1 || exit 1
-$DNT add -t "test13" -p 1 || exit 1
-$DNT add -t "test14" -p 1 || exit 1
+$DNT add -t "test12" -i 1 || exit 1
+$DNT add -t "test13" -i 1 || exit 1
+$DNT add -t "test14" -i 1 || exit 1
 
 $DNT_NOFLAGS show                 || exit 1
 $DNT_NOFLAGS show --all           || exit 1
