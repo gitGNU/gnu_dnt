@@ -20,7 +20,6 @@ import sys
 
 from   Debug    import *
 from   Trace    import *
-from   ID       import *
 from   Node     import *
 
 def _find_recursive(node, l) :

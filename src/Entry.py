@@ -21,7 +21,6 @@ import string
 
 from   Debug    import *
 from   Trace    import *
-from   ID       import *
 from   Node     import *
 from   Color    import *
 import Priority

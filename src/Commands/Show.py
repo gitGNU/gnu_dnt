@@ -27,12 +27,12 @@ import Color
 import DB
 import Tree
 import Priority
+import ID
 from   Visitor       import *
 from   Root          import *
 from   Entry         import *
 import Terminal
 import Filter
-import ID
 
 class ShowVisitor(Visitor) :
     def __init__(self, colors, verbose, show_all, width, filter) :
