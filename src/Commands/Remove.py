@@ -29,7 +29,9 @@ import Tree
 
 class SubCommand(Command) :
     def __init__(self) :
-        Command.__init__(self, "remove")
+        Command.__init__(self,
+                         name   = "remove",
+                         footer = "")
 
     def short_help(self) :
         return "remove node(s)"

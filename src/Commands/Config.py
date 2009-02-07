@@ -29,7 +29,9 @@ import Entry
 
 class SubCommand(Command) :
     def __init__(self) :
-        Command.__init__(self, "config")
+        Command.__init__(self,
+                         name   = "config",
+                         footer = "")
 
     def short_help(self) :
         return "manage current configuration"

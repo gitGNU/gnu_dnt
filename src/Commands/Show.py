@@ -174,7 +174,9 @@ class ShowVisitor(Visitor) :
 
 class SubCommand(Command) :
     def __init__(self) :
-        Command.__init__(self, "show")
+        Command.__init__(self,
+                         name   = "show",
+                         footer = "")
 
     def short_help(self) :
         return "display node(s)"

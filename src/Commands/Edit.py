@@ -33,7 +33,9 @@ import Console
 
 class SubCommand(Command) :
     def __init__(self) :
-        Command.__init__(self, "edit")
+        Command.__init__(self,
+                         name   = "edit",
+                         footer = "")
 
     def short_help(self) :
         return "edit a node"

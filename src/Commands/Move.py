@@ -30,7 +30,9 @@ import Tree
 
 class SubCommand(Command) :
     def __init__(self) :
-        Command.__init__(self, "move")
+        Command.__init__(self,
+                         name   = "move",
+                         footer = "")
 
     def short_help(self) :
         return "reparent node(s)"
