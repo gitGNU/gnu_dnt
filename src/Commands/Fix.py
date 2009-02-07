@@ -28,18 +28,28 @@ import Tree
 
 class SubCommand(Command) :
     def __init__(self) :
-        Command.__init__(self, "fix")
+        Command.__init__(self,
+                         name   = "fix",
+                         footer = "")
 
     def short_help(self) :
-        return "fix database"
+        return "fix the database"
 
     def authors(self) :
         return [ "Francesco Salvestrini" ]
 
     def do(self, configuration, arguments) :
+        Command.add_option(self,
+                           "-i", "--interactive",
+                           action = "store_true",
+                           dest   = "interactive",
+                           help   = "apply fixes interactively")
+
         (opts, args) = Command.parse_args(self, arguments)
 
         # Parameters setup
+        if (opts.interactive != None) :
+            warning("Interactive fixes are not supported yet")
 
         db_file = configuration.get(PROGRAM_NAME, 'database')
 
