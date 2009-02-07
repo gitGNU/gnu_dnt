@@ -25,12 +25,14 @@ from   Command       import *
 import Exceptions
 import Color
 import DB
+import Tree
 import Priority
 from   Visitor       import *
 from   Root          import *
 from   Entry         import *
 import Terminal
 import Filter
+import ID
 
 class ShowVisitor(Visitor) :
     def __init__(self, colors, verbose, show_all, width, filter) :
@@ -190,6 +192,12 @@ class SubCommand(Command) :
                            dest   = "all",
                            help   = "show all nodes")
         Command.add_option(self,
+                           "-i", "--id",
+                           action = "store",
+                           type   = "string",
+                           dest   = "id",
+                           help   = "specify starting node")
+        Command.add_option(self,
                            "-w", "--width",
                            action = "store",
                            type   = "string",
@@ -205,6 +213,11 @@ class SubCommand(Command) :
         (opts, args) = Command.parse_args(self, arguments)
 
         # Parameters setup
+        starting_id = opts.id
+        if (starting_id == None) :
+            starting_id = "0"
+        node_id = ID.ID(starting_id)
+
         try :
             width = configuration.get(PROGRAM_NAME, 'width', raw = True)
         except :
@@ -259,8 +272,12 @@ class SubCommand(Command) :
         if (opts.all == True) :
             show_all = True
 
+        node = Tree.find(tree, node_id)
+        if (node == None) :
+            raise Exceptions.NodeUnavailable(str(node_id))
+
         v = ShowVisitor(colors, verbose, show_all, width, filter)
-        tree.accept(v)
+        node.accept(v)
 
         debug("Success")
 
