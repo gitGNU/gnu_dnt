@@ -157,7 +157,7 @@ all commands, so it has to have the right variable substitution)
             </note>
         </note>
         <note priority="medium" time="1233608861">
-            Add command epilog where needed
+            Add command epilog where needed (we could use docstrings to get help for ID, TIME ...)
             <note priority="medium" time="1234023763" done="1234045941">
                 Add command epilog in fix command
                 <comment>
