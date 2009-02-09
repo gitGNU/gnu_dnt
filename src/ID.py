@@ -23,6 +23,9 @@ from   Debug      import *
 from   Trace      import *
 import Exceptions
 
+def help() :
+    return "A dot separated integers list"
+
 class ID(object) :
     def __init__(self, s = "") :
         assert(s != None)
