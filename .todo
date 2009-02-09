@@ -81,6 +81,12 @@
             </note>
             <note priority="veryhigh" time="1233825895">
                 For each command build a test for short options, long options, help and version (the version test will check only for non-empty output)
+                <note priority="veryhigh" time="1233827933" done="1234185026">
+                    Build tests for command clean
+                    <comment>
+                        Done
+                    </comment>
+                </note>
                 <note priority="veryhigh" time="1233827933" done="1233874673">
                     Build tests for command init
                     <comment>
@@ -89,12 +95,6 @@
                 </note>
                 <note priority="veryhigh" time="1233827933">
                     Build tests for command add
-                </note>
-                <note priority="veryhigh" time="1233827933" done="1234185026">
-                    Build tests for command clean
-                    <comment>
-                        Done
-                    </comment>
                 </note>
                 <note priority="veryhigh" time="1233827933">
                     Build tests for command config
@@ -131,6 +131,9 @@ all commands, so it has to have the right variable substitution)
         </note>
         <note priority="veryhigh" time="1234048997">
             Fix the nodes indexing in show command while using --index option
+        </note>
+        <note priority="veryhigh" time="1234217867">
+            Add a check to stop (with an error) when there are more than the allowed options specified on the command line (like dnt add -t test 1)
         </note>
         <note priority="high" time="1233010414">
             Fix each command in order to get values from command line, configuration file and (last but not least) some default
@@ -227,11 +230,14 @@ all commands, so it has to have the right variable substitution)
                     Done
                 </comment>
             </note>
+            <note priority="medium" time="1234023793" done="1234211230">
+                Add command epilog in config command
+                <comment>
+                    Done
+                </comment>
+            </note>
             <note priority="veryhigh" time="1234177196">
                 Fix command epilogs in order to be handled correctly from help2man
-            </note>
-            <note priority="medium" time="1234023793">
-                Add command epilog in config command
             </note>
         </note>
     </note>
