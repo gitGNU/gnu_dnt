@@ -24,6 +24,9 @@ from   Trace      import *
 import Entry
 import Exceptions
 
+def help() :
+    return "Recognized filters are: all, done, not-done"
+
 class Filter(object) :
     def __init__(self, s = None) :
         if (s == None) :
