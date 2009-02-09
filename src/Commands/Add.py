@@ -34,7 +34,12 @@ class SubCommand(Command):
     def __init__(self) :
         Command.__init__(self,
                          name   = "add",
-                         footer = "")
+                         footer = \
+                             "PARENT    " + ID.help()       + "\n" + \
+                             "PRIORITY  " + Priority.help() + "\n" + \
+                             "START     " + Time.help()     + "\n" + \
+                             "END       " + Time.help()
+                         )
 
     def short_help(self) :
         return "add a new node"

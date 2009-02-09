@@ -135,13 +135,18 @@ class SubCommand(Command) :
         Command.__init__(self,
                          name   = "dump",
                          footer = \
-                             "FORMAT controls the output for each entry " +
-                         "dumped. Interpreted sequences are:\n" +
-                         "\n" +
-                         "  %t  text\n" +
-                         "  %s  start time\n" +
-                         "  %e  end time\n" +
-                         "  %p  priority")
+                             "FORMAT  controls the output for each entry " + \
+                             "dumped. Interpreted sequences are:\n" + \
+                             "\n" + \
+                             "  %t  text\n" + \
+                             "  %s  start time\n" + \
+                             "  %e  end time\n" + \
+                             "  %p  priority\n" + \
+                             "\n" + \
+                             "WIDTH   " + "An integer >= 0, 0 means no " + \
+                             "text wrapping\n" + \
+                             "FILTER  " + Filter.help()
+                         )
 
     def short_help(self) :
         return "dump the database in a friendly format"

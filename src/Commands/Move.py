@@ -32,7 +32,10 @@ class SubCommand(Command) :
     def __init__(self) :
         Command.__init__(self,
                          name   = "move",
-                         footer = "")
+                         footer = \
+                             "NODE    " + ID.help() + "\n" + \
+                             "PARENT  " + ID.help()
+                         )
 
     def short_help(self) :
         return "reparent node(s)"

@@ -31,7 +31,9 @@ class SubCommand(Command) :
     def __init__(self) :
         Command.__init__(self,
                          name   = "remove",
-                         footer = "")
+                         footer = \
+                             "ID  " + ID.help()
+                             )
 
     def short_help(self) :
         return "remove node(s)"
