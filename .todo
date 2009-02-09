@@ -90,8 +90,11 @@
                 <note priority="veryhigh" time="1233827933">
                     Build tests for command add
                 </note>
-                <note priority="veryhigh" time="1233827933">
+                <note priority="veryhigh" time="1233827933" done="1234185026">
                     Build tests for command clean
+                    <comment>
+                        Done
+                    </comment>
                 </note>
                 <note priority="veryhigh" time="1233827933">
                     Build tests for command config
@@ -158,8 +161,38 @@ all commands, so it has to have the right variable substitution)
         </note>
         <note priority="medium" time="1233608861">
             Add command epilog where needed (we could use docstrings to get help for ID, TIME ...)
+            <note priority="medium" time="1234023476" done="1234168823">
+                Add command epilog in show command
+                <comment>
+                    Done
+                </comment>
+                <note priority="veryhigh" time="1234175019">
+                    Rearrange show footer in order to be class dependent (instead of hard-wired)
+                </note>
+            </note>
+            <note priority="medium" time="1234023481" done="1234168826">
+                Add command epilog in dump command
+                <comment>
+                    Done
+                </comment>
+                <note priority="veryhigh" time="1234175028">
+                    Rearrange dump footer in order to be class dependent (instead of hard-wired)
+                </note>
+            </note>
+            <note priority="medium" time="1234023757" done="1234169959">
+                Add command epilog in edit command
+                <comment>
+                    Done
+                </comment>
+            </note>
             <note priority="medium" time="1234023763" done="1234045941">
                 Add command epilog in fix command
+                <comment>
+                    Done
+                </comment>
+            </note>
+            <note priority="medium" time="1234023767" done="1234170086">
+                Add command epilog in move command
                 <comment>
                     Done
                 </comment>
@@ -170,32 +203,32 @@ all commands, so it has to have the right variable substitution)
                     Done
                 </comment>
             </note>
+            <note priority="medium" time="1234023776" done="1234170135">
+                Add command epilog in remove command
+                <comment>
+                    Done
+                </comment>
+            </note>
+            <note priority="medium" time="1234023780" done="1234174859">
+                Add command epilog in add command
+                <comment>
+                    Done
+                </comment>
+            </note>
+            <note priority="medium" time="1234023786" done="1234170174">
+                Add command epilog in done command
+                <comment>
+                    Done
+                </comment>
+            </note>
             <note priority="medium" time="1234023789" done="1234046102">
                 Add command epilog in clean command
                 <comment>
                     Done
                 </comment>
             </note>
-            <note priority="medium" time="1234023476">
-                Add command epilog in show command
-            </note>
-            <note priority="medium" time="1234023481">
-                Add command epilog in dump command
-            </note>
-            <note priority="medium" time="1234023757">
-                Add command epilog in edit command
-            </note>
-            <note priority="medium" time="1234023767">
-                Add command epilog in move command
-            </note>
-            <note priority="medium" time="1234023776">
-                Add command epilog in remove command
-            </note>
-            <note priority="medium" time="1234023780">
-                Add command epilog in add command
-            </note>
-            <note priority="medium" time="1234023786">
-                Add command epilog in done command
+            <note priority="veryhigh" time="1234177196">
+                Fix command epilogs in order to be handled correctly from help2man
             </note>
             <note priority="medium" time="1234023793">
                 Add command epilog in config command
