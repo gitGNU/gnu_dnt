@@ -22,6 +22,9 @@ from   Debug       import *
 from   Trace       import *
 import Exceptions
 
+def help() :
+    return "Recognized priorities are: veryhigh, high, medium, low, verylow"
+
 class Priority(object) :
     PRIORITY_VERYHIGH = 5
     PRIORITY_HIGH     = 4
