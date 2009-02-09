@@ -58,6 +58,8 @@ class SubCommand(Command) :
                            help   = "specify destination parent node id")
 
         (opts, args) = Command.parse_args(self, arguments)
+        if (len(args) > 0) :
+            raise Exceptions.UnknownParameter(args[0])
 
         # Parameters setup
         if (opts.node == None) :

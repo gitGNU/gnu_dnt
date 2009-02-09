@@ -54,6 +54,8 @@ class SubCommand(Command) :
                            help   = "specify root node name")
 
         (opts, args) = Command.parse_args(self, arguments)
+        if (len(args) > 0) :
+            raise Exceptions.UnknownParameter(args[0])
 
         # Parameters setup
         db_file = configuration.get(PROGRAM_NAME, 'database')

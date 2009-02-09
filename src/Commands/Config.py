@@ -88,6 +88,8 @@ class SubCommand(Command) :
 
         # Parameters parsing
         (opts, args) = Command.parse_args(self, arguments)
+        if (len(args) > 0) :
+            raise Exceptions.UnknownParameter(args[0])
 
         # Parameters checks
         if (opts.set != True and opts.get != True and opts.show != True) :
