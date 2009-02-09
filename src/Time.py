@@ -67,6 +67,9 @@ class TimeDiff(object) :
             str(minutes) + "m " + \
             str(seconds) + "s"
 
+def help() :
+    return "A date-time expressed in YYYY-MM-DD HH:MM:SS"
+
 class Time(object) :
     __time = None
 
