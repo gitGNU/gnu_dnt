@@ -80,6 +80,12 @@
                 Done
             </comment>
         </note>
+        <note priority="low" time="1234224492" done="1234286812">
+            Rearrange Command class in order to get footer as a list of strings, instead of a sigle string (joining lines while adding LF where needed)
+            <comment>
+                Done
+            </comment>
+        </note>
         <note priority="veryhigh" time="1233701639">
             Complete the regression tests suite
             <note priority="veryhigh" time="1233702821">
@@ -165,25 +171,22 @@ all commands, so it has to have the right variable substitution)
                 </note>
             </note>
         </note>
-        <note priority="medium" time="1233608861">
-            Add command epilog where needed (we could use docstrings to get help for ID, TIME ...)
+        <note priority="medium" time="1233608861" done="1234300185">
+            Rearrange command epilogs (we should not use docstrings to get help for ID, TIME ..., docstrings may be discarded ...)
+            <comment>
+                Done
+            </comment>
             <note priority="medium" time="1234023476" done="1234168823">
                 Add command epilog in show command
                 <comment>
                     Done
                 </comment>
-                <note priority="veryhigh" time="1234175019">
-                    Rearrange show footer in order to be class dependent (instead of hard-wired)
-                </note>
             </note>
             <note priority="medium" time="1234023481" done="1234168826">
                 Add command epilog in dump command
                 <comment>
                     Done
                 </comment>
-                <note priority="veryhigh" time="1234175028">
-                    Rearrange dump footer in order to be class dependent (instead of hard-wired)
-                </note>
             </note>
             <note priority="medium" time="1234023757" done="1234169959">
                 Add command epilog in edit command
@@ -239,15 +242,6 @@ all commands, so it has to have the right variable substitution)
                     Done
                 </comment>
             </note>
-            <note priority="veryhigh" time="1234177196">
-                Fix command epilogs in order to be handled correctly from help2man
-            </note>
-        </note>
-        <note priority="low" time="1234224492" done="1234286812">
-            Rearrange Command class in order to get footer as a list of strings, instead of a sigle string (joining lines while adding LF where needed)
-            <comment>
-                Done
-            </comment>
         </note>
     </note>
     <note priority="high" time="1233694836">
@@ -266,6 +260,15 @@ all commands, so it has to have the right variable substitution)
         </note>
         <note priority="veryhigh" time="1233939736">
             Add comment field on Entry
+        </note>
+        <note priority="veryhigh" time="1234175019">
+            Rearrange show footer in order to be class dependent (instead of hard-wired)
+        </note>
+        <note priority="veryhigh" time="1234175028">
+            Rearrange dump footer in order to be class dependent (instead of hard-wired)
+        </note>
+        <note priority="veryhigh" time="1234177196">
+            Fix command epilogs in order to be handled correctly from help2man
         </note>
         <note priority="high" time="1231780779">
             Add toxml() and fromxml() to Entry and Root classes
@@ -293,6 +296,9 @@ all commands, so it has to have the right variable substitution)
         </note>
         <note priority="medium" time="1234045911">
             Add code for interactive mode in fix command
+        </note>
+        <note priority="medium" time="1234300133">
+            Add a Formatter class. Rearrange show and dump command to use the formatter for all substitutions
         </note>
         <note priority="low" time="1227122807">
             Rearrange the build process in order to use EXEEXT (if needed)
