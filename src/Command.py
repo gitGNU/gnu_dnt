@@ -60,7 +60,7 @@ class Command(OptionParser) :
                               prog    = PROGRAM_NAME,
                               usage   = usage_format,
                               version = version_format,
-                              #epilog  = footer
+                              #epilog  = self.__footer
                               )
         OptionParser.disable_interspersed_args(self)
 
