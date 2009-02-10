@@ -63,7 +63,7 @@ class Priority(object) :
         try :
             return self.__priority_to_string[self.__priority]
         except :
-                bug()
+                bug("Cannot stringify priority")
 
     def value(self) :
         return self.__priority

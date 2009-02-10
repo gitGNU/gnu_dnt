@@ -79,7 +79,7 @@ class Root(Node) :
                       "`" + str(tmp) +"'")
                 return None
             except :
-                bug()
+                bug("Unhandled exception while looking for node in Root.find()")
 
             if (tmp == None) :
                 return tmp

@@ -81,7 +81,7 @@ class Time(object) :
         elif (type(t) == datetime.datetime) :
             self.__time = t
         else :
-            bug()
+            bug("Wrong constructor parameter for Time")
         assert(type(self.__time) == datetime.datetime)
         debug("Time object initialized to `" + self.tostring() + "'")
 

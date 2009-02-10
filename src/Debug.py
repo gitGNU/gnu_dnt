@@ -99,7 +99,7 @@ def bug(s = "") :
 
 def bug_on(v) :
     if (v == True) :
-        bug()
+        bug("Unsatisfied expression " + str(v))
 
 # Test
 if (__name__ == '__main__') :

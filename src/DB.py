@@ -154,7 +154,7 @@ def toxml(node, xml) :
     elif (hasattr(xml, "append")):
         xml.append(child)
     else :
-        bug()
+        bug("Unhandled exception while transforming to xml")
 
     for i in node.children() :
         debug("Navigating node `" + str(i) + "'")
@@ -189,7 +189,7 @@ class Database(object) :
         except Exception, e :
             raise Exceptions.ProblemsReading(name, str(e))
         except :
-            bug()
+            bug("Unhandled exception while loading DB from file")
 
         assert(xml != None)
 
@@ -223,7 +223,7 @@ class Database(object) :
         except Exception, e :
             raise Exceptions.ProblemsWriting(name, str(e))
         except :
-            bug()
+            bug("Unhandled exception while saving DB to file")
 
         debug("DB `" + name + " ' saved successfully")
 
