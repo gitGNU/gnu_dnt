@@ -48,36 +48,36 @@ class Stack(object) :
 if (__name__ == '__main__') :
     s = Stack()
 
-#    if (s.len() != 0) :
-#        sys.exit(1)
-#
-#    s.push("Hi")
-#    s.push(12)
-#    s.push(3.2)
-#
-#    if (s.empty()) :
-#        sys.exit(1)
-#
-#    el = s.pop()
-#    if (s.empty()) :
-#        sys.exit(1)
-#    if (el != 3.2) :
-#        sys.exit(1)
-#
-#    el = s.pop()
-#    if (s.empty()) :
-#        sys.exit(1)
-#    if (el != 12) :
-#        sys.exit(1)
-#
-#    el = s.pop()
-#    if (s.empty()) :
-#        sys.exit(1)
-#    if (el != "Hi") :
-#        sys.exit(1)
-#
-#    if (not(s.empty())) :
-#        sys.exit(1)
+    if (s.len() != 0) :
+        sys.exit(1)
+
+    s.push("Hi")
+    s.push(12)
+    s.push(3.2)
+
+    if (s.empty()) :
+        sys.exit(1)
+
+    el = s.pop()
+    if (el != 3.2) :
+        sys.exit(1)
+
+    if (s.empty()) :
+        sys.exit(1)
+
+    el = s.pop()
+    if (el != 12) :
+        sys.exit(1)
+
+    if (s.empty()) :
+        sys.exit(1)
+
+    el = s.pop()
+    if (el != "Hi") :
+        sys.exit(1)
+
+    if (not(s.empty())) :
+        sys.exit(1)
 
     debug("Test completed")
     sys.exit(0)
