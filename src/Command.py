@@ -26,16 +26,25 @@ import Exceptions
 
 class Command(OptionParser) :
     # NOTE: An empty string is an allowed name (main uses it)
-    def __init__(self, name, format = "[OPTION]...", footer = "") :
+    def __init__(self, name, format = "[OPTION]...", footer = []) :
         assert(name != None)
         assert(type(name) == str)
         assert(format != None)
         assert(type(format) == str)
         assert(footer != None)
-        assert(type(footer) == str)
+        assert(type(footer) == list)
 
         self.__name   = name
-        self.__footer = footer
+
+        # Build footer as a string
+        tmp = ""
+        if (len(footer) > 0) :
+            for i in range(0, len(footer)) :
+                assert(type(footer[i]) == str)
+                tmp = tmp + footer[i]
+                if (i != (len(footer) - 1)) :
+                    tmp = tmp + "\n"
+        self.__footer = tmp
 
         # XXX FIXME: This is really awful ...
         if (self.__name == "") :
@@ -130,7 +139,15 @@ class Command(OptionParser) :
 
 # Test
 if (__name__ == '__main__') :
-    c = Command("test")
+
+    a = Command("test")
+    b = Command("test", "")
+    c = Command("test", "test")
+    d = Command("test", "", [])
+    e = Command("test", "test", [ "" ])
+    f = Command("test", "test", [ "test1" ])
+    g = Command("test", "test", [ "test1", "test2" ])
+    g = Command("test", "test", [ "test1", "", "test2"])
 
     debug("Test completed")
     sys.exit(0)
