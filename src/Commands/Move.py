@@ -32,10 +32,10 @@ class SubCommand(Command) :
     def __init__(self) :
         Command.__init__(self,
                          name   = "move",
-                         footer = \
-                             "NODE    " + ID.help() + "\n" + \
-                             "PARENT  " + ID.help()
-                         )
+                         footer = [
+                "NODE    " + ID.help(),
+                "PARENT  " + ID.help()
+                ])
 
     def short_help(self) :
         return "reparent node(s)"
@@ -98,7 +98,7 @@ class SubCommand(Command) :
         # Remove parent subtree link
         node_parent = node.parent
         if (node_parent == None) :
-            bug()
+            bug("Node has no parent")
         node_parent.remove(node)
 
         # Link node subtree into parent substree

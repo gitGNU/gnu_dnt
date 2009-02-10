@@ -30,8 +30,7 @@ class SubCommand(Command) :
     def __init__(self) :
         Command.__init__(self,
                          name   = "fix",
-                         footer = ""
-                         )
+                         footer = [])
 
     def short_help(self) :
         return "fix the database"

@@ -47,9 +47,9 @@ class SubCommand(Command) :
     def __init__(self) :
         Command.__init__(self,
                          name   = "done",
-                         footer = \
-                             "ID  " + ID.help()
-                         )
+                         footer = [
+                "ID  " + ID.help()
+                ])
 
     def short_help(self) :
         return "mark node (and its children) as done"

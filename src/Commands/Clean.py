@@ -27,8 +27,7 @@ class SubCommand(Command) :
     def __init__(self) :
         Command.__init__(self,
                          name   = "clean",
-                         footer = ""
-                         )
+                         footer = [])
 
     def short_help(self) :
         return "remove the database"
@@ -52,14 +51,14 @@ class SubCommand(Command) :
             warning("Nothing to do, directory already clean")
             return
         except :
-            bug()
+            bug("Unhandled exception calling os.stat() on db")
 
         try :
             os.unlink(db_file)
         except IOError, e :
             raise Exceptions.EOS("Cannot remove `" + db_file + "'")
         except :
-            bug()
+            bug("Unhandled exception unlinking db file")
 
         debug("Success")
 

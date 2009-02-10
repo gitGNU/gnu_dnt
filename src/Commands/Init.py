@@ -32,8 +32,7 @@ class SubCommand(Command) :
     def __init__(self) :
         Command.__init__(self,
                          name   = "init",
-                         footer = ""
-                         )
+                         footer = [])
 
     def short_help(self) :
         return "initialize the database"

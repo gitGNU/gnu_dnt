@@ -178,12 +178,11 @@ class SubCommand(Command) :
     def __init__(self) :
         Command.__init__(self,
                          name   = "show",
-                         footer = \
-                             "FILTER  " + Filter.help() + "\n" + \
-                             "ID      " + ID.help() + "\n" + \
-                             "WIDTH   " + "An integer >= 0, 0 means no " + \
-                             "formatting"
-                         )
+                         footer = [
+                "FILTER  " + Filter.help(),
+                "ID      " + ID.help(),
+                "WIDTH   An integer >= 0, 0 means no formatting"
+                ])
 
     def short_help(self) :
         return "display node(s)"
