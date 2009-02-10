@@ -244,7 +244,18 @@ class ETree(EBase):
 
 class NodeUnavailable(ETree):
     def __init__(self, message) :
-        ETree.__init__(self, "Cannot find node `" + message + "'")
+        ETree.__init__(self, "cannot find node `" + message + "'")
+
+#
+# Stack related exceptions
+#
+class EStack(EBase):
+    def __init__(self, message) :
+        EBase.__init__(self, message)
+
+class EmptyStack(EStack):
+    def __init__(self) :
+        EStack.__init__(self, "stack is empty")
 
 #
 # Filter related exceptions
@@ -255,7 +266,7 @@ class EFilter(EBase):
 
 class UnknownFilter(EFilter):
     def __init__(self, message) :
-        EFilter.__init__(self, "Unknown filter `" + message + "'")
+        EFilter.__init__(self, "unknown filter `" + message + "'")
 
 # Test
 if (__name__ == '__main__') :
