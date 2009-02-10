@@ -109,31 +109,31 @@ def main(arguments) :
         cmd_name_max_len = max(cmd_name_max_len, len(cmd_name))
     assert(cmd_name_max_len > 0)
 
-    # Build the command line parser
-    footer = "Commands:\n"
+    # Build the command line parser footer
+    footer = []
+
+    footer.append("Commands:")
     for cmd_name in Commands.commands.keys() :
-        #print("cmd_name          = " + cmd_name)
-
         cmd_instance = Commands.commands[cmd_name]
-        #print("cmd_instance      = " + str(cmd_instance))
         assert(cmd_instance != None)
-
         assert(hasattr(cmd_instance, "short_help"))
         assert(callable(cmd_instance.short_help))
 
         cmd_description = cmd_instance.short_help()
 
-        footer = footer + (("  %-" + str(cmd_name_max_len + 4) + "s%s")
-                           %(cmd_name, cmd_description)) + "\n"
+        footer.append(("  %-" + str(cmd_name_max_len + 4) + "s%s")
+                      %(cmd_name, cmd_description))
 
-    footer = footer + "\n"
-    footer = footer + \
-        "See `" + PROGRAM_NAME + " COMMAND --help' " + \
-        "for more information about a specific command.\n" + \
-        "The program looks for configuration files in the following order:\n\n"
+    footer.append("")
+    footer.append("See `" + PROGRAM_NAME + " COMMAND --help' " +
+                  "for more information about a specific command.\n" +
+                  "The program looks for configuration files in the " +
+                  "following order:")
+    footer.append("")
+    footer.append("")
     for i in CFG_SEARCH_PATHS :
         # Do not use os.path.expandvars() here, we must preserve the vars name
-        footer = footer + "  " + i + "\n"
+        footer.append("  " + i)
 
     command = MainCommand("",
                           "[OPTION]... [COMMAND] [COMMAND-OPTION]...",
@@ -200,7 +200,7 @@ def main(arguments) :
     except Exceptions.Configuration:
         warning("Problem reading configuration file, using defaults ...")
     except :
-        bug()
+        bug("Unknown exception while configuration parsing")
 
     if (len(cfg_files) >= 1) :
         debug("Configuration read from `" + str(cfg_files) + "'")
@@ -246,7 +246,7 @@ def main(arguments) :
         hint("Unknown command `" + cmd_name + "'")
         return 1
     except :
-        bug()
+        bug("Unknown exception while looking for command instance")
     assert(cmd_instance != None)
     debug("Command is:     `" + cmd_name + "'")
 
@@ -323,7 +323,7 @@ def main(arguments) :
             error(e)
             return 1
         except :
-            bug()
+            bug("Unknown exception while opening configuration file")
 
     debug("All operations completed successfully")
     return 0
