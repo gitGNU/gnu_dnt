@@ -33,21 +33,30 @@ import Terminal
 import Filter
 
 class DumpVisitor(Visitor) :
-    def __init__(self, colors, verbose, filehandle, width, format, filter) :
+    def __init__(self, colors, verbose, filehandle, width,
+                 indent_format, line_format, unindent_format,
+                 filter) :
         assert(filehandle != None)
         assert(type(width) == int)
-        assert(format != None)
+
+        assert(indent_format   != None)
+        assert(line_format     != None)
+        assert(unindent_format != None)
+
         assert(filter != None)
 
         super(DumpVisitor, self).__init__()
 
-        self.__filehandle = filehandle
-        self.__width      = width
-        self.__colors     = colors
-        self.__verbose    = verbose
-        self.__format     = format
-        self.__filter     = filter.function
-        self.__cmap    = {
+        self.__filehandle      = filehandle
+        self.__width           = width
+        self.__colors          = colors
+        self.__verbose         = verbose
+        self.__indent_format   = indent_format
+        self.__line_format     = line_format
+        self.__unindent_format = unindent_format
+        self.__filter          = filter.function
+        self.__old_level       = 0
+        self.__cmap            = {
             Priority.Priority.PRIORITY_VERYHIGH : bright_red,
             Priority.Priority.PRIORITY_HIGH     : bright_yellow,
             Priority.Priority.PRIORITY_MEDIUM   : bright_white,
@@ -67,7 +76,18 @@ class DumpVisitor(Visitor) :
 
         debug("Visiting entry " + str(e))
 
-        if (self.__format != None) :
+        debug("Indenting")
+        if (self.__indent_format != None) :
+            if (self.__old_level < self.level()) :
+                    self.__filehandle.write(self.__indent_format)
+
+        debug("Unindenting")
+        if (self.__unindent_format != None) :
+            if (self.__old_level > self.level()) :
+                    self.__filehandle.write(self.__unindent_format)
+
+        debug("Formatting")
+        if (self.__line_format != None) :
             text = e.text
             if (e.start != None) :
                 start = e.start.tostring()
@@ -86,11 +106,13 @@ class DumpVisitor(Visitor) :
             else :
                 status = "incomplete"
 
+            debug("Handling colors")
+
             # Handle colors
             if (self.__colors == True) :
                 color_info  = normal_green
                 color_index = normal_green
-                p           = e.priority.value()
+                p           = e.priority.value
                 try :
                     color_text  = self.__cmap[p]
                 except KeyError :
@@ -105,14 +127,18 @@ class DumpVisitor(Visitor) :
             assert(color_text  != None)
             assert(color_info  != None)
 
+            debug("Formatting")
+
             # Perform format substitutions
-            t = self.__format
+            t = self.__line_format
             debug("input  = `" + t + "'")
             t = re.sub('%t', color_text(text),     t)
             t = re.sub('%s', start,                t)
             t = re.sub('%e', end,                  t)
             t = re.sub('%p', color_text(priority), t)
             debug("output = `" + t + "'")
+
+            debug("Building output")
 
             # Build the output
             debug("Wrapping entry text to " + str(self.__width))
@@ -125,7 +151,11 @@ class DumpVisitor(Visitor) :
                 for j in lines :
                     self.__filehandle.write(j + "\n")
 
-            self.__filehandle.write("\n")
+        self.__filehandle.write("\n")
+
+        self.__old_level = self.level()
+
+        debug("Completed entry")
 
     def visitRoot(self, r) :
         assert(r != None)
@@ -135,6 +165,8 @@ class SubCommand(Command) :
         Command.__init__(self,
                          name   = "dump",
                          footer = [
+                "INDENT_FORMAT and UNINDENT_FORMAT are applied " + \
+                "when indentation is needed",
                 "FORMAT  controls the output for each entry " + \
                     "dumped. Interpreted sequences are:",
                 "",
@@ -161,11 +193,23 @@ class SubCommand(Command) :
                            dest   = "output",
                            help   = "specify output file name")
         Command.add_option(self,
-                           "-f", "--format",
+                           "-l", "--line-format",
                            action = "store",
                            type   = "string",
-                           dest   = "format",
-                           help   = "specify dump format")
+                           dest   = "line_format",
+                           help   = "specify line dump format")
+        Command.add_option(self,
+                           "-i", "--indent-format",
+                           action = "store",
+                           type   = "string",
+                           dest   = "indent_format",
+                           help   = "specify indent line dump format")
+        Command.add_option(self,
+                           "-u", "--unindent-format",
+                           action = "store",
+                           type   = "string",
+                           dest   = "unindent_format",
+                           help   = "specify line dump format")
         Command.add_option(self,
                            "-w", "--width",
                            action = "store",
@@ -229,18 +273,32 @@ class SubCommand(Command) :
         #
         # NOTE:
         #     verbose has no meaning when the user specifies its own
-        #     format. We will use a different format for quiet and verbose
-        #     mode however ...
+        #     formatting tules. We will use a different format for quiet and
+        #     verbose mode however ...
         #
         if (verbose == True) :
-            format = "* %t\n  (%s, %e, %p)"
+            indent_format   = ""
+            line_format     = "* %t\n  (%s, %e, %p)"
+            unindent_format = ""
         else :
-            format = "* %t"
+            indent_format   = ""
+            line_format     = "* %t"
+            unindent_format = ""
 
-        if (opts.format != None) :
-            format = opts.format
-        assert(format != None)
-        debug("Format is `" + format + "'")
+        if (opts.indent_format != None) :
+            indent_format = opts.indent_format
+        assert(indent_format != None)
+        debug("Indent-format is:   `" + indent_format + "'")
+
+        if (opts.line_format != None) :
+            line_format = opts.line_format
+        assert(line_format != None)
+        debug("Line-format is:     `" + line_format + "'")
+
+        if (opts.unindent_format != None) :
+            unindent_format = opts.unindent_format
+        assert(unindent_format != None)
+        debug("Unindent-format is: `" + unindent_format + "'")
 
         # Build the filter
         filter_text = "all"
@@ -259,7 +317,9 @@ class SubCommand(Command) :
         tree = db.load(db_file)
         assert(tree != None)
 
-        v = DumpVisitor(colors, verbose, filehandle, width, format, filter)
+        v = DumpVisitor(colors, verbose, filehandle, width,
+                        indent_format, line_format, unindent_format,
+                        filter)
         tree.accept(v)
 
         # Avoid closing precious filehandles
