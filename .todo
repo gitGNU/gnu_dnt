@@ -80,6 +80,78 @@
                 Done
             </comment>
         </note>
+        <note priority="medium" time="1233608861" done="1234300185">
+            Rearrange command epilogs (we should not use docstrings to get help for ID, TIME ..., docstrings may be discarded ...)
+            <comment>
+                Done
+            </comment>
+            <note priority="medium" time="1234023476" done="1234168823">
+                Add command epilog in show command
+                <comment>
+                    Done
+                </comment>
+            </note>
+            <note priority="medium" time="1234023481" done="1234168826">
+                Add command epilog in dump command
+                <comment>
+                    Done
+                </comment>
+            </note>
+            <note priority="medium" time="1234023757" done="1234169959">
+                Add command epilog in edit command
+                <comment>
+                    Done
+                </comment>
+            </note>
+            <note priority="medium" time="1234023763" done="1234045941">
+                Add command epilog in fix command
+                <comment>
+                    Done
+                </comment>
+            </note>
+            <note priority="medium" time="1234023767" done="1234170086">
+                Add command epilog in move command
+                <comment>
+                    Done
+                </comment>
+            </note>
+            <note priority="medium" time="1234023772" done="1234046054">
+                Add command epilog in init command
+                <comment>
+                    Done
+                </comment>
+            </note>
+            <note priority="medium" time="1234023776" done="1234170135">
+                Add command epilog in remove command
+                <comment>
+                    Done
+                </comment>
+            </note>
+            <note priority="medium" time="1234023780" done="1234174859">
+                Add command epilog in add command
+                <comment>
+                    Done
+                </comment>
+            </note>
+            <note priority="medium" time="1234023786" done="1234170174">
+                Add command epilog in done command
+                <comment>
+                    Done
+                </comment>
+            </note>
+            <note priority="medium" time="1234023789" done="1234046102">
+                Add command epilog in clean command
+                <comment>
+                    Done
+                </comment>
+            </note>
+            <note priority="medium" time="1234023793" done="1234211230">
+                Add command epilog in config command
+                <comment>
+                    Done
+                </comment>
+            </note>
+        </note>
         <note priority="low" time="1234224492" done="1234286812">
             Rearrange Command class in order to get footer as a list of strings, instead of a sigle string (joining lines while adding LF where needed)
             <comment>
@@ -171,77 +243,11 @@ all commands, so it has to have the right variable substitution)
                 </note>
             </note>
         </note>
-        <note priority="medium" time="1233608861" done="1234300185">
-            Rearrange command epilogs (we should not use docstrings to get help for ID, TIME ..., docstrings may be discarded ...)
+        <note priority="verylow" time="1234345685" done="1234345718">
+            Add priority enum into console history (edit command)
             <comment>
                 Done
             </comment>
-            <note priority="medium" time="1234023476" done="1234168823">
-                Add command epilog in show command
-                <comment>
-                    Done
-                </comment>
-            </note>
-            <note priority="medium" time="1234023481" done="1234168826">
-                Add command epilog in dump command
-                <comment>
-                    Done
-                </comment>
-            </note>
-            <note priority="medium" time="1234023757" done="1234169959">
-                Add command epilog in edit command
-                <comment>
-                    Done
-                </comment>
-            </note>
-            <note priority="medium" time="1234023763" done="1234045941">
-                Add command epilog in fix command
-                <comment>
-                    Done
-                </comment>
-            </note>
-            <note priority="medium" time="1234023767" done="1234170086">
-                Add command epilog in move command
-                <comment>
-                    Done
-                </comment>
-            </note>
-            <note priority="medium" time="1234023772" done="1234046054">
-                Add command epilog in init command
-                <comment>
-                    Done
-                </comment>
-            </note>
-            <note priority="medium" time="1234023776" done="1234170135">
-                Add command epilog in remove command
-                <comment>
-                    Done
-                </comment>
-            </note>
-            <note priority="medium" time="1234023780" done="1234174859">
-                Add command epilog in add command
-                <comment>
-                    Done
-                </comment>
-            </note>
-            <note priority="medium" time="1234023786" done="1234170174">
-                Add command epilog in done command
-                <comment>
-                    Done
-                </comment>
-            </note>
-            <note priority="medium" time="1234023789" done="1234046102">
-                Add command epilog in clean command
-                <comment>
-                    Done
-                </comment>
-            </note>
-            <note priority="medium" time="1234023793" done="1234211230">
-                Add command epilog in config command
-                <comment>
-                    Done
-                </comment>
-            </note>
         </note>
     </note>
     <note priority="high" time="1233694836">
