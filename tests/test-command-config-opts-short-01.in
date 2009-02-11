@@ -26,33 +26,37 @@ required=""
 
 . $testdir/defs || exit 1
 
+:> test.cfg || exit 1
+
 COMMAND="config"
 
 # Testing "-S" option
-$DNT_NOFLAGS $COMMAND -S || exit 1
+$DNT_NOFLAGS --configuration test.cfg $COMMAND -S || exit 1
 
 # Testing "-g" option
-VALUE=`$DNT_NOFLAGS $COMMAND -g -k dnt.debug`
+VALUE="`$DNT_NOFLAGS --configuration test.cfg $COMMAND -g -k dnt.debug`"
 
-if test x"${VALUE}" = x""; then
+if test "x${VALUE}" = "x"; then
   exit 1
 fi
 
 # Testing "-s" option
 NEW_VALUE=""
-if test x"${VALUE}" = x"False"; then
+if test "x${VALUE}" = "xFalse"; then
   NEW_VALUE="True"
 else
   NEW_VALUE="False"
 fi
 
-$DNT_NOFLAGS $COMMAND -s -k dnt.debug -v $NEW_VALUE || exit 1
+$DNT_NOFLAGS --configuration test.cfg \
+             $COMMAND -s -k dnt.debug -v $NEW_VALUE || exit 1
 
-TEST_VALUE=`$DNT_NOFLAGS $COMMAND -g -k dnt.debug`
-if test ! x"${TEST_VALUE}" = x"${NEW_VALUE}"; then
+TEST_VALUE="`$DNT_NOFLAGS --configuration test.cfg $COMMAND -g -k dnt.debug`"
+if test ! "x${TEST_VALUE}" = "x${NEW_VALUE}"; then
   exit 1
 fi
 
-$DNT_NOFLAGS $COMMAND -s -k dnt.debug -v $VALUE || exit 1
+$DNT_NOFLAGS --configuration test.cfg \
+             $COMMAND -s -k dnt.debug -v $VALUE || exit 1
 
 exit 0
