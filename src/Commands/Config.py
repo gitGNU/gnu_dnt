@@ -99,80 +99,80 @@ class SubCommand(Command) :
             raise Exceptions.WrongParameter("set or get with show " +
                                             "cannot be mixed")
 
-            if (opts.set == True) :
-                if (opts.key == None) :
-                    raise Exceptions.MissingParameters("key in order to set "
-                                                       "a configuration entry")
-                if (opts.value == None) :
-                    raise Exceptions.MissingParameters("value in order to set "
-                                                       "a configuration entry")
-            if (opts.get == True) :
-                if (opts.key == None) :
-                    raise Exceptions.MissingParameters("key in order to get "
-                                                       "a configuration entry")
-            # Work
-            if (opts.get == True) :
-                debug("Performing get")
-                assert(opts.key != None)
+        if (opts.set == True) :
+            if (opts.key == None) :
+                raise Exceptions.MissingParameters("key in order to set "
+                                                   "a configuration entry")
+            if (opts.value == None) :
+                raise Exceptions.MissingParameters("value in order to set "
+                                                   "a configuration entry")
+        if (opts.get == True) :
+            if (opts.key == None) :
+                raise Exceptions.MissingParameters("key in order to get "
+                                                   "a configuration entry")
+        # Work
+        if (opts.get == True) :
+            debug("Performing get")
+            assert(opts.key != None)
 
-                try :
-                    (section, option) = opts.key.rsplit('.',1)
-                except ValueError :
-                    raise Exceptions.WrongParameter("key "
-                                                    "`" + opts.key + "' "
-                                                    "is malformed")
-                debug("section = `" + section + "'")
-                debug("option  = `" + option + "'")
+            try :
+                (section, option) = opts.key.rsplit('.',1)
+            except ValueError :
+                raise Exceptions.WrongParameter("key "
+                                                "`" + opts.key + "' "
+                                                "is malformed")
+            debug("section = `" + section + "'")
+            debug("option  = `" + option + "'")
 
-                if (not _key_exists(configuration, section, option)) :
-                    raise Exceptions.WrongParameter("key "
-                                                    "`" + opts.key + "' "
-                                                    "is unavailable")
+            if (not _key_exists(configuration, section, option)) :
+                raise Exceptions.WrongParameter("key "
+                                                "`" + opts.key + "' "
+                                                "is unavailable")
 
-                debug("Getting value for `" + section + "." + option + "'")
-                value = configuration.get(section, option, raw = True)
-                sys.stdout.write(str(value) + '\n')
+            debug("Getting value for `" + section + "." + option + "'")
+            value = configuration.get(section, option, raw = True)
+            sys.stdout.write(str(value) + '\n')
 
-            elif (opts.set == True) :
-                debug("Performing set")
-                assert(opts.key   != None)
-                assert(opts.value != None)
+        elif (opts.set == True) :
+            debug("Performing set")
+            assert(opts.key   != None)
+            assert(opts.value != None)
 
-                try :
-                    (section, option) = opts.key.rsplit('.',1)
-                except ValueError :
-                    raise Exceptions.WrongParameter("key "
-                                                    "`" + opts.key + "' "
-                                                    "is malformed")
-                debug("section = `" + section + "'")
-                debug("option  = `" + option     + "'")
+            try :
+                (section, option) = opts.key.rsplit('.',1)
+            except ValueError :
+                raise Exceptions.WrongParameter("key "
+                                                "`" + opts.key + "' "
+                                                "is malformed")
+            debug("section = `" + section + "'")
+            debug("option  = `" + option     + "'")
 
-                value = opts.value
-                debug("value   = `" + value   + "'")
+            value = opts.value
+            debug("value   = `" + value   + "'")
 
-                debug("Setting `" + section + "." + option + "' " +
-                      "to `" + value + "'")
-                configuration.set(section, option, value)
+            debug("Setting `" + section + "." + option + "' " +
+                  "to `" + value + "'")
+            configuration.set(section, option, value)
 
-            elif (opts.show == True) :
-                debug("Showing all key/value pairs")
-                # Compute maximum key length
-                l = 0
-                for s in configuration.sections() :
-                    for o in configuration.options(s) :
-                        l = max(l, len(s + "." + o))
+        elif (opts.show == True) :
+            debug("Showing all key/value pairs")
+            # Compute maximum key length
+            l = 0
+            for s in configuration.sections() :
+                for o in configuration.options(s) :
+                    l = max(l, len(s + "." + o))
 
-                # Write all key-value pairs
-                for s in configuration.sections() :
-                    for o in configuration.options(s) :
-                        v = configuration.get(s, o, raw = True)
-                        print(("%-" + str(l) + "s = %s")
-                              %(s + "." + o,  str(v)))
+            # Write all key-value pairs
+            for s in configuration.sections() :
+                for o in configuration.options(s) :
+                    v = configuration.get(s, o, raw = True)
+                    print(("%-" + str(l) + "s = %s")
+                          %(s + "." + o,  str(v)))
 
-            else :
-                bug("Problems handling option")
+        else :
+            bug("Problems handling option")
 
-            debug("Success")
+        debug("Success")
 
 # Test
 if (__name__ == '__main__') :
