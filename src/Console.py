@@ -27,20 +27,32 @@ class Console(object) :
     def __init__(self) :
         pass
 
-    def interact(self, prompt = "", buffer = "") :
+    def interact(self, prompt = "", buffer = "", history = []) :
         assert(prompt != None)
         assert(buffer != None)
 
         self.__buffer = buffer
         self.__prompt = prompt
 
+        # Try to clean the history (available in Python >= 2.4)
+        try :
+            readline.clear_history()
+        except :
+            pass
+
+        # Fill the history
+        if (history != None) :
+            debug("History is not empty")
+            assert(type(history) == list)
+            debug("Filling console history")
+            for i in range(0, len(history)) :
+                assert(type(history[i]) == str)
+                readline.add_history(history[i])
+
+        # Fill the history with buffer
+        debug("Filling console buffer")
         readline.set_startup_hook(lambda: readline.insert_text(self.__buffer))
         try :
-            # Try to clean the history (available in Python >= 2.4)
-            try :
-                readline.clear_history()
-            except :
-                pass
             self.__buffer = raw_input(self.__prompt)
         except EOFError, e :
             print("")
