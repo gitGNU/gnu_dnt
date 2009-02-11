@@ -90,6 +90,10 @@ SUCCESS_TESTS +=				\
 	test-command-clean-opts-long-01		\
 	test-command-clean-version-01		\
 	test-command-clean-01			\
+	test-command-add-help-01		\
+	test-command-add-opts-short-01		\
+	test-command-add-opts-long-01		\
+	test-command-add-version-01		\
 	test-command-add-01			\
 	test-command-add-02			\
 	test-command-add-03			\
@@ -454,6 +458,54 @@ test-command-clean-version-01: $(srcdir)/test-command-clean-version-01.in Makefi
 	}
 EXTRA_DIST += test-command-clean-version-01.in
 CLEANFILES += test-command-clean-version-01
+
+test-command-add-help-01: $(srcdir)/test-command-add-help-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-add-help-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-add-help-01.in
+CLEANFILES += test-command-add-help-01
+
+test-command-add-opts-short-01: $(srcdir)/test-command-add-opts-short-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-add-opts-short-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-add-opts-short-01.in
+CLEANFILES += test-command-add-opts-short-01
+
+test-command-add-opts-long-01: $(srcdir)/test-command-add-opts-long-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-add-opts-long-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-add-opts-long-01.in
+CLEANFILES += test-command-add-opts-long-01
+
+test-command-add-version-01: $(srcdir)/test-command-add-version-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-add-version-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-add-version-01.in
+CLEANFILES += test-command-add-version-01
 
 clean-local:
 	rm -rf testSubDir-*

@@ -81,6 +81,10 @@ tests/test-command-clean-help-01
 tests/test-command-clean-opts-short-01
 tests/test-command-clean-opts-long-01
 tests/test-command-clean-version-01
+tests/test-command-add-help-01
+tests/test-command-add-opts-short-01
+tests/test-command-add-opts-long-01
+tests/test-command-add-version-01
 
 site/in/.sitetool
 site/in/site.stamp
