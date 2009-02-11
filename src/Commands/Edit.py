@@ -211,7 +211,9 @@ class SubCommand(Command) :
             tmp = priority
             if (tmp == None) :
                 tmp = "medium"
-            tmp = console.interact("priority> ", tmp)
+            tmp = console.interact("priority> ",
+                                   tmp,
+                                   Priority.Priority().priorities)
             if (tmp != priority) :
                 priority = tmp
             del tmp
