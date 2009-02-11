@@ -158,6 +158,12 @@
                 Done
             </comment>
         </note>
+        <note priority="verylow" time="1234345685" done="1234345718">
+            Add priority enum into console history (edit command)
+            <comment>
+                Done
+            </comment>
+        </note>
         <note priority="veryhigh" time="1233701639">
             Complete the regression tests suite
             <note priority="veryhigh" time="1233702821">
@@ -205,10 +211,6 @@
                     Build tests for command show
                 </note>
             </note>
-            <note priority="veryhigh" time="1233828342">
-                Enhance the test for "--version" option (it has to be the same for
-all commands, so it has to have the right variable substitution)
-            </note>
             <note priority="high" time="1234048645">
                 Remove show command requirement for debug and verbose related test (we should not use a subcommand to check --verbose or --debug options ...)
             </note>
@@ -243,12 +245,6 @@ all commands, so it has to have the right variable substitution)
                 </note>
             </note>
         </note>
-        <note priority="verylow" time="1234345685" done="1234345718">
-            Add priority enum into console history (edit command)
-            <comment>
-                Done
-            </comment>
-        </note>
     </note>
     <note priority="high" time="1233694836">
         Release 0.2.0
@@ -260,6 +256,9 @@ all commands, so it has to have the right variable substitution)
         </note>
         <note priority="veryhigh" time="1232149768">
             Fix all return passed by reference (where a reference shouldn't be passed at all ...)
+        </note>
+        <note priority="veryhigh" time="1233828342">
+            Enhance the test for "--version" option for all commands (it has to be the same for all commands, so it must have the right variable substitutions)
         </note>
         <note priority="veryhigh" time="1233871611">
             Enhance the Time.fromstring() method, in order to be more robust
