@@ -65,11 +65,15 @@ class Priority(object) :
         except :
                 bug("Cannot stringify priority")
 
-    def value(self) :
+    def value_get(self) :
         return self.__priority
 
-    def priorities(self) :
+    value = property(value_get, None)
+
+    def priorities_get(self) :
         return self.__priorities
+
+    priorities = property(priorities_get, None)
 
 # Test
 if (__name__ == '__main__') :
