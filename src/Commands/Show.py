@@ -74,7 +74,7 @@ class ShowVisitor(Visitor) :
         if (self.__colors == True) :
             color_info  = normal_green
             color_index = normal_green
-            p           = e.priority.value()
+            p           = e.priority.value
             try :
                 color_text  = self.__cmap[p]
             except KeyError :
