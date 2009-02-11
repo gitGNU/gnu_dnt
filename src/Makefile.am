@@ -58,7 +58,7 @@ pkgvpython_PYTHON =				\
 	Color.py				\
 	Priority.py				\
 	Console.py				\
-	Stack.py
+	Stack.py				\
 	DB.py					\
 	Visitor.py				\
 	Filter.py				\
