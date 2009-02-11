@@ -46,6 +46,7 @@ class Entry(Node) :
 
     def text_get(self) :
         return self.__text
+
     def text_set(self, t) :
         assert(t != None)
         assert(type(t) == str)
@@ -58,6 +59,7 @@ class Entry(Node) :
 
     def priority_get(self) :
         return self.__priority
+
     def priority_set(self, p) :
         assert(p != None)
         self.__priority = p
@@ -66,8 +68,10 @@ class Entry(Node) :
 
     def start_get(self) :
         return self.__start
+
     def _start_set(self, t) :
         self.__start = t
+
     def start_set(self, t) :
         assert(t != None)
         if (self.__end != None) :
@@ -79,8 +83,10 @@ class Entry(Node) :
 
     def end_get(self) :
         return self.__end
+
     def _end_set(self, t) :
         self.__end = t
+
     def end_set(self, t) :
         assert(t != None)
         if (self.__start != None) :
