@@ -124,7 +124,7 @@ class SubCommand(Command) :
             debug("section = `" + section + "'")
             debug("option  = `" + option + "'")
 
-            if (not _key_exists(configuration, section, option)) :
+            if (not self._key_exists(configuration, section, option)) :
                 raise Exceptions.WrongParameter("key "
                                                 "`" + opts.key + "' "
                                                 "is unavailable")
