@@ -30,12 +30,13 @@ required=""
 
 COMMAND="config"
 
+TESTDNT="$DNT_NOFLAGS --configuration test.cfg"
+
 # Testing "--show" option
-$DNT_NOFLAGS --configuration test.cfg $COMMAND --show || exit 1
+$TESTDNT $COMMAND --show || exit 1
 
 # Testing "--get" option
-VALUE="`$DNT_NOFLAGS --configuration test.cfg \
-                     $COMMAND --get --key dnt.debug`"
+VALUE="`$TESTDNT $COMMAND --get --key dnt.debug`"
 
 if test "x${VALUE}" = "x"; then
   exit 1
@@ -49,16 +50,13 @@ else
   NEW_VALUE="False"
 fi
 
-$DNT_NOFLAGS --configuration test.cfg \
-             $COMMAND --set --key dnt.debug --value $NEW_VALUE || exit 1
+$TESTDNT $COMMAND --set --key dnt.debug --value $NEW_VALUE || exit 1
 
-TEST_VALUE="`$DNT_NOFLAGS --configuration \
-                          test.cfg $COMMAND --get --key dnt.debug`"
+TEST_VALUE="`$TESTDNT $COMMAND --get --key dnt.debug`"
 if test ! "x${TEST_VALUE}" = "x${NEW_VALUE}"; then
   exit 1
 fi
 
-$DNT_NOFLAGS --configuration test.cfg \
-             $COMMAND --set --key dnt.debug --value $VALUE || exit 1
+$TESTDNT $COMMAND --set --key dnt.debug --value $VALUE || exit 1
 
 exit 0
