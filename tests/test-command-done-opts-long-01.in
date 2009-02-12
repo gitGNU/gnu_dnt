@@ -38,7 +38,9 @@ $DNT --database test.db add --text="node_4" || exit 1
 
 # Testing "--id" option
 $DNT --database test.db $COMMAND --id="1" || exit 1
-$DNT --database test.db $COMMAND --id="2,3,4" || exit 1
+$DNT --database test.db $COMMAND --id="2" || exit 1
+$DNT --database test.db $COMMAND --id="3" || exit 1
+$DNT --database test.db $COMMAND --id="4" || exit 1
 
 rm -f test.db
 
