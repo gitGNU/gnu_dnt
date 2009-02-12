@@ -93,6 +93,8 @@ tests/test-command-done-help-01
 tests/test-command-done-opts-short-01
 tests/test-command-done-opts-long-01
 tests/test-command-done-version-01
+tests/test-command-show-02
+
 
 site/in/.sitetool
 site/in/site.stamp

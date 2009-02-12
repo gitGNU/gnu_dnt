@@ -73,7 +73,8 @@ FAIL_TESTS    =
 SUCCESS_TESTS =
 
 FAIL_TESTS    +=				\
-	test-fail
+	test-fail				\
+	test-command-show-02
 SUCCESS_TESTS +=				\
 	test-success				\
 	test-verbose				\
@@ -610,6 +611,18 @@ test-command-done-version-01: $(srcdir)/test-command-done-version-01.in Makefile
 	}
 EXTRA_DIST += test-command-done-version-01.in
 CLEANFILES += test-command-done-version-01
+
+test-command-show-02: $(srcdir)/test-command-show-02.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-02.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-02.in
+CLEANFILES += test-command-show-02
 
 clean-local:
 	rm -rf testSubDir-*
