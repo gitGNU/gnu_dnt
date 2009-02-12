@@ -103,6 +103,10 @@ SUCCESS_TESTS +=				\
 	test-command-move-01			\
 	test-command-show-01			\
 	test-command-dump-01			\
+	test-command-done-help-01		\
+	test-command-done-opts-short-01		\
+	test-command-done-opts-long-01		\
+	test-command-done-version-01		\
 	test-command-done-01			\
 	test-command-config-help-01		\
 	test-command-config-opts-short-01	\
@@ -558,6 +562,54 @@ test-command-config-version-01: $(srcdir)/test-command-config-version-01.in Make
 	}
 EXTRA_DIST += test-command-config-version-01.in
 CLEANFILES += test-command-config-version-01
+
+test-command-done-help-01: $(srcdir)/test-command-done-help-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-done-help-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-done-help-01.in
+CLEANFILES += test-command-done-help-01
+
+test-command-done-opts-short-01: $(srcdir)/test-command-done-opts-short-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-done-opts-short-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-done-opts-short-01.in
+CLEANFILES += test-command-done-opts-short-01
+
+test-command-done-opts-long-01: $(srcdir)/test-command-done-opts-long-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-done-opts-long-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-done-opts-long-01.in
+CLEANFILES += test-command-done-opts-long-01
+
+test-command-done-version-01: $(srcdir)/test-command-done-version-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-done-version-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-done-version-01.in
+CLEANFILES += test-command-done-version-01
 
 clean-local:
 	rm -rf testSubDir-*
