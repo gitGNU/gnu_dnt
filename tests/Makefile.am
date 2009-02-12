@@ -73,8 +73,7 @@ FAIL_TESTS    =
 SUCCESS_TESTS =
 
 FAIL_TESTS    +=				\
-	test-fail				\
-	test-command-show-02
+	test-fail
 SUCCESS_TESTS +=				\
 	test-success				\
 	test-verbose				\
@@ -103,6 +102,7 @@ SUCCESS_TESTS +=				\
 	test-command-fix-01			\
 	test-command-move-01			\
 	test-command-show-01			\
+	test-command-show-02			\
 	test-command-dump-01			\
 	test-command-done-help-01		\
 	test-command-done-opts-short-01		\
