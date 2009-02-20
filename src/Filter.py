@@ -40,7 +40,7 @@ class Filter(object) :
                 elif (i == "done") :
                     filter = lambda x: x.done()
                 elif (i == "not-done") :
-                    filter = lambda x: not x.done()
+                    filter = lambda x: not(x.done())
                 else :
                     raise Exceptions.UnknownFilter(s)
 
