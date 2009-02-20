@@ -172,7 +172,7 @@ class ShowVisitor(Visitor) :
               color_text(r.text))
 
     def indent(self) :
-        return " " * 2 * self.level()
+        return " " * 2 * self.level_current()
 
 class SubCommand(Command) :
     def __init__(self) :
