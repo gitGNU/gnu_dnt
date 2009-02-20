@@ -55,7 +55,6 @@ class DumpVisitor(Visitor) :
         self.__line_format     = line_format
         self.__unindent_format = unindent_format
         self.__filter          = filter.function
-        self.__old_level       = 0
         self.__cmap            = {
             Priority.Priority.PRIORITY_VERYHIGH : bright_red,
             Priority.Priority.PRIORITY_HIGH     : bright_yellow,
@@ -78,13 +77,8 @@ class DumpVisitor(Visitor) :
 
         debug("Indenting")
         if (self.__indent_format != None) :
-            if (self.__old_level < self.level()) :
+            if (self.level_previous() < self.level_current()) :
                     self.__filehandle.write(self.__indent_format)
-
-        debug("Unindenting")
-        if (self.__unindent_format != None) :
-            if (self.__old_level > self.level()) :
-                    self.__filehandle.write(self.__unindent_format)
 
         debug("Formatting")
         if (self.__line_format != None) :
@@ -151,9 +145,10 @@ class DumpVisitor(Visitor) :
                 for j in lines :
                     self.__filehandle.write(j + "\n")
 
-        self.__filehandle.write("\n")
-
-        self.__old_level = self.level()
+        debug("Unindenting")
+        if (self.__unindent_format != None) :
+            if (self.level_previous() > self.level_current()) :
+                    self.__filehandle.write(self.__unindent_format)
 
         debug("Completed entry")
 
@@ -166,7 +161,7 @@ class SubCommand(Command) :
                          name   = "dump",
                          footer = [
                 "INDENT_FORMAT and UNINDENT_FORMAT are applied " + \
-                "when indentation is needed",
+                    "when indentation is needed",
                 "FORMAT  controls the output for each entry " + \
                     "dumped. Interpreted sequences are:",
                 "",
@@ -278,11 +273,11 @@ class SubCommand(Command) :
         #
         if (verbose == True) :
             indent_format   = ""
-            line_format     = "* %t\n  (%s, %e, %p)"
+            line_format     = "* %t\n  (%s, %e, %p)\n"
             unindent_format = ""
         else :
             indent_format   = ""
-            line_format     = "* %t"
+            line_format     = "* %t\n"
             unindent_format = ""
 
         if (opts.indent_format != None) :
