@@ -128,6 +128,9 @@ if (__name__ == '__main__') :
     root.child(0, e1)
     root.child(1, e2)
 
+    # NOTE:
+    #     We should not use Visitor class (which could use Entry and/or Node
+    #     class
     class TestVisitor(object) :
         def visit(self, e) :
             debug("Visiting entry " + str(e))
