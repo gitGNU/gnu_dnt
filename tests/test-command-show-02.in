@@ -22,14 +22,14 @@
 # Test to ensure that the test environment has a good set-up
 # Report from Francesco Salvestrini
 
-required=""
+required="head"
 
 . $testdir/defs || exit 1
 
-$DNT --database test.db init || exit 1
+$DNT --database test.db init          || exit 1
 $DNT --database test.db add -t "alfa" || exit 1
 
-EMPTY="`$DNT --database test.db show -F done`"
+EMPTY="`$DNT_NOFLAGS --mono --database test.db show -F done | head -n -1`"
 
 if test ! "x${EMPTY}" = "x"; then
   exit 1
@@ -37,7 +37,7 @@ fi
 
 $DNT --database test.db done -i 1 || exit 1
 
-EMPTY="`$DNT --database test.db show -F not-done`"
+EMPTY="`$DNT_NOFLAGS --mono --database test.db show -F not-done | head -n -1`"
 
 if test ! "x${EMPTY}" = "x"; then
   exit 1
