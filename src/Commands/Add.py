@@ -106,6 +106,7 @@ class SubCommand(Command):
         debug("Handling end")
         node_end = None
         if (opts.end != None) :
+            node_end = Time.Time()
             node_end.fromstring(opts.end)
 
         debug("Handling priority")
