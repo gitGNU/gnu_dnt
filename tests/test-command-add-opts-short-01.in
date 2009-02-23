@@ -45,9 +45,9 @@ $DNT --database test.db $COMMAND \
      -t "Node 1.2" || exit 1
 
 # Testing "-e" option
-$DNT --database test.db $COMMAND    \
-     -i 1                           \
-     -e `date +"%Y-%m-%d %H:%M:%S"` \
+$DNT --database test.db $COMMAND      \
+     -i 1                             \
+     -e "`date +"%Y-%m-%d %H:%M:%S"`" \
      -t "Node 1.2" || exit 1
 
 # Testing "-s" with "-e" option
