@@ -36,15 +36,19 @@ class SubCommand(Command) :
         return [ "Francesco Salvestrini" ]
 
     def do(self, configuration, arguments) :
+        #
+        # Parameters setup
+        #
         (opts, args) = Command.parse_args(self, arguments)
         if (len(args) > 0) :
             raise Exceptions.UnknownParameter(args[0])
 
-        # Parameters setup
         db_file = configuration.get(PROGRAM_NAME, 'database')
         assert(db_file != None)
 
+        #
         # Work
+        #
         try :
             os.stat(db_file)
         except OSError, e :

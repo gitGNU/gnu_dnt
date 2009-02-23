@@ -48,6 +48,9 @@ class SubCommand(Command):
         return [ "Francesco Salvestrini" ]
 
     def do(self, configuration, arguments) :
+        #
+        # Parameters setup
+        #
         Command.add_option(self,
                            "-t", "--text",
                            action = "store",
@@ -83,7 +86,6 @@ class SubCommand(Command):
         if (len(args) > 0) :
             raise Exceptions.UnknownParameter(args[0])
 
-        # Parameters setup
         debug("Handling text")
         node_text = opts.text
         if (node_text == None) :
@@ -111,21 +113,26 @@ class SubCommand(Command):
         if (opts.priority != None) :
             node_priority.fromstring(opts.priority)
 
-        db_file   = configuration.get(PROGRAM_NAME, 'database')
+        #
+        # Load database from file
+        #
+        db_file = configuration.get(PROGRAM_NAME, 'database')
         assert(db_file != None)
+        db      = DB.Database()
+        tree    = db.load(db_file)
+        assert(tree != None)
+
+        #
+        # Work
+        #
         parent_id = ID.ID(node_parent)
 
-        # Work
         debug("Adding node:")
         debug("  node-text = " + node_text)
         debug("  parent-id = " + str(parent_id))
 #        debug("  priority  = " + str(node_priority))
 #        debug("  start     = " + str(node_start))
 #        debug("  end       = " + str(node_end))
-
-        db = DB.Database()
-        tree = db.load(db_file)
-        assert(tree != None)
 
         debug("Looking for node `" + str(parent_id) + "'")
         parent = Tree.find(tree, parent_id)
@@ -145,7 +152,9 @@ class SubCommand(Command):
 
         parent.add(entry)
 
+        #
         # Save database back to file
+        #
         db.save(db_file, tree)
 
         debug("Success")

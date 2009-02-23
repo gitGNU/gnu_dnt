@@ -191,6 +191,9 @@ class SubCommand(Command) :
         return [ "Francesco Salvestrini" ]
 
     def do(self, configuration, arguments) :
+        #
+        # Parameters setup
+        #
         Command.add_option(self, "-a", "--all",
                            action = "store_true",
                            dest   = "all",
@@ -218,7 +221,6 @@ class SubCommand(Command) :
         if (len(args) > 0) :
             raise Exceptions.UnknownParameter(args[0])
 
-        # Parameters setup
         starting_id = opts.id
         if (starting_id == None) :
             starting_id = "0"
@@ -264,14 +266,13 @@ class SubCommand(Command) :
         filter = Filter.Filter(filter_text)
         assert(filter != None)
 
-        # Work
-
-        # Load DB
+        #
+        # Load database from file
+        #
         db_file = configuration.get(PROGRAM_NAME, 'database')
         assert(db_file != None)
-
-        db   = DB.Database()
-        tree = db.load(db_file)
+        db      = DB.Database()
+        tree    = db.load(db_file)
         assert(tree != None)
 
         show_all = False
@@ -282,6 +283,9 @@ class SubCommand(Command) :
         if (node == None) :
             raise Exceptions.NodeUnavailable(str(node_id))
 
+        #
+        # Work
+        #
         v = ShowVisitor(colors, verbose, show_all, width, filter)
         node.accept(v)
 

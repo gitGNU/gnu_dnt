@@ -58,7 +58,9 @@ class SubCommand(Command) :
         return True
 
     def do(self, configuration, arguments) :
+        #
         # Parameters setup
+        #
         Command.add_option(self,
                            "-s", "--set",
                            action = "store_true",
@@ -85,12 +87,10 @@ class SubCommand(Command) :
                            dest   = "value",
                            help   = "specify value to set")
 
-        # Parameters parsing
         (opts, args) = Command.parse_args(self, arguments)
         if (len(args) > 0) :
             raise Exceptions.UnknownParameter(args[0])
 
-        # Parameters checks
         if (opts.set != True and opts.get != True and opts.show != True) :
             raise Exceptions.MissingParameters()
         if (opts.set == True and opts.get == True) :
@@ -110,7 +110,9 @@ class SubCommand(Command) :
             if (opts.key == None) :
                 raise Exceptions.MissingParameters("key in order to get "
                                                    "a configuration entry")
+        #
         # Work
+        #
         if (opts.get == True) :
             debug("Performing get")
             assert(opts.key != None)

@@ -42,6 +42,9 @@ class SubCommand(Command) :
         return [ "Francesco Salvestrini" ]
 
     def do(self, configuration, arguments) :
+        #
+        # Parameters setup
+        #
         Command.add_option(self,
                            "-i", "--id",
                            action = "store",
@@ -58,24 +61,26 @@ class SubCommand(Command) :
         if (len(args) > 0) :
             raise Exceptions.UnknownParameter(args[0])
 
-        # Parameters setup
         if (opts.id == None) :
             raise Exceptions.MissingParameters("node id")
 
-        db_file = configuration.get(PROGRAM_NAME, 'database')
-        assert(db_file != None)
         node_id = ID.ID(opts.id)
 
-        # Work
         debug("Removing node:")
         debug("  id = " + str(node_id))
 
-        db = DB.Database()
-
+        #
         # Load database from file
-        tree = db.load(db_file)
+        #
+        db_file = configuration.get(PROGRAM_NAME, 'database')
+        assert(db_file != None)
+        db      = DB.Database()
+        tree    = db.load(db_file)
         assert(tree != None)
 
+        #
+        # Work
+        #
         debug("Looking for node `" + str(node_id) + "'")
         node = Tree.find(tree, node_id)
         if (node == None) :
@@ -97,7 +102,9 @@ class SubCommand(Command) :
 
         #tree.dump("")
 
+        #
         # Save database back to file
+        #
         db.save(db_file, tree)
 
         debug("Success")

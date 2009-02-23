@@ -44,6 +44,9 @@ class SubCommand(Command) :
         return [ "Francesco Salvestrini" ]
 
     def do(self, configuration, arguments) :
+        #
+        # Parameters setup
+        #
         Command.add_option(self,
                            "-n", "--node-id",
                            action = "store",
@@ -61,7 +64,6 @@ class SubCommand(Command) :
         if (len(args) > 0) :
             raise Exceptions.UnknownParameter(args[0])
 
-        # Parameters setup
         if (opts.node == None) :
             raise Exceptions.MissingParameters("node id")
         node_id = ID.ID(opts.node)
@@ -69,20 +71,22 @@ class SubCommand(Command) :
             raise Exceptions.MissingParameters("parent id")
         parent_id = ID.ID(opts.parent)
 
-        # Work
-        db_file   = configuration.get(PROGRAM_NAME, 'database')
-        assert(db_file != None)
-
         debug("Moving node:")
         debug("  node-id   = " + str(node_id))
         debug("  parent-id = " + str(parent_id))
 
-        db = DB.Database()
-
+        #
         # Load database from file
-        tree = db.load(db_file)
+        #
+        db_file = configuration.get(PROGRAM_NAME, 'database')
+        assert(db_file != None)
+        db      = DB.Database()
+        tree    = db.load(db_file)
         assert(tree != None)
 
+        #
+        # Work
+        #
         debug("Looking for node `" + str(parent_id) + "'")
         parent = Tree.find(tree, parent_id)
         if (parent == None) :
@@ -106,7 +110,9 @@ class SubCommand(Command) :
 
         #tree.dump("")
 
+        #
         # Save database back to file
+        #
         db.save(db_file, tree)
 
         debug("Success")

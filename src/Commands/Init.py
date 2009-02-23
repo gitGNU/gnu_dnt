@@ -41,6 +41,9 @@ class SubCommand(Command) :
         return [ "Francesco Salvestrini" ]
 
     def do(self, configuration, arguments) :
+        #
+        # Parameters setup
+        #
         Command.add_option(self,
                            "-f", "--force",
                            action = "store_true",
@@ -56,7 +59,10 @@ class SubCommand(Command) :
         if (len(args) > 0) :
             raise Exceptions.UnknownParameter(args[0])
 
-        # Parameters setup
+        name = opts.name
+        if (name == None) :
+            name = "Nameless DNT database"
+
         db_file = configuration.get(PROGRAM_NAME, 'database')
         assert(db_file != None)
 
@@ -68,14 +74,12 @@ class SubCommand(Command) :
                                              "`" + db_file + "' "
                                              "already exists")
 
+        #
         # Work
+        #
 
-            # We are in force mode (which means we must write the DB whatsover)
-            # or the DB file is not present at all ...
-
-        name = opts.name
-        if (name == None) :
-            name = "Nameless DNT database"
+        # We are in force mode (which means we must write the DB whatsover)
+        # or the DB file is not present at all ...
 
         db = DB.Database()
 
@@ -83,7 +87,9 @@ class SubCommand(Command) :
         tree = Root.Root(name)
         assert(tree != None)
 
-        # Save newly create database to file
+        #
+        # Save database back to file
+        #
         db.save(db_file, tree)
 
         debug("Success")

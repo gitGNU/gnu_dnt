@@ -39,6 +39,9 @@ class SubCommand(Command) :
         return [ "Francesco Salvestrini" ]
 
     def do(self, configuration, arguments) :
+        #
+        # Parameters setup
+        #
         Command.add_option(self,
                            "-i", "--interactive",
                            action = "store_true",
@@ -49,22 +52,25 @@ class SubCommand(Command) :
         if (len(args) > 0) :
             raise Exceptions.UnknownParameter(args[0])
 
-        # Parameters setup
         if (opts.interactive != None) :
             warning("Interactive fixes are not supported yet")
 
-        db_file = configuration.get(PROGRAM_NAME, 'database')
-
-        # Work
-        db = DB.Database()
-
+        #
         # Load database from file
-        tree = db.load(db_file)
+        #
+        db_file = configuration.get(PROGRAM_NAME, 'database')
+        assert(db_file != None)
+        db      = DB.Database()
+        tree    = db.load(db_file)
         assert(tree != None)
 
-        #tree.dump("")
+        #
+        # Work
+        #
 
+        #
         # Save database back to file
+        #
         db.save(db_file, tree)
 
         debug("Success")
