@@ -49,13 +49,17 @@ $DNT dump --width=0                         || exit 1
 $DNT dump --width=20                        || exit 1
 $DNT dump --width=80                        || exit 1
 
-$DNT dump            --format="%t"          || exit 1
-$DNT dump            --format="%p"          || exit 1
-$DNT dump            --format="%s"          || exit 1
-$DNT dump            --format="%e"          || exit 1
-$DNT dump            --format="%t %p %s %e" || exit 1
-$DNT dump --width=0  --format="%p %t %e %s" || exit 1
-$DNT dump --width=80 --format="%p %t %e %s" || exit 1
+$DNT dump            --line-format="%t"          || exit 1
+$DNT dump            --line-format="%p"          || exit 1
+$DNT dump            --line-format="%s"          || exit 1
+$DNT dump            --line-format="%e"          || exit 1
+$DNT dump            --line-format="%t %p %s %e" || exit 1
+$DNT dump --width=0  --line-format="%p %t %e %s" || exit 1
+$DNT dump --width=80 --line-format="%p %t %e %s" || exit 1
+$DNT dump            --line-format="%t"          || exit 1
+$DNT dump            --indent-format="<<<"   \
+                     --line-format="%t"      \
+                     --unindent-format=">>>"     || exit 1
 
 $DNT dump --filter=all                      || exit 1
 $DNT dump --filter=done                     || exit 1
