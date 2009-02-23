@@ -75,9 +75,12 @@ class DumpVisitor(Visitor) :
 
         debug("Visiting entry " + str(e))
 
-        debug("Indenting")
         if (self.__indent_format != None) :
             if (self.level_previous() < self.level_current()) :
+                n = self.level_current() - self.level_previous()
+                assert(n > 0)
+                debug("Indenting " + str(n) + " times")
+                for i in range(0, n) :
                     self.__filehandle.write(self.__indent_format)
 
         debug("Formatting")
@@ -145,9 +148,12 @@ class DumpVisitor(Visitor) :
                 for j in lines :
                     self.__filehandle.write(j + "\n")
 
-        debug("Unindenting")
         if (self.__unindent_format != None) :
-            if (self.level_previous() > self.level_current()) :
+            if (self.level_current() < self.level_previous()) :
+                n = self.level_previous() - self.level_current()
+                assert(n > 0)
+                debug("Unindenting " + str(n) + " times")
+                for i in range(0, n) :
                     self.__filehandle.write(self.__unindent_format)
 
         debug("Completed entry")
@@ -181,6 +187,9 @@ class SubCommand(Command) :
         return [ "Francesco Salvestrini" ]
 
     def do(self, configuration, arguments) :
+        #
+        # Parameters setup
+        #
         Command.add_option(self,
                            "-o", "--output",
                            action = "store",
@@ -222,7 +231,6 @@ class SubCommand(Command) :
         if (len(args) > 0) :
             raise Exceptions.UnknownParameter(args[0])
 
-        # Parameters setup
         try :
             width = configuration.get(PROGRAM_NAME, 'width', raw = True)
         except :
@@ -302,16 +310,18 @@ class SubCommand(Command) :
         filter = Filter.Filter(filter_text)
         assert(filter != None)
 
-        # Work
-
-        # Load DB
+        #
+        # Load database from file
+        #
         db_file = configuration.get(PROGRAM_NAME, 'database')
         assert(db_file != None)
-
-        db   = DB.Database()
-        tree = db.load(db_file)
+        db      = DB.Database()
+        tree    = db.load(db_file)
         assert(tree != None)
 
+        #
+        # Work
+        #
         v = DumpVisitor(colors, verbose, filehandle, width,
                         indent_format, line_format, unindent_format,
                         filter)
