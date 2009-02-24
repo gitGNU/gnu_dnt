@@ -22,7 +22,7 @@
 # Test to ensure that the test environment has a good set-up
 # Report from Francesco Salvestrini
 
-required=""
+required="date"
 
 . $testdir/defs || exit 1
 
