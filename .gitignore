@@ -73,6 +73,9 @@ tests/test-command-touch-01
 tests/test-command-done-01
 tests/test-command-done-02
 tests/test-command-dump-01
+tests/test-command-dump-02
+tests/test-command-dump-03
+tests/test-command-dump-04
 tests/test-command-tag-01
 tests/test-command-init-help-01
 tests/test-command-init-opts-short-01
