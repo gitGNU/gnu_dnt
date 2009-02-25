@@ -113,6 +113,7 @@ SUCCESS_TESTS +=				\
 	test-command-done-opts-long-01		\
 	test-command-done-version-01		\
 	test-command-done-01			\
+	test-command-done-02			\
 	test-command-config-help-01		\
 	test-command-config-opts-short-01	\
 	test-command-config-opts-long-01	\
@@ -363,6 +364,18 @@ test-command-done-01: $(srcdir)/test-command-done-01.in Makefile
 	}
 EXTRA_DIST += test-command-done-01.in
 CLEANFILES += test-command-done-01
+
+test-command-done-02: $(srcdir)/test-command-done-02.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-done-02.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-done-02.in
+CLEANFILES += test-command-done-02
 
 test-command-config-01: $(srcdir)/test-command-config-01.in Makefile
 	( rm -f $@ $@.tmp && \

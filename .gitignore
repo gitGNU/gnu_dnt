@@ -71,6 +71,7 @@ tests/test-command-move-01
 tests/test-command-remove-01
 tests/test-command-touch-01
 tests/test-command-done-01
+tests/test-command-done-02
 tests/test-command-dump-01
 tests/test-command-tag-01
 tests/test-command-init-help-01
