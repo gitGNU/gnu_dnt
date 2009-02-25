@@ -37,8 +37,8 @@ $DNT --database test.db add --text="alfa" || exit 1
 : >test1.txt || exit 1
 : >test2.txt || exit 1
 
-# Don't use "--mono" option in this test!
-$DNT_NOFLAGS dump -l "%t" -w 2 >test1.txt
+# Force colors for this test, don't use "--mono" option !!!
+$DNT_NOFLAGS --colors dump -l "%t" -w 2 >test1.txt
 
 cat >test2.txt <<EOF
 al
