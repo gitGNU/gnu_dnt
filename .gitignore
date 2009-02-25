@@ -99,6 +99,10 @@ tests/test-command-fix-help-01
 tests/test-command-fix-opts-short-01
 tests/test-command-fix-opts-long-01
 tests/test-command-fix-version-01
+tests/test-command-dump-help-01
+tests/test-command-dump-opts-short-01
+tests/test-command-dump-opts-long-01
+tests/test-command-dump-version-01
 
 
 site/in/.sitetool

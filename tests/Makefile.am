@@ -108,6 +108,11 @@ SUCCESS_TESTS +=				\
 	test-command-show-01			\
 	test-command-show-02			\
 	test-command-dump-01			\
+	test-command-dump-help-01		\
+	test-command-dump-opts-short-01		\
+	test-command-dump-opts-long-01		\
+	test-command-dump-version-01		\
+	test-command-dump-wrap-01		\
 	test-command-done-help-01		\
 	test-command-done-opts-short-01		\
 	test-command-done-opts-long-01		\
@@ -688,6 +693,66 @@ test-command-fix-version-01: $(srcdir)/test-command-fix-version-01.in Makefile
 	}
 EXTRA_DIST += test-command-fix-version-01.in
 CLEANFILES += test-command-fix-version-01
+
+test-command-dump-help-01: $(srcdir)/test-command-dump-help-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-dump-help-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-dump-help-01.in
+CLEANFILES += test-command-dump-help-01
+
+test-command-dump-opts-short-01: $(srcdir)/test-command-dump-opts-short-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-dump-opts-short-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-dump-opts-short-01.in
+CLEANFILES += test-command-dump-opts-short-01
+
+test-command-dump-opts-long-01: $(srcdir)/test-command-dump-opts-long-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-dump-opts-long-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-dump-opts-long-01.in
+CLEANFILES += test-command-dump-opts-long-01
+
+test-command-dump-version-01: $(srcdir)/test-command-dump-version-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-dump-version-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-dump-version-01.in
+CLEANFILES += test-command-dump-version-01
+
+test-command-dump-wrap-01: $(srcdir)/test-command-dump-wrap-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-dump-wrap-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-dump-wrap-01.in
+CLEANFILES += test-command-dump-wrap-01
 
 clean-local:
 	rm -rf testSubDir-*
