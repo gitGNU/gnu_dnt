@@ -20,7 +20,8 @@ import sys
 
 from   Debug      import *
 from   Trace      import *
-from   Node       import *
+import Node
+import ID
 import Exceptions
 
 def _find_recursive(node, l) :
@@ -79,5 +80,54 @@ def find(node, id) :
 
 # Test
 if (__name__ == '__main__') :
+    root = Node.Node()
+    e1   = Node.Node()
+    e11  = Node.Node()
+    e12  = Node.Node()
+    e2   = Node.Node()
+
+    e1.child(0, e12)
+    e1.child(0, e11)
+    root.child(0, e1)
+    root.child(1, e2)
+
+    n = find(root, ID.ID("0"))
+    assert(n != None)
+    n = find(root, ID.ID("0.1"))
+    assert(n != None)
+    n = find(root, ID.ID("0.2"))
+    assert(n != None)
+    n = find(root, ID.ID("0.1.1"))
+    assert(n != None)
+    n = find(root, ID.ID("0.1.2"))
+    assert(n != None)
+
+    n = find(root, ID.ID("1"))
+    assert(n != None)
+    n = find(root, ID.ID("2"))
+    assert(n != None)
+    n = find(root, ID.ID("1.1"))
+    assert(n != None)
+    n = find(root, ID.ID("1.2"))
+    assert(n != None)
+
+    n = find(root, ID.ID("1.0"))
+    assert(n != None)
+    n = find(root, ID.ID("2.0"))
+    assert(n != None)
+    n = find(root, ID.ID("1.1.0"))
+    assert(n != None)
+    n = find(root, ID.ID("1.2.0"))
+    assert(n != None)
+
+    n = find(root, ID.ID("1.0.0"))
+    assert(n != None)
+    n = find(root, ID.ID("2.0.0"))
+    assert(n != None)
+    n = find(root, ID.ID("1.0.1.0"))
+    assert(n != None)
+    n = find(root, ID.ID("1.2.0.0"))
+    assert(n != None)
+
     debug("Test completed")
     sys.exit(0)
