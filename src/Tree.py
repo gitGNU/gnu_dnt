@@ -18,17 +18,24 @@
 
 import sys
 
-from   Debug    import *
-from   Trace    import *
-from   Node     import *
+from   Debug      import *
+from   Trace      import *
+from   Node       import *
+import Exceptions
 
 def _find_recursive(node, l) :
     assert(node != None)
     assert(len(l) > 0)
 
+    debug("Looking recursively for node " + str(l))
+
     if (l[0] == 0) :
-        # Caller is looking for this node ...
-        assert(len(l) == 1)
+        # 0 means 'this node'
+
+        if (len(l) > 1) :
+            l.pop(0)
+            return _find_recursive(node, l)
+
         return node
 
     debug("Looking for element `" + str(l) + "' into node `" + str(node) + "'")
@@ -61,7 +68,8 @@ def find(node, id) :
     debug("Looking for id `" + str(id) + "' into node `" + str(node) + "'")
 
     l = id.tolist()
-    assert(len(l) > 0)
+    if (len(l) <= 0) :
+        raise Exceptions.MalformedId("id `" + id + "` is empty")
 
     debug("Splitted id is " + str(l))
 
