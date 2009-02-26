@@ -111,6 +111,10 @@ tests/test-command-edit-help-01
 tests/test-command-edit-opts-short-01
 tests/test-command-edit-opts-long-01
 tests/test-command-edit-version-01
+tests/test-command-move-help-01
+tests/test-command-move-opts-short-01
+tests/test-command-move-opts-long-01
+tests/test-command-move-version-01
 
 
 site/in/.sitetool

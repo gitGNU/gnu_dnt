@@ -1,0 +1,52 @@
+#! @SHELL@
+
+#
+# Copyright (C) 2007, 2008 Francesco Salvestrini
+#                          Alessandro Massignan
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+
+# Test to ensure that the test environment has a good set-up
+# Report from Francesco Salvestrini
+
+required=""
+
+. $testdir/defs || exit 1
+
+COMMAND="move"
+
+# Creating test DB
+rm -f test.db
+$DNT --database test.db init || exit 1
+
+
+# Filling the DB
+$DNT --database test.db add --text="alfa"            || exit 1
+$DNT --database test.db add --parent-id=1 --text="a" || exit 1
+$DNT --database test.db add --parent-id=1 --text="b" || exit 1
+$DNT --database test.db add --text="beta"            || exit 1
+$DNT --database test.db add --parent-id=2 --text="a" || exit 1
+$DNT --database test.db add --parent-id=2 --text="b" || exit 1
+$DNT --database test.db add --text="pawn"            || exit 1
+
+# Moving the pawn
+$DNT --database test.db $COMMAND --node="3" --parent="2"   || exit 1
+$DNT --database test.db $COMMAND --node="2.3" --parent="1" || exit 1
+$DNT --database test.db $COMMAND --node="1.3" --parent="0" || exit 1
+
+rm -f test.db
+
+exit 0

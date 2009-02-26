@@ -109,6 +109,10 @@ SUCCESS_TESTS +=				\
 	test-command-fix-version-01		\
 	test-command-fix-01			\
 	test-command-move-01			\
+	test-command-move-help-01		\
+	test-command-move-opts-short-01		\
+	test-command-move-opts-long-01		\
+	test-command-move-version-01		\
 	test-command-show-01			\
 	test-command-show-02			\
 	test-command-dump-01			\
@@ -844,6 +848,54 @@ test-command-edit-version-01: $(srcdir)/test-command-edit-version-01.in Makefile
 	}
 EXTRA_DIST += test-command-edit-version-01.in
 CLEANFILES += test-command-edit-version-01
+
+test-command-move-help-01: $(srcdir)/test-command-move-help-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-move-help-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-move-help-01.in
+CLEANFILES += test-command-move-help-01
+
+test-command-move-opts-short-01: $(srcdir)/test-command-move-opts-short-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-move-opts-short-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-move-opts-short-01.in
+CLEANFILES += test-command-move-opts-short-01
+
+test-command-move-opts-long-01: $(srcdir)/test-command-move-opts-long-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-move-opts-long-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-move-opts-long-01.in
+CLEANFILES += test-command-move-opts-long-01
+
+test-command-move-version-01: $(srcdir)/test-command-move-version-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-move-version-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-move-version-01.in
+CLEANFILES += test-command-move-version-01
 
 clean-local:
 	rm -rf testSubDir-*
