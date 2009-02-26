@@ -80,16 +80,19 @@ SUCCESS_TESTS +=				\
 	test-debug				\
 	test-help				\
 	test-version				\
+						\
 	test-command-init-help-01		\
 	test-command-init-opts-short-01		\
 	test-command-init-opts-long-01		\
 	test-command-init-version-01		\
 	test-command-init-01			\
+						\
 	test-command-clean-help-01		\
 	test-command-clean-opts-short-01	\
 	test-command-clean-opts-long-01		\
 	test-command-clean-version-01		\
 	test-command-clean-01			\
+						\
 	test-command-add-help-01		\
 	test-command-add-opts-short-01		\
 	test-command-add-opts-long-01		\
@@ -97,46 +100,64 @@ SUCCESS_TESTS +=				\
 	test-command-add-01			\
 	test-command-add-02			\
 	test-command-add-03			\
+						\
 	test-command-remove-01			\
-	test-command-edit-01			\
-	test-command-edit-interactive-01	\
-	test-command-edit-interactive-02	\
+						\
 	test-command-edit-help-01		\
 	test-command-edit-opts-short-01		\
 	test-command-edit-opts-long-01		\
 	test-command-edit-version-01		\
+	test-command-edit-01			\
+	test-command-edit-interactive-01	\
+	test-command-edit-interactive-02	\
+						\
 	test-command-fix-help-01		\
 	test-command-fix-opts-short-01		\
 	test-command-fix-opts-long-01		\
 	test-command-fix-version-01		\
 	test-command-fix-01			\
-	test-command-move-01			\
+						\
 	test-command-move-help-01		\
 	test-command-move-opts-short-01		\
 	test-command-move-opts-long-01		\
 	test-command-move-version-01		\
-	test-command-show-01			\
-	test-command-show-02			\
-	test-command-dump-01			\
-	test-command-dump-02			\
-	test-command-dump-03			\
-	test-command-dump-04			\
+	test-command-move-01			\
+						\
 	test-command-dump-help-01		\
 	test-command-dump-opts-short-01		\
 	test-command-dump-opts-long-01		\
 	test-command-dump-version-01		\
 	test-command-dump-wrap-01		\
+	test-command-dump-01			\
+	test-command-dump-02			\
+	test-command-dump-03			\
+	test-command-dump-04			\
+						\
 	test-command-done-help-01		\
 	test-command-done-opts-short-01		\
 	test-command-done-opts-long-01		\
 	test-command-done-version-01		\
 	test-command-done-01			\
 	test-command-done-02			\
+						\
 	test-command-config-help-01		\
 	test-command-config-opts-short-01	\
 	test-command-config-opts-long-01	\
 	test-command-config-version-01		\
 	test-command-config-01			\
+						\
+	test-command-remove-help-01		\
+	test-command-remove-opts-short-01	\
+	test-command-remove-opts-long-01	\
+	test-command-remove-version-01		\
+						\
+	test-command-show-help-01		\
+	test-command-show-opts-short-01		\
+	test-command-show-opts-long-01		\
+	test-command-show-version-01		\
+	test-command-show-01			\
+	test-command-show-02			\
+						\
 	test-devtodo-to-dnt-01			\
 	test-dnt-to-devtodo-01
 
@@ -238,18 +259,6 @@ test-version: $(srcdir)/test-version.in Makefile
 	}
 EXTRA_DIST += test-version.in
 CLEANFILES += test-version
-
-test-command-show-01: $(srcdir)/test-command-show-01.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-show-01.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-show-01.in
-CLEANFILES += test-command-show-01
 
 test-command-edit-01: $(srcdir)/test-command-edit-01.in Makefile
 	( rm -f $@ $@.tmp && \
@@ -671,18 +680,6 @@ test-command-done-version-01: $(srcdir)/test-command-done-version-01.in Makefile
 EXTRA_DIST += test-command-done-version-01.in
 CLEANFILES += test-command-done-version-01
 
-test-command-show-02: $(srcdir)/test-command-show-02.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-show-02.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-show-02.in
-CLEANFILES += test-command-show-02
-
 test-command-fix-help-01: $(srcdir)/test-command-fix-help-01.in Makefile
 	( rm -f $@ $@.tmp && \
 	  $(do_subst) < $(srcdir)/test-command-fix-help-01.in > $@.tmp && \
@@ -922,6 +919,126 @@ test-command-move-version-01: $(srcdir)/test-command-move-version-01.in Makefile
 	}
 EXTRA_DIST += test-command-move-version-01.in
 CLEANFILES += test-command-move-version-01
+
+test-command-remove-help-01: $(srcdir)/test-command-remove-help-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-remove-help-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-remove-help-01.in
+CLEANFILES += test-command-remove-help-01
+
+test-command-remove-opts-short-01: $(srcdir)/test-command-remove-opts-short-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-remove-opts-short-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-remove-opts-short-01.in
+CLEANFILES += test-command-remove-opts-short-01
+
+test-command-remove-opts-long-01: $(srcdir)/test-command-remove-opts-long-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-remove-opts-long-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-remove-opts-long-01.in
+CLEANFILES += test-command-remove-opts-long-01
+
+test-command-remove-version-01: $(srcdir)/test-command-remove-version-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-remove-version-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-remove-version-01.in
+CLEANFILES += test-command-remove-version-01
+
+test-command-show-01: $(srcdir)/test-command-show-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-01.in
+CLEANFILES += test-command-show-01
+
+test-command-show-02: $(srcdir)/test-command-show-02.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-02.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-02.in
+CLEANFILES += test-command-show-02
+
+test-command-show-help-01: $(srcdir)/test-command-show-help-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-help-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-help-01.in
+CLEANFILES += test-command-show-help-01
+
+test-command-show-opts-short-01: $(srcdir)/test-command-show-opts-short-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-opts-short-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-opts-short-01.in
+CLEANFILES += test-command-show-opts-short-01
+
+test-command-show-opts-long-01: $(srcdir)/test-command-show-opts-long-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-opts-long-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-opts-long-01.in
+CLEANFILES += test-command-show-opts-long-01
+
+test-command-show-version-01: $(srcdir)/test-command-show-version-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-version-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-version-01.in
+CLEANFILES += test-command-show-version-01
 
 clean-local:
 	rm -rf testSubDir-*
