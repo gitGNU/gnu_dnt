@@ -107,6 +107,10 @@ tests/test-command-dump-opts-short-01
 tests/test-command-dump-opts-long-01
 tests/test-command-dump-version-01
 tests/test-command-dump-wrap-01
+tests/test-command-edit-help-01
+tests/test-command-edit-opts-short-01
+tests/test-command-edit-opts-long-01
+tests/test-command-edit-version-01
 
 
 site/in/.sitetool
