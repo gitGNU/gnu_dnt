@@ -50,6 +50,12 @@
                 Done
             </comment>
         </note>
+        <note priority="veryhigh" time="1235583750" done="1235583773">
+            Fix Tree.find() function in order to accept 0 inside the search list
+            <comment>
+                Done
+            </comment>
+        </note>
         <note priority="high" time="1230733148" done="1230733158">
             Fix colors in show command
             <comment>
@@ -201,11 +207,32 @@
                         Done
                     </comment>
                 </note>
+                <note priority="veryhigh" time="1233827933" done="1235668447">
+                    Build tests for command config
+                    <comment>
+                        Done
+                    </comment>
+                </note>
                 <note priority="veryhigh" time="1233827933" done="1234478605">
                     Build tests for command done
                     <comment>
                         Done
                     </comment>
+                </note>
+                <note priority="veryhigh" time="1233827933" done="1235668453">
+                    Build tests for command dump
+                    <comment>
+                        Done
+                    </comment>
+                </note>
+                <note priority="veryhigh" time="1233827933" done="1235668458">
+                    Build tests for command edit
+                    <comment>
+                        Done
+                    </comment>
+                </note>
+                <note priority="veryhigh" time="1233827933" done="1235668493">
+                    Build tests for command fix
                 </note>
                 <note priority="veryhigh" time="1233827933" done="1233874673">
                     Build tests for command init
@@ -213,20 +240,11 @@
                         Done
                     </comment>
                 </note>
-                <note priority="veryhigh" time="1233827933">
-                    Build tests for command config
-                </note>
-                <note priority="veryhigh" time="1233827933">
-                    Build tests for command dump
-                </note>
-                <note priority="veryhigh" time="1233827933">
-                    Build tests for command edit
-                </note>
-                <note priority="veryhigh" time="1233827933">
-                    Build tests for command fix
-                </note>
-                <note priority="veryhigh" time="1233827933">
+                <note priority="veryhigh" time="1233827933" done="1235668501">
                     Build tests for command move
+                    <comment>
+                        Done
+                    </comment>
                 </note>
                 <note priority="veryhigh" time="1233827933">
                     Build tests for command remove
@@ -244,12 +262,6 @@
         </note>
         <note priority="veryhigh" time="1235495489">
             Fix the NEWS and TODOs site pages generation in site/in directory
-        </note>
-        <note priority="veryhigh" time="1235583750" done="1235583773">
-            Fix Tree.find() function in order to accept 0 inside the search list
-            <comment>
-                Done
-            </comment>
         </note>
         <note priority="high" time="1233010414">
             Fix each command in order to get values from command line, configuration file and (last but not least) default to hard-wired values
@@ -322,6 +334,9 @@
         </note>
         <note priority="high" time="1235431214">
             Fix the wrapper.in script in the test directory (find a better fix)
+        </note>
+        <note priority="high" time="1235638003">
+            Replace from with proper import in all modules
         </note>
         <note priority="medium" time="1234045911">
             Add code for interactive mode in fix command
