@@ -117,7 +117,14 @@ tests/test-command-move-help-01
 tests/test-command-move-opts-short-01
 tests/test-command-move-opts-long-01
 tests/test-command-move-version-01
-
+tests/test-command-remove-help-01
+tests/test-command-remove-opts-long-01
+tests/test-command-remove-opts-short-01
+tests/test-command-remove-version-01
+tests/test-command-show-help-01
+tests/test-command-show-opts-long-01
+tests/test-command-show-opts-short-01
+tests/test-command-show-version-01
 
 site/in/.sitetool
 site/in/site.stamp
