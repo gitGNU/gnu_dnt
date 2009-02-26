@@ -208,7 +208,7 @@ class SubCommand(Command) :
             if (tmp == None) :
                 tmp = ""
             tmp = console.interact("text> ", tmp)
-            if (tmp != text) :
+            if (tmp != "") :
                 text = tmp
             del tmp
 
@@ -218,7 +218,7 @@ class SubCommand(Command) :
             tmp = console.interact("priority> ",
                                    tmp,
                                    Priority.Priority().priorities)
-            if (tmp != priority) :
+            if (tmp != "") :
                 priority = tmp
             del tmp
 
@@ -226,7 +226,7 @@ class SubCommand(Command) :
             if (tmp == None) :
                 tmp = ""
             tmp = console.interact("start> ", tmp)
-            if (tmp != start) :
+            if (tmp != "") :
                 start = tmp
             del tmp
 
@@ -234,7 +234,7 @@ class SubCommand(Command) :
             if (tmp == None) :
                 tmp = ""
             tmp = console.interact("end> ", tmp)
-            if (tmp != end) :
+            if (tmp != "") :
                 end = tmp
             del tmp
 
