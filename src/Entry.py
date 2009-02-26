@@ -27,11 +27,6 @@ import Priority
 import Time
 
 class Entry(Node) :
-    __text     = ""
-    __priority = None
-    __start    = None
-    __end      = None
-
     def __init__(self,
                  text,
                  priority = Priority.Priority(),
