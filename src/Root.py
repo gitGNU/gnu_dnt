@@ -26,8 +26,6 @@ from   Color    import *
 import Time
 
 class Root(Node) :
-    __text = ""
-
     def __init__(self, t = "") :
         super(Root, self).__init__()
         self.text_set(t)
