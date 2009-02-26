@@ -64,6 +64,8 @@ tests/test-command-add-01
 tests/test-command-add-02
 tests/test-command-add-03
 tests/test-command-edit-01
+tests/test-command-edit-interactive-01
+tests/test-command-edit-interactive-02
 tests/test-command-fix-01
 tests/test-command-init-01
 tests/test-command-clean-01
