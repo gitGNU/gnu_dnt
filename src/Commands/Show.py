@@ -79,7 +79,6 @@ class ShowVisitor(Visitor) :
                 color_text  = self.__cmap[p]
             except KeyError :
                 bug("Unknown key `" + p.tostring() + "'")
-                color_text = white
         else :
             # A bunch of pass-through lambdas
             color_index = lambda x: x
@@ -159,7 +158,7 @@ class ShowVisitor(Visitor) :
 
         if (self.__colors) :
             color_index = normal_green
-            color_text = normal_white
+            color_text  = normal_white
         else :
             color_index = lambda x: x # pass-through
             color_text  = lambda x: x # pass-through
