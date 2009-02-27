@@ -127,11 +127,12 @@ SUCCESS_TESTS +=				\
 	test-command-dump-opts-short-01		\
 	test-command-dump-opts-long-01		\
 	test-command-dump-version-01		\
-	test-command-dump-wrap-01		\
 	test-command-dump-01			\
 	test-command-dump-02			\
 	test-command-dump-03			\
 	test-command-dump-04			\
+	test-command-dump-wrap-01		\
+	test-command-dump-wrap-02		\
 						\
 	test-command-done-help-01		\
 	test-command-done-opts-short-01		\
@@ -787,6 +788,18 @@ test-command-dump-wrap-01: $(srcdir)/test-command-dump-wrap-01.in Makefile
 	}
 EXTRA_DIST += test-command-dump-wrap-01.in
 CLEANFILES += test-command-dump-wrap-01
+
+test-command-dump-wrap-02: $(srcdir)/test-command-dump-wrap-02.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-dump-wrap-02.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-dump-wrap-02.in
+CLEANFILES += test-command-dump-wrap-02
 
 test-command-dump-02: $(srcdir)/test-command-dump-02.in Makefile
 	( rm -f $@ $@.tmp && \
