@@ -231,8 +231,8 @@ def dump(node,
                     bug("Unknown key `" + p.tostring() + "'")
             else :
                 # A bunch of pass-through lambdas
-                color_index = lambda x: x
                 color_text  = lambda x: x
+                color_index = lambda x: x
                 color_info  = lambda x: x
             assert(color_index != None)
             assert(color_text  != None)
@@ -263,7 +263,7 @@ def dump(node,
                     filehandle.write(j + "\n")
     else :
         bug("Unknown type " + str(type(n)))
-        
+
     # Finally handle node children
     assert(hasattr(node, "children"))
     if (len(node.children()) > 0) :
