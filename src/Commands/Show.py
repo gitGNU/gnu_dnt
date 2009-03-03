@@ -35,9 +35,10 @@ import Terminal
 import Filter
 
 class ShowVisitor(Visitor) :
-    def __init__(self, colors, verbose, show_all, width, filter) :
+    def __init__(self, colors, verbose, show_all, width, filter, filehandle) :
         assert(type(width) == int)
-        assert(filter != None)
+        assert(filter      != None)
+        assert(filehandle  != None)
 
         super(ShowVisitor, self).__init__()
 
@@ -45,12 +46,13 @@ class ShowVisitor(Visitor) :
         #      We need to start from -1 in order to have 0 as id for the
         #      database name
 
-        self.__width   = width
-        self.__colors  = colors
-        self.__verbose = verbose
-        self.__all     = show_all
-        self.__filter  = filter.function
-        self.__cmap    = {
+        self.__width      = width
+        self.__colors     = colors
+        self.__verbose    = verbose
+        self.__all        = show_all
+        self.__filter     = filter.function
+        self.__filehandle = filehandle
+        self.__cmap       = {
             Priority.Priority.PRIORITY_VERYHIGH : bright_red,
             Priority.Priority.PRIORITY_HIGH     : bright_yellow,
             Priority.Priority.PRIORITY_MEDIUM   : bright_white,
@@ -71,7 +73,7 @@ class ShowVisitor(Visitor) :
         debug("Visiting entry " + str(e))
 
         # Handle colors
-        if (self.__colors == True) :
+        if ((self.__filehandle.isatty()) and (self.__colors == True)) :
             color_info  = normal_green
             color_index = normal_green
             p           = e.priority.value
@@ -117,9 +119,9 @@ class ShowVisitor(Visitor) :
             i = 0
             for line in lines :
                 if (i == 0) :
-                    print(header + color_text(line))
+                    self.__filehandle.write(header + color_text(line) + "\n")
                 else :
-                    print(indent + color_text(line))
+                    self.__filehandle.write(indent + color_text(line) + "\n")
                 i = i + 1
 
             if (self.__verbose) :
@@ -147,28 +149,29 @@ class ShowVisitor(Visitor) :
                 else :
                     line2 = line2 + "Incomplete"
 
-                print(line1)
-                print(line2)
-                print("")
+                self.__filehandle.write(line1 + "\n")
+                self.__filehandle.write(line2 + "\n")
+                self.__filehandle.write("\n")
 
     def visitRoot(self, r) :
         assert(r != None)
 
         debug("Visiting root " + str(r))
 
-        if (self.__colors) :
+        if (self.__filehandle.isatty() and (self.__colors == True)) :
             color_index = normal_green
             color_text  = normal_white
         else :
             color_index = lambda x: x # pass-through
             color_text  = lambda x: x # pass-through
 
-            assert(color_index != None)
-            assert(color_text != None)
+        assert(color_index != None)
+        assert(color_text != None)
 
-        print(self.indent()                 +
-              color_index(str(self.index()) + ".") +
-              color_text(r.text))
+        self.__filehandle.write(self.indent()                        +
+                                color_index(str(self.index()) + ".") +
+                                color_text(r.text)                   +
+                                "\n")
 
     def indent(self) :
         return " " * 2 * self.level_current()
@@ -193,6 +196,12 @@ class SubCommand(Command) :
         #
         # Parameters setup
         #
+        Command.add_option(self,
+                           "-o", "--output",
+                           action = "store",
+                           type   = "string",
+                           dest   = "output",
+                           help   = "specify output file name")
         Command.add_option(self, "-a", "--all",
                            action = "store_true",
                            dest   = "all",
@@ -242,6 +251,15 @@ class SubCommand(Command) :
                                             "than 0")
         assert(width >= 0)
 
+        filehandle = sys.stdout
+        if (opts.output != None) :
+            try :
+                filehandle = open(opts.output, 'w')
+            except :
+                raise Exceptions.CannotWrite(ofn)
+        assert(filehandle != None)
+        debug("Output file will be `" + filehandle.name + "'")
+
         try :
             colors = configuration.get(PROGRAM_NAME, 'colors', raw = True)
         except :
@@ -285,7 +303,7 @@ class SubCommand(Command) :
         #
         # Work
         #
-        v = ShowVisitor(colors, verbose, show_all, width, filter)
+        v = ShowVisitor(colors, verbose, show_all, width, filter, filehandle)
         node.accept(v)
 
         debug("Success")
