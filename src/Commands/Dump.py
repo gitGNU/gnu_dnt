@@ -221,7 +221,7 @@ def dump(node,
             debug("Handling colors")
 
             # Handle colors
-            if (colors == True) :
+            if ((filehandle.isatty()) and (colors == True)) :
                 color_info  = Color.normal_green
                 color_index = Color.normal_green
                 p           = e.priority.value
@@ -249,18 +249,28 @@ def dump(node,
             t = re.sub('%p', color_text(priority), t)
             debug("output = `" + t + "'")
 
-            debug("Building output")
+            if (t != '') :
+                debug("Building output")
 
-            # Build the output
-            debug("Wrapping entry text to " + str(width))
-            for i in t.split('\n') :
-                if (width != 0) :
-                    lines = textwrap.wrap(i, width)
-                else :
-                    lines = [ i ]
+                #
+                # Build the output
+                #
+                debug("Wrapping entry text to " + str(width))
 
-                for j in lines :
-                    filehandle.write(j + "\n")
+                # Remove trailing whitespaces (newlines will be added later)
+                t = t.rstrip()
+
+                # Dump each line
+                for i in t.split('\n') :
+                    if (width != 0) :
+                        lines = textwrap.wrap(i, width)
+                    else :
+                        lines = [ i ]
+
+                    for j in lines :
+                        filehandle.write(j + "\n")
+            else :
+                debug("Empty output, skipping ...")
     else :
         bug("Unknown type " + str(type(n)))
 
