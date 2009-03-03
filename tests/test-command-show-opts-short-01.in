@@ -50,6 +50,11 @@ $DNT_NOFLAGS $COMMAND -a -w "16" || exit 1
 $DNT --database test.db done -i "2.1" || exit 1
 $DNT_NOFLAGS $COMMAND -a -F "done"    || exit 1
 
+# Testing "-o" option
+$DNT --database test.db $COMMAND -o "test1.log" || exit 1
+
+rm -f test1.log
+
 rm -f test.db
 
 exit 0

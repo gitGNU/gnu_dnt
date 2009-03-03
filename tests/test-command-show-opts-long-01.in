@@ -50,6 +50,11 @@ $DNT_NOFLAGS $COMMAND --all --width="16" || exit 1
 $DNT --database test.db done --id="2.1" || exit 1
 $DNT_NOFLAGS $COMMAND --all --filter="done"   || exit 1
 
+# Testing "--output" option
+$DNT --database test.db $COMMAND --output="test1.log" || exit 1
+
+rm -f test1.log
+
 rm -f test.db
 
 exit 0
