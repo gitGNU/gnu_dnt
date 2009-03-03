@@ -102,6 +102,7 @@ tests/test-command-done-opts-short-01
 tests/test-command-done-opts-long-01
 tests/test-command-done-version-01
 tests/test-command-show-02
+tests/test-command-show-03
 tests/test-command-fix-help-01
 tests/test-command-fix-opts-short-01
 tests/test-command-fix-opts-long-01

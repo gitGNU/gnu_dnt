@@ -160,6 +160,7 @@ SUCCESS_TESTS +=				\
 	test-command-show-version-01		\
 	test-command-show-01			\
 	test-command-show-02			\
+	test-command-show-03			\
 						\
 	test-devtodo-to-dnt-01			\
 	test-dnt-to-devtodo-01
@@ -1030,6 +1031,18 @@ test-command-show-02: $(srcdir)/test-command-show-02.in Makefile
 	}
 EXTRA_DIST += test-command-show-02.in
 CLEANFILES += test-command-show-02
+
+test-command-show-03: $(srcdir)/test-command-show-03.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-03.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-03.in
+CLEANFILES += test-command-show-03
 
 test-command-show-help-01: $(srcdir)/test-command-show-help-01.in Makefile
 	( rm -f $@ $@.tmp && \
