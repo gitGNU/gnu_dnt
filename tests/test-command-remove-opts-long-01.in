@@ -29,20 +29,18 @@ required=""
 COMMAND="remove"
 
 # Creating test DB
-rm -f test.db
-$DNT --database test.db init || exit 1
+$DNT_FLAGS clean || exit 1
+$DNT_FLAGS init  || exit 1
 
 # Filling DB
-$DNT --database test.db add --text="alfa" || exit 1
-$DNT --database test.db add --text="beta" || exit 1
-$DNT --database test.db add --text="a" --parent-id="2" || exit 1
+$DNT_FLAGS add --text="alfa"              || exit 1
+$DNT_FLAGS add --text="beta"              || exit 1
+$DNT_FLAGS add --text="a" --parent-id="2" || exit 1
 
 # Testing "--id" option
-$DNT --database test.db $COMMAND --id="1" || exit 1
+$DNT_FLAGS $COMMAND --id="1" || exit 1
 
 # Testing "--recursive" option
-$DNT --database test.db $COMMAND --id="1" --recursive || exit 1
-
-rm -f test.db
+$DNT_FLAGS $COMMAND --id="1" --recursive || exit 1
 
 exit 0

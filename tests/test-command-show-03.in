@@ -29,11 +29,12 @@ required="diff"
 COMMAND="show"
 
 # Creating DB
-$DNT --database test.db init -n "test"  || exit 1
-$DNT --database test.db add -t "alfa"   || exit 1
-$DNT --database test.db add -t "beta"   || exit 1
-$DNT --database test.db add -t "a" -i 1 || exit 1
-$DNT --database test.db add -t "b" -i 1 || exit 1
+$DNT_FLAGS clean           || exit 1
+$DNT_FLAGS init -n "test"  || exit 1
+$DNT_FLAGS add -t "alfa"   || exit 1
+$DNT_FLAGS add -t "beta"   || exit 1
+$DNT_FLAGS add -t "a" -i 1 || exit 1
+$DNT_FLAGS add -t "b" -i 1 || exit 1
 
 : >test.exp || exit 1
 : >test.out || exit 1
@@ -75,9 +76,5 @@ EOF
 
 $DNT_NOFLAGS $COMMAND -o test.out || exit 1
 diff test.out test.exp || exit 1
-
-rm -f test.exp
-rm -f test.out
-rm -f test.db
 
 exit 0

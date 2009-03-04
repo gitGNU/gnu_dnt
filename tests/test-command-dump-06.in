@@ -29,13 +29,13 @@ required=""
 COMMAND="dump"
 
 # Creating test DB
-rm -f test.db
-$DNT --database test.db init            || exit 1
-$DNT --database test.db add -t "alfa"   || exit 1
-$DNT --database test.db add -t "beta"   || exit 1
-$DNT --database test.db add -i 1 -t "a" || exit 1
-$DNT --database test.db add -i 1 -t "b" || exit 1
-$DNT --database test.db add -i 2 -t "a" || exit 1
+$DNT_FLAGS clean           || exit 1
+$DNT_FLAGS init            || exit 1
+$DNT_FLAGS add -t "alfa"   || exit 1
+$DNT_FLAGS add -t "beta"   || exit 1
+$DNT_FLAGS add -i 1 -t "a" || exit 1
+$DNT_FLAGS add -i 1 -t "b" || exit 1
+$DNT_FLAGS add -i 2 -t "a" || exit 1
 
 EXPECTED=""
 
@@ -48,7 +48,5 @@ OUTPUT2="`$DNT_NOFLAGS $COMMAND -l '' -i '' -u '' -w 0`"
 if test ! "x${OUTPUT}" = "x${EXPECTED}"; then
   exit 1
 fi
-
-rm -f test.db
 
 exit 0

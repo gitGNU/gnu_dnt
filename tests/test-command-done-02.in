@@ -27,14 +27,13 @@ required=""
 . $testdir/defs || exit 1
 
 # Fill the tree
-$DNT --database test.db init || exit 1
-$DNT_NOFLAGS add -t "alfa"   || exit 1
-$DNT_NOFLAGS add -t "beta"   || exit 1
+$DNT_FLAGS clean         || exit 1
+$DNT_FLAGS init          || exit 1
+$DNT_FLAGS add -t "alfa" || exit 1
+$DNT_FLAGS add -t "beta" || exit 1
 
 # Mark node 0.1 and 0.2 as done
-$DNT done --id 0.1 || exit 1
-$DNT done --id 0.2 || exit 1
-
-rm -rf test.db
+$DNT_FLAGS done --id 0.1 || exit 1
+$DNT_FLAGS done --id 0.2 || exit 1
 
 exit 0

@@ -29,9 +29,9 @@ required="diff"
 COMMAND="dump"
 
 # Creating test DB
-rm -f test.db
-$DNT --database test.db init || exit 1
-$DNT --database test.db add --text="alfa" || exit 1
+$DNT_FLAGS clean || exit 1
+$DNT_FLAGS init  || exit 1
+$DNT_FLAGS add --text="alfa" || exit 1
 
 # Testing wrapping result on "--width" option
 : >test1.txt || exit 1
@@ -47,9 +47,5 @@ fa
 EOF
 
 diff test1.txt test2.txt || exit 1
-
-rm -f test1.txt
-rm -f test2.txt
-rm -f test.db
 
 exit 0

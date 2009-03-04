@@ -26,23 +26,25 @@ required=""
 . $testdir/defs || exit 1
 
 # Always check --help and --version
-$DNT move --help    || exit 1
-$DNT move --version || exit 1
+$DNT_FLAGS move --help    || exit 1
+$DNT_FLAGS move --version || exit 1
 
 # Then perform the command related check
-$DNT init || exit 1
-$DNT add -t "test1"  || exit 1
-$DNT add -t "test2"  || exit 1
-$DNT add -t "test3"  || exit 1
+$DNT_FLAGS clean || exit 1
+$DNT_FLAGS init  || exit 1
 
-$DNT add -t "test11" -i 1 || exit 1
-$DNT add -t "test21" -i 2 || exit 1
-$DNT add -t "test31" -i 3 || exit 1
+$DNT_FLAGS add -t "test1"  || exit 1
+$DNT_FLAGS add -t "test2"  || exit 1
+$DNT_FLAGS add -t "test3"  || exit 1
 
-$DNT add -t "test111" -i 1.1 || exit 1
-$DNT add -t "test211" -i 2.1 || exit 1
-$DNT add -t "test311" -i 3.1 || exit 1
+$DNT_FLAGS add -t "test11" -i 1 || exit 1
+$DNT_FLAGS add -t "test21" -i 2 || exit 1
+$DNT_FLAGS add -t "test31" -i 3 || exit 1
 
-$DNT move -n 3.1 -p 1 || exit 1
+$DNT_FLAGS add -t "test111" -i 1.1 || exit 1
+$DNT_FLAGS add -t "test211" -i 2.1 || exit 1
+$DNT_FLAGS add -t "test311" -i 3.1 || exit 1
+
+$DNT_FLAGS move -n 3.1 -p 1 || exit 1
 
 exit 0

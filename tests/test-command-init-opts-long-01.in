@@ -42,6 +42,4 @@ $DNT --database test.db $COMMAND --name="test_node" || exit 1
 # Testing "--force" option on "--name" option
 $DNT --database test.db $COMMAND --name="test_node" --force || exit 1
 
-rm -f test.db
-
 exit 0

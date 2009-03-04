@@ -26,44 +26,45 @@ required="diff"
 . $testdir/defs || exit 1
 
 # Always check --help and --version
-$DNT dump --help    || exit 1
-$DNT dump --version || exit 1
+$DNT_FLAGS dump --help    || exit 1
+$DNT_FLAGS dump --version || exit 1
 
 # Then perform the command related check
-$DNT init || exit 1
+$DNT_FLAGS clean || exit 1
+$DNT_FLAGS init  || exit 1
 
-$DNT add -t "test1"  || exit 1
-$DNT add -t "test2"  || exit 1
-$DNT add -t "test3"  || exit 1
+$DNT_FLAGS add -t "test1"  || exit 1
+$DNT_FLAGS add -t "test2"  || exit 1
+$DNT_FLAGS add -t "test3"  || exit 1
 
-$DNT add -t "test11" -i 1 || exit 1
-$DNT add -t "test21" -i 2 || exit 1
-$DNT add -t "test31" -i 3 || exit 1
+$DNT_FLAGS add -t "test11" -i 1 || exit 1
+$DNT_FLAGS add -t "test21" -i 2 || exit 1
+$DNT_FLAGS add -t "test31" -i 3 || exit 1
 
-$DNT dump --output /dev/stdout              || exit 1
-$DNT dump --output /dev/stderr              || exit 1
-$DNT dump --output test.dump                || exit 1
+$DNT_FLAGS dump --output /dev/stdout              || exit 1
+$DNT_FLAGS dump --output /dev/stderr              || exit 1
+$DNT_FLAGS dump --output test.dump                || exit 1
 
-$DNT dump                                   || exit 1
-$DNT dump --width=0                         || exit 1
-$DNT dump --width=20                        || exit 1
-$DNT dump --width=80                        || exit 1
+$DNT_FLAGS dump                                   || exit 1
+$DNT_FLAGS dump --width=0                         || exit 1
+$DNT_FLAGS dump --width=20                        || exit 1
+$DNT_FLAGS dump --width=80                        || exit 1
 
-$DNT dump            --line-format="%t"          || exit 1
-$DNT dump            --line-format="%p"          || exit 1
-$DNT dump            --line-format="%s"          || exit 1
-$DNT dump            --line-format="%e"          || exit 1
-$DNT dump            --line-format="%t %p %s %e" || exit 1
-$DNT dump --width=0  --line-format="%p %t %e %s" || exit 1
-$DNT dump --width=80 --line-format="%p %t %e %s" || exit 1
-$DNT dump            --line-format="%t"          || exit 1
-$DNT dump            --indent-format="<<<"   \
-                     --line-format="%t"      \
-                     --unindent-format=">>>"     || exit 1
+$DNT_FLAGS dump            --line-format="%t"          || exit 1
+$DNT_FLAGS dump            --line-format="%p"          || exit 1
+$DNT_FLAGS dump            --line-format="%s"          || exit 1
+$DNT_FLAGS dump            --line-format="%e"          || exit 1
+$DNT_FLAGS dump            --line-format="%t %p %s %e" || exit 1
+$DNT_FLAGS dump --width=0  --line-format="%p %t %e %s" || exit 1
+$DNT_FLAGS dump --width=80 --line-format="%p %t %e %s" || exit 1
+$DNT_FLAGS dump            --line-format="%t"          || exit 1
+$DNT_FLAGS dump            --indent-format="aaa"                        \
+                           --line-format="%t"                           \
+                           --unindent-format="bbb"     || exit 1
 
-$DNT dump --filter=all                      || exit 1
-$DNT dump --filter=done                     || exit 1
-$DNT dump --filter=not-done                 || exit 1
+$DNT_FLAGS dump --filter=all                      || exit 1
+$DNT_FLAGS dump --filter=done                     || exit 1
+$DNT_FLAGS dump --filter=not-done                 || exit 1
 
 $DNT_NOFLAGS --colors dump > test1.log || exit 1
 $DNT_NOFLAGS --mono   dump > test2.log || exit 1

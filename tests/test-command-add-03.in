@@ -26,15 +26,16 @@ required=""
 . $testdir/defs || exit 1
 
 # Always check --help and --version
-$DNT add --help    || exit 1
-$DNT add --version || exit 1
+$DNT_FLAGS add --help    || exit 1
+$DNT_FLAGS add --version || exit 1
 
 # Then perform the command related check
-$DNT init || exit 1
-$DNT add -t "test"           || exit 1
-$DNT add -t "test alfa"      || exit 1
-$DNT add -t "test alfa beta" || exit 1
-$DNT add -t "     alfa"      || exit 1
-$DNT add -t "     alfa     " || exit 1
+$DNT_FLAGS clean || exit 1
+$DNT_FLAGS init  || exit 1
+$DNT_FLAGS add -t "test"           || exit 1
+$DNT_FLAGS add -t "test alfa"      || exit 1
+$DNT_FLAGS add -t "test alfa beta" || exit 1
+$DNT_FLAGS add -t "     alfa"      || exit 1
+$DNT_FLAGS add -t "     alfa     " || exit 1
 
 exit 0

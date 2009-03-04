@@ -29,46 +29,44 @@ required="date"
 COMMAND="add"
 
 # Creating test DB
-rm -f test.db
-$DNT --database test.db init --name='Regression test [${COMMAND}]' || exit 1
+$DNT_FLAGS clean
+$DNT_FLAGS init --name='Regression test [${COMMAND}]' || exit 1
 
 # Testing "--text" option
-$DNT --database test.db $COMMAND --text="Node 1" || exit 1
+$DNT_FLAGS $COMMAND --text="Node 1" || exit 1
 
 # Testing "--parent-id" option with "--text"
-$DNT --database test.db $COMMAND --parent-id=1 --text="Node 1.1" || exit 1
+$DNT_FLAGS $COMMAND --parent-id=1 --text="Node 1.1" || exit 1
 
 # Testing "--start" option
-$DNT --database test.db $COMMAND   \
-     --parent-id=1                 \
-     --start="1970-01-01 00:00:00" \
+$DNT_FLAGS $COMMAND                             \
+     --parent-id=1                              \
+     --start="1970-01-01 00:00:00"              \
      --text="Node 1.2" || exit 1
 
 # Testing "--end" option
-$DNT --database test.db $COMMAND         \
-     --parent-id=1                       \
-     --end="`date +"%Y-%m-%d %H:%M:%S"`" \
+$DNT_FLAGS $COMMAND                             \
+     --parent-id=1                              \
+     --end="`date +\"%Y-%m-%d %H:%M:%S\"`"      \
      --text="Node 1.2" || exit 1
 
 # Testing "--start" with "--end" option
-$DNT --database test.db $COMMAND         \
-     --parent-id=1                       \
-     --start="1970-01-01 00:00:00"       \
-     --end="`date +"%Y-%m-%d %H:%M:%S"`" \
+$DNT_FLAGS $COMMAND                             \
+     --parent-id=1                              \
+     --start="1970-01-01 00:00:00"              \
+     --end="`date +\"%Y-%m-%d %H:%M:%S\"`"      \
      --text="Node 1.2" || exit 1
 
 # Testing "--priority" option with all priorities
-$DNT --database test.db $COMMAND --text="Node 2" \
+$DNT_FLAGS $COMMAND --text="Node 2" \
      --priority="veryhigh" || exit 1
-$DNT --database test.db $COMMAND --text="Node 3" \
+$DNT_FLAGS $COMMAND --text="Node 3" \
      --priority="high"     || exit 1
-$DNT --database test.db $COMMAND --text="Node 4" \
+$DNT_FLAGS $COMMAND --text="Node 4" \
      --priority="medium"   || exit 1
-$DNT --database test.db $COMMAND --text="Node 5" \
+$DNT_FLAGS $COMMAND --text="Node 5" \
      --priority="low"      || exit 1
-$DNT --database test.db $COMMAND --text="Node 6" \
+$DNT_FLAGS $COMMAND --text="Node 6" \
      --priority="verylow"  || exit 1
-
-rm -f test.db
 
 exit 0

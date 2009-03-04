@@ -26,8 +26,8 @@ required=""
 . $testdir/defs || exit 1
 
 # Always check --help and --version
-$DNT fix --help    || exit 1
-$DNT fix --version || exit 1
+$DNT_FLAGS fix --help    || exit 1
+$DNT_FLAGS fix --version || exit 1
 
 # Then perform the command related check
 

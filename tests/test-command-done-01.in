@@ -26,51 +26,53 @@ required=""
 . $testdir/defs || exit 1
 
 # Always check --help and --version
-$DNT done --help    || exit 1
-$DNT done --version || exit 1
+$DNT_FLAGS done --help    || exit 1
+$DNT_FLAGS done --version || exit 1
 
 # Then perform the command related check
 
 # Fill the tree
-$DNT init || exit 1
-$DNT add -t "test1"  || exit 1
-$DNT add -t "test2"  || exit 1
-$DNT add -t "test3"  || exit 1
+$DNT_FLAGS clean || exit 1
+$DNT_FLAGS init  || exit 1
 
-$DNT add -t "test11" -i 1 || exit 1
-$DNT add -t "test21" -i 2 || exit 1
-$DNT add -t "test31" -i 3 || exit 1
+$DNT_FLAGS add -t "test1"  || exit 1
+$DNT_FLAGS add -t "test2"  || exit 1
+$DNT_FLAGS add -t "test3"  || exit 1
 
-$DNT add -t "test111" -i 1.1 || exit 1
-$DNT add -t "test211" -i 2.1 || exit 1
-$DNT add -t "test311" -i 3.1 || exit 1
+$DNT_FLAGS add -t "test11" -i 1 || exit 1
+$DNT_FLAGS add -t "test21" -i 2 || exit 1
+$DNT_FLAGS add -t "test31" -i 3 || exit 1
+
+$DNT_FLAGS add -t "test111" -i 1.1 || exit 1
+$DNT_FLAGS add -t "test211" -i 2.1 || exit 1
+$DNT_FLAGS add -t "test311" -i 3.1 || exit 1
 
 # Mark some nodes as done
-$DNT done --id 1.1.1 || exit 1
-$DNT done --id 1.1   || exit 1
-$DNT done --id 1     || exit 1
+$DNT_FLAGS done --id 1.1.1 || exit 1
+$DNT_FLAGS done --id 1.1   || exit 1
+$DNT_FLAGS done --id 1     || exit 1
 
 # Check it
 
 # Start from scratch
-$DNT clean || exit 1
+$DNT_FLAGS clean || exit 1
 
 # Fill the tree (again)
 
-$DNT init || exit 1
-$DNT add -t "test1"  || exit 1
-$DNT add -t "test2"  || exit 1
-$DNT add -t "test3"  || exit 1
+$DNT_FLAGS init || exit 1
+$DNT_FLAGS add -t "test1"  || exit 1
+$DNT_FLAGS add -t "test2"  || exit 1
+$DNT_FLAGS add -t "test3"  || exit 1
 
-$DNT add -t "test11" -i 1 || exit 1
-$DNT add -t "test21" -i 2 || exit 1
-$DNT add -t "test31" -i 3 || exit 1
+$DNT_FLAGS add -t "test11" -i 1 || exit 1
+$DNT_FLAGS add -t "test21" -i 2 || exit 1
+$DNT_FLAGS add -t "test31" -i 3 || exit 1
 
-$DNT add -t "test111" -i 1.1 || exit 1
-$DNT add -t "test211" -i 2.1 || exit 1
-$DNT add -t "test311" -i 3.1 || exit 1
+$DNT_FLAGS add -t "test111" -i 1.1 || exit 1
+$DNT_FLAGS add -t "test211" -i 2.1 || exit 1
+$DNT_FLAGS add -t "test311" -i 3.1 || exit 1
 
 # Mark the same nodes ad done
-$DNT done --id 1     || exit 1
+$DNT_FLAGS done --id 1     || exit 1
 
 exit 0

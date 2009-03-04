@@ -29,41 +29,39 @@ required="date"
 COMMAND="add"
 
 # Creating test DB
-rm -f test.db
-$DNT --database test.db init -n "Regression test [${COMMAND}]" || exit 1
+$DNT_FLAGS clean
+$DNT_FLAGS init -n "Regression test [${COMMAND}]" || exit 1
 
 # Testing "-t" option
-$DNT --database test.db $COMMAND -t "Node 1" || exit 1
+$DNT_FLAGS $COMMAND -t "Node 1" || exit 1
 
 # Testing "-i" option with "-t"
-$DNT --database test.db $COMMAND -i 1 -t "Node 1.1" || exit 1
+$DNT_FLAGS $COMMAND -i 1 -t "Node 1.1" || exit 1
 
 # Testing "-s" option
-$DNT --database test.db $COMMAND \
-     -i 1                        \
-     -s "1970-01-01 00:00:00"    \
+$DNT_FLAGS $COMMAND                             \
+     -i 1                                       \
+     -s "1970-01-01 00:00:00"                   \
      -t "Node 1.2" || exit 1
 
 # Testing "-e" option
-$DNT --database test.db $COMMAND      \
-     -i 1                             \
-     -e "`date +"%Y-%m-%d %H:%M:%S"`" \
+$DNT_FLAGS $COMMAND                             \
+     -i 1                                       \
+     -e "`date +\"%Y-%m-%d %H:%M:%S\"`"         \
      -t "Node 1.2" || exit 1
 
 # Testing "-s" with "-e" option
-$DNT --database test.db $COMMAND      \
-     -i 1                             \
-     -s "1970-01-01 00:00:00"         \
-     -e "`date +"%Y-%m-%d %H:%M:%S"`" \
+$DNT_FLAGS $COMMAND                             \
+     -i 1                                       \
+     -s "1970-01-01 00:00:00"                   \
+     -e "`date +\"%Y-%m-%d %H:%M:%S\"`"         \
      -t "Node 1.2" || exit 1
 
 # Testing "-p" option with all priorities
-$DNT --database test.db $COMMAND -t "Node 2" -p "veryhigh" || exit 1
-$DNT --database test.db $COMMAND -t "Node 3" -p "high"     || exit 1
-$DNT --database test.db $COMMAND -t "Node 4" -p "medium"   || exit 1
-$DNT --database test.db $COMMAND -t "Node 5" -p "low"      || exit 1
-$DNT --database test.db $COMMAND -t "Node 6" -p "verylow"  || exit 1
-
-rm -f test.db
+$DNT_FLAGS $COMMAND -t "Node 2" -p "veryhigh" || exit 1
+$DNT_FLAGS $COMMAND -t "Node 3" -p "high"     || exit 1
+$DNT_FLAGS $COMMAND -t "Node 4" -p "medium"   || exit 1
+$DNT_FLAGS $COMMAND -t "Node 5" -p "low"      || exit 1
+$DNT_FLAGS $COMMAND -t "Node 6" -p "verylow"  || exit 1
 
 exit 0

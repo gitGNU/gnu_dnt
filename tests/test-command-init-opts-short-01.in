@@ -42,6 +42,4 @@ $DNT --database test.db $COMMAND -n "test_node" || exit 1
 # Testing "-f" option on "-n" option
 $DNT --database test.db $COMMAND -n "test_node" -f || exit 1
 
-rm -f test.db
-
 exit 0

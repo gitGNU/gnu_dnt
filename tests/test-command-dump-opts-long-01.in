@@ -29,15 +29,15 @@ required=""
 COMMAND="dump"
 
 # Creating test DB
-rm -f test.db
-$DNT --database test.db init || exit 1
-$DNT --database test.db add --text="alfa" || exit 1
+$DNT_FLAGS clean || exit 1
+$DNT_FLAGS init  || exit 1
+$DNT_FLAGS add --text="alfa" || exit 1
 
 # Testing "--line-format" option
 $DNT_NOFLAGS dump --line-format="%t" || exit 1
 
 # Testing "--filter" option
-$DNT --database test.db done --id="1" || exit 1
+$DNT_FLAGS done --id="1" || exit 1
 $DNT_NOFLAGS $COMMAND --filter="done" --line-format="%t" || exit 1
 
 # Testing "--width" option
@@ -48,7 +48,5 @@ $DNT_NOFLAGS $COMMAND --line-format="%t" --indent="1. " || exit 1
 
 # Testing "--unindent" option
 $DNT_NOFLAGS $COMMAND --line-format="%t" --unindent="" || exit 1
-
-rm -f test.db
 
 exit 0

@@ -29,19 +29,17 @@ required=""
 COMMAND="done"
 
 # Creating test DB
-rm -f test.db
-$DNT --database test.db init || exit 1
-$DNT --database test.db add -t "node_1" || exit 1
-$DNT --database test.db add -t "node_2" || exit 1
-$DNT --database test.db add -t "node_3" || exit 1
-$DNT --database test.db add -t "node_4" || exit 1
+$DNT_FLAGS clean           || exit 1
+$DNT_FLAGS init            || exit 1
+$DNT_FLAGS add -t "node_1" || exit 1
+$DNT_FLAGS add -t "node_2" || exit 1
+$DNT_FLAGS add -t "node_3" || exit 1
+$DNT_FLAGS add -t "node_4" || exit 1
 
 # Testing "-i" option
-$DNT --database test.db $COMMAND -i "1" || exit 1
-$DNT --database test.db $COMMAND -i "2" || exit 1
-$DNT --database test.db $COMMAND -i "3" || exit 1
-$DNT --database test.db $COMMAND -i "4" || exit 1
-
-rm -f test.db
+$DNT_FLAGS $COMMAND -i "1" || exit 1
+$DNT_FLAGS $COMMAND -i "2" || exit 1
+$DNT_FLAGS $COMMAND -i "3" || exit 1
+$DNT_FLAGS $COMMAND -i "4" || exit 1
 
 exit 0

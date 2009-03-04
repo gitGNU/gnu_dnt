@@ -29,24 +29,22 @@ required=""
 COMMAND="move"
 
 # Creating test DB
-rm -f test.db
-$DNT --database test.db init || exit 1
+$DNT_FLAGS clean || exit 1
+$DNT_FLAGS init  || exit 1
 
 
 # Filling the DB
-$DNT --database test.db add --text="alfa"            || exit 1
-$DNT --database test.db add --parent-id=1 --text="a" || exit 1
-$DNT --database test.db add --parent-id=1 --text="b" || exit 1
-$DNT --database test.db add --text="beta"            || exit 1
-$DNT --database test.db add --parent-id=2 --text="a" || exit 1
-$DNT --database test.db add --parent-id=2 --text="b" || exit 1
-$DNT --database test.db add --text="pawn"            || exit 1
+$DNT_FLAGS add --text="alfa"            || exit 1
+$DNT_FLAGS add --parent-id=1 --text="a" || exit 1
+$DNT_FLAGS add --parent-id=1 --text="b" || exit 1
+$DNT_FLAGS add --text="beta"            || exit 1
+$DNT_FLAGS add --parent-id=2 --text="a" || exit 1
+$DNT_FLAGS add --parent-id=2 --text="b" || exit 1
+$DNT_FLAGS add --text="pawn"            || exit 1
 
 # Moving the pawn
-$DNT --database test.db $COMMAND --node="3" --parent="2"   || exit 1
-$DNT --database test.db $COMMAND --node="2.3" --parent="1" || exit 1
-$DNT --database test.db $COMMAND --node="1.3" --parent="0" || exit 1
-
-rm -f test.db
+$DNT_FLAGS $COMMAND --node="3" --parent="2"   || exit 1
+$DNT_FLAGS $COMMAND --node="2.3" --parent="1" || exit 1
+$DNT_FLAGS $COMMAND --node="1.3" --parent="0" || exit 1
 
 exit 0

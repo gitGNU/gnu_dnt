@@ -29,12 +29,10 @@ required=""
 COMMAND="fix"
 
 # Creating test DB
-rm -f test.db
-$DNT --database test.db init || exit 1
+$DNT_FLAGS clean || exit 1
+$DNT_FLAGS init  || exit 1
 
 # Testing command
-$DNT --database test.db $COMMAND || exit 1
-
-rm -f test.db
+$DNT_FLAGS $COMMAND || exit 1
 
 exit 0
