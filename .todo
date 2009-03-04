@@ -275,11 +275,17 @@
                 Remove show command requirement for debug and verbose related test (we should not use a subcommand to check --verbose or --debug options ...)
             </note>
         </note>
+        <note priority="veryhigh" time="1236158880">
+            test-command-done-02 marks nodes as done without checking the final tree status
+        </note>
         <note priority="high" time="1235558583">
             Fix the colored-wrap problem (add -t "Hello world", dump -l "%t" -w 6 in order to see it)
         </note>
-        <note priority="high" time="1236094219">
+        <note priority="high" time="1236094219" done="1236158956">
             Add -o/--output tests for show command (like the dump one)
+            <comment>
+                Done
+            </comment>
         </note>
         <note priority="medium" time="1234048997">
             Fix the nodes indexing in show command while using --index option
