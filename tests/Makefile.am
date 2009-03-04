@@ -74,6 +74,7 @@ SUCCESS_TESTS =
 
 FAIL_TESTS    +=				\
 	test-fail
+
 SUCCESS_TESTS +=				\
 	test-success				\
 	test-verbose				\
@@ -81,17 +82,18 @@ SUCCESS_TESTS +=				\
 	test-help				\
 	test-version				\
 						\
+	test-command-init-01			\
+	test-command-clean-01			\
+						\
 	test-command-init-help-01		\
 	test-command-init-opts-short-01		\
 	test-command-init-opts-long-01		\
 	test-command-init-version-01		\
-	test-command-init-01			\
 						\
 	test-command-clean-help-01		\
 	test-command-clean-opts-short-01	\
 	test-command-clean-opts-long-01		\
 	test-command-clean-version-01		\
-	test-command-clean-01			\
 						\
 	test-command-add-help-01		\
 	test-command-add-opts-short-01		\
@@ -101,6 +103,10 @@ SUCCESS_TESTS +=				\
 	test-command-add-02			\
 	test-command-add-03			\
 						\
+	test-command-remove-help-01		\
+	test-command-remove-opts-short-01	\
+	test-command-remove-opts-long-01	\
+	test-command-remove-version-01		\
 	test-command-remove-01			\
 						\
 	test-command-edit-help-01		\
@@ -148,11 +154,6 @@ SUCCESS_TESTS +=				\
 	test-command-config-opts-long-01	\
 	test-command-config-version-01		\
 	test-command-config-01			\
-						\
-	test-command-remove-help-01		\
-	test-command-remove-opts-short-01	\
-	test-command-remove-opts-long-01	\
-	test-command-remove-version-01		\
 						\
 	test-command-show-help-01		\
 	test-command-show-opts-short-01		\
