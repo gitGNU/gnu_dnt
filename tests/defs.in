@@ -73,13 +73,14 @@ test -z "$MAKE"   && MAKE=make
 
 FLAGS=""
 
+test -z "$WRAPPER"        && WRAPPER="wrapper"
 test -n "$VERBOSE"        && FLAGS="$FLAGS --verbose"
 test -n "$DEBUG"          && FLAGS="$FLAGS --debug"
-test -z "$DNT"            && DNT="wrapper dnt --database test.db $FLAGS"
-test -z "$DNT_NOFLAGS"    && DNT_NOFLAGS="wrapper dnt --database test.db"
-test -z "$DNT_TO_DEVTODO" && DNT_TO_DEVTODO="wrapper dnt-to-devtodo --libdir @abs_top_srcdir@/data"
-test -z "$DEVTODO_TO_DNT" && DEVTODO_TO_DNT="wrapper devtodo-to-dnt --libdir @abs_top_srcdir@/data"
-test -z "$WRAPPER"        && WRAPPER="wrapper"
+test -z "$DNT"            && DNT="$WRAPPER dnt"
+test -z "$DNT_FLAGS"      && DNT_FLAGS="$DNT --database test.db $FLAGS"
+test -z "$DNT_NOFLAGS"    && DNT_NOFLAGS="$DNT --database test.db"
+test -z "$DNT_TO_DEVTODO" && DNT_TO_DEVTODO="$WRAPPER dnt-to-devtodo --libdir @abs_top_srcdir@/data"
+test -z "$DEVTODO_TO_DNT" && DEVTODO_TO_DNT="$WRAPPER devtodo-to-dnt --libdir @abs_top_srcdir@/data"
 
 PATH=`pwd`:$PATH
 echo $PATH
