@@ -91,16 +91,18 @@ class Entry(Node) :
 
     end = property(end_get, end_set)
 
+    def mark_as_done(self) :
+        self.__end = Time.Time()
+
+    def mark_as_not_done(self) :
+        self.__end = None
+
     def done(self) :
         if (self.__end == None) :
             return False
         if (self.__end <= Time.Time()) :
             return True
         return False
-
-        #if (self.__start < self.__end) :
-        #    return False
-        #return True
 
     def __str__(self) :
         return '<Entry #%x>' % (id(self))
