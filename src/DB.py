@@ -37,7 +37,7 @@ import Exceptions
 #
 
 def fromxml(xml) :
-    debug("XML -> Tree in progress")
+    #debug("XML -> Tree in progress")
 
     #debug("Handling tag " + xml.tag)
     node = None
@@ -56,14 +56,14 @@ def fromxml(xml) :
         if (text == None) :
             raise Exceptions.MalformedDatabase()
 
-        debug("Priority is:      `" + xml.attrib['priority'] + "'")
+        #debug("Priority is:      `" + xml.attrib['priority'] + "'")
         priority = Priority.Priority()
         try :
             priority.fromstring(xml.attrib['priority'])
         except Exception, e :
             #debug(str(e))
             warning("No priority for entry `" + text + "', using default")
-        debug("Priority will be: `" + priority.tostring() + "'")
+        #debug("Priority will be: `" + priority.tostring() + "'")
 
         # NOTE:
         #     Use the current time from Entry.start, use None as default value
@@ -73,7 +73,7 @@ def fromxml(xml) :
         try :
             value = xml.attrib['start']
             try :
-                debug("Start time value: `" + value + "'")
+                #debug("Start time value: `" + value + "'")
                 start = Time.Time(int(value))
             except ValueError, e :
                 error("Wrong start time format for entry " +
@@ -90,7 +90,7 @@ def fromxml(xml) :
         try :
             value = xml.attrib['end']
             try :
-                debug("End time value: `" + value + "'")
+                #debug("End time value: `" + value + "'")
                 end  = Time.Time(int(value))
             except ValueError, e :
                 error("Wrong end time format for entry "
@@ -99,8 +99,8 @@ def fromxml(xml) :
             except Exception, e :
                 bug(str(e))
         except :
-            debug("No end time for entry "
-                  "`" + text +"'")
+            #debug("No end time for entry `" + text +"'")
+            pass
 
         # Build an entry node
         node = Entry(text, priority, start, end)
@@ -112,7 +112,7 @@ def fromxml(xml) :
 
     j = 0
     for x in xml.getchildren() :
-        debug("Working with child `" + str(x) + "'")
+        #debug("Working with child `" + str(x) + "'")
         tmp = fromxml(x)
         if (tmp != None) :
             node.child(j, tmp)
@@ -122,20 +122,20 @@ def fromxml(xml) :
     return node
 
 def toxml(node, xml) :
-    debug("Tree -> XML for node `" + str(node) + "' in progress")
+    #debug("Tree -> XML for node `" + str(node) + "' in progress")
     assert(xml != None)
 
     if (node == None) :
-        debug("Node `" + str(node) + "'has no children")
+        #debug("Node `" + str(node) + "'has no children")
         return
 
     tag        = ""
     attributes = { }
     if (type(node) == Root) :
-        debug("Creating root XML element");
+        #debug("Creating root XML element");
         tag = "root"
     elif (type(node) == Entry) :
-        debug("Creating entry XML element");
+        #debug("Creating entry XML element");
         if (node.priority != None) :
             attributes['priority'] = node.priority.tostring()
         if (node.start    != None) :
@@ -157,10 +157,10 @@ def toxml(node, xml) :
         bug("Unhandled exception while transforming to xml")
 
     for i in node.children() :
-        debug("Navigating node `" + str(i) + "'")
+        #debug("Navigating node `" + str(i) + "'")
         toxml(i, child)
 
-    debug("Child `" + str(node) + "' navigation completed")
+    #debug("Child `" + str(node) + "' navigation completed")
 
 class Database(object) :
     def __init__(self) :
@@ -168,17 +168,17 @@ class Database(object) :
 
     def load(self, name) :
         assert(name != None)
-        debug("Loading DB from `" + name + "'")
+        #debug("Loading DB from `" + name + "'")
 
         try :
-            debug("Parsing XML file")
+            #debug("Parsing XML file")
             xml  = ET.parse(name)
             assert(xml != None)
-            debug("XML file parsing completed successfully")
+            #debug("XML file parsing completed successfully")
 
             xmlroot = xml.getroot()
             assert(xmlroot != None)
-            debug("Got root node")
+            #debug("Got root node")
 
             #ET.dump(xmlroot)
 
@@ -193,17 +193,17 @@ class Database(object) :
 
         assert(xml != None)
 
-        debug("XML transformation in progress")
+        #debug("XML transformation in progress")
         tree = fromxml(root)
         assert(tree != None)
 
-        debug("DB `" + name + " ' loaded successfully")
+        #debug("DB `" + name + " ' loaded successfully")
 
         return tree
 
     def save(self, name, tree) :
         assert(name != None)
-        debug("Saving DB into `" + name + "'")
+        #debug("Saving DB into `" + name + "'")
 
         try :
             #xml = ET.Element(tree.text)
@@ -225,11 +225,11 @@ class Database(object) :
         except :
             bug("Unhandled exception while saving DB to file")
 
-        debug("DB `" + name + " ' saved successfully")
+        #debug("DB `" + name + " ' saved successfully")
 
 # Test
 if (__name__ == '__main__') :
     db = Database()
 
-    debug("Test completed")
+    #debug("Test completed")
     sys.exit(0)
