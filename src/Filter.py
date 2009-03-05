@@ -51,6 +51,7 @@ class Filter(object) :
         self.__function = filter
 
     def function_get(self) :
+        assert(self.__function != None)
         return self.__function
 
     function = property(function_get, None)
