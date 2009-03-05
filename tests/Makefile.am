@@ -164,14 +164,14 @@ SUCCESS_TESTS +=				\
 	test-command-show-02			\
 	test-command-show-03			\
 						\
-	test-devtodo-to-dnt-01			\
-	test-dnt-to-devtodo-01			\
-						\
-	test-command-not-done-01		\
 	test-command-not-done-help-01		\
 	test-command-not-done-opts-short-01	\
 	test-command-not-done-opts-long-01	\
-	test-command-not-done-version-01
+	test-command-not-done-version-01	\
+	test-command-not-done-01		\
+						\
+	test-devtodo-to-dnt-01			\
+	test-dnt-to-devtodo-01
 
 XFAIL_TESTS  = $(FAIL_TESTS)
 TESTS        = $(FAIL_TESTS) $(SUCCESS_TESTS)

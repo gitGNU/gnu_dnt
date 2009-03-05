@@ -68,6 +68,12 @@
                 Done
             </comment>
         </note>
+        <note priority="veryhigh" time="1236261129" done="1236270617">
+            Fix the done command bug (remove more nodes than requested by visiting too much nodes)
+            <comment>
+                Done
+            </comment>
+        </note>
         <note priority="veryhigh" time="1236270531" done="1236270551">
             Add a not-done command in order to be able to revert done operations
             <comment>
@@ -282,8 +288,11 @@
                         Done
                     </comment>
                 </note>
-                <note priority="veryhigh" time="1236267706">
+                <note priority="veryhigh" time="1236267706" done="1236296325">
                     Build tests for command not-done
+                    <comment>
+                        Done
+                    </comment>
                 </note>
             </note>
             <note priority="high" time="1234048645">
@@ -293,14 +302,11 @@
         <note priority="veryhigh" time="1236158880">
             test-command-done-02 marks nodes as done without checking the final tree status
         </note>
-        <note priority="veryhigh" time="1236261129" done="1236270617">
-            Fix the done command bug (remove more nodes than requested by visiting too much nodes)
-            <comment>
-                Done
-            </comment>
-        </note>
         <note priority="high" time="1235558583">
             Fix the colored-wrap problem (add -t "Hello world", dump -l "%t" -w 6 in order to see it)
+        </note>
+        <note priority="high" time="1236292407">
+            Add %n (node id) into formatting rules for dump command
         </note>
         <note priority="medium" time="1234048997">
             Fix the nodes indexing in show command while using --index option
