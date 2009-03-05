@@ -25,6 +25,7 @@ try :
     import Clean
     import Config
     import Done
+    import NotDone
     import Dump
     import Edit
     import Fix
@@ -38,17 +39,18 @@ except ImportError :
     sys.exit(-1)
 
 commands = {
-    'add'    : Add    . SubCommand(),
-    'clean'  : Clean  . SubCommand(),
-    'config' : Config . SubCommand(),
-    'done'   : Done   . SubCommand(),
-    'dump'   : Dump   . SubCommand(),
-    'edit'   : Edit   . SubCommand(),
-    'fix'    : Fix    . SubCommand(),
-    'init'   : Init   . SubCommand(),
-    'move'   : Move   . SubCommand(),
-    'remove' : Remove . SubCommand(),
-    'show'   : Show   . SubCommand(),
+    'add'      : Add       . SubCommand(),
+    'clean'    : Clean     . SubCommand(),
+    'config'   : Config    . SubCommand(),
+    'done'     : Done      . SubCommand(),
+    'not-done' : NotDone   . SubCommand(),
+    'dump'     : Dump      . SubCommand(),
+    'edit'     : Edit      . SubCommand(),
+    'fix'      : Fix       . SubCommand(),
+    'init'     : Init      . SubCommand(),
+    'move'     : Move      . SubCommand(),
+    'remove'   : Remove    . SubCommand(),
+    'show'     : Show      . SubCommand(),
     }
 
 # Test
