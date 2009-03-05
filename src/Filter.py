@@ -29,21 +29,24 @@ def help() :
 
 class Filter(object) :
     def __init__(self, s = None) :
+        filter = None
         if (s == None) :
             filter = lambda x: True
         else :
+            tmp = None
             for i in s.split(",") :
+                assert(tmp == None)
                 debug("Handling filter `" + i + "'")
                 # Filter is != None
                 if (i == "all") :
-                    filter = lambda x: True
+                    tmp = lambda x: True
                 elif (i == "done") :
-                    filter = lambda x: x.done()
+                    tmp = lambda x: x.done()
                 elif (i == "not-done") :
-                    filter = lambda x: not(x.done())
+                    tmp = lambda x: not(x.done())
                 else :
                     raise Exceptions.UnknownFilter(s)
-
+            filter = tmp
         assert(filter != None)
         self.__function = filter
 
