@@ -165,7 +165,9 @@ SUCCESS_TESTS +=				\
 	test-command-show-03			\
 						\
 	test-devtodo-to-dnt-01			\
-	test-dnt-to-devtodo-01
+	test-dnt-to-devtodo-01			\
+						\
+	test-command-not-done-01
 
 XFAIL_TESTS  = $(FAIL_TESTS)
 TESTS        = $(FAIL_TESTS) $(SUCCESS_TESTS)
@@ -1105,6 +1107,18 @@ test-command-show-version-01: $(srcdir)/test-command-show-version-01.in Makefile
 	}
 EXTRA_DIST += test-command-show-version-01.in
 CLEANFILES += test-command-show-version-01
+
+test-command-not-done-01: $(srcdir)/test-command-not-done-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-not-done-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-not-done-01.in
+CLEANFILES += test-command-not-done-01
 
 clean-local:
 	rm -rf testSubDir-*
