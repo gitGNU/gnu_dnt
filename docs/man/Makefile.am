@@ -34,6 +34,7 @@ dist_man_MANS =					\
 	dnt-move.1				\
 	dnt-remove.1				\
 	dnt-done.1				\
+	dnt-not-done.1				\
 	dnt-show.1
 
 man_aux       =					\
@@ -51,6 +52,7 @@ man_aux       =					\
 	dnt-remove.x				\
 	dnt-touch.x				\
 	dnt-done.x				\
+	dnt-not-done.x				\
 	dnt-show.x
 
 EXTRA_DIST = $(man_aux)
@@ -212,6 +214,17 @@ dnt-done.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Done.py $(to
 	    --section=1	\
 	    --output=dnt-done.1 \
 	    "$(top_builddir)/src/dnt done"
+
+dnt-not-done.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/NotDone.py $(top_srcdir)/configure.ac
+	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	export PYTHONPATH ; \
+	$(HELP2MAN) \
+	    --include=$(srcdir)/dnt-not-done.x \
+	    --source="@PACKAGE_NAME@" \
+	    --manual="User Commands" \
+	    --section=1	\
+	    --output=dnt-not-done.1 \
+	    "$(top_builddir)/src/dnt not-done"
 
 dnt-show.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Show.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
