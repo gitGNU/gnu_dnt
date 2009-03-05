@@ -38,7 +38,7 @@ class DoneVisitor(Visitor) :
         assert(e != None)
 
         if (not e.done()) :
-            e.end = Time.Time()
+            e.mark_as_done()
 
     def visitRoot(self, r) :
         assert(r != None)
@@ -96,15 +96,18 @@ class SubCommand(Command) :
         #
         # Work
         #
-        debug("Marking node `" + str(id) + "' as done")
-
         node = Tree.find(tree, id)
         if (node == None) :
             raise Exceptions.NodeUnavailable(str(id))
         assert(node != None)
 
-        v = DoneVisitor(verbose)
-        tree.accept(v)
+        # Mark node as done
+        node.mark_as_done()
+
+        # Mark node's children as done
+        for i in node.children() :
+            v = DoneVisitor(verbose)
+            node.accept(v)
 
         #
         # Save database back to file
