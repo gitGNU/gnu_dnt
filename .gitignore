@@ -131,6 +131,10 @@ tests/test-command-show-opts-long-01
 tests/test-command-show-opts-short-01
 tests/test-command-show-version-01
 tests/test-command-not-done-01
+tests/test-command-not-done-help-01
+tests/test-command-not-done-opts-long-01
+tests/test-command-not-done-opts-short-01
+tests/test-command-not-done-version-01
 
 site/in/.sitetool
 site/in/site.stamp
