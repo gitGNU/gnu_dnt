@@ -63,7 +63,7 @@ class ShowVisitor(Visitor) :
     def visitEntry(self, e) :
         assert(e != None)
 
-        if (not self.__filter(e)) :
+        if (self.__filter(e) == False) :
             debug("Entry "                 +
                   "`" + str(e) + "' "      +
                   "does not match filter " +
