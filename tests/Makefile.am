@@ -163,6 +163,7 @@ SUCCESS_TESTS +=				\
 	test-command-show-01			\
 	test-command-show-02			\
 	test-command-show-03			\
+	test-command-show-04			\
 						\
 	test-command-not-done-help-01		\
 	test-command-not-done-opts-short-01	\
@@ -1063,6 +1064,18 @@ test-command-show-03: $(srcdir)/test-command-show-03.in Makefile
 	}
 EXTRA_DIST += test-command-show-03.in
 CLEANFILES += test-command-show-03
+
+test-command-show-04: $(srcdir)/test-command-show-04.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-04.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-04.in
+CLEANFILES += test-command-show-04
 
 test-command-show-help-01: $(srcdir)/test-command-show-help-01.in Makefile
 	( rm -f $@ $@.tmp && \
