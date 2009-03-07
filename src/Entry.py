@@ -22,7 +22,6 @@ import string
 from   Debug    import *
 from   Trace    import *
 from   Node     import *
-from   Color    import *
 import Priority
 import Time
 
