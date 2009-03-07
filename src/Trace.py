@@ -17,7 +17,6 @@
 #
 
 import sys
-import os
 
 from   Configuration import *
 
