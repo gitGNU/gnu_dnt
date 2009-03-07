@@ -364,10 +364,19 @@ class SubCommand(Command) :
         if (len(args) > 0) :
             raise Exceptions.UnknownParameter(args[0])
 
+        filehandle = sys.stdout
+        if (opts.output != None) :
+            try :
+                filehandle = open(opts.output, 'w')
+            except :
+                raise Exceptions.CannotWrite(ofn)
+        assert(filehandle != None)
+        debug("Output file will be `" + filehandle.name + "'")
+
         try :
             width = configuration.get(PROGRAM_NAME, 'width', raw = True)
         except :
-            t     = Terminal.Terminal()
+            t     = Terminal.Terminal(stream_out = filehandle)
             width = t.columns
             debug("No width related configuration, default to " +
                   str(width))
@@ -380,15 +389,6 @@ class SubCommand(Command) :
             raise Exceptions.WrongParameter("width must be greater or equal "
                                             "than 0")
         assert(width >= 0)
-
-        filehandle = sys.stdout
-        if (opts.output != None) :
-            try :
-                filehandle = open(opts.output, 'w')
-            except :
-                raise Exceptions.CannotWrite(ofn)
-        assert(filehandle != None)
-        debug("Output file will be `" + filehandle.name + "'")
 
         try :
             colors = configuration.get(PROGRAM_NAME, 'colors', raw = True)
