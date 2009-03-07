@@ -80,6 +80,12 @@
                 Done
             </comment>
         </note>
+        <note priority="veryhigh" time="1236353370" done="1236353380">
+            Remove colors from tests
+            <comment>
+                Done
+            </comment>
+        </note>
         <note priority="high" time="1230733148" done="1230733158">
             Fix colors in show command
             <comment>
@@ -223,8 +229,11 @@
             <note priority="veryhigh" time="1233702821">
                 Fix the --dry-run option handling in main program
             </note>
-            <note priority="veryhigh" time="1233825895">
+            <note priority="veryhigh" time="1233825895" done="1236353417">
                 For each command build a test for short options, long options, help and version (the version test will check only for non-empty output)
+                <comment>
+                    Done
+                </comment>
                 <note priority="veryhigh" time="1233827933" done="1234392630">
                     Build tests for command add
                     <comment>
@@ -237,8 +246,20 @@
                         Done
                     </comment>
                 </note>
+                <note priority="veryhigh" time="1233827933" done="1236353397">
+                    Build tests for command config
+                    <comment>
+                        Done
+                    </comment>
+                </note>
                 <note priority="veryhigh" time="1233827933" done="1234478605">
                     Build tests for command done
+                    <comment>
+                        Done
+                    </comment>
+                </note>
+                <note priority="veryhigh" time="1233827933" done="1236353399">
+                    Build tests for command dump
                     <comment>
                         Done
                     </comment>
@@ -278,18 +299,6 @@
                 </note>
                 <note priority="veryhigh" time="1236267706" done="1236296325">
                     Build tests for command not-done
-                    <comment>
-                        Done
-                    </comment>
-                </note>
-                <note priority="veryhigh" time="1233827933">
-                    Build tests for command config
-                    <comment>
-                        Done
-                    </comment>
-                </note>
-                <note priority="veryhigh" time="1233827933">
-                    Build tests for command dump
                     <comment>
                         Done
                     </comment>
