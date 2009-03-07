@@ -30,37 +30,59 @@ from   Trace    import *
 #         http://pleac.sourceforge.net/pleac_python/userinterfaces.html
 #
 class Terminal :
-    def __init__(self) :
-        h = 0
-        w = 0
+    def __init__(self,
+                 stream_in  = sys.stdout,
+                 stream_out = sys.stdin,
+                 columns    = 80,
+                 rows       = 25) :
+        assert(stream_in != None)
+        assert(stream_out != None)
+        assert(rows >= 0)
+        assert(columns >= 0)
+
+        self.__rows       = rows
+        self.__columns    = columns
+        self.__stream_in  = stream_in
+        self.__stream_out = stream_out
+
+    def interactive(self) :
+        assert(hasattr(self.__stream_in, "isatty"))
+        assert(hasattr(self.__stream_out, "isatty"))
+        return (self.__stream_in.isatty() and self.__stream_out.isatty())
+
+    def _update(self) :
+        assert(hasattr(self.__stream_out, "fileno"))
+
         if (self.interactive()) :
             try :
                 s    = struct.pack("HHHH", 0, 0, 0, 0)
                 h, w = struct.unpack("HHHH",
-                                     fcntl.ioctl(sys.stdout.fileno(),
+                                     fcntl.ioctl(self.__stream_out.fileno(),
                                                  termios.TIOCGWINSZ,
                                                  s))[:2]
                 debug("Got terminal size")
             except :
-                warning("Cannot detect terminal size, using default value")
+                warning("Cannot detect terminal size, using default values")
                 # Some (sane ?) default values
                 w = 80
                 h = 25
 
-        self.__columns = w
-        self.__rows    = h
+            self.__columns = w
+            self.__rows    = h
+        else :
+            debug("Terminal is not interactive, cannot detect its size")
+
         debug("Terminal size = " +
               "(" + str(self.__columns) + ", " + str(self.__rows) + ")")
 
-    def interactive(self) :
-        return (sys.stdin.isatty() and sys.stdout.isatty())
-
     def rows_get(self) :
+        self._update()
         return self.__rows
 
     rows = property(rows_get, None)
 
     def columns_get(self) :
+        self._update()
         return self.__columns
 
     columns = property(columns_get, None)
