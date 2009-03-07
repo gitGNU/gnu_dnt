@@ -31,7 +31,7 @@ import Root
 import Entry
 import Terminal
 import Filter
-import Color
+import ANSI
 
 #class DumpVisitor(Visitor):
 #
@@ -222,8 +222,8 @@ def dump(node,
 
             # Handle colors
             if ((filehandle.isatty()) and (colors == True)) :
-                color_info  = Color.normal_green
-                color_index = Color.normal_green
+                color_info  = ANSI.normal_green
+                color_index = ANSI.normal_green
                 p           = e.priority.value
                 try :
                     color_text  = cmap[p]
@@ -462,11 +462,11 @@ class SubCommand(Command) :
         #tree.accept(v)
 
         cmap = {
-            Priority.Priority.PRIORITY_VERYHIGH : Color.bright_red,
-            Priority.Priority.PRIORITY_HIGH     : Color.bright_yellow,
-            Priority.Priority.PRIORITY_MEDIUM   : Color.bright_white,
-            Priority.Priority.PRIORITY_LOW      : Color.normal_cyan,
-            Priority.Priority.PRIORITY_VERYLOW  : Color.normal_blue,
+            Priority.Priority.PRIORITY_VERYHIGH : ANSI.bright_red,
+            Priority.Priority.PRIORITY_HIGH     : ANSI.bright_yellow,
+            Priority.Priority.PRIORITY_MEDIUM   : ANSI.bright_white,
+            Priority.Priority.PRIORITY_LOW      : ANSI.normal_cyan,
+            Priority.Priority.PRIORITY_VERYLOW  : ANSI.normal_blue,
             }
 
         filehandle.write(indent_format)

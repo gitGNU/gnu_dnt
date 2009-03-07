@@ -23,7 +23,7 @@ from   Debug         import *
 from   Trace         import *
 from   Command       import *
 import Exceptions
-import Color
+import ANSI
 import DB
 import Tree
 import Priority
@@ -53,11 +53,11 @@ class ShowVisitor(Visitor) :
         self.__filter     = filter.function
         self.__filehandle = filehandle
         self.__cmap       = {
-            Priority.Priority.PRIORITY_VERYHIGH : bright_red,
-            Priority.Priority.PRIORITY_HIGH     : bright_yellow,
-            Priority.Priority.PRIORITY_MEDIUM   : bright_white,
-            Priority.Priority.PRIORITY_LOW      : normal_cyan,
-            Priority.Priority.PRIORITY_VERYLOW  : normal_blue,
+            Priority.Priority.PRIORITY_VERYHIGH : ANSI.bright_red,
+            Priority.Priority.PRIORITY_HIGH     : ANSI.bright_yellow,
+            Priority.Priority.PRIORITY_MEDIUM   : ANSI.bright_white,
+            Priority.Priority.PRIORITY_LOW      : ANSI.normal_cyan,
+            Priority.Priority.PRIORITY_VERYLOW  : ANSI.normal_blue,
             }
 
     def visitEntry(self, e) :
@@ -74,8 +74,8 @@ class ShowVisitor(Visitor) :
 
         # Handle colors
         if ((self.__filehandle.isatty()) and (self.__colors == True)) :
-            color_info  = normal_green
-            color_index = normal_green
+            color_info  = ANSI.normal_green
+            color_index = ANSI.normal_green
             p           = e.priority.value
             try :
                 color_text  = self.__cmap[p]
@@ -159,8 +159,8 @@ class ShowVisitor(Visitor) :
         debug("Visiting root " + str(r))
 
         if (self.__filehandle.isatty() and (self.__colors == True)) :
-            color_index = normal_green
-            color_text  = normal_white
+            color_index = ANSI.normal_green
+            color_text  = ANSI.normal_white
         else :
             color_index = lambda x: x # pass-through
             color_text  = lambda x: x # pass-through
