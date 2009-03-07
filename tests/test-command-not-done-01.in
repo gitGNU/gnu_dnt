@@ -36,21 +36,25 @@ $DNT_FLAGS add -t "beta" || exit 1
 $DNT_FLAGS done -i 0.1 || exit 1
 $DNT_FLAGS done -i 0.2 || exit 1
 
-# Remark node 0.1 as not-done and check'em out
+# Remark only node 0.1 as not-done and check'em all
 $DNT_FLAGS not-done -i 0.1 || exit 1
 
-EXPECTED="alfa"
-OUTPUT="`$DNT_NOFLAGS dump -F not-done -l \"%t\"`"
+rm -f test1.log test2.log || exit 1
 
-if test ! "x${OUTPUT}" = "x${EXPECTED}"; then
-  exit 1
-fi
+$DNT_FLAGS dump -F not-done -l "%t" > test1.log || exit 1
+cat > test2.log <<EOF
+alfa
+EOF
 
-EXPECTED="beta"
-OUTPUT="`$DNT_NOFLAGS dump -F done -l \"%t\"`"
+diff test1.log test2.log || exit 1
 
-if test ! "x${OUTPUT}" = "x${EXPECTED}"; then
-  exit 1
-fi
+rm -f test3.log test4.log || exit 1
+
+$DNT_FLAGS dump -F done -l "%t" > test3.log || exit 1
+cat > test4.log <<EOF
+beta
+EOF
+
+diff test3.log test4.log || exit 1
 
 exit 0
