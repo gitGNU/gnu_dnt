@@ -237,6 +237,7 @@ class SubCommand(Command) :
         try :
             width = configuration.get(PROGRAM_NAME, 'width', raw = True)
         except :
+            debug("Not width configuration, detecting ...")
             t     = Terminal.Terminal(stream_out = filehandle)
             width = t.columns
             debug("No width related configuration, default to " +
