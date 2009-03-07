@@ -36,8 +36,7 @@ $DNT_FLAGS add --text="alfa" || exit 1
 # Testing "--filter" option
 $DNT_FLAGS done --id="1" || exit 1
 
-OUTPUT="`$DNT_NOFLAGS --mono $COMMAND --filter=\"done\" \
-                      --line-format=\"%t\"`"
+OUTPUT="`$DNT_NOFLAGS --mono $COMMAND --filter=\"done\" --line-format=\"%t\"`"
 if test ! "x${OUTPUT}" = "xalfa"; then
   exit 1
 fi

@@ -39,9 +39,9 @@ $DNT_FLAGS add --text="hello world" || exit 1
 
 # Force no colors for this test, we want to test if the no-colors wrapping
 # procedure works as expected
-$DNT_NOFLAGS --mono dump -l "%t" -w 6 >test1.txt
+$DNT_NOFLAGS --mono dump -l "%t" -w 6 > test1.txt
 
-cat >test2.txt <<EOF
+cat > test2.txt <<EOF
 hello
 world
 EOF
