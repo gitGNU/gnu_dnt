@@ -56,7 +56,7 @@ pkgvpython_PYTHON =				\
 	Command.py				\
 	Debug.py				\
 	Time.py					\
-	Color.py				\
+	ANSI.py					\
 	Priority.py				\
 	Console.py				\
 	Stack.py				\

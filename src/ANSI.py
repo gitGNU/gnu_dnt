@@ -36,22 +36,36 @@ COLOR_IDX_MAGENTA = 5
 COLOR_IDX_CYAN    = 6
 COLOR_IDX_WHITE   = 7
 
+color_enabled = True
+
 def _bright(color, text) :
-    try :
-        t = '\033[1;' + _color_codes[color] + 'm' + text + '\033[1;m'
-#    except IndexError, e :
-#        t = text
-    except Exception, e:
-        bug(str(e))
+    global color_enabled
+    t = None
+    if (color_enabled == True) :
+        try :
+            t = '\033[1;' + _color_codes[color] + 'm' + text + '\033[1;m'
+        #    except IndexError, e :
+        #        t = text
+        except Exception, e:
+            bug(str(e))
+    else :
+        t = text
+    assert(t != None)
     return t
 
 def _normal(color, text) :
-    try :
-        t = '\033[' + _color_codes[color] + 'm' + text + '\033[m'
-#    except IndexError, e :
-#        t = text
-    except Exception, e:
-        bug(str(e))
+    global color_enabled
+    t = None
+    if (color_enabled == True) :
+        try :
+            t = '\033[' + _color_codes[color] + 'm' + text + '\033[m'
+        #    except IndexError, e :
+        #        t = text
+        except Exception, e:
+            bug(str(e))
+    else :
+        t = text
+    assert(t != None)
     return t
 
 def bright_red(t) :
