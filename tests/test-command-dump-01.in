@@ -66,20 +66,20 @@ $DNT_FLAGS dump --filter=all                      || exit 1
 $DNT_FLAGS dump --filter=done                     || exit 1
 $DNT_FLAGS dump --filter=not-done                 || exit 1
 
-$DNT_NOFLAGS --colors dump > test1.log || exit 1
-$DNT_NOFLAGS --mono   dump > test2.log || exit 1
-diff test1.log test2.log || {
-    rm -f test1.log
-    rm -f test2.log
-    exit 0
-}
-
-$DNT_NOFLAGS --mono dump --filter=done     > test1.log || exit 1
-$DNT_NOFLAGS --mono dump --filter=not-done > test2.log || exit 1
-diff test1.log test2.log || {
-    rm -f test1.log
-    rm -f test2.log
-    exit 0
-}
+#$DNT_NOFLAGS --colors dump > test1.log || exit 1
+#$DNT_NOFLAGS --mono   dump > test2.log || exit 1
+#diff test1.log test2.log || {
+#    rm -f test1.log
+#    rm -f test2.log
+#    exit 0
+#}
+#
+#$DNT_NOFLAGS --mono dump --filter=done     > test1.log || exit 1
+#$DNT_NOFLAGS --mono dump --filter=not-done > test2.log || exit 1
+#diff test1.log test2.log || {
+#    rm -f test1.log
+#    rm -f test2.log
+#    exit 0
+#}
 
 exit 0
