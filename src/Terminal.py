@@ -46,7 +46,7 @@ class Terminal :
         self.__stream_out = stream_out
 
     def interactive(self) :
-        assert(hasattr(self.__stream_in, "isatty"))
+        assert(hasattr(self.__stream_in,  "isatty"))
         assert(hasattr(self.__stream_out, "isatty"))
         return (self.__stream_in.isatty() and self.__stream_out.isatty())
 
