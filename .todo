@@ -308,14 +308,11 @@
                 Remove show command requirement for debug and verbose related test (we should not use a subcommand to check --verbose or --debug options ...)
             </note>
         </note>
+        <note priority="veryhigh" time="1234048997">
+            Fix the nodes indexing in show command while using --index option
+        </note>
         <note priority="veryhigh" time="1236158880">
             test-command-done-02 marks nodes as done without checking the final tree status
-        </note>
-        <note priority="high" time="1235558583">
-            Fix the colored-wrap problem (add -t "Hello world", dump -l "%t" -w 6 in order to see it)
-        </note>
-        <note priority="medium" time="1234048997">
-            Fix the nodes indexing in show command while using --index option
         </note>
     </note>
     <note priority="high" time="1233694836">
@@ -385,6 +382,9 @@
         </note>
         <note priority="high" time="1235431214">
             Fix the wrapper.in script in the test directory (find a better fix)
+        </note>
+        <note priority="high" time="1235558583">
+            Fix the colored-wrap problem (add -t "Hello world", dump -l "%t" -w 6 in order to see it)
         </note>
         <note priority="high" time="1235638003">
             Replace from with proper import in all modules
