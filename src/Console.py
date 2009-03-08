@@ -17,7 +17,10 @@
 #
 
 import sys
-import readline
+
+# readline module outputs escapes when imported, delay its import only when
+# really needed ...
+#import readline
 
 from   Debug      import *
 from   Trace      import *
@@ -33,6 +36,8 @@ class Console(object) :
 
         self.__buffer = buffer
         self.__prompt = prompt
+
+        import readline
 
         # Try to clean the history (available in Python >= 2.4)
         try :
