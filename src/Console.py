@@ -37,6 +37,10 @@ class Console(object) :
         self.__buffer = buffer
         self.__prompt = prompt
 
+        #
+        # NOTE:
+        #     We delay the readline import to avoid the unneeded escapes into
+        #     the output ...
         import readline
 
         # Try to clean the history (available in Python >= 2.4)
