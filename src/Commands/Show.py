@@ -234,32 +234,42 @@ class SubCommand(Command) :
             starting_id = "0"
         node_id = ID.ID(starting_id)
 
-        try :
-            width = configuration.get(PROGRAM_NAME, 'width', raw = True)
-        except :
-            debug("Not width configuration found")
-            t     = Terminal.Terminal(stream_out = filehandle)
-            width = t.columns
-            debug("No width related configuration, default to " +
-                  str(width))
-        assert(width != None)
-
-        if (opts.width != None) :
-            width = int(opts.width)
-        assert(type(width) == int)
-        if (width < 0) :
-            raise Exceptions.WrongParameter("width must be greater or equal "
-                                            "than 0")
-        assert(width >= 0)
-
+        # Open output file
         filehandle = sys.stdout
         if (opts.output != None) :
             try :
                 filehandle = open(opts.output, 'w')
             except :
-                raise Exceptions.CannotWrite(ofn)
+                raise Exceptions.CannotWrite(opts.output)
         assert(filehandle != None)
         debug("Output file will be `" + filehandle.name + "'")
+
+        # Handle width ...
+        width = -1
+
+        # Get width from configuration (if present)
+        try :
+            width = configuration.get(PROGRAM_NAME, 'width', raw = True)
+        except :
+            debug("No width configuration found")
+
+        # Ovveride width with parameters (if present)
+        try :
+            if (opts.width != None) :
+                width = int(opts.width)
+        except :
+            raise Exceptions.WrongParameter("width must be greater or equal "
+                                            "than 0")
+
+        # If no width available, try detecting it
+        if (width < 0) :
+            t     = Terminal.Terminal(stream_out = filehandle)
+            width = t.columns
+
+        assert(type(width) == int)
+        assert(width >= 0)
+
+        debug("Output width is " + str(width))
 
         try :
             colors = configuration.get(PROGRAM_NAME, 'colors', raw = True)
