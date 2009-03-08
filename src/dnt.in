@@ -150,11 +150,11 @@ def main(arguments) :
                        action = "store_true",
                        dest   = "debug",
                        help   = "enable debug mode")
-    command.add_option("-n", "--dry-run",
-                       action = "store_true",
-                       dest   = "dry_run",
-                       help   = "display operations without performing "
-                       "modifications")
+#    command.add_option("-n", "--dry-run",
+#                       action = "store_true",
+#                       dest   = "dry_run",
+#                       help   = "display operations without performing "
+#                       "modifications")
     command.add_option("--colors",
                        action = "store_true",
                        dest   = "colors",
