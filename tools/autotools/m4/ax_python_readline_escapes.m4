@@ -4,10 +4,13 @@
 #
 #   AX_PYTHON_READLINE_ESCAPES([ACTION-IF-TRUE],[ACTION-IF-FALSE])
 #
-# With strange combinations of python, readline and glibc (?) the python
-# readline module spits escape sequences at the first print() call. This macro
-# looks for those sequences and executes ACTION-IF-TRUE whenever it find the
-# combination, executes ACTION-IF-FALSE otherwise
+# With strange combinations of python and glibc the python readline module
+# spits escape sequences at the first print() call. This macro looks for those
+# sequences and executes ACTION-IF-TRUE whenever it find the combination, it
+# executes ACTION-IF-FALSE otherwise
+#
+# python-2.5.2 + glibc-2.6.1 -> Escapes in the output
+# python-2.5.2 + glibc-2.8   -> No escapes
 #
 # LAST MODIFICATION
 #
