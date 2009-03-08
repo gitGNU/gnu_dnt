@@ -39,7 +39,6 @@ COLOR_IDX_WHITE   = 7
 color_enabled = True
 
 def _bright(color, text) :
-    global color_enabled
     t = None
     if (color_enabled == True) :
         try :
@@ -54,7 +53,6 @@ def _bright(color, text) :
     return t
 
 def _normal(color, text) :
-    global color_enabled
     t = None
     if (color_enabled == True) :
         try :
