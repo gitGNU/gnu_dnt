@@ -35,7 +35,8 @@ DOWNLOAD = 					\
 
 MACROS =					\
 	$(DOWNLOAD)				\
-	ax_prog_python_modules.m4
+	ax_prog_python_modules.m4		\
+	ax_python_readline_escapes.m4
 
 update-local: Makefile
 	rm -r -f fetch-dir && \
