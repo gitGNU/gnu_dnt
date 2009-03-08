@@ -75,6 +75,7 @@ tests/test-command-touch-01
 tests/test-command-done-01
 tests/test-command-done-02
 tests/test-command-done-03
+tests/test-command-done-04
 tests/test-command-dump-01
 tests/test-command-dump-02
 tests/test-command-dump-03
