@@ -18,8 +18,11 @@
 
 import sys
 
-# readline module outputs escapes when imported, delay its import only when
-# really needed ...
+#
+# NOTE:
+#     readline module outputs escapes when imported in some (still unknown)
+#     situations. Delaying its import seems to solve the problem ...
+#
 #import readline
 
 from   Debug      import *
@@ -39,8 +42,9 @@ class Console(object) :
 
         #
         # NOTE:
-        #     We delay the readline import to avoid the unneeded escapes into
-        #     the output ...
+        #     It is now time to import the readline module, it should avoid
+        #     to have the unneeded escaped in the output ...
+        #
         import readline
 
         # Try to clean the history (available in Python >= 2.4)
