@@ -149,6 +149,12 @@
                 Done
             </comment>
         </note>
+        <note priority="veryhigh" time="1236158880" done="1236554576">
+            test-command-done-02 marks nodes as done without checking the final tree status
+            <comment>
+                Done
+            </comment>
+        </note>
         <note priority="veryhigh" time="1236261129" done="1236270617">
             Fix the done command bug (remove more nodes than requested by visiting too much nodes)
             <comment>
@@ -308,15 +314,6 @@
         <note priority="veryhigh" time="1234048997">
             Fix the nodes indexing in show command while using --index option
         </note>
-        <note priority="veryhigh" time="1236158880" done="1236554576">
-            test-command-done-02 marks nodes as done without checking the final tree status
-            <comment>
-                Done
-            </comment>
-        </note>
-        <note priority="high" time="1234048645">
-            Remove show command requirement for debug and verbose related test (we should not use a subcommand to check --verbose or --debug options ...)
-        </note>
     </note>
     <note priority="high" time="1233694836">
         Release 0.2.0
@@ -349,6 +346,12 @@
         </note>
         <note priority="veryhigh" time="1236434848">
             Merge done and not-done commands into mark (with options --done and --not-done)
+        </note>
+        <note priority="veryhigh" time="1236640302">
+            Add an option parser related class in order to have complete control over option parsing and help generation
+            <note priority="high" time="1234048645">
+                Remove show command requirement for debug and verbose related test (we should not use a subcommand to check --verbose or --debug options ...)
+            </note>
         </note>
         <note priority="high" time="1231780779">
             Add toxml() and fromxml() to Entry and Root classes
