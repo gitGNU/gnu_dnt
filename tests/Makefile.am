@@ -172,7 +172,11 @@ SUCCESS_TESTS +=				\
 	test-command-not-done-01		\
 						\
 	test-devtodo-to-dnt-01			\
-	test-dnt-to-devtodo-01
+	test-dnt-to-devtodo-01			\
+						\
+	test-import-export-01			\
+	test-import-export-02
+
 
 XFAIL_TESTS  = $(FAIL_TESTS)
 TESTS        = $(FAIL_TESTS) $(SUCCESS_TESTS)
@@ -1184,6 +1188,30 @@ test-command-not-done-version-01: $(srcdir)/test-command-not-done-version-01.in 
 	}
 EXTRA_DIST += test-command-not-done-version-01.in
 CLEANFILES += test-command-not-done-version-01
+
+test-import-export-01: $(srcdir)/test-import-export-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-import-export-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-import-export-01.in
+CLEANFILES += test-import-export-01
+
+test-import-export-02: $(srcdir)/test-import-export-02.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-import-export-02.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-import-export-02.in
+CLEANFILES += test-import-export-02
 
 clean-local:
 	rm -rf testSubDir-*
