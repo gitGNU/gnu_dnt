@@ -27,25 +27,17 @@ required="xsltproc diff devtodo"
 . $testdir/defs || exit 1
 
 # Creating devtodo DB
-devtodo --database test-in.db -a "alfa" -p "medium"   || exit 1
-
-# Dump the original DB
-: >test-dump.orig || exit 1
-devtodo --database test-in.db -A >test-dump.orig
+devtodo --database test-orig.db -a "alfa" -p "medium"   || exit 1
 
 # Converting to dnt
-: >test.swap
-$DEVTODO_TO_DNT -i test-in.db -o test.swap -f || exit 1
+: >test-to-dnt.db
+$DEVTODO_TO_DNT -i test-orig.db -o test-to-dnt.db -f || exit 1
 
 # Turning back to devtodo format
-: >test.back || exit 1
-$DNT_TO_DEVTODO -i test.swap -o test.back -f || exit 1
-
-# Dumping out
-: >test-dump.conv || exit 1
-devtodo --database test.back -A >test-dump.conv || exit 1
+: >test-to-devtodo.db || exit 1
+$DNT_TO_DEVTODO -i test-to-dnt.db -o test-to-devtodo.db -f || exit 1
 
 # Comparing the DBs
-diff test-dump.orig test-dump.conv || exit 1
+diff test-orig.db test-to-devtodo.db || exit 1
 
 exit 0
