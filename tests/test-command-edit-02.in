@@ -45,7 +45,7 @@ $DNT_FLAGS edit -i 1 -s "${NEW_DATE}" || exit 1
 # Dumping the start time and comparing with the previous set
 DUMPED_DATE="`$DNT_NOFLAGS dump -l \"%s\"`"
 
-if test "x${DUMPED_DATE}" = "x${NEW_DATE}"; then
+if test ! "x${DUMPED_DATE}" = "x${NEW_DATE}"; then
   exit 1
 fi
 
