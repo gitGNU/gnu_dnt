@@ -114,6 +114,8 @@ SUCCESS_TESTS +=				\
 	test-command-edit-opts-long-01		\
 	test-command-edit-version-01		\
 	test-command-edit-01			\
+	test-command-edit-02			\
+	test-command-edit-03			\
 	test-command-edit-interactive-01	\
 	test-command-edit-interactive-02	\
 						\
@@ -164,6 +166,8 @@ SUCCESS_TESTS +=				\
 	test-command-show-01			\
 	test-command-show-02			\
 	test-command-show-03			\
+	test-command-show-04			\
+	test-command-show-05			\
 						\
 	test-command-not-done-help-01		\
 	test-command-not-done-opts-short-01	\
@@ -288,6 +292,30 @@ test-command-edit-01: $(srcdir)/test-command-edit-01.in Makefile
 	}
 EXTRA_DIST += test-command-edit-01.in
 CLEANFILES += test-command-edit-01
+
+test-command-edit-02: $(srcdir)/test-command-edit-02.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-edit-02.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-edit-02.in
+CLEANFILES += test-command-edit-02
+
+test-command-edit-03: $(srcdir)/test-command-edit-03.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-edit-03.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-edit-03.in
+CLEANFILES += test-command-edit-03
 
 test-command-edit-interactive-01: $(srcdir)/test-command-edit-interactive-01.in Makefile
 	( rm -f $@ $@.tmp && \
@@ -1080,6 +1108,30 @@ test-command-show-03: $(srcdir)/test-command-show-03.in Makefile
 	}
 EXTRA_DIST += test-command-show-03.in
 CLEANFILES += test-command-show-03
+
+test-command-show-04: $(srcdir)/test-command-show-04.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-04.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-04.in
+CLEANFILES += test-command-show-04
+
+test-command-show-05: $(srcdir)/test-command-show-05.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-05.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-05.in
+CLEANFILES += test-command-show-05
 
 test-command-show-help-01: $(srcdir)/test-command-show-help-01.in Makefile
 	( rm -f $@ $@.tmp && \
