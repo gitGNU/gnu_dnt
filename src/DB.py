@@ -110,13 +110,11 @@ def fromxml(xml) :
 
     assert(node != None)
 
-    j = 0
     for x in xml.getchildren() :
         #debug("Working with child `" + str(x) + "'")
         tmp = fromxml(x)
         if (tmp != None) :
-            node.child(j, tmp)
-            j = j + 1
+            node.add(tmp)
 
     #debug("Returning " + str(entry))
     return node
