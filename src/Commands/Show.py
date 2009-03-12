@@ -92,6 +92,9 @@ class ShowVisitor(Visitor) :
 
         # Build the output
         if ((not e.done()) or (e.done() and self.__all)) :
+            id    = e.id.tolist()
+            index = str(id[len(id) - 1])
+
             if (e.done()) :
                 mark = "-"
             else :
@@ -100,10 +103,10 @@ class ShowVisitor(Visitor) :
             header = \
                 self.indent()                        + \
                 mark                                 + \
-                color_index(str(self.index()) + ".")
-            indent = " " * len(self.indent()                + \
-                                   mark                     + \
-                                   str(self.index()) + ".")
+                color_index(index) + "."
+            indent = " " * len(self.indent()         + \
+                                   mark              + \
+                                   index + ".")
 
             if (self.__width == 0) :
                 lines = [ e.text ]
@@ -125,7 +128,7 @@ class ShowVisitor(Visitor) :
                 i = i + 1
 
             if (self.__verbose) :
-                l    = " " * (len(mark) + len(str(self.index())) + len("."))
+                l    = " " * (len(mark) + len(index) + len("."))
                 line1 = self.indent() + l
 
                 line1 = line1 + color_info("Start:") + " "
@@ -168,9 +171,12 @@ class ShowVisitor(Visitor) :
         assert(color_index != None)
         assert(color_text != None)
 
-        self.__filehandle.write(self.indent()                        +
-                                color_index(str(self.index()) + ".") +
-                                color_text(r.text)                   +
+        id    = r.id.tolist()
+        index = str(id[len(id) - 1])
+
+        self.__filehandle.write(self.indent()            +
+                                color_index(index) + "." +
+                                color_text(r.text)       +
                                 "\n")
 
     def indent(self) :
