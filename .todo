@@ -227,6 +227,12 @@
                 Done
             </comment>
         </note>
+        <note priority="high" time="1236292407" done="1236865194">
+            Add %i (node id) into formatting rules for dump command
+            <comment>
+                Done
+            </comment>
+        </note>
         <note priority="medium" time="1233608861" done="1234300185">
             Rearrange command epilogs (we should not use docstrings to get help for ID, TIME ..., docstrings may be discarded ...)
             <comment>
@@ -314,6 +320,12 @@
         <note priority="veryhigh" time="1234048997">
             Fix the nodes indexing in show command while using --index option
         </note>
+        <note priority="veryhigh" time="1236865149" done="1236865228">
+            Add %i to dump command help epilog
+            <comment>
+                Done
+            </comment>
+        </note>
         <note priority="high" time="1232544628">
             Add a test which create a .todo, dumps it, exports to .dnt, imports back to .todo, dumps it and finally diffs the two outputs
             <note priority="high" time="1229468129" done="1230672987">
@@ -322,12 +334,21 @@
                     Fixed
                 </comment>
             </note>
-            <note priority="low" time="1229468141">
-                Add dnt-to-devtodo exporter
-            </note>
         </note>
         <note priority="high" time="1235431214">
             Fix the wrapper.in script in the test directory (find a better fix)
+        </note>
+        <note priority="high" time="1236852541">
+            Add comment handling
+            <note priority="medium" time="1236641564">
+                Add %c (comment) into formatting rules for dump command
+            </note>
+        </note>
+        <note priority="high" time="1236865030">
+            Fix all the tests related to dump/format
+        </note>
+        <note priority="low" time="1229468141">
+            Add dnt-to-devtodo exporter
         </note>
     </note>
     <note priority="high" time="1233694836">
@@ -388,6 +409,9 @@
         </note>
         <note priority="high" time="1233084099">
             Add --format to the show command
+            <note priority="high" time="1236863859">
+                Add format management like in dump command
+            </note>
         </note>
         <note priority="high" time="1235558583">
             Fix the colored-wrap problem (add -t "Hello world", dump -l "%t" -w 6 in order to see it)
@@ -395,14 +419,17 @@
         <note priority="high" time="1235638003">
             Replace from with proper import in all modules
         </note>
-        <note priority="high" time="1236292407">
-            Add %n (node id) into formatting rules for dump command
-        </note>
         <note priority="high" time="1236548535">
             Add --dry-run option support into the main program
         </note>
-        <note priority="high" time="1236641564">
-            Add %c (comment) into formatting rules for dump command
+        <note priority="high" time="1236852853">
+            Rearrange and clean the whole XML database format
+            <note priority="high" time="1236852864">
+                Update devtodo-to-dnt
+            </note>
+            <note priority="high" time="1236852871">
+                Update dnt-to-devtodo
+            </note>
         </note>
         <note priority="medium" time="1234045911">
             Add code for interactive mode in fix command
