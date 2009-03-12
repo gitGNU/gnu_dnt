@@ -68,10 +68,10 @@ diff test.out test.exp || exit 1
 # Testing on entire tree (with root node too!)
 cat >test.exp <<EOF
 0.test
- 1.alfa
-   1.a
-   2.b
- 2.beta
+   1.alfa
+     1.a
+     2.b
+   2.beta
 EOF
 
 $DNT_NOFLAGS $COMMAND -o test.out || exit 1
