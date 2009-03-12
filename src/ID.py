@@ -34,7 +34,7 @@ class ID(object) :
         if (s == "") :
             raise Exceptions.MalformedId("passed id is empty")
 
-        x = []
+        x = [ ]
         try :
             for n in string.split(s, ".") :
                 x.append(int(n))
@@ -68,6 +68,9 @@ class ID(object) :
                 s = s + "."
             s = s + str(self.__id[i])
         return ID(s)
+
+    def __eq__(self, other) :
+        return (str(self) == str(other))
 
 # Test
 if (__name__ == '__main__') :
