@@ -40,8 +40,8 @@ $DNT_FLAGS add -t "alfa"   || exit 1
 $DNT_FLAGS done -i 1 || exit 1
 
 # Checking "done" and "not-done" filters (they must differ)
-$DNT_NOFLAGS $COMMAND -F "done" >test-done.out         || exit 1
-$DNT_NOFLAGS $COMMAND -F "not-done" >test-not-done.out || exit 1
+$DNT_FLAGS $COMMAND -F "done"     --output test-done.out     || exit 1
+$DNT_FLAGS $COMMAND -F "not-done" --output test-not-done.out || exit 1
 
 diff test-done.out test-not-done.out && exit 1
 

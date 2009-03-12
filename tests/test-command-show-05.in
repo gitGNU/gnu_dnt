@@ -40,8 +40,8 @@ $DNT_FLAGS add -t "alfa"   || exit 1
 $DNT_FLAGS done -i 1 || exit 1
 
 # Checking "all" filter against "--all" switch (they must be the same)
-$DNT_NOFLAGS $COMMAND -F "all" >test-filter-all.out || exit 1
-$DNT_NOFLAGS $COMMAND --all >test-all.out           || exit 1
+$DNT_FLAGS $COMMAND -F "all" --output test-filter-all.out || exit 1
+$DNT_FLAGS $COMMAND --all    --output test-all.out        || exit 1
 
 diff test-filter-all.out test-all.out || exit 1
 
