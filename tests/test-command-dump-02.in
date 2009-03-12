@@ -54,4 +54,9 @@ if test ! "x${OUTPUT}" = "xmedium"; then
   exit 1
 fi
 
+OUTPUT="`$DNT_NOFLAGS --mono $COMMAND --line-format=\"%i\"`"
+if test ! "x${OUTPUT}" = "x0.1"; then
+  exit 1
+fi
+
 exit 0

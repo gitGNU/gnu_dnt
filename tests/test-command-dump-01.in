@@ -50,14 +50,16 @@ $DNT_FLAGS dump --width=0                         || exit 1
 $DNT_FLAGS dump --width=20                        || exit 1
 $DNT_FLAGS dump --width=80                        || exit 1
 
-$DNT_FLAGS dump            --line-format="%t"          || exit 1
-$DNT_FLAGS dump            --line-format="%p"          || exit 1
-$DNT_FLAGS dump            --line-format="%s"          || exit 1
-$DNT_FLAGS dump            --line-format="%e"          || exit 1
-$DNT_FLAGS dump            --line-format="%t %p %s %e" || exit 1
-$DNT_FLAGS dump --width=0  --line-format="%p %t %e %s" || exit 1
-$DNT_FLAGS dump --width=80 --line-format="%p %t %e %s" || exit 1
-$DNT_FLAGS dump            --line-format="%t"          || exit 1
+$DNT_FLAGS dump            --line-format="%t"             || exit 1
+$DNT_FLAGS dump            --line-format="%p"             || exit 1
+$DNT_FLAGS dump            --line-format="%s"             || exit 1
+$DNT_FLAGS dump            --line-format="%e"             || exit 1
+$DNT_FLAGS dump            --line-format="%i"             || exit 1
+$DNT_FLAGS dump            --line-format="%t %p %s %e %i" || exit 1
+$DNT_FLAGS dump            --line-format="%t %p %s %e %i" || exit 1
+$DNT_FLAGS dump --width=0  --line-format="%p %t %e %s %i" || exit 1
+$DNT_FLAGS dump --width=80 --line-format="%p %t %e %s %i" || exit 1
+$DNT_FLAGS dump            --line-format="%t"             || exit 1
 $DNT_FLAGS dump            --indent-format="aaa"                        \
                            --line-format="%t"                           \
                            --unindent-format="bbb"     || exit 1
