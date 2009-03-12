@@ -119,10 +119,10 @@ if (__name__ == '__main__') :
     e12  = Entry("e12")
     e2   = Entry("e2")
 
-    e1.child(0, e12)
-    e1.child(0, e11)
-    root.child(0, e1)
-    root.child(1, e2)
+    root.add(e1)
+    root.add(e2)
+    e1.add(e12)
+    e1.add(e11)
 
     # NOTE:
     #     We should not use Visitor class (which could use Entry and/or Node
