@@ -99,10 +99,10 @@ if (__name__ == '__main__') :
     e2   = Entry.Entry("e2")
 
     debug("Building tree")
-    e1.child(0, e12)
-    e1.child(0, e11)
-    root.child(0, e1)
-    root.child(1, e2)
+    root.add(e1)
+    e1.add(e11)
+    e1.add(e12)
+    root.add(e2)
 
     debug(str(root))
 
