@@ -21,11 +21,12 @@ import sys
 from   Debug      import *
 from   Trace      import *
 import Exceptions
+import ID
 
 class Node(object) :
     def __init__(self) :
         self.__children = []
-        self.__index    = 0
+#        self.__iterator = 0
         self.__parent   = None
         debug("Node `" + str(self) + "' created successfully")
 
@@ -39,24 +40,26 @@ class Node(object) :
     def children(self) :
         return self.__children
 
-    # Add/Remove a node based on id
-    def child(self, i = 0, node = None) :
+#    # Add/Remove a node based on id
+#    def child(self, i = 0, node = None) :
 #       assert(i >= 0)
-#        if (i == 0) :
-#            raise Exceptions.Tree("cannot add/remove root")
-        if (node == None) :
-            debug("Removing child "
-                  "`" + str(i) + "' "
-                  "from node "
-                  "`" + str(self) + "'")
-            self.__children.remove(i)
-        else :
-            debug("Adding child "
-                  "`" + str(i) + "' "
-                  "to node "
-                  "`" + str(self) + "'")
-            self.__children.insert(i, node)
-        node.parent = self
+##        if (i == 0) :
+##            raise Exceptions.Tree("cannot add/remove root")
+#       if (node == None) :
+#           debug("Removing child "
+#                 "`" + str(i) + "' "
+#                 "from node "
+#                 "`" + str(self) + "'")
+#           self.__children.remove(i)
+#           node.__index = -1
+#       else :
+#           debug("Adding child "
+#                 "`" + str(i) + "' "
+#                 "to node "
+#                 "`" + str(self) + "'")
+#           self.__children.insert(i, node)
+#           node.__index = i
+#       node.parent = self
 
     # Add a child node based on object
     def add(self, node) :
@@ -70,6 +73,7 @@ class Node(object) :
             i = i + 1
         assert(found == False)
         self.__children.append(node)
+        node.__parent = self
         debug("Node `" + str(node) + "' added to node `" + str(self) + "'")
 
     # Remove a child node based on object
@@ -84,24 +88,47 @@ class Node(object) :
             i = i + 1
         assert(found == True)
         self.__children.remove(node)
+        node.__parent = None
         debug("Node `" + str(node) + "' removed to node `" + str(self) + "'")
 
     # Iterator related methods
     def __iter__(self):
         return self
 
-    def next(self):
-        i = self.__index
-        if (i >= len(self.__children)) :
-            raise StopIteration
-        tmp = self.__children[self.__index]
-        self.__index = i + 1
-        return tmp
+#    def next(self):
+#        i = self.__iterator
+#        if (i >= len(self.__children)) :
+#            raise StopIteration
+#        tmp = self.__children[self.__iterator]
+#        self.__iterator = i + 1
+#        return tmp
 
     def dump(self, prefix) :
         debug(prefix + "Dumping node `" + str(self) + "'")
         for i in self.__children :
             i.dump(prefix + " ")
+
+    def id_get(self) :
+        debug("Building node id")
+
+        n = self
+        s = ""
+
+        while (n.__parent != None) :
+            try :
+                k = str(n.__parent.__children.index(n) + 1)
+            except :
+                break
+            s = "." + k + s
+            n = n.__parent
+
+        s  = "0" + s
+
+        i = ID.ID(s)
+        debug("Node id is `" + str(i) + "'")
+        return i
+
+    id = property(id_get, None)
 
 # Test
 if (__name__ == '__main__') :
@@ -109,12 +136,51 @@ if (__name__ == '__main__') :
     e1   = Node()
     e11  = Node()
     e12  = Node()
+    e121 = Node()
+    e13  = Node()
     e2   = Node()
+    e21  = Node()
 
-    e1.child(0, e12)
-    e1.child(0, e11)
-    root.child(0, e1)
-    root.child(1, e2)
+    root.add(e1)
+    e1.add(e11)
+    e1.add(e12)
+    e12.add(e121)
+    e1.add(e13)
+    root.add(e2)
+    e2.add(e21)
+
+    print(str(root.id))
+    assert(root.id == ID.ID("0"))
+
+    print(str(e1.id))
+    assert(e1.id   == ID.ID("0.1"))
+
+    print(str(e11.id))
+    assert(e11.id  == ID.ID("0.1.1"))
+
+    print(str(e12.id))
+    assert(e12.id  == ID.ID("0.1.2"))
+
+    print(str(e121.id))
+    assert(e121.id == ID.ID("0.1.2.1"))
+
+    print(str(e13.id))
+    assert(e13.id  == ID.ID("0.1.3"))
+
+    print(str(e2.id))
+    assert(e2.id   == ID.ID("0.2"))
+
+    print(str(e21.id))
+    assert(e21.id  == ID.ID("0.2.1"))
+
+    assert(e21.id  == ID.ID("0.2.1"))
+    assert(e2.id   == ID.ID("0.2"))
+    assert(e13.id  == ID.ID("0.1.3"))
+    assert(e121.id == ID.ID("0.1.2.1"))
+    assert(e12.id  == ID.ID("0.1.2"))
+    assert(e11.id  == ID.ID("0.1.1"))
+    assert(e1.id   == ID.ID("0.1"))
+    assert(root.id == ID.ID("0"))
 
     debug("Test completed")
     sys.exit(0)
