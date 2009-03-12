@@ -218,6 +218,8 @@ def dump(node,
             else :
                 status = "incomplete"
 
+            id = str(e.id)
+
             debug("Handling colors")
 
             # Handle colors
@@ -244,6 +246,7 @@ def dump(node,
             t = line_format
             debug("input  = `" + t + "'")
             t = re.sub('%t', color_text(text),     t)
+            t = re.sub('%i', color_index(id),      t)
             t = re.sub('%s', start,                t)
             t = re.sub('%e', end,                  t)
             t = re.sub('%p', color_text(priority), t)
@@ -308,6 +311,7 @@ class SubCommand(Command) :
                 "  %s  start time",
                 "  %e  end time",
                 "  %p  priority",
+                "  %i  index",
                 "",
                 "WIDTH   An integer >= 0, 0 means no text wrapping",
                 "FILTER  " + Filter.help()
