@@ -41,17 +41,17 @@ cat >test.exp <<EOF
  2.beta
 EOF
 
-$DNT_FLAGS $COMMAND -l "%i.%t" -i "  " -u "" -I 2 -o test.out || exit 1
+$DNT_FLAGS $COMMAND -l "%i.%t" -i "" -u "" -k " " -I 2 -o test.out || exit 1
 diff test.out test.exp || exit 1
 
 # Testing on single node with children
 cat >test.exp <<EOF
 1.alfa
-  1.a
-  2.b
+ 1.a
+ 2.b
 EOF
 
-$DNT_FLAGS $COMMAND -l "%i.%t" -i "  " -u "" -I 1 -o test.out || exit 1
+$DNT_FLAGS $COMMAND -l "%i.%t" -i "" -u "" -k " " -I 1 -o test.out || exit 1
 diff test.out test.exp || exit 1
 
 # Testing on child
@@ -59,19 +59,19 @@ cat >test.exp <<EOF
 2.b
 EOF
 
-$DNT_FLAGS $COMMAND -l "%i.%t" -i "  " -u "" -I 1.2 -o test.out || exit 1
+$DNT_FLAGS $COMMAND -l "%i.%t" -i "" -u "" -k " " -I 1.2 -o test.out || exit 1
 diff test.out test.exp || exit 1
 
 # Testing on entire tree (with root node too!)
 cat >test.exp <<EOF
 0.test
-  1.alfa
-    1.a
-    2.b
-  2.beta
+ 1.alfa
+  1.a
+  2.b
+ 2.beta
 EOF
 
-$DNT_FLAGS $COMMAND -l "%i.%t" -i "  " -u "" -o test.out || exit 1
+$DNT_FLAGS $COMMAND -l "%i.%t" -i "" -u "" -k " " -o test.out || exit 1
 diff test.out test.exp || exit 1
 
 exit 0
