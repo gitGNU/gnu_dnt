@@ -34,7 +34,6 @@ commandsdir = $(pkgvpythondir)/Commands
 commands_SRCS = 				\
 	Commands/Add.py				\
 	Commands/Config.py			\
-	Commands/Dump.py			\
 	Commands/Edit.py			\
 	Commands/Fix.py				\
 	Commands/Init.py			\
