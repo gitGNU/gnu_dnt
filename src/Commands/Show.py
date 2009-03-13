@@ -18,175 +18,183 @@
 
 import sys
 import textwrap
+import re
 
-from   Debug         import *
-from   Trace         import *
-from   Command       import *
+from   Debug      import *
+from   Trace      import *
+from   Command    import *
 import Exceptions
 import ANSI
 import DB
 import Tree
 import Priority
 import ID
-from   Visitor       import *
-from   Root          import *
-from   Entry         import *
+import Root
+import Entry
 import Terminal
 import Filter
+import ANSI
 
-class ShowVisitor(Visitor) :
-    def __init__(self, colors, verbose, show_all, width, filter, filehandle) :
-        assert(type(width) == int)
-        assert(filter      != None)
-        assert(filehandle  != None)
+def show(node,
+         colors, verbose,
+         cmap,
+         filehandle, width,
+         indent_format, line_format, unindent_format,
+         filter) :
 
-        super(ShowVisitor, self).__init__()
+    assert(node            != None)
+    assert(type(colors)    == bool)
+    assert(type(verbose)   == bool)
+    assert(filehandle      != None)
+    assert(width           >= 0)
+    assert(indent_format   != None)
+    assert(line_format     != None)
+    assert(unindent_format != None)
+    assert(filter          != None)
 
-        # XXX FIXME:
-        #      We need to start from -1 in order to have 0 as id for the
-        #      database name
+    # Dump the current node
+    if (type(node) == Root.Root) :
+        pass
+    elif (type(node) == Entry.Entry) :
+        e = node
 
-        self.__width      = width
-        self.__colors     = colors
-        self.__verbose    = verbose
-        self.__all        = show_all
-        self.__filter     = filter.function
-        self.__filehandle = filehandle
-        self.__cmap       = {
-            Priority.Priority.PRIORITY_VERYHIGH : ANSI.bright_red,
-            Priority.Priority.PRIORITY_HIGH     : ANSI.bright_yellow,
-            Priority.Priority.PRIORITY_MEDIUM   : ANSI.bright_white,
-            Priority.Priority.PRIORITY_LOW      : ANSI.normal_cyan,
-            Priority.Priority.PRIORITY_VERYLOW  : ANSI.normal_blue,
-            }
-
-    def visitEntry(self, e) :
-        assert(e != None)
-
-        if (self.__filter(e) == False) :
+        if (filter.function(e) == False) :
             debug("Entry "                 +
                   "`" + str(e) + "' "      +
                   "does not match filter " +
-                  "`" + str(self.__filter) + "'")
-            return
-
-        debug("Visiting entry " + str(e))
-
-        # Handle colors
-        if ((self.__filehandle.isatty()) and (self.__colors == True)) :
-            color_info  = ANSI.normal_green
-            color_index = ANSI.normal_green
-            p           = e.priority.value
-            try :
-                color_text  = self.__cmap[p]
-            except KeyError :
-                bug("Unknown key `" + p.tostring() + "'")
+                  "`" + str(filter) + "'")
         else :
-            # A bunch of pass-through lambdas
-            color_index = lambda x: x
-            color_text  = lambda x: x
-            color_info  = lambda x: x
-        assert(color_index != None)
-        assert(color_text  != None)
-        assert(color_info  != None)
+            debug("Visiting entry " + str(e))
 
-        # Build the output
-        if ((not e.done()) or (e.done() and self.__all)) :
-            id    = e.id.tolist()
-            index = str(id[len(id) - 1])
+            debug("Formatting")
+
+            text = e.text
+
+            if (e.start != None) :
+                start = e.start.tostring()
+            else :
+                start = "unknown"
+
+            if (e.end != None) :
+                end = e.end.tostring()
+            else :
+                end = "unknown"
+
+            if (e.priority != None) :
+                priority = e.priority.tostring()
+            else :
+                priority = "unknown"
 
             if (e.done()) :
-                mark = "-"
+                status = "complete"
             else :
-                mark = " "
+                status = "incomplete"
 
-            header = \
-                self.indent()                        + \
-                mark                                 + \
-                color_index(index) + "."
-            indent = " " * len(self.indent()         + \
-                                   mark              + \
-                                   index + ".")
+            id_temp = e.id
+            id_absolute = str(id_temp)
+            try :
+                id_list     = id_temp.tolist()
+                id_relative = str(id_list[len(id_list) - 1])
+            except:
+                id_relative = "0"
 
-            if (self.__width == 0) :
-                lines = [ e.text ]
+            debug("Handling colors")
+
+            # Handle colors
+            if ((filehandle.isatty()) and (colors == True)) :
+                color_info  = ANSI.normal_green
+                color_index = ANSI.normal_green
+                p           = e.priority.value
+                try :
+                    color_text  = cmap[p]
+                except KeyError :
+                    bug("Unknown key `" + p.tostring() + "'")
             else :
-                rows = self.__width - len(header)
-                debug("Need to wrap text on " + str(rows) + " rows")
-                if (rows <= 0) :
-                    lines = [ "..." ]
-                else :
-                    lines = textwrap.wrap(e.text, rows)
-            debug("Got " + str(len(lines)) + " lines to show")
+                # A bunch of pass-through lambdas
+                color_text  = lambda x: x
+                color_index = lambda x: x
+                color_info  = lambda x: x
+            assert(color_index != None)
+            assert(color_text  != None)
+            assert(color_info  != None)
 
-            i = 0
-            for line in lines :
-                if (i == 0) :
-                    self.__filehandle.write(header + color_text(line) + "\n")
-                else :
-                    self.__filehandle.write(indent + color_text(line) + "\n")
-                i = i + 1
+            debug("Formatting")
 
-            if (self.__verbose) :
-                l    = " " * (len(mark) + len(index) + len("."))
-                line1 = self.indent() + l
+            # Perform format substitutions
+            t = line_format
+            debug("input  = `" + t + "'")
+            t = re.sub('%I', color_index(id_absolute),  t)
+            t = re.sub('%i', color_index(id_relative),  t)
+            t = re.sub('%s', start,                     t)
+            t = re.sub('%e', end,                       t)
+            t = re.sub('%p', color_text(priority),      t)
+            # Always substitute text at last in order to avoid re-substitutions
+            # if text contains %i, %s, %e, %p, %c and so on
+            t = re.sub('%t', color_text(text),          t)
+            debug("output = `" + t + "'")
 
-                line1 = line1 + color_info("Start:") + " "
-                if (e.start != None) :
-                    line1 = line1 + e.start.tostring()
-                else :
-                    line1 = line1 + "Unknown"
-                line1 = line1 + " " + color_info("End:") + " "
-                if (e.end != None) :
-                    line1 = line1 + e.end.tostring()
-                else :
-                    line1 = line1 + "Unknown"
+            if (t != '') :
+                debug("Building output")
 
-                line2 = self.indent() + l +         \
-                    color_info("Priority:") + " " + \
-                    e.priority.tostring() +         \
-                    " " + color_info("Duration:") + " "
-                if (e.end != None) :
-                    d = e.end - e.start
-                    line2 = line2 + d.tostring()
-                else :
-                    line2 = line2 + "Incomplete"
+                #
+                # Build the output
+                #
+                debug("Wrapping entry text to " + str(width))
 
-                self.__filehandle.write(line1 + "\n")
-                self.__filehandle.write(line2 + "\n")
-                self.__filehandle.write("\n")
+                # Remove trailing whitespaces (newlines will be added later)
+                t = t.rstrip()
 
-    def visitRoot(self, r) :
-        assert(r != None)
+                # Dump each line
+                for i in t.split('\n') :
+                    if (width != 0) :
+                        lines = textwrap.wrap(i, width)
+                    else :
+                        lines = [ i ]
 
-        debug("Visiting root " + str(r))
+                    for j in lines :
+                        filehandle.write(j + "\n")
+            else :
+                debug("Empty output, skipping ...")
+    else :
+        bug("Unknown type " + str(type(n)))
 
-        if (self.__filehandle.isatty() and (self.__colors == True)) :
-            color_index = ANSI.normal_green
-            color_text  = ANSI.normal_white
-        else :
-            color_index = lambda x: x # pass-through
-            color_text  = lambda x: x # pass-through
+    # Finally handle node children
+    assert(hasattr(node, "children"))
+    if (len(node.children()) > 0) :
+        debug("Indenting more")
+        filehandle.write(indent_format)
 
-        assert(color_index != None)
-        assert(color_text != None)
+        debug("Handling children")
+        for j in node.children() :
+            show(j,
+                 colors, verbose,
+                 cmap,
+                 filehandle, width,
+                 indent_format, line_format, unindent_format,
+                 filter)
 
-        id    = r.id.tolist()
-        index = str(id[len(id) - 1])
-
-        self.__filehandle.write(self.indent()            +
-                                color_index(index) + "." +
-                                color_text(r.text)       +
-                                "\n")
-
-    def indent(self) :
-        return " " * 2 * self.level_current()
+        debug("Indenting less")
+        filehandle.write(unindent_format)
+    else :
+        debug("No children to handle")
 
 class SubCommand(Command) :
     def __init__(self) :
         Command.__init__(self,
                          name   = "show",
                          footer = [
+                "INDENT_FORMAT and UNINDENT_FORMAT are applied " + \
+                    "when indentation is needed",
+                "FORMAT  controls the output for each entry " + \
+                    "dumped. Interpreted sequences are:",
+                "",
+                "  %t  text",
+                "  %s  start time",
+                "  %e  end time",
+                "  %p  priority",
+                "  %I  index (absolute)",
+                "  %i  index (relative)",
+                "",
                 "FILTER  " + Filter.help(),
                 "ID      " + ID.help(),
                 "WIDTH   An integer >= 0, 0 means no formatting"
@@ -208,16 +216,32 @@ class SubCommand(Command) :
                            type   = "string",
                            dest   = "output",
                            help   = "specify output file name")
-        Command.add_option(self, "-a", "--all",
-                           action = "store_true",
-                           dest   = "all",
-                           help   = "show all nodes")
         Command.add_option(self,
-                           "-i", "--id",
+                           "-I", "--id",
                            action = "store",
                            type   = "string",
                            dest   = "id",
                            help   = "specify starting node")
+
+        Command.add_option(self,
+                           "-l", "--line-format",
+                           action = "store",
+                           type   = "string",
+                           dest   = "line_format",
+                           help   = "specify line dump format")
+        Command.add_option(self,
+                           "-i", "--indent-format",
+                           action = "store",
+                           type   = "string",
+                           dest   = "indent_format",
+                           help   = "specify indent line dump format")
+        Command.add_option(self,
+                           "-u", "--unindent-format",
+                           action = "store",
+                           type   = "string",
+                           dest   = "unindent_format",
+                           help   = "specify line dump format")
+
         Command.add_option(self,
                            "-w", "--width",
                            action = "store",
@@ -293,6 +317,36 @@ class SubCommand(Command) :
                   str(verbose))
         assert(verbose != None)
 
+        #
+        # NOTE:
+        #     verbose has no meaning when the user specifies its own
+        #     formatting tules. We will use a different format for quiet and
+        #     verbose mode however ...
+        #
+        if (verbose == True) :
+            indent_format   = "  "
+            line_format     = "%i %t\n  (%s, %e, %p)\n"
+            unindent_format = ""
+        else :
+            indent_format   = "  "
+            line_format     = "%i %t\n"
+            unindent_format = ""
+
+        if (opts.indent_format != None) :
+            indent_format = opts.indent_format
+        assert(indent_format != None)
+        debug("Indent-format is:   `" + indent_format + "'")
+
+        if (opts.line_format != None) :
+            line_format = opts.line_format
+        assert(line_format != None)
+        debug("Line-format is:     `" + line_format + "'")
+
+        if (opts.unindent_format != None) :
+            unindent_format = opts.unindent_format
+        assert(unindent_format != None)
+        debug("Unindent-format is: `" + unindent_format + "'")
+
         # Build the filter
         filter_text = "all"
         if (opts.filter != None) :
@@ -309,10 +363,6 @@ class SubCommand(Command) :
         tree    = db.load(db_file)
         assert(tree != None)
 
-        show_all = False
-        if (opts.all == True) :
-            show_all = True
-
         node = Tree.find(tree, node_id)
         if (node == None) :
             raise Exceptions.NodeUnavailable(str(node_id))
@@ -320,8 +370,28 @@ class SubCommand(Command) :
         #
         # Work
         #
-        v = ShowVisitor(colors, verbose, show_all, width, filter, filehandle)
-        node.accept(v)
+
+        cmap = {
+            Priority.Priority.PRIORITY_VERYHIGH : ANSI.bright_red,
+            Priority.Priority.PRIORITY_HIGH     : ANSI.bright_yellow,
+            Priority.Priority.PRIORITY_MEDIUM   : ANSI.bright_white,
+            Priority.Priority.PRIORITY_LOW      : ANSI.normal_cyan,
+            Priority.Priority.PRIORITY_VERYLOW  : ANSI.normal_blue,
+            }
+
+        #filehandle.write(indent_format)
+        show(tree,
+             colors, verbose,
+             cmap,
+             filehandle, width,
+             indent_format, line_format, unindent_format,
+             filter)
+        #filehandle.write(unindent_format)
+
+        # Avoid closing precious filehandles
+        if ((filehandle != sys.stdout) and (filehandle != sys.stderr)) :
+            debug("Closing file `" + filehandle.name + "'")
+            filehandle.close()
 
         debug("Success")
 
