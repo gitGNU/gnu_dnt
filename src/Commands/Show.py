@@ -35,11 +35,12 @@ import Terminal
 import Filter
 import ANSI
 
-def show(node,
+def show(level,
+         node,
          colors, verbose,
          cmap,
          filehandle, width,
-         indent_format, line_format, unindent_format,
+         indent_format, line_format, unindent_format, indent_level,
          filter) :
 
     assert(node            != None)
@@ -50,6 +51,7 @@ def show(node,
     assert(indent_format   != None)
     assert(line_format     != None)
     assert(unindent_format != None)
+    assert(indent_level    != None)
     assert(filter          != None)
 
     # Dump the current node
@@ -152,7 +154,7 @@ def show(node,
                         lines = [ i ]
 
                     for j in lines :
-                        filehandle.write(j + "\n")
+                        filehandle.write(indent_level * level + j + "\n")
             else :
                 debug("Empty output, skipping ...")
     else :
@@ -166,11 +168,12 @@ def show(node,
 
         debug("Handling children")
         for j in node.children() :
-            show(j,
+            show(level + 1,
+                 j,
                  colors, verbose,
                  cmap,
                  filehandle, width,
-                 indent_format, line_format, unindent_format,
+                 indent_format, line_format, unindent_format, indent_level,
                  filter)
 
         debug("Indenting less")
@@ -228,19 +231,25 @@ class SubCommand(Command) :
                            action = "store",
                            type   = "string",
                            dest   = "line_format",
-                           help   = "specify line dump format")
+                           help   = "specify line format")
         Command.add_option(self,
                            "-i", "--indent-format",
                            action = "store",
                            type   = "string",
                            dest   = "indent_format",
-                           help   = "specify indent line dump format")
+                           help   = "specify indent format")
         Command.add_option(self,
                            "-u", "--unindent-format",
                            action = "store",
                            type   = "string",
                            dest   = "unindent_format",
-                           help   = "specify line dump format")
+                           help   = "specify unindent format")
+        Command.add_option(self,
+                           "-k", "--indent-level",
+                           action = "store",
+                           type   = "string",
+                           dest   = "indent_level",
+                           help   = "specify level indentation")
 
         Command.add_option(self,
                            "-w", "--width",
@@ -324,13 +333,15 @@ class SubCommand(Command) :
         #     verbose mode however ...
         #
         if (verbose == True) :
-            indent_format   = "  "
+            indent_format   = ""
             line_format     = "%i %t\n  (%s, %e, %p)\n"
             unindent_format = ""
+            indent_level    = "  "
         else :
-            indent_format   = "  "
+            indent_format   = ""
             line_format     = "%i %t\n"
             unindent_format = ""
+            indent_level    = "  "
 
         if (opts.indent_format != None) :
             indent_format = opts.indent_format
@@ -346,6 +357,11 @@ class SubCommand(Command) :
             unindent_format = opts.unindent_format
         assert(unindent_format != None)
         debug("Unindent-format is: `" + unindent_format + "'")
+
+        if (opts.indent_level != None) :
+            indent_level = opts.indent_level
+        assert(indent_level != None)
+        debug("indent-level is: `" + indent_level + "'")
 
         # Build the filter
         filter_text = "all"
@@ -380,11 +396,12 @@ class SubCommand(Command) :
             }
 
         #filehandle.write(indent_format)
-        show(tree,
+        show(0,
+             node,
              colors, verbose,
              cmap,
              filehandle, width,
-             indent_format, line_format, unindent_format,
+             indent_format, line_format, unindent_format, indent_level,
              filter)
         #filehandle.write(unindent_format)
 
