@@ -36,14 +36,10 @@ $DNT_FLAGS add -t "beta" || exit 1
 $DNT_FLAGS done --id 0.1 || exit 1
 $DNT_FLAGS done --id 0.2 || exit 1
 
-# Checking the result
-: >test.exp || exit 1
-: >test.out || exit 1
-
 cat >test.exp <<EOF
 EOF
 
-$DNT_NOFLAGS dump -F not-done -l "%t" >test.out
+$DNT_NOFLAGS show -F not-done -l "%t" -i "" -u "" -o test.out
 
 diff test.out test.exp || exit 1
 
@@ -52,7 +48,7 @@ alfa
 beta
 EOF
 
-$DNT_NOFLAGS dump -F done -l "%t" >test.out
+$DNT_NOFLAGS show -F done -l "%t" -i "" -u "" -o test.out
 
 diff test.out test.exp || exit 1
 

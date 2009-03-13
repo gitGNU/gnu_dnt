@@ -26,7 +26,7 @@ required=""
 
 . $testdir/defs || exit 1
 
-COMMAND="dump"
+COMMAND="show"
 
 # Creating test DB
 $DNT_FLAGS clean           || exit 1

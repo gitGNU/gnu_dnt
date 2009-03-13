@@ -26,7 +26,7 @@ required=""
 
 . $testdir/defs || exit 1
 
-COMMAND="dump"
+COMMAND="show"
 
 # Creating test DB
 $DNT_FLAGS clean             || exit 1
@@ -34,27 +34,27 @@ $DNT_FLAGS init              || exit 1
 $DNT_FLAGS add --text="alfa" || exit 1
 
 # Testing "--line-format" option
-OUTPUT="`$DNT_NOFLAGS --mono $COMMAND --line-format=\"%t\"`"
+OUTPUT="`$DNT_NOFLAGS --mono $COMMAND -i \"\" -u \"\" -l \"%t\"`"
 if test ! "x${OUTPUT}" = "xalfa"; then
   exit 1
 fi
 
-OUTPUT="`$DNT_NOFLAGS --mono $COMMAND --line-format=\"%s\"`"
+OUTPUT="`$DNT_NOFLAGS --mono $COMMAND -i \"\" -u \"\" -l \"%s\"`"
 if test "x${OUTPUT}" = "x"; then
   exit 1
 fi
 
-OUTPUT="`$DNT_NOFLAGS --mono $COMMAND --line-format=\"%e\"`"
+OUTPUT="`$DNT_NOFLAGS --mono $COMMAND -i \"\" -u \"\" -l \"%e\"`"
 if test ! "x${OUTPUT}" = "xunknown"; then
   exit 1
 fi
 
-OUTPUT="`$DNT_NOFLAGS --mono $COMMAND --line-format=\"%p\"`"
+OUTPUT="`$DNT_NOFLAGS --mono $COMMAND -i \"\" -u \"\" -l \"%p\"`"
 if test ! "x${OUTPUT}" = "xmedium"; then
   exit 1
 fi
 
-OUTPUT="`$DNT_NOFLAGS --mono $COMMAND --line-format=\"%i\"`"
+OUTPUT="`$DNT_NOFLAGS --mono $COMMAND -i \"\" -u \"\" -l \"%I\"`"
 if test ! "x${OUTPUT}" = "x0.1"; then
   exit 1
 fi

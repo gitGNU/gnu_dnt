@@ -52,9 +52,8 @@ $DNT_FLAGS add -t "test12" -i 1 || exit 1
 $DNT_FLAGS add -t "test13" -i 1 || exit 1
 $DNT_FLAGS add -t "test14" -i 1 || exit 1
 
-$DNT_NOFLAGS show                 || exit 1
-$DNT_NOFLAGS show --all           || exit 1
+$DNT_NOFLAGS           show       || exit 1
 $DNT_NOFLAGS --verbose show       || exit 1
-$DNT_NOFLAGS --verbose show --all || exit 1
+$DNT_NOFLAGS --debug   show       || exit 1
 
 exit 0

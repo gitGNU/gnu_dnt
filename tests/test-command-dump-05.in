@@ -26,7 +26,7 @@ required=""
 
 . $testdir/defs || exit 1
 
-COMMAND="dump"
+COMMAND="show"
 
 # Creating test DB
 $DNT_FLAGS clean || exit 1
@@ -34,17 +34,17 @@ $DNT_FLAGS init  || exit 1
 $DNT_FLAGS add -t "alfa" || exit 1
 
 # Testing indentation - phase 1
-EXPECTED=">>"
+EXPECTED=">"
 
-OUTPUT="`$DNT_NOFLAGS $COMMAND -l '' -i '>'`"
+OUTPUT="`$DNT_NOFLAGS $COMMAND -l '' -i '>' -u ''`"
 if test ! "x${OUTPUT}" = "x${EXPECTED}"; then
   exit 1
 fi
 
 # Testing unindentation - phase 1
-EXPECTED="<<"
+EXPECTED="<"
 
-OUTPUT="`$DNT_NOFLAGS $COMMAND -l '' -u '<'`"
+OUTPUT="`$DNT_NOFLAGS $COMMAND -l '' -i '' -u '<'`"
 if test ! "x${OUTPUT}" = "x${EXPECTED}"; then
   exit 1
 fi
@@ -55,23 +55,23 @@ $DNT_FLAGS add -i 1 -t "a" || exit 1
 $DNT_FLAGS add -i 1 -t "b" || exit 1
 $DNT_FLAGS add -i 2 -t "a" || exit 1
 
-EXPECTED=">>>>"
+EXPECTED=">>>"
 
-OUTPUT="`$DNT_NOFLAGS $COMMAND -l '' -i '>'`"
+OUTPUT="`$DNT_NOFLAGS $COMMAND -l '' -i '>' -u ''`"
 if test ! "x${OUTPUT}" = "x${EXPECTED}"; then
   exit 1
 fi
 
 # Testing unindentation - phase 3
-EXPECTED="<<<<"
+EXPECTED="<<<"
 
-OUTPUT="`$DNT_NOFLAGS $COMMAND -l '' -u '<'`"
+OUTPUT="`$DNT_NOFLAGS $COMMAND -l '' -i '' -u '<'`"
 if test ! "x${OUTPUT}" = "x${EXPECTED}"; then
   exit 1
 fi
 
 # Testing indentation and unindentation together
-EXPECTED=">>><><<<"
+EXPECTED=">><><<"
 
 OUTPUT="`$DNT_NOFLAGS $COMMAND -l '' -i '>' -u '<'`"
 if test ! "x${OUTPUT}" = "x${EXPECTED}"; then

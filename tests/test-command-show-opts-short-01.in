@@ -35,22 +35,26 @@ $DNT_FLAGS init  || exit 1
 # Filling DB
 $DNT_FLAGS add -t "alfa" || exit 1
 $DNT_FLAGS add -t "beta" || exit 1
-$DNT_FLAGS add -t "a" -i "2" || exit 1
-
-# Testing "-a" option
-$DNT_NOFLAGS $COMMAND -a || exit 1
+$DNT_FLAGS add -t "a" -i "1" || exit 1
+$DNT_FLAGS add -t "b" -i "2" || exit 1
 
 # Testing "-i" option
 $DNT_NOFLAGS $COMMAND -i "2" || exit 1
 
 # Testing "-w" option
-$DNT_NOFLAGS $COMMAND -a -w "16" || exit 1
+$DNT_NOFLAGS $COMMAND -w "16" || exit 1
 
 # Testing "-F" option
-$DNT_FLAGS done -i "2.1" || exit 1
-$DNT_NOFLAGS $COMMAND -a -F "done"    || exit 1
+$DNT_FLAGS $COMMAND -F "done"     || exit 1
+$DNT_FLAGS $COMMAND -F "not-done" || exit 1
+$DNT_FLAGS $COMMAND -F "all"      || exit 1
 
 # Testing "-o" option
 $DNT_FLAGS $COMMAND -o "test1.log" || exit 1
+
+# Testing formatting related options
+$DNT_FLAGS $COMMAND -l "%t"        || exit 1
+$DNT_FLAGS $COMMAND -l "%t" -i "x" || exit 1
+$DNT_FLAGS $COMMAND -l "%t" -u "y" || exit 1
 
 exit 0

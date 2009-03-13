@@ -26,8 +26,8 @@ required="diff"
 . $testdir/defs || exit 1
 
 # Always check --help and --version
-$DNT_FLAGS dump --help    || exit 1
-$DNT_FLAGS dump --version || exit 1
+$DNT_FLAGS show --help    || exit 1
+$DNT_FLAGS show --version || exit 1
 
 # Then perform the command related check
 $DNT_FLAGS clean || exit 1
@@ -41,43 +41,43 @@ $DNT_FLAGS add -t "test11" -i 1 || exit 1
 $DNT_FLAGS add -t "test21" -i 2 || exit 1
 $DNT_FLAGS add -t "test31" -i 3 || exit 1
 
-$DNT_FLAGS dump --output /dev/stdout              || exit 1
-$DNT_FLAGS dump --output /dev/stderr              || exit 1
-$DNT_FLAGS dump --output test.dump                || exit 1
+$DNT_FLAGS show --output /dev/stdout              || exit 1
+$DNT_FLAGS show --output /dev/stderr              || exit 1
+$DNT_FLAGS show --output test.dump                || exit 1
 
-$DNT_FLAGS dump                                   || exit 1
-$DNT_FLAGS dump --width=0                         || exit 1
-$DNT_FLAGS dump --width=20                        || exit 1
-$DNT_FLAGS dump --width=80                        || exit 1
+$DNT_FLAGS show                                   || exit 1
+$DNT_FLAGS show --width=0                         || exit 1
+$DNT_FLAGS show --width=20                        || exit 1
+$DNT_FLAGS show --width=80                        || exit 1
 
-$DNT_FLAGS dump            --line-format="%t"             || exit 1
-$DNT_FLAGS dump            --line-format="%p"             || exit 1
-$DNT_FLAGS dump            --line-format="%s"             || exit 1
-$DNT_FLAGS dump            --line-format="%e"             || exit 1
-$DNT_FLAGS dump            --line-format="%i"             || exit 1
-$DNT_FLAGS dump            --line-format="%t %p %s %e %i" || exit 1
-$DNT_FLAGS dump            --line-format="%t %p %s %e %i" || exit 1
-$DNT_FLAGS dump --width=0  --line-format="%p %t %e %s %i" || exit 1
-$DNT_FLAGS dump --width=80 --line-format="%p %t %e %s %i" || exit 1
-$DNT_FLAGS dump            --line-format="%t"             || exit 1
-$DNT_FLAGS dump            --indent-format="aaa"                        \
+$DNT_FLAGS show            --line-format="%t"             || exit 1
+$DNT_FLAGS show            --line-format="%p"             || exit 1
+$DNT_FLAGS show            --line-format="%s"             || exit 1
+$DNT_FLAGS show            --line-format="%e"             || exit 1
+$DNT_FLAGS show            --line-format="%i"             || exit 1
+$DNT_FLAGS show            --line-format="%t %p %s %e %i" || exit 1
+$DNT_FLAGS show            --line-format="%t %p %s %e %i" || exit 1
+$DNT_FLAGS show --width=0  --line-format="%p %t %e %s %i" || exit 1
+$DNT_FLAGS show --width=80 --line-format="%p %t %e %s %i" || exit 1
+$DNT_FLAGS show            --line-format="%t"             || exit 1
+$DNT_FLAGS show            --indent-format="aaa"                        \
                            --line-format="%t"                           \
                            --unindent-format="bbb"     || exit 1
 
-$DNT_FLAGS dump --filter=all                      || exit 1
-$DNT_FLAGS dump --filter=done                     || exit 1
-$DNT_FLAGS dump --filter=not-done                 || exit 1
+$DNT_FLAGS show --filter=all                      || exit 1
+$DNT_FLAGS show --filter=done                     || exit 1
+$DNT_FLAGS show --filter=not-done                 || exit 1
 
-#$DNT_NOFLAGS --colors dump > test1.log || exit 1
-#$DNT_NOFLAGS --mono   dump > test2.log || exit 1
+#$DNT_NOFLAGS --colors show > test1.log || exit 1
+#$DNT_NOFLAGS --mono   show > test2.log || exit 1
 #diff test1.log test2.log || {
 #    rm -f test1.log
 #    rm -f test2.log
 #    exit 0
 #}
 #
-#$DNT_NOFLAGS --mono dump --filter=done     > test1.log || exit 1
-#$DNT_NOFLAGS --mono dump --filter=not-done > test2.log || exit 1
+#$DNT_NOFLAGS --mono show --filter=done     > test1.log || exit 1
+#$DNT_NOFLAGS --mono show --filter=not-done > test2.log || exit 1
 #diff test1.log test2.log || {
 #    rm -f test1.log
 #    rm -f test2.log

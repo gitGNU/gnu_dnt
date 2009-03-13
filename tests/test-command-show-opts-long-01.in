@@ -35,22 +35,26 @@ $DNT_FLAGS init  || exit 1
 # Filling DB
 $DNT_FLAGS add --text="alfa" || exit 1
 $DNT_FLAGS add --text="beta" || exit 1
-$DNT_FLAGS add --text="a" --parent-id="2" || exit 1
-
-# Testing "--all" option
-$DNT_NOFLAGS $COMMAND --all || exit 1
+$DNT_FLAGS add --text="a" --parent-id="1" || exit 1
+$DNT_FLAGS add --text="b" --parent-id="2" || exit 1
 
 # Testing "--id" option
-$DNT_NOFLAGS $COMMAND --id="2" || exit 1
+$DNT_FLAGS $COMMAND --id="2" || exit 1
 
 # Testing "--width" option
-$DNT_NOFLAGS $COMMAND --all --width="16" || exit 1
+$DNT_FLAGS $COMMAND --width="16" || exit 1
 
 # Testing "--filter" option
-$DNT_FLAGS done --id="2.1" || exit 1
-$DNT_NOFLAGS $COMMAND --all --filter="done"   || exit 1
+$DNT_FLAGS $COMMAND --filter="done"     || exit 1
+$DNT_FLAGS $COMMAND --filter="not-done" || exit 1
+$DNT_FLAGS $COMMAND --filter="all"      || exit 1
 
 # Testing "--output" option
 $DNT_FLAGS $COMMAND --output="test1.log" || exit 1
+
+# Testing formatting related options
+$DNT_FLAGS $COMMAND --line-format="%t"                        || exit 1
+$DNT_FLAGS $COMMAND --line-format="%t" --indent-format="x"    || exit 1
+$DNT_FLAGS $COMMAND --line-format="%t" --unindent-format="y"  || exit 1
 
 exit 0
