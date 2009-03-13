@@ -27,21 +27,28 @@ required="xsltproc diff devtodo"
 . $testdir/defs || exit 1
 
 # Creating devtodo DB
-devtodo --database test-orig.db -a "alfa" -p "medium"   || exit 1
-devtodo --database test-orig.db -a "beta" -p "medium"   || exit 1
-devtodo --database test-orig.db -a "beta_1" -p "medium" || exit 1
-devtodo --database test-orig.db -a "gamma" -p "medium"  || exit 1
-devtodo --database test-orig.db -R 3,2                  || exit 1
+devtodo --database devtodo.db -a "alfa" -p "medium"   || exit 1
+devtodo --database devtodo.db -a "beta" -p "medium"   || exit 1
+devtodo --database devtodo.db -a "beta_1" -p "medium" || exit 1
+devtodo --database devtodo.db -a "gamma" -p "medium"  || exit 1
+devtodo --database devtodo.db -R 3,2                  || exit 1
 
 # Converting to dnt
-: >test-to-dnt.db
-$DEVTODO_TO_DNT -i test-orig.db -o test-to-dnt.db -f || exit 1
+: >to-dnt.db
+$DEVTODO_TO_DNT -i devtodo.db -o to-dnt.db -f || exit 1
 
 # Turning back to devtodo format
-: >test-to-devtodo.db || exit 1
-$DNT_TO_DEVTODO -i test-to-dnt.db -o test-to-devtodo.db -f || exit 1
+: >to-devtodo.db || exit 1
+$DNT_TO_DEVTODO -i to-dnt.db -o to-devtodo.db -f || exit 1
 
-# Comparing the DBs
-diff test-orig.db test-to-devtodo.db || exit 1
+# Tidy-ing XML for diff
+: >devtodo-tidy.xml    || exit 1
+: >to-devtodo-tidy.xml || exit 1
+
+cat devtodo.db | tidy -quiet -xml >devtodo-tidy.xml       || exit 1
+cat to-devtodo.db | tidy -quiet -xml >to-devtodo-tidy.xml || exit 1
+
+# Comparing the XMLs
+diff devtodo-tidy.xml to-devtodo-tidy.xml || exit 1
 
 exit 0
