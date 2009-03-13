@@ -125,6 +125,12 @@
                 Done
             </comment>
         </note>
+        <note priority="veryhigh" time="1234048997" done="1236950068">
+            Fix the nodes indexing in show command while using --index option
+            <comment>
+                Done
+            </comment>
+        </note>
         <note priority="veryhigh" time="1234217867" done="1234224288">
             Add a check to stop (with an error) when there are more than the allowed options specified on the command line (like dnt add -t test 1)
             <comment>
@@ -173,11 +179,35 @@
                 Done
             </comment>
         </note>
+        <note priority="veryhigh" time="1236865149" done="1236865228">
+            Add %i to dump command help epilog
+            <comment>
+                Done
+            </comment>
+        </note>
+        <note priority="veryhigh" time="1236950000" done="1236950025">
+            Rearrange show command in order to replace dump command
+            <comment>
+                Done
+            </comment>
+        </note>
         <note priority="high" time="1230733148" done="1230733158">
             Fix colors in show command
             <comment>
                 Fixed
             </comment>
+        </note>
+        <note priority="high" time="1232544628" done="1236950280">
+            Add a test which create a .todo, dumps it, exports to .dnt, imports back to .todo, dumps it and finally diffs the two outputs
+            <comment>
+                Done
+            </comment>
+            <note priority="high" time="1229468129" done="1230672987">
+                Add devtodo-to-dnt importer
+                <comment>
+                    Fixed
+                </comment>
+            </note>
         </note>
         <note priority="high" time="1233084079" done="1234392830">
             Add a --format option where needed in order to let the user specify its desired output format
@@ -305,6 +335,12 @@
                 </comment>
             </note>
         </note>
+        <note priority="low" time="1229468141" done="1236950054">
+            Add dnt-to-devtodo exporter
+            <comment>
+                Done
+            </comment>
+        </note>
         <note priority="low" time="1234224492" done="1234286812">
             Rearrange Command class in order to get footer as a list of strings, instead of a sigle string (joining lines while adding LF where needed)
             <comment>
@@ -317,23 +353,8 @@
                 Done
             </comment>
         </note>
-        <note priority="veryhigh" time="1234048997">
-            Fix the nodes indexing in show command while using --index option
-        </note>
-        <note priority="veryhigh" time="1236865149" done="1236865228">
-            Add %i to dump command help epilog
-            <comment>
-                Done
-            </comment>
-        </note>
-        <note priority="high" time="1232544628">
-            Add a test which create a .todo, dumps it, exports to .dnt, imports back to .todo, dumps it and finally diffs the two outputs
-            <note priority="high" time="1229468129" done="1230672987">
-                Add devtodo-to-dnt importer
-                <comment>
-                    Fixed
-                </comment>
-            </note>
+        <note priority="veryhigh" time="1236950257">
+            Fix all test-command-dump-* and test-command-show-* test cases (in order to have only show related tests)
         </note>
         <note priority="high" time="1235431214">
             Fix the wrapper.in script in the test directory (find a better fix)
@@ -347,8 +368,11 @@
         <note priority="high" time="1236865030">
             Fix all the tests related to dump/format
         </note>
-        <note priority="low" time="1229468141">
-            Add dnt-to-devtodo exporter
+        <note priority="high" time="1236955573">
+            Rearrange dnt-to-devtodo and devtodo-to-dnt (in order to bound xslt with tools versions)
+        </note>
+        <note priority="high" time="1236955593">
+            Add dnt version retrieval in configure.ac
         </note>
     </note>
     <note priority="high" time="1233694836">
@@ -484,6 +508,12 @@
         </note>
         <note priority="low" time="1233655993">
             Add alias support (in order to alias remove with del or rm)
+            <note priority="high" time="1236953377">
+                Add dump=show alias
+            </note>
+            <note priority="high" time="1236953388">
+                Add rm=remove alias
+            </note>
         </note>
         <note priority="low" time="1233656307">
             Add assign-to field on Entry
