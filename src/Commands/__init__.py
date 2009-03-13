@@ -26,7 +26,6 @@ try :
     import Config
     import Done
     import NotDone
-    import Dump
     import Edit
     import Fix
     import Init
@@ -44,7 +43,6 @@ commands = {
     'config'   : Config    . SubCommand(),
     'done'     : Done      . SubCommand(),
     'not-done' : NotDone   . SubCommand(),
-    'dump'     : Dump      . SubCommand(),
     'edit'     : Edit      . SubCommand(),
     'fix'      : Fix       . SubCommand(),
     'init'     : Init      . SubCommand(),
