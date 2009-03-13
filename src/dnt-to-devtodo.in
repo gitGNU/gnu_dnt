@@ -57,6 +57,12 @@ input=".dnt.db"
 output=".todo"
 libdir="@pkgvdatadir@"
 
+#
+# FIX ME:
+# change with variable from package configuration
+#
+dt_version="0.1.20"
+
 while test $# -gt 0 ; do
     case $1 in
         -i|--input)   shift ; input=$1                       ;;
@@ -98,6 +104,11 @@ if test x"$force" != x"yes" ; then
     fi
 fi
 
+if test x"$dt_version" = x""; then
+   error "Bug hit! Missing devtodo version"
+   exit 1
+fi
+
 XSLT="${libdir}/${me}.xslt"
 if test ! -f $XSLT ; then
     error "Cannot access \`$XSLT' file"
@@ -105,7 +116,9 @@ if test ! -f $XSLT ; then
 fi
 
 rm -f $output
-@XSLTPROC@ --output $output $XSLT $input || {
+@XSLTPROC@ --output $output \
+           --stringparam dt_version $dt_version \
+           $XSLT $input || {
     echo "$me: Cannot transform file \`${input}' to file \`${output}'"
     rm -f $output
     exit 1
