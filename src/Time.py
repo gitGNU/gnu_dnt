@@ -95,10 +95,11 @@ class Time(object) :
     def fromstring(self, s) :
         assert(type(s) == str)
         try :
-            args = time.strptime(s,"%Y-%m-%d %H:%M:%S")[0:5]
+            args = time.strptime(s,"%Y-%m-%d %H:%M:%S")[0:6]
             self.__time = datetime.datetime(*args)
         except :
             raise Exceptions.WrongTimeFormat(s)
+        debug("Time object set to `" + str(self.__time) + "'")
 
     def tostring(self) :
         return self.__time.strftime("%Y-%m-%d %H:%M:%S")
