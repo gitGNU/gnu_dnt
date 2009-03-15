@@ -34,14 +34,14 @@ $DNT_FLAGS clean           || exit 1
 $DNT_FLAGS init            || exit 1
 $DNT_FLAGS add -t "test1"  || exit 1
 
-$DNT_FLAGS edit -i 1 --text     "test1"  || exit 1
-$DNT_FLAGS edit -i 1 --priority "high"   || exit 1
-#$DNT_FLAGS edit -i 1 --start    "test1"  || exit 1
-#$DNT_FLAGS edit -i 1 --end      "test1"  || exit 1
+$DNT_FLAGS edit -i 1 --text     "test1"               || exit 1
+$DNT_FLAGS edit -i 1 --priority "high"                || exit 1
+$DNT_FLAGS edit -i 1 --start    "2009-03-15 22:00:00" || exit 1
+$DNT_FLAGS edit -i 1 --end      "2010-03-15 22:00:00" || exit 1
 
-$DNT_FLAGS edit -i 1 -t         "test1"  || exit 1
-$DNT_FLAGS edit -i 1 -p         "low"    || exit 1
-#$DNT_FLAGS edit -i 1 -s         "test1"  || exit 1
-#$DNT_FLAGS edit -i 1 -e         "test1"  || exit 1
+$DNT_FLAGS edit -i 1 -t         "test1"               || exit 1
+$DNT_FLAGS edit -i 1 -p         "low"                 || exit 1
+$DNT_FLAGS edit -i 1 -s         "2009-03-15 22:00:00" || exit 1
+$DNT_FLAGS edit -i 1 -e         "2010-03-15 22:00:00" || exit 1
 
 exit 0
