@@ -29,6 +29,7 @@ DOWNLOAD = 					\
 	ax_compare_version.m4			\
 	ax_missing_prog.m4			\
 	ax_path_missing.m4			\
+	ax_split_version.m4			\
 	ax_prog_python_version.m4		\
 	ax_with_python.m4			\
 	ax_with_prog.m4
