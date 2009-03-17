@@ -191,6 +191,12 @@
                 Done
             </comment>
         </note>
+        <note priority="veryhigh" time="1236950257" done="1237159244">
+            Fix all test-command-dump-* and test-command-show-* test cases (in order to have only show related tests)
+            <comment>
+                Done
+            </comment>
+        </note>
         <note priority="high" time="1230733148" done="1230733158">
             Fix colors in show command
             <comment>
@@ -353,12 +359,6 @@
                 Done
             </comment>
         </note>
-        <note priority="veryhigh" time="1236950257" done="1237159244">
-            Fix all test-command-dump-* and test-command-show-* test cases (in order to have only show related tests)
-            <comment>
-                Done
-            </comment>
-        </note>
         <note priority="high" time="1235431214">
             Fix the wrapper.in script in the test directory (find a better fix)
         </note>
@@ -376,6 +376,9 @@
         </note>
         <note priority="high" time="1236955593">
             Add dnt version retrieval in configure.ac
+        </note>
+        <note priority="medium" time="1237210210">
+            Rename format options into fill options (show command)
         </note>
     </note>
     <note priority="high" time="1233694836">
