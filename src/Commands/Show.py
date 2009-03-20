@@ -40,7 +40,7 @@ def show(level,
          colors, verbose,
          cmap,
          filehandle, width,
-         indent_format, line_format, unindent_format, indent_level,
+         indent_fill, line_format, unindent_fill, level_fill,
          filter) :
 
     assert(node            != None)
@@ -48,10 +48,10 @@ def show(level,
     assert(type(verbose)   == bool)
     assert(filehandle      != None)
     assert(width           >= 0)
-    assert(indent_format   != None)
+    assert(indent_fill   != None)
     assert(line_format     != None)
-    assert(unindent_format != None)
-    assert(indent_level    != None)
+    assert(unindent_fill != None)
+    assert(level_fill    != None)
     assert(filter          != None)
 
     # Dump the current node
@@ -154,7 +154,7 @@ def show(level,
                         lines = [ i ]
 
                     for j in lines :
-                        filehandle.write(indent_level * level + j + "\n")
+                        filehandle.write(level_fill * level + j + "\n")
             else :
                 debug("Empty output, skipping ...")
     else :
@@ -164,7 +164,7 @@ def show(level,
     assert(hasattr(node, "children"))
     if (len(node.children()) > 0) :
         debug("Indenting more")
-        filehandle.write(indent_format)
+        filehandle.write(indent_fill)
 
         debug("Handling children")
         for j in node.children() :
@@ -173,11 +173,11 @@ def show(level,
                  colors, verbose,
                  cmap,
                  filehandle, width,
-                 indent_format, line_format, unindent_format, indent_level,
+                 indent_fill, line_format, unindent_fill, level_fill,
                  filter)
 
         debug("Indenting less")
-        filehandle.write(unindent_format)
+        filehandle.write(unindent_fill)
     else :
         debug("No children to handle")
 
@@ -186,7 +186,7 @@ class SubCommand(Command) :
         Command.__init__(self,
                          name   = "show",
                          footer = [
-                "INDENT_FORMAT and UNINDENT_FORMAT are applied " + \
+                "INDENT_FILL and UNINDENT_FILL are applied " + \
                     "when indentation is needed",
                 "FORMAT  controls the output for each entry " + \
                     "dumped. Interpreted sequences are:",
@@ -220,7 +220,7 @@ class SubCommand(Command) :
                            dest   = "output",
                            help   = "specify output file name")
         Command.add_option(self,
-                           "-I", "--id",
+                           "-i", "--id",
                            action = "store",
                            type   = "string",
                            dest   = "id",
@@ -233,23 +233,23 @@ class SubCommand(Command) :
                            dest   = "line_format",
                            help   = "specify line format")
         Command.add_option(self,
-                           "-i", "--indent-format",
+                           "-I", "--indent-fill",
                            action = "store",
                            type   = "string",
-                           dest   = "indent_format",
-                           help   = "specify indent format")
+                           dest   = "indent_fill",
+                           help   = "specify indent fill string")
         Command.add_option(self,
-                           "-u", "--unindent-format",
+                           "-U", "--unindent-fill",
                            action = "store",
                            type   = "string",
-                           dest   = "unindent_format",
-                           help   = "specify unindent format")
+                           dest   = "unindent_fill",
+                           help   = "specify unindent fill string")
         Command.add_option(self,
-                           "-k", "--indent-level",
+                           "-L", "--level-fill",
                            action = "store",
                            type   = "string",
-                           dest   = "indent_level",
-                           help   = "specify level indentation")
+                           dest   = "level_fill",
+                           help   = "specify level fill string")
 
         Command.add_option(self,
                            "-w", "--width",
@@ -333,35 +333,35 @@ class SubCommand(Command) :
         #     verbose mode however ...
         #
         if (verbose == True) :
-            indent_format   = ""
+            indent_fill   = ""
             line_format     = "%i %t\n  (%s, %e, %p)\n"
-            unindent_format = ""
-            indent_level    = "  "
+            unindent_fill = ""
+            level_fill    = "  "
         else :
-            indent_format   = ""
+            indent_fill   = ""
             line_format     = "%i %t\n"
-            unindent_format = ""
-            indent_level    = "  "
+            unindent_fill = ""
+            level_fill    = "  "
 
-        if (opts.indent_format != None) :
-            indent_format = opts.indent_format
-        assert(indent_format != None)
-        debug("Indent-format is:   `" + indent_format + "'")
+        if (opts.indent_fill != None) :
+            indent_fill = opts.indent_fill
+        assert(indent_fill != None)
+        debug("Indent-format is:   `" + indent_fill + "'")
 
         if (opts.line_format != None) :
             line_format = opts.line_format
         assert(line_format != None)
         debug("Line-format is:     `" + line_format + "'")
 
-        if (opts.unindent_format != None) :
-            unindent_format = opts.unindent_format
-        assert(unindent_format != None)
-        debug("Unindent-format is: `" + unindent_format + "'")
+        if (opts.unindent_fill != None) :
+            unindent_fill = opts.unindent_fill
+        assert(unindent_fill != None)
+        debug("Unindent-format is: `" + unindent_fill + "'")
 
-        if (opts.indent_level != None) :
-            indent_level = opts.indent_level
-        assert(indent_level != None)
-        debug("indent-level is: `" + indent_level + "'")
+        if (opts.level_fill != None) :
+            level_fill = opts.level_fill
+        assert(level_fill != None)
+        debug("indent-level is: `" + level_fill + "'")
 
         # Build the filter
         filter_text = "all"
@@ -395,15 +395,15 @@ class SubCommand(Command) :
             Priority.Priority.PRIORITY_VERYLOW  : ANSI.normal_blue,
             }
 
-        #filehandle.write(indent_format)
+        #filehandle.write(indent_fill)
         show(0,
              node,
              colors, verbose,
              cmap,
              filehandle, width,
-             indent_format, line_format, unindent_format, indent_level,
+             indent_fill, line_format, unindent_fill, level_fill,
              filter)
-        #filehandle.write(unindent_format)
+        #filehandle.write(unindent_fill)
 
         # Avoid closing precious filehandles
         if ((filehandle != sys.stdout) and (filehandle != sys.stderr)) :
