@@ -39,7 +39,7 @@ $DNT_FLAGS done --id 0.2 || exit 1
 cat >test.exp <<EOF
 EOF
 
-$DNT_FLAGS show -F not-done -l "%t" -i "" -u "" -k "" -o test.out
+$DNT_FLAGS show -F not-done -l "%t" -I "" -U "" -L "" -o test.out
 
 diff test.out test.exp || exit 1
 
@@ -48,7 +48,7 @@ alfa
 beta
 EOF
 
-$DNT_FLAGS show -F done -l "%t" -i "" -u "" -k "" -o test.out
+$DNT_FLAGS show -F done -l "%t" -I "" -U "" -L "" -o test.out
 
 diff test.out test.exp || exit 1
 

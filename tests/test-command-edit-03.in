@@ -31,7 +31,7 @@ $DNT_FLAGS init          || exit 1
 $DNT_FLAGS add -t "alfa" || exit 1
 
 # Editing time entries
-CURRENT_DATE="`$DNT_NOFLAGS show -i \"\" -u \"\" -k \"\" -l \"%s\"`"
+CURRENT_DATE="`$DNT_NOFLAGS show -I \"\" -U \"\" -L \"\" -l \"%s\"`"
 CURRENT_YEAR="`echo ${CURRENT_DATE} | @SED@ 's/^\([^\-][^\-]*\).*/\1/'`"
 
 # Jumping a 1 year in the future
@@ -43,7 +43,7 @@ NEW_DATE="`echo ${CURRENT_DATE} | @SED@ 's/^[^\-][^\-]*/'$CURRENT_YEAR'/'`"
 $DNT_FLAGS edit -i 1 -e "${NEW_DATE}" || exit 1
 
 # Dumping the start time and comparing with the previous set
-DUMPED_DATE="`$DNT_NOFLAGS show -i \"\" -u \"\" -k \"\" -l \"%e\"`"
+DUMPED_DATE="`$DNT_NOFLAGS show -I \"\" -U \"\" -L \"\" -l \"%e\"`"
 
 if ! test "x${DUMPED_DATE}" = "x${NEW_DATE}"; then
   exit 1
