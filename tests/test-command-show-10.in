@@ -39,12 +39,12 @@ $DNT_FLAGS add -i 2 -t "a" || exit 1
 
 EXPECTED=""
 
-OUTPUT1="`$DNT_NOFLAGS $COMMAND -l '' -i '' -u ''`"
+OUTPUT1="`$DNT_NOFLAGS $COMMAND -l '' -I '' -U ''`"
 if test ! "x${OUTPUT}" = "x${EXPECTED}"; then
   exit 1
 fi
 
-OUTPUT2="`$DNT_NOFLAGS $COMMAND -l '' -i '' -u '' -w 0`"
+OUTPUT2="`$DNT_NOFLAGS $COMMAND -l '' -I '' -U '' -w 0`"
 if test ! "x${OUTPUT}" = "x${EXPECTED}"; then
   exit 1
 fi

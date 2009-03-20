@@ -45,7 +45,7 @@ cat >test.exp <<EOF
 2.beta
 EOF
 
-$DNT_FLAGS $COMMAND -l "%i.%t" -i "" -u "" -k " " -I 2 -o test.out || exit 1
+$DNT_FLAGS $COMMAND -l "%i.%t" -I "" -U "" -L " " -i 2 -o test.out || exit 1
 diff test.out test.exp || exit 1
 
 rm -f test.out
@@ -58,7 +58,7 @@ cat > test.exp <<EOF
  2.b
 EOF
 
-$DNT_FLAGS $COMMAND -l "%i.%t" -i "" -u "" -k " " -I 1 -o test.out || exit 1
+$DNT_FLAGS $COMMAND -l "%i.%t" -I "" -U "" -L " " -i 1 -o test.out || exit 1
 diff test.out test.exp || exit 1
 
 # Testing on child
@@ -70,7 +70,7 @@ cat > test.exp <<EOF
 2.b
 EOF
 
-$DNT_FLAGS $COMMAND -l "%i.%t" -i "" -u "" -k " " -I 1.2 -o test.out || exit 1
+$DNT_FLAGS $COMMAND -l "%i.%t" -I "" -U "" -L " " -i 1.2 -o test.out || exit 1
 diff test.out test.exp || exit 1
 
 # Testing on entire tree (with root node too!)
@@ -85,7 +85,7 @@ cat > test.exp <<EOF
  2.beta
 EOF
 
-$DNT_FLAGS $COMMAND -l "%i.%t" -i "" -u "" -k " " -o test.out || exit 1
+$DNT_FLAGS $COMMAND -l "%i.%t" -I "" -U "" -L " " -o test.out || exit 1
 diff test.out test.exp || exit 1
 
 exit 0

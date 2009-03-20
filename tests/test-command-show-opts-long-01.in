@@ -53,14 +53,14 @@ $DNT_FLAGS $COMMAND --filter="all"      || exit 1
 $DNT_FLAGS $COMMAND --output="test1.log" || exit 1
 
 # Testing formatting related options
-$DNT_FLAGS $COMMAND --line-format="%t"                       || exit 1
-$DNT_FLAGS $COMMAND --line-format="%s"                       || exit 1
-$DNT_FLAGS $COMMAND --line-format="%e"                       || exit 1
-$DNT_FLAGS $COMMAND --line-format="%p"                       || exit 1
-$DNT_FLAGS $COMMAND --line-format="%I"                       || exit 1
-$DNT_FLAGS $COMMAND --line-format="%i"                       || exit 1
-$DNT_FLAGS $COMMAND --line-format="%t" --indent-format="x"   || exit 1
-$DNT_FLAGS $COMMAND --line-format="%t" --unindent-format="y" || exit 1
-$DNT_FLAGS $COMMAND --line-format="%t" --indent-level="z"    || exit 1
+$DNT_FLAGS $COMMAND --line-format="%t"                     || exit 1
+$DNT_FLAGS $COMMAND --line-format="%s"                     || exit 1
+$DNT_FLAGS $COMMAND --line-format="%e"                     || exit 1
+$DNT_FLAGS $COMMAND --line-format="%p"                     || exit 1
+$DNT_FLAGS $COMMAND --line-format="%I"                     || exit 1
+$DNT_FLAGS $COMMAND --line-format="%i"                     || exit 1
+$DNT_FLAGS $COMMAND --line-format="%t" --indent-fill="x"   || exit 1
+$DNT_FLAGS $COMMAND --line-format="%t" --unindent-fill="y" || exit 1
+$DNT_FLAGS $COMMAND --line-format="%t" --level-fill="z"    || exit 1
 
 exit 0

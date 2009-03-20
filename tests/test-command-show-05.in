@@ -60,9 +60,9 @@ $DNT_FLAGS show            --line-format="%t %p %s %e %i" || exit 1
 $DNT_FLAGS show --width=0  --line-format="%p %t %e %s %i" || exit 1
 $DNT_FLAGS show --width=80 --line-format="%p %t %e %s %i" || exit 1
 $DNT_FLAGS show            --line-format="%t"             || exit 1
-$DNT_FLAGS show            --indent-format="aaa"                        \
-                           --line-format="%t"                           \
-                           --unindent-format="bbb"     || exit 1
+$DNT_FLAGS show            --indent-fill="aaa"                    \
+                           --line-format="%t"                     \
+                           --unindent-fill="bbb"          || exit 1
 
 $DNT_FLAGS show --filter=all                      || exit 1
 $DNT_FLAGS show --filter=done                     || exit 1

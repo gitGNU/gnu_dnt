@@ -36,7 +36,7 @@ $DNT_FLAGS add -t "alfa" || exit 1
 # Testing indentation - phase 1
 EXPECTED=">"
 
-OUTPUT="`$DNT_NOFLAGS $COMMAND -l '' -i '>' -u ''`"
+OUTPUT="`$DNT_NOFLAGS $COMMAND -l '' -I '>' -U ''`"
 if test ! "x${OUTPUT}" = "x${EXPECTED}"; then
   exit 1
 fi
@@ -44,7 +44,7 @@ fi
 # Testing unindentation - phase 1
 EXPECTED="<"
 
-OUTPUT="`$DNT_NOFLAGS $COMMAND -l '' -i '' -u '<'`"
+OUTPUT="`$DNT_NOFLAGS $COMMAND -l '' -I '' -U '<'`"
 if test ! "x${OUTPUT}" = "x${EXPECTED}"; then
   exit 1
 fi
@@ -57,7 +57,7 @@ $DNT_FLAGS add -i 2 -t "a" || exit 1
 
 EXPECTED=">>>"
 
-OUTPUT="`$DNT_NOFLAGS $COMMAND -l '' -i '>' -u ''`"
+OUTPUT="`$DNT_NOFLAGS $COMMAND -l '' -I '>' -U ''`"
 if test ! "x${OUTPUT}" = "x${EXPECTED}"; then
   exit 1
 fi
@@ -65,7 +65,7 @@ fi
 # Testing unindentation - phase 3
 EXPECTED="<<<"
 
-OUTPUT="`$DNT_NOFLAGS $COMMAND -l '' -i '' -u '<'`"
+OUTPUT="`$DNT_NOFLAGS $COMMAND -l '' -I '' -U '<'`"
 if test ! "x${OUTPUT}" = "x${EXPECTED}"; then
   exit 1
 fi
@@ -73,7 +73,7 @@ fi
 # Testing indentation and unindentation together
 EXPECTED=">><><<"
 
-OUTPUT="`$DNT_NOFLAGS $COMMAND -l '' -i '>' -u '<'`"
+OUTPUT="`$DNT_NOFLAGS $COMMAND -l '' -I '>' -U '<'`"
 if test ! "x${OUTPUT}" = "x${EXPECTED}"; then
   exit 1
 fi
