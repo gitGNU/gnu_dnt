@@ -145,15 +145,14 @@ SUCCESS_TESTS +=				\
 	test-command-show-02			\
 	test-command-show-03			\
 	test-command-show-04			\
-						\
-	test-command-dump-01			\
-	test-command-dump-02			\
-	test-command-dump-03			\
-	test-command-dump-04			\
-	test-command-dump-05			\
-	test-command-dump-06			\
-	test-command-dump-wrap-01		\
-	test-command-dump-wrap-02		\
+	test-command-show-05			\
+	test-command-show-06			\
+	test-command-show-07			\
+	test-command-show-08			\
+	test-command-show-09			\
+	test-command-show-10			\
+	test-command-show-wrap-01		\
+	test-command-show-wrap-02		\
 						\
 	test-command-done-help-01		\
 	test-command-done-opts-short-01		\
@@ -431,18 +430,6 @@ test-command-clean-01: $(srcdir)/test-command-clean-01.in Makefile
 	}
 EXTRA_DIST += test-command-clean-01.in
 CLEANFILES += test-command-clean-01
-
-test-command-dump-01: $(srcdir)/test-command-dump-01.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-dump-01.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-dump-01.in
-CLEANFILES += test-command-dump-01
 
 test-command-done-01: $(srcdir)/test-command-done-01.in Makefile
 	( rm -f $@ $@.tmp && \
@@ -792,113 +779,29 @@ test-command-fix-version-01: $(srcdir)/test-command-fix-version-01.in Makefile
 EXTRA_DIST += test-command-fix-version-01.in
 CLEANFILES += test-command-fix-version-01
 
-test-command-dump-help-01: $(srcdir)/test-command-dump-help-01.in Makefile
+test-command-show-wrap-01: $(srcdir)/test-command-show-wrap-01.in Makefile
 	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-dump-help-01.in > $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-wrap-01.in > $@.tmp && \
 	  chmod +x $@.tmp && \
 	  chmod a-w $@.tmp && \
 	  mv -f $@.tmp $@ ) || { \
 	        rm -f $@ $@.tmp ; \
 	        exit 1 ; \
 	}
-EXTRA_DIST += test-command-dump-help-01.in
-CLEANFILES += test-command-dump-help-01
+EXTRA_DIST += test-command-show-wrap-01.in
+CLEANFILES += test-command-show-wrap-01
 
-test-command-dump-version-01: $(srcdir)/test-command-dump-version-01.in Makefile
+test-command-show-wrap-02: $(srcdir)/test-command-show-wrap-02.in Makefile
 	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-dump-version-01.in > $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-wrap-02.in > $@.tmp && \
 	  chmod +x $@.tmp && \
 	  chmod a-w $@.tmp && \
 	  mv -f $@.tmp $@ ) || { \
 	        rm -f $@ $@.tmp ; \
 	        exit 1 ; \
 	}
-EXTRA_DIST += test-command-dump-version-01.in
-CLEANFILES += test-command-dump-version-01
-
-test-command-dump-wrap-01: $(srcdir)/test-command-dump-wrap-01.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-dump-wrap-01.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-dump-wrap-01.in
-CLEANFILES += test-command-dump-wrap-01
-
-test-command-dump-wrap-02: $(srcdir)/test-command-dump-wrap-02.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-dump-wrap-02.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-dump-wrap-02.in
-CLEANFILES += test-command-dump-wrap-02
-
-test-command-dump-02: $(srcdir)/test-command-dump-02.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-dump-02.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-dump-02.in
-CLEANFILES += test-command-dump-02
-
-test-command-dump-03: $(srcdir)/test-command-dump-03.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-dump-03.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-dump-03.in
-CLEANFILES += test-command-dump-03
-
-test-command-dump-04: $(srcdir)/test-command-dump-04.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-dump-04.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-dump-04.in
-CLEANFILES += test-command-dump-04
-
-test-command-dump-05: $(srcdir)/test-command-dump-05.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-dump-05.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-dump-05.in
-CLEANFILES += test-command-dump-05
-
-test-command-dump-06: $(srcdir)/test-command-dump-06.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-dump-06.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-dump-06.in
-CLEANFILES += test-command-dump-06
+EXTRA_DIST += test-command-show-wrap-02.in
+CLEANFILES += test-command-show-wrap-02
 
 test-command-edit-help-01: $(srcdir)/test-command-edit-help-01.in Makefile
 	( rm -f $@ $@.tmp && \
@@ -1091,6 +994,78 @@ test-command-show-04: $(srcdir)/test-command-show-04.in Makefile
 	}
 EXTRA_DIST += test-command-show-04.in
 CLEANFILES += test-command-show-04
+
+test-command-show-05: $(srcdir)/test-command-show-05.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-05.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-05.in
+CLEANFILES += test-command-show-05
+
+test-command-show-06: $(srcdir)/test-command-show-06.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-06.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-06.in
+CLEANFILES += test-command-show-06
+
+test-command-show-07: $(srcdir)/test-command-show-07.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-07.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-07.in
+CLEANFILES += test-command-show-07
+
+test-command-show-08: $(srcdir)/test-command-show-08.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-08.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-08.in
+CLEANFILES += test-command-show-08
+
+test-command-show-09: $(srcdir)/test-command-show-09.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-09.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-09.in
+CLEANFILES += test-command-show-09
+
+test-command-show-10: $(srcdir)/test-command-show-10.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-10.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-10.in
+CLEANFILES += test-command-show-10
 
 test-command-show-help-01: $(srcdir)/test-command-show-help-01.in Makefile
 	( rm -f $@ $@.tmp && \

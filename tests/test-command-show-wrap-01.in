@@ -26,8 +26,6 @@ required="diff"
 
 . $testdir/defs || exit 1
 
-COMMAND="dump"
-
 # Creating test DB
 $DNT_FLAGS clean || exit 1
 $DNT_FLAGS init  || exit 1
