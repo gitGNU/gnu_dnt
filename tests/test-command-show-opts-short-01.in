@@ -54,7 +54,13 @@ $DNT_FLAGS $COMMAND -o "test1.log" || exit 1
 
 # Testing formatting related options
 $DNT_FLAGS $COMMAND -l "%t"        || exit 1
+$DNT_FLAGS $COMMAND -l "%s"        || exit 1
+$DNT_FLAGS $COMMAND -l "%e"        || exit 1
+$DNT_FLAGS $COMMAND -l "%p"        || exit 1
+$DNT_FLAGS $COMMAND -l "%I"        || exit 1
+$DNT_FLAGS $COMMAND -l "%i"        || exit 1
 $DNT_FLAGS $COMMAND -l "%t" -i "x" || exit 1
 $DNT_FLAGS $COMMAND -l "%t" -u "y" || exit 1
+$DNT_FLAGS $COMMAND -l "%t" -k "z" || exit 1
 
 exit 0
