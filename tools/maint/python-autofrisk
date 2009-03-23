@@ -323,10 +323,23 @@ print $output_handle "\n";
 
 print $output_handle "AC_DEFUN([PYTHON_AUTOFRISK_CHECKS],[\n";
 for my $key (keys(%modules)) {
+
+    #
+    # XXX FIXME:
+    #     It should be better to add a commentify($string) in the else ...
+    #
     if ($modules{$key} =~ /^INCLUDE$/) {
-	print $output_handle "\tAX_PROG_PYTHON_MODULES([$key])\n";
+        my $string =
+            "    AX_PROG_PYTHON_MODULES([$key],[],[\n"                 .
+            "        AC_MSG_ERROR([cannot find python module $key])\n" .
+            "    ])\n";
+
+	print $output_handle $string;
     } elsif ($modules{$key} =~ /^EXCLUDE$/) {
-	print $output_handle "#\tAX_PROG_PYTHON_MODULES([$key])\n";
+        my $string =
+            "    #AX_PROG_PYTHON_MODULES([$key],[],[])\n";
+
+	print $output_handle $string;
     } else {
 	bug("Unknown module type");
     }
