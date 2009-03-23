@@ -29,6 +29,20 @@ import Tree
 import Time
 from   Visitor    import *
 
+class DoneVisitor(Visitor) :
+    def __init__(self, verbose) :
+        super(DoneVisitor, self).__init__()
+        self.__verbose = verbose
+
+    def visitEntry(self, e) :
+        assert(e != None)
+
+        if (not e.done()) :
+            e.mark_as_done()
+
+    def visitRoot(self, r) :
+        assert(r != None)
+
 class NotDoneVisitor(Visitor) :
     def __init__(self, verbose) :
         super(NotDoneVisitor, self).__init__()
@@ -46,13 +60,13 @@ class NotDoneVisitor(Visitor) :
 class SubCommand(Command) :
     def __init__(self) :
         Command.__init__(self,
-                         name   = "not-done",
+                         name   = "status",
                          footer = [
                 "ID  " + ID.help()
                 ])
 
     def short_help(self) :
-        return "mark node (and its children) as done"
+        return "change node (and its children) status"
 
     def authors(self) :
         return [ "Francesco Salvestrini" ]
@@ -67,6 +81,12 @@ class SubCommand(Command) :
                            type   = "string",
                            dest   = "id",
                            help   = "specify node")
+        Command.add_option(self,
+                           "-s", "--status",
+                           action = "store",
+                           type   = "string",
+                           dest   = "status",
+                           help   = "specify status as done or not-done")
 
         (opts, args) = Command.parse_args(self, arguments)
         if (len(args) > 0) :
@@ -74,6 +94,9 @@ class SubCommand(Command) :
 
         if (opts.id == None) :
             raise Exceptions.MissingParameters("node id")
+
+        if (opts.status != "done" and opts.status != "not-done") :
+            raise Exceptions.WrongParameters("node status")
 
         id = ID.ID(opts.id)
 
@@ -101,13 +124,24 @@ class SubCommand(Command) :
             raise Exceptions.NodeUnavailable(str(id))
         assert(node != None)
 
-        # Mark node as not-done
-        node.mark_as_not_done()
+        if (opts.action == "done") :
+            # Mark node as done
+            node.mark_as_done()
 
-        # Mark node's children as not-done
-        for i in node.children() :
-            v = NotDoneVisitor(verbose)
-            node.accept(v)
+            # Mark node's children as done
+            for i in node.children() :
+                v = DoneVisitor(verbose)
+                node.accept(v)
+        elif (opts.action == "not-done") :
+            # Mark node as not-done
+            node.mark_as_not_done()
+
+            # Mark node's children as not-done
+            for i in node.children() :
+                v = NotDoneVisitor(verbose)
+                node.accept(v)
+        else :
+            bug("Unknown action")
 
         #
         # Save database back to file
