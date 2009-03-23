@@ -233,6 +233,15 @@
                 </note>
             </note>
         </note>
+        <note priority="high" time="1233084099" done="1237475320">
+            Add --format to the show command
+            <comment>
+                Done
+            </comment>
+            <note priority="high" time="1236863859" done="0">
+                Add format management like in dump command
+            </note>
+        </note>
         <note priority="high" time="1233179287" done="1233939542">
             Rearrange the --verbose option switch in dump command (it has no meaning when specifying the output format)
             <comment>
@@ -359,26 +368,32 @@
                 Done
             </comment>
         </note>
+        <note priority="veryhigh" time="1236434848">
+            Merge done and not-done commands into mark (with options --done and --not-done)
+        </note>
         <note priority="high" time="1235431214">
             Fix the wrapper.in script in the test directory (find a better fix)
         </note>
         <note priority="high" time="1236852541">
             Add comment handling
+            <note priority="veryhigh" time="1233939736">
+                Add comment field on Entry
+            </note>
             <note priority="medium" time="1236641564">
                 Add %c (comment) into formatting rules for dump command
             </note>
         </note>
-        <note priority="high" time="1236865030">
-            Fix all the tests related to dump/format
-        </note>
-        <note priority="high" time="1236955573">
-            Rearrange dnt-to-devtodo and devtodo-to-dnt (in order to bound xslt with tools versions)
-        </note>
         <note priority="high" time="1236955593">
             Add dnt version retrieval in configure.ac
+            <note priority="high" time="1236955573">
+                Rearrange dnt-to-devtodo and devtodo-to-dnt (in order to bound xslt with tools versions)
+            </note>
         </note>
         <note priority="medium" time="1237210210">
             Rename format options into fill options (show command)
+            <note priority="high" time="1236865030">
+                Fix all the show tests which use the (old) -...-format options
+            </note>
         </note>
     </note>
     <note priority="high" time="1233694836">
@@ -394,12 +409,6 @@
         </note>
         <note priority="veryhigh" time="1233871611">
             Enhance the Time.fromstring() method, in order to be more robust
-        </note>
-        <note priority="veryhigh" time="1233939736">
-            Add comment field on Entry
-        </note>
-        <note priority="veryhigh" time="1236434848">
-            Merge done and not-done commands into mark (with options --done and --not-done)
         </note>
         <note priority="veryhigh" time="1236640302">
             Add an option parser related class in order to have complete control over option parsing and help generation
@@ -435,12 +444,6 @@
                         Fixed
                     </comment>
                 </note>
-            </note>
-        </note>
-        <note priority="high" time="1233084099">
-            Add --format to the show command
-            <note priority="high" time="1236863859">
-                Add format management like in dump command
             </note>
         </note>
         <note priority="high" time="1235558583">
