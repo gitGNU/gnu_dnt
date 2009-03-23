@@ -13,21 +13,77 @@
             Fix database related exceptions
             </entry><entry priority="veryhigh" start="1233701363" end="1233855756">
             Add interactive entry editing (using readline)
-            </entry><entry priority="veryhigh" start="1234023147" end="1234023208">
+            </entry><entry priority="veryhigh" start="1233701639" end="1236548103">
+            Complete the regression tests suite
+            <entry priority="veryhigh" start="1233825895" end="1236353417">
+                For each command build a test for short options, long options, help and version (the version test will check only for non-empty output)
+                <entry priority="veryhigh" start="1233827933" end="1234392630">
+                    Build tests for command add
+                    </entry><entry priority="veryhigh" start="1233827933" end="1234185026">
+                    Build tests for command clean
+                    </entry><entry priority="veryhigh" start="1233827933" end="1236353397">
+                    Build tests for command config
+                    </entry><entry priority="veryhigh" start="1233827933" end="1234478605">
+                    Build tests for command done
+                    </entry><entry priority="veryhigh" start="1233827933" end="1236353399">
+                    Build tests for command dump
+                    </entry><entry priority="veryhigh" start="1233827933" end="1235668458">
+                    Build tests for command edit
+                    </entry><entry priority="veryhigh" start="1233827933" end="1235668493">
+                    Build tests for command fix
+                </entry><entry priority="veryhigh" start="1233827933" end="1233874673">
+                    Build tests for command init
+                    </entry><entry priority="veryhigh" start="1233827933" end="1235668501">
+                    Build tests for command move
+                    </entry><entry priority="veryhigh" start="1233827933" end="1235692706">
+                    Build tests for command remove
+                    </entry><entry priority="veryhigh" start="1233827933" end="1235692709">
+                    Build tests for command show
+                    </entry><entry priority="veryhigh" start="1236267706" end="1236296325">
+                    Build tests for command not-done
+                    </entry></entry></entry><entry priority="veryhigh" start="1234023147" end="1234023208">
             Fix command epilog handling
+            </entry><entry priority="veryhigh" start="1234048997" end="1236950068">
+            Fix the nodes indexing in show command while using --index option
             </entry><entry priority="veryhigh" start="1234217867" end="1234224288">
             Add a check to stop (with an error) when there are more than the allowed options specified on the command line (like dnt add -t test 1)
+            </entry><entry priority="veryhigh" start="1234392765" end="1235682652">
+            Fix indentation in dump command when using --indent-format and --unindent-format
+            </entry><entry priority="veryhigh" start="1235495489" end="1235682655">
+            Fix the NEWS and TODOs site pages generation in site/in directory
             </entry><entry priority="veryhigh" start="1235583750" end="1235583773">
             Fix Tree.find() function in order to accept 0 inside the search list
+            </entry><entry priority="veryhigh" start="1236158880" end="1236554576">
+            test-command-done-02 marks nodes as done without checking the final tree status
+            </entry><entry priority="veryhigh" start="1236261129" end="1236270617">
+            Fix the done command bug (remove more nodes than requested by visiting too much nodes)
+            </entry><entry priority="veryhigh" start="1236270531" end="1236270551">
+            Add a not-done command in order to be able to revert done operations
+            </entry><entry priority="veryhigh" start="1236353370" end="1236353380">
+            Remove colors from tests
+            </entry><entry priority="veryhigh" start="1236865149" end="1236865228">
+            Add %i to dump command help epilog
+            </entry><entry priority="veryhigh" start="1236950000" end="1236950025">
+            Rearrange show command in order to replace dump command
+            </entry><entry priority="veryhigh" start="1236950257" end="1237159244">
+            Fix all test-command-dump-* and test-command-show-* test cases (in order to have only show related tests)
             </entry><entry priority="high" start="1230733148" end="1230733158">
             Fix colors in show command
-            </entry><entry priority="high" start="1233084079" end="1234392830">
+            </entry><entry priority="high" start="1232544628" end="1236950280">
+            Add a test which create a .todo, dumps it, exports to .dnt, imports back to .todo, dumps it and finally diffs the two outputs
+            <entry priority="high" start="1229468129" end="1230672987">
+                Add devtodo-to-dnt importer
+                </entry></entry><entry priority="high" start="1233084079" end="1234392830">
             Add a --format option where needed in order to let the user specify its desired output format
             <entry priority="high" start="1233084104" end="1233084124">
                 Add --format to the dump command
                 <entry priority="veryhigh" start="1233929190" end="1234392812">
                     Add --indent-format e --unindent-format (in order to specify different format while increasing or decreasing the indentation levels)
-                    </entry></entry></entry><entry priority="high" start="1233179287" end="1233939542">
+                    </entry></entry></entry><entry priority="high" start="1233084099" end="1237475320">
+            Add --format to the show command
+            <entry priority="high" start="1236863859" end="0">
+                Add format management like in dump command
+            </entry></entry><entry priority="high" start="1233179287" end="1233939542">
             Rearrange the --verbose option switch in dump command (it has no meaning when specifying the output format)
             </entry><entry priority="high" start="1233361551" end="1233361565">
             Add filter capabilities to the dump command
@@ -35,6 +91,10 @@
             Add filter capabilities to the show command
             </entry><entry priority="high" start="1234048944" end="1234049617">
             Add --id option to show command
+            </entry><entry priority="high" start="1236094219" end="1236158956">
+            Add -o/--output tests for show command (like the dump one)
+            </entry><entry priority="high" start="1236292407" end="1236865194">
+            Add %i (node id) into formatting rules for dump command
             </entry><entry priority="medium" start="1233608861" end="1234300185">
             Rearrange command epilogs (we should not use docstrings to get help for ID, TIME ..., docstrings may be discarded ...)
             <entry priority="medium" start="1234023476" end="1234168823">
@@ -59,44 +119,60 @@
                 Add command epilog in clean command
                 </entry><entry priority="medium" start="1234023793" end="1234211230">
                 Add command epilog in config command
-                </entry></entry><entry priority="low" start="1234224492" end="1234286812">
+                </entry></entry><entry priority="low" start="1229468141" end="1236950054">
+            Add dnt-to-devtodo exporter
+            </entry><entry priority="low" start="1234224492" end="1234286812">
             Rearrange Command class in order to get footer as a list of strings, instead of a sigle string (joining lines while adding LF where needed)
             </entry><entry priority="verylow" start="1234345685" end="1234345718">
             Add priority enum into console history (edit command)
-            </entry><entry priority="veryhigh" start="1233701639">
-            Complete the regression tests suite
-            <entry priority="veryhigh" start="1233702821">
-                Fix the --dry-run option handling in main program
-            </entry><entry priority="veryhigh" start="1233825895">
-                For each command build a test for short options, long options, help and version (the version test will check only for non-empty output)
-                <entry priority="veryhigh" start="1233827933" end="1234392630">
-                    Build tests for command add
-                    </entry><entry priority="veryhigh" start="1233827933" end="1234185026">
-                    Build tests for command clean
-                    </entry><entry priority="veryhigh" start="1233827933" end="1235668447">
-                    Build tests for command config
-                    </entry><entry priority="veryhigh" start="1233827933" end="1234478605">
-                    Build tests for command done
-                    </entry><entry priority="veryhigh" start="1233827933" end="1235668453">
-                    Build tests for command dump
-                    </entry><entry priority="veryhigh" start="1233827933" end="1235668458">
-                    Build tests for command edit
-                    </entry><entry priority="veryhigh" start="1233827933" end="1235668493">
-                    Build tests for command fix
-                </entry><entry priority="veryhigh" start="1233827933" end="1233874673">
-                    Build tests for command init
-                    </entry><entry priority="veryhigh" start="1233827933" end="1235668501">
-                    Build tests for command move
-                    </entry><entry priority="veryhigh" start="1233827933">
-                    Build tests for command remove
-                </entry><entry priority="veryhigh" start="1233827933">
-                    Build tests for command show
-                </entry></entry><entry priority="high" start="1234048645">
+            </entry><entry priority="veryhigh" start="1236434848">
+            Merge done and not-done commands into mark (with options --done and --not-done)
+        </entry><entry priority="high" start="1235431214">
+            Fix the wrapper.in script in the test directory (find a better fix)
+        </entry><entry priority="high" start="1236852541">
+            Add comment handling
+            <entry priority="veryhigh" start="1233939736">
+                Add comment field on Entry
+            </entry><entry priority="medium" start="1236641564">
+                Add %c (comment) into formatting rules for dump command
+            </entry></entry><entry priority="high" start="1236955593">
+            Add dnt version retrieval in configure.ac
+            <entry priority="high" start="1236955573">
+                Rearrange dnt-to-devtodo and devtodo-to-dnt (in order to bound xslt with tools versions)
+            </entry></entry><entry priority="medium" start="1237210210">
+            Rename format options into fill options (show command)
+            <entry priority="high" start="1236865030">
+                Fix all the show tests which use the (old) -...-format options
+            </entry></entry></entry><entry priority="high" start="1233694836">
+        Release 0.2.0
+        <entry priority="veryhigh" start="1229587888">
+            Check the ConfigParser getboolean() problem (we must use get(..., raw=True, ...))
+        </entry><entry priority="veryhigh" start="1231436828">
+            Replace fromstring() and tostring() with proper builtins (where applicable)
+        </entry><entry priority="veryhigh" start="1232149768">
+            Fix all return passed by reference (where a reference shouldn't be passed at all ...)
+        </entry><entry priority="veryhigh" start="1233871611">
+            Enhance the Time.fromstring() method, in order to be more robust
+        </entry><entry priority="veryhigh" start="1236640302">
+            Add an option parser related class in order to have complete control over option parsing and help generation
+            <entry priority="veryhigh" start="1233828342">
+                Enhance the test for "--version" option for all commands (it has to be the same for all commands, so it must have the right variable substitutions)
+            </entry><entry priority="veryhigh" start="1234175019">
+                Rearrange show footer in order to be class dependent (instead of hard-wired)
+            </entry><entry priority="veryhigh" start="1234175028">
+                Rearrange dump footer in order to be class dependent (instead of hard-wired)
+            </entry><entry priority="veryhigh" start="1234177196">
+                Fix command epilogs in order to be handled correctly from help2man
+            </entry><entry priority="high" start="1234048645">
                 Remove show command requirement for debug and verbose related test (we should not use a subcommand to check --verbose or --debug options ...)
-            </entry></entry><entry priority="veryhigh" start="1234392765">
-            Fix indentation in dump command when using --indent-format and --unindent-format
-        </entry><entry priority="veryhigh" start="1235495489">
-            Fix the NEWS and TODOs site pages generation in site/in directory
+            </entry></entry><entry priority="veryhigh" start="1237847781">
+            Add a String module
+            <entry priority="veryhigh" start="1237847824">
+                Use String class for Entry text field
+            </entry><entry priority="veryhigh" start="1237847832">
+                Use String class for Entry comment field
+            </entry></entry><entry priority="high" start="1231780779">
+            Add toxml() and fromxml() to Entry and Root classes
         </entry><entry priority="high" start="1233010414">
             Fix each command in order to get values from command line, configuration file and (last but not least) default to hard-wired values
             <entry priority="high" start="1233010630" end="1233358680">
@@ -105,43 +181,17 @@
                     Fix the show and dump commands in order to fetch the value for their width command from the configuration file
                     </entry></entry></entry><entry priority="high" start="1235558583">
             Fix the colored-wrap problem (add -t "Hello world", dump -l "%t" -w 6 in order to see it)
-        </entry><entry priority="medium" start="1234048997">
-            Fix the nodes indexing in show command while using --index option
-        </entry></entry><entry priority="high" start="1233694836">
-        Release 0.2.0
-        <entry priority="veryhigh" start="1229587888">
-            Check the ConfigParser getboolean() problem (we must use get(..., raw=True, ...))
-        </entry><entry priority="veryhigh" start="1231436828">
-            Replace fromstring() and tostring() with proper builtins (where applicable)
-        </entry><entry priority="veryhigh" start="1232149768">
-            Fix all return passed by reference (where a reference shouldn't be passed at all ...)
-        </entry><entry priority="veryhigh" start="1233828342">
-            Enhance the test for "--version" option for all commands (it has to be the same for all commands, so it must have the right variable substitutions)
-        </entry><entry priority="veryhigh" start="1233871611">
-            Enhance the Time.fromstring() method, in order to be more robust
-        </entry><entry priority="veryhigh" start="1233939736">
-            Add comment field on Entry
-        </entry><entry priority="veryhigh" start="1234175019">
-            Rearrange show footer in order to be class dependent (instead of hard-wired)
-        </entry><entry priority="veryhigh" start="1234175028">
-            Rearrange dump footer in order to be class dependent (instead of hard-wired)
-        </entry><entry priority="veryhigh" start="1234177196">
-            Fix command epilogs in order to be handled correctly from help2man
-        </entry><entry priority="high" start="1231780779">
-            Add toxml() and fromxml() to Entry and Root classes
-        </entry><entry priority="high" start="1232544628">
-            Add a test which create a .todo, dumps it, exports to .dnt, imports back to .todo, dumps it and finally diffs the two outputs
-            <entry priority="high" start="1229468129" end="1230672987">
-                Add devtodo-to-dnt importer
-                </entry><entry priority="low" start="1229468141">
-                Add dnt-to-devtodo exporter
-            </entry></entry><entry priority="high" start="1233084099">
-            Add --format to the show command
-        </entry><entry priority="high" start="1235431214">
-            Fix the wrapper.in script in the test directory (find a better fix)
         </entry><entry priority="high" start="1235638003">
             Replace from with proper import in all modules
-        </entry><entry priority="medium" start="1234045911">
+        </entry><entry priority="high" start="1236548535">
+            Add --dry-run option support into the main program
+        </entry><entry priority="high" start="1236852853">
+            Rearrange and clean the whole XML database format
+            <entry priority="high" start="1236852864">
+                Update devtodo-to-dnt
+            </entry><entry priority="high" start="1236852871">
+                Update dnt-to-devtodo
+            </entry></entry><entry priority="medium" start="1234045911">
             Add code for interactive mode in fix command
         </entry><entry priority="medium" start="1234300133">
             Add a Formatter class. Rearrange show and dump command to use the formatter for all substitutions
@@ -175,7 +225,11 @@
             Add mans and src/__init__.py generation rules in docs/man/Makefile.am and src/Makefile.am
         </entry><entry priority="low" start="1233655993">
             Add alias support (in order to alias remove with del or rm)
-        </entry><entry priority="low" start="1233656307">
+            <entry priority="high" start="1236953377">
+                Add dump=show alias
+            </entry><entry priority="high" start="1236953388">
+                Add rm=remove alias
+            </entry></entry><entry priority="low" start="1233656307">
             Add assign-to field on Entry
         </entry><entry priority="verylow" start="1233656428">
             Integrate dnt with SCM (git and svn)
