@@ -65,9 +65,9 @@ def fromxml(xml) :
             warning("No priority for entry `" + text + "', using default")
         #debug("Priority will be: `" + priority.tostring() + "'")
 
-        # NOTE:
-        #     Use the current time from Entry.start, use None as default value
-        #     for Entry.end
+        #
+        # NOTE: Use the current time from Entry.start
+        #
         start = None
         value = None
         try :
@@ -85,6 +85,9 @@ def fromxml(xml) :
                   "`" + text + "'")
             raise Exceptions.MalformedDatabase()
 
+        #
+        # NOTE: Use None as default value for Entry.end
+        #
         end   = None
         value = None
         try :

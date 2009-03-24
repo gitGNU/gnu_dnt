@@ -145,7 +145,7 @@ class SubCommand(Command):
 #        debug("  priority  = " + str(node_priority))
 #        debug("  start     = " + str(node_start))
 #        debug("  end       = " + str(node_end))
-        debug("  comment   = " + str(node_comment))
+#        debug("  comment   = " + str(node_comment))
 
         debug("Looking for node `" + str(parent_id) + "'")
         parent = Tree.find(tree, parent_id)
