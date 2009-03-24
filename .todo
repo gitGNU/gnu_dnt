@@ -371,6 +371,12 @@
                 Fix all the show tests which use the (old) -...-format options
             </note>
         </note>
+        <note priority="medium" time="1237934691" done="1237935272">
+            Split Configuration.py.in into Autoconfiguration.py.in and Configuration.py
+            <comment>
+                Done
+            </comment>
+        </note>
         <note priority="low" time="1229468141" done="1236950054">
             Add dnt-to-devtodo exporter
             <comment>
@@ -413,11 +419,8 @@
         <note priority="high" time="1236955573">
             Rearrange dnt-to-devtodo and devtodo-to-dnt (in order to bound xslt with tools versions)
         </note>
-        <note priority="medium" time="1237934691" done="1237935272">
-            Split Configuration.py.in into Autoconfiguration.py.in and Configuration.py
-            <comment>
-                Done
-            </comment>
+        <note priority="high" time="1237936902">
+            Replace element with tag for comment handling (XML)
         </note>
         <note priority="medium" time="1237935215">
             Change all import-with-from to import-with-import for newly-created-Configuration module (leave Autoconfiguration module imported as it is now)
