@@ -92,6 +92,11 @@ def show(level,
             else :
                 status = "incomplete"
 
+            if (e.comment != None) :
+                comment = e.comment
+            else :
+                comment = ""
+
             id_temp = e.id
             id_absolute = str(id_temp)
             try :
@@ -130,6 +135,7 @@ def show(level,
             t = re.sub('%s', start,                     t)
             t = re.sub('%e', end,                       t)
             t = re.sub('%p', color_text(priority),      t)
+            t = re.sub('%c', comment,                   t)
             # Always substitute text at last in order to avoid re-substitutions
             # if text contains %i, %s, %e, %p, %c and so on
             t = re.sub('%t', color_text(text),          t)
@@ -197,6 +203,7 @@ class SubCommand(Command) :
                 "  %p  priority",
                 "  %I  index (absolute)",
                 "  %i  index (relative)",
+                "  %c  comment",
                 "",
                 "FILTER  " + Filter.help(),
                 "ID      " + ID.help(),
@@ -334,7 +341,7 @@ class SubCommand(Command) :
         #
         if (verbose == True) :
             indent_fill   = ""
-            line_format     = "%i %t\n  (%s, %e, %p)\n"
+            line_format     = "%i %t [%c]\n  (%s, %e, %p)\n"
             unindent_fill = ""
             level_fill    = "  "
         else :
