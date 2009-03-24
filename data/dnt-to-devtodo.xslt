@@ -53,6 +53,11 @@
         </xsl:attribute>
       </xsl:if>
       <xsl:value-of select="text()"/>
+      <xsl:if test="@end">
+        <comment>
+          <xsl:value-of select="@comment"/>
+        </comment>
+      </xsl:if>
       <xsl:call-template name="subnodesProcess"/>
     </note>
     <xsl:value-of select="$newLine"/>
