@@ -154,20 +154,15 @@ SUCCESS_TESTS +=				\
 	test-command-show-wrap-01		\
 	test-command-show-wrap-02		\
 						\
-	test-command-done-help-01		\
-	test-command-done-opts-short-01		\
-	test-command-done-opts-long-01		\
-	test-command-done-version-01		\
-	test-command-done-01			\
-	test-command-done-02			\
-	test-command-done-03			\
-	test-command-done-04			\
-						\
-	test-command-not-done-help-01		\
-	test-command-not-done-opts-short-01	\
-	test-command-not-done-opts-long-01	\
-	test-command-not-done-version-01	\
-	test-command-not-done-01		\
+	test-command-status-help-01		\
+	test-command-status-opts-short-01	\
+	test-command-status-opts-long-01	\
+	test-command-status-version-01		\
+	test-command-status-done-01		\
+	test-command-status-done-02		\
+	test-command-status-done-03		\
+	test-command-status-done-04		\
+	test-command-status-not-done-01		\
 						\
 	test-devtodo-to-dnt-01			\
 	test-dnt-to-devtodo-01			\
@@ -431,54 +426,6 @@ test-command-clean-01: $(srcdir)/test-command-clean-01.in Makefile
 EXTRA_DIST += test-command-clean-01.in
 CLEANFILES += test-command-clean-01
 
-test-command-done-01: $(srcdir)/test-command-done-01.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-done-01.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-done-01.in
-CLEANFILES += test-command-done-01
-
-test-command-done-02: $(srcdir)/test-command-done-02.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-done-02.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-done-02.in
-CLEANFILES += test-command-done-02
-
-test-command-done-03: $(srcdir)/test-command-done-03.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-done-03.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-done-03.in
-CLEANFILES += test-command-done-03
-
-test-command-done-04: $(srcdir)/test-command-done-04.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-done-04.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-done-04.in
-CLEANFILES += test-command-done-04
-
 test-command-config-01: $(srcdir)/test-command-config-01.in Makefile
 	( rm -f $@ $@.tmp && \
 	  $(do_subst) < $(srcdir)/test-command-config-01.in > $@.tmp && \
@@ -683,53 +630,113 @@ test-command-config-version-01: $(srcdir)/test-command-config-version-01.in Make
 EXTRA_DIST += test-command-config-version-01.in
 CLEANFILES += test-command-config-version-01
 
-test-command-done-help-01: $(srcdir)/test-command-done-help-01.in Makefile
+test-command-status-help-01: $(srcdir)/test-command-status-help-01.in Makefile
 	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-done-help-01.in > $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-status-help-01.in > $@.tmp && \
 	  chmod +x $@.tmp && \
 	  chmod a-w $@.tmp && \
 	  mv -f $@.tmp $@ ) || { \
 	        rm -f $@ $@.tmp ; \
 	        exit 1 ; \
 	}
-EXTRA_DIST += test-command-done-help-01.in
-CLEANFILES += test-command-done-help-01
+EXTRA_DIST += test-command-status-help-01.in
+CLEANFILES += test-command-status-help-01
 
-test-command-done-opts-short-01: $(srcdir)/test-command-done-opts-short-01.in Makefile
+test-command-status-opts-short-01: $(srcdir)/test-command-status-opts-short-01.in Makefile
 	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-done-opts-short-01.in > $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-status-opts-short-01.in > $@.tmp && \
 	  chmod +x $@.tmp && \
 	  chmod a-w $@.tmp && \
 	  mv -f $@.tmp $@ ) || { \
 	        rm -f $@ $@.tmp ; \
 	        exit 1 ; \
 	}
-EXTRA_DIST += test-command-done-opts-short-01.in
-CLEANFILES += test-command-done-opts-short-01
+EXTRA_DIST += test-command-status-opts-short-01.in
+CLEANFILES += test-command-status-opts-short-01
 
-test-command-done-opts-long-01: $(srcdir)/test-command-done-opts-long-01.in Makefile
+test-command-status-opts-long-01: $(srcdir)/test-command-status-opts-long-01.in Makefile
 	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-done-opts-long-01.in > $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-status-opts-long-01.in > $@.tmp && \
 	  chmod +x $@.tmp && \
 	  chmod a-w $@.tmp && \
 	  mv -f $@.tmp $@ ) || { \
 	        rm -f $@ $@.tmp ; \
 	        exit 1 ; \
 	}
-EXTRA_DIST += test-command-done-opts-long-01.in
-CLEANFILES += test-command-done-opts-long-01
+EXTRA_DIST += test-command-status-opts-long-01.in
+CLEANFILES += test-command-status-opts-long-01
 
-test-command-done-version-01: $(srcdir)/test-command-done-version-01.in Makefile
+test-command-status-version-01: $(srcdir)/test-command-status-version-01.in Makefile
 	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-done-version-01.in > $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-status-version-01.in > $@.tmp && \
 	  chmod +x $@.tmp && \
 	  chmod a-w $@.tmp && \
 	  mv -f $@.tmp $@ ) || { \
 	        rm -f $@ $@.tmp ; \
 	        exit 1 ; \
 	}
-EXTRA_DIST += test-command-done-version-01.in
-CLEANFILES += test-command-done-version-01
+EXTRA_DIST += test-command-status-version-01.in
+CLEANFILES += test-command-status-version-01
+
+test-command-status-done-01: $(srcdir)/test-command-status-done-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-status-done-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-status-done-01.in
+CLEANFILES += test-command-status-done-01
+
+test-command-status-done-02: $(srcdir)/test-command-status-done-02.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-status-done-02.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-status-done-02.in
+CLEANFILES += test-command-status-done-02
+
+test-command-status-done-03: $(srcdir)/test-command-status-done-03.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-status-done-03.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-status-done-03.in
+CLEANFILES += test-command-status-done-03
+
+test-command-status-done-04: $(srcdir)/test-command-status-done-04.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-status-done-04.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-status-done-04.in
+CLEANFILES += test-command-status-done-04
+
+test-command-status-not-done-01: $(srcdir)/test-command-status-not-done-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-status-not-done-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-status-not-done-01.in
+CLEANFILES += test-command-status-not-done-01
 
 test-command-fix-help-01: $(srcdir)/test-command-fix-help-01.in Makefile
 	( rm -f $@ $@.tmp && \
@@ -1114,66 +1121,6 @@ test-command-show-version-01: $(srcdir)/test-command-show-version-01.in Makefile
 	}
 EXTRA_DIST += test-command-show-version-01.in
 CLEANFILES += test-command-show-version-01
-
-test-command-not-done-01: $(srcdir)/test-command-not-done-01.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-not-done-01.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-not-done-01.in
-CLEANFILES += test-command-not-done-01
-
-test-command-not-done-help-01: $(srcdir)/test-command-not-done-help-01.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-not-done-help-01.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-not-done-help-01.in
-CLEANFILES += test-command-not-done-help-01
-
-test-command-not-done-opts-short-01: $(srcdir)/test-command-not-done-opts-short-01.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-not-done-opts-short-01.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-not-done-opts-short-01.in
-CLEANFILES += test-command-not-done-opts-short-01
-
-test-command-not-done-opts-long-01: $(srcdir)/test-command-not-done-opts-long-01.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-not-done-opts-long-01.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-not-done-opts-long-01.in
-CLEANFILES += test-command-not-done-opts-long-01
-
-test-command-not-done-version-01: $(srcdir)/test-command-not-done-version-01.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-not-done-version-01.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-not-done-version-01.in
-CLEANFILES += test-command-not-done-version-01
 
 test-import-export-01: $(srcdir)/test-import-export-01.in Makefile
 	( rm -f $@ $@.tmp && \

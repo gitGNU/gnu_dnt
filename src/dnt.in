@@ -326,7 +326,8 @@ def main(arguments) :
             bug("Unknown exception while opening configuration file")
 
     debug("All operations completed successfully")
-    return 0
+    assert(retval == 0)
+    return retval
 
 if (__name__ == '__main__') :
     retval = 1

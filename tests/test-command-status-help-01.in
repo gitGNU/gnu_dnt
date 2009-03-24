@@ -29,7 +29,7 @@ required="diff"
 : >test1.log || exit 1
 : >test2.log || exit 1
 
-COMMAND="done"
+COMMAND="status"
 
 # Output of "-h" option
 $DNT_NOFLAGS $COMMAND -h 1>test1.log || exit 1

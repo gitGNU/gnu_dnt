@@ -95,6 +95,8 @@ class SubCommand(Command) :
         if (opts.id == None) :
             raise Exceptions.MissingParameters("node id")
 
+        if (opts.status == None) :
+            raise Exceptions.MissingParameters("node status")
         if (opts.status != "done" and opts.status != "not-done") :
             raise Exceptions.WrongParameters("node status")
 
@@ -124,7 +126,7 @@ class SubCommand(Command) :
             raise Exceptions.NodeUnavailable(str(id))
         assert(node != None)
 
-        if (opts.action == "done") :
+        if (opts.status == "done") :
             # Mark node as done
             node.mark_as_done()
 
@@ -132,7 +134,7 @@ class SubCommand(Command) :
             for i in node.children() :
                 v = DoneVisitor(verbose)
                 node.accept(v)
-        elif (opts.action == "not-done") :
+        elif (opts.status == "not-done") :
             # Mark node as not-done
             node.mark_as_not_done()
 
@@ -141,7 +143,7 @@ class SubCommand(Command) :
                 v = NotDoneVisitor(verbose)
                 node.accept(v)
         else :
-            bug("Unknown action")
+            bug("Unknown status")
 
         #
         # Save database back to file

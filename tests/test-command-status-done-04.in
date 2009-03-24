@@ -35,8 +35,8 @@ $DNT_FLAGS add -t "gamma" || exit 1
 $DNT_FLAGS add -t "delta" || exit 1
 
 # Mark node 1 and 3 as done and check'em all
-$DNT_FLAGS done -i 1 || exit 1
-$DNT_FLAGS done -i 3 || exit 1
+$DNT_FLAGS status --status=done -i 1 || exit 1
+$DNT_FLAGS status --status=done -i 3 || exit 1
 
 $DNT_FLAGS show -F done -l "%t" -I "" -U "" -L "" -o test1.log || exit 1
 cat > test2.log <<EOF

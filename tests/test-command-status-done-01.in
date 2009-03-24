@@ -26,8 +26,8 @@ required=""
 . $testdir/defs || exit 1
 
 # Always check --help and --version
-$DNT_FLAGS done --help    || exit 1
-$DNT_FLAGS done --version || exit 1
+$DNT_FLAGS status --help    || exit 1
+$DNT_FLAGS status --version || exit 1
 
 # Then perform the command related check
 
@@ -48,9 +48,9 @@ $DNT_FLAGS add -t "test211" -i 2.1 || exit 1
 $DNT_FLAGS add -t "test311" -i 3.1 || exit 1
 
 # Mark some nodes as done
-$DNT_FLAGS done --id 1.1.1 || exit 1
-$DNT_FLAGS done --id 1.1   || exit 1
-$DNT_FLAGS done --id 1     || exit 1
+$DNT_FLAGS status --status=done --id 1.1.1 || exit 1
+$DNT_FLAGS status --status=done --id 1.1   || exit 1
+$DNT_FLAGS status --status=done --id 1     || exit 1
 
 # Check it
 
@@ -73,6 +73,6 @@ $DNT_FLAGS add -t "test211" -i 2.1 || exit 1
 $DNT_FLAGS add -t "test311" -i 3.1 || exit 1
 
 # Mark the same nodes ad done
-$DNT_FLAGS done --id 1     || exit 1
+$DNT_FLAGS status --status=done --id 1     || exit 1
 
 exit 0

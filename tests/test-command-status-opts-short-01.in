@@ -26,7 +26,7 @@ required=""
 
 . $testdir/defs || exit 1
 
-COMMAND="done"
+COMMAND="status"
 
 # Creating test DB
 $DNT_FLAGS clean           || exit 1
@@ -36,10 +36,16 @@ $DNT_FLAGS add -t "node_2" || exit 1
 $DNT_FLAGS add -t "node_3" || exit 1
 $DNT_FLAGS add -t "node_4" || exit 1
 
-# Testing "-i" option
-$DNT_FLAGS $COMMAND -i "1" || exit 1
-$DNT_FLAGS $COMMAND -i "2" || exit 1
-$DNT_FLAGS $COMMAND -i "3" || exit 1
-$DNT_FLAGS $COMMAND -i "4" || exit 1
+# Testing "done" option status change
+$DNT_FLAGS $COMMAND -s done -i "1" || exit 1
+$DNT_FLAGS $COMMAND -s done -i "2" || exit 1
+$DNT_FLAGS $COMMAND -s done -i "3" || exit 1
+$DNT_FLAGS $COMMAND -s done -i "4" || exit 1
+
+# Testing "not-done" option status change
+$DNT_FLAGS $COMMAND -s not-done -i "1" || exit 1
+$DNT_FLAGS $COMMAND -s not-done -i "2" || exit 1
+$DNT_FLAGS $COMMAND -s not-done -i "3" || exit 1
+$DNT_FLAGS $COMMAND -s not-done -i "4" || exit 1
 
 exit 0

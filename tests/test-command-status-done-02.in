@@ -33,8 +33,8 @@ $DNT_FLAGS add -t "alfa" || exit 1
 $DNT_FLAGS add -t "beta" || exit 1
 
 # Mark node 0.1 and 0.2 as done
-$DNT_FLAGS done --id 0.1 || exit 1
-$DNT_FLAGS done --id 0.2 || exit 1
+$DNT_FLAGS status --status=done --id 0.1 || exit 1
+$DNT_FLAGS status --status=done --id 0.2 || exit 1
 
 cat >test.exp <<EOF
 EOF

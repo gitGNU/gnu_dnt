@@ -40,8 +40,7 @@ commands_SRCS = 				\
 	Commands/Move.py			\
 	Commands/Remove.py			\
 	Commands/Show.py			\
-	Commands/Done.py			\
-	Commands/NotDone.py			\
+	Commands/Status.py			\
 	Commands/Clean.py
 
 commands_PYTHON =				\

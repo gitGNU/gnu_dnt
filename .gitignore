@@ -92,15 +92,6 @@ tests/test-command-config-opts-long-01
 tests/test-command-config-version-01
 tests/test-command-config-01
 
-tests/test-command-done-help-01
-tests/test-command-done-opts-short-01
-tests/test-command-done-opts-long-01
-tests/test-command-done-version-01
-tests/test-command-done-01
-tests/test-command-done-02
-tests/test-command-done-03
-tests/test-command-done-04
-
 tests/test-command-edit-help-01
 tests/test-command-edit-opts-short-01
 tests/test-command-edit-opts-long-01
@@ -141,11 +132,15 @@ tests/test-command-show-10
 tests/test-command-show-wrap-01
 tests/test-command-show-wrap-02
 
-tests/test-command-not-done-help-01
-tests/test-command-not-done-opts-long-01
-tests/test-command-not-done-opts-short-01
-tests/test-command-not-done-version-01
-tests/test-command-not-done-01
+tests/test-command-status-help-01
+tests/test-command-status-opts-short-01
+tests/test-command-status-opts-long-01
+tests/test-command-status-version-01
+tests/test-command-status-done-01
+tests/test-command-status-done-02
+tests/test-command-status-done-03
+tests/test-command-status-done-04
+tests/test-command-status-not-done-01
 
 tests/test-import-export-01
 tests/test-import-export-02

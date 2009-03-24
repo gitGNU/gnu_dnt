@@ -33,7 +33,7 @@ $DNT_FLAGS add -t "alfa" || exit 1
 $DNT_FLAGS add -t "beta" || exit 1
 
 # Mark node 0.1 as done and check'em all
-$DNT_FLAGS done -i 0.1 || exit 1
+$DNT_FLAGS status --status=done -i 0.1 || exit 1
 
 $DNT_FLAGS show -F done -l "%t" -I "" -U "" -L "" -o test1.log || exit 1
 cat > test2.log <<EOF
