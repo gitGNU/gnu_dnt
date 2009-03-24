@@ -81,6 +81,12 @@ class SubCommand(Command):
                            type   = "string",
                            dest   = "priority",
                            help   = "specify node priority")
+        Command.add_option(self,
+                           "-c", "--comment",
+                           action = "store",
+                           type   = "string",
+                           dest   = "comment",
+                           help   = "specify node comment")
 
         (opts, args) = Command.parse_args(self, arguments)
         if (len(args) > 0) :
@@ -114,6 +120,11 @@ class SubCommand(Command):
         if (opts.priority != None) :
             node_priority.fromstring(opts.priority)
 
+        debug("Handling comment")
+        node_comment = None
+        if (opts.comment != None) :
+            node_comment = opts.comment
+
         #
         # Load database from file
         #
@@ -134,6 +145,7 @@ class SubCommand(Command):
 #        debug("  priority  = " + str(node_priority))
 #        debug("  start     = " + str(node_start))
 #        debug("  end       = " + str(node_end))
+        debug("  comment   = " + str(node_comment))
 
         debug("Looking for node `" + str(parent_id) + "'")
         parent = Tree.find(tree, parent_id)
@@ -148,7 +160,8 @@ class SubCommand(Command):
         entry = Entry.Entry(text     = node_text,
                             priority = node_priority,
                             start    = node_start,
-                            end      = node_end)
+                            end      = node_end,
+                            comment  = node_comment)
         assert(entry)
 
         parent.add(entry)
