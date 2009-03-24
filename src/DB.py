@@ -102,8 +102,17 @@ def fromxml(xml) :
             #debug("No end time for entry `" + text +"'")
             pass
 
+        comment = None
+        value   = None
+        try :
+            value   = xml.attrib['comment']
+            comment = value
+        except :
+            #debug("No comment for entry `" + text + "'")
+            pass
+
         # Build an entry node
-        node = Entry(text, priority, start, end)
+        node = Entry(text, priority, start, end, comment)
 
     else :
         raise Exceptions.UnknownElement(xml.tag)
@@ -140,6 +149,8 @@ def toxml(node, xml) :
             attributes['start']    = str(node.start.toint())
         if (node.end      != None) :
             attributes['end']      = str(node.end.toint())
+        if (node.comment  != None) :
+            attributes['comment']  = node.comment
         tag = "entry"
 
     child      = ET.Element(tag, attributes)

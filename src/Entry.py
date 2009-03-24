@@ -30,12 +30,14 @@ class Entry(Node) :
                  text,
                  priority = Priority.Priority(),
                  start    = Time.Time(),
-                 end      = None) :
+                 end      = None,
+                 comment  = None) :
         super(Entry, self).__init__()
         self.text_set(text)
         self.priority_set(priority)
         self._start_set(start)
         self._end_set(end)
+        self._comment_set(comment)
         debug("Entry `" + str(self) + "' created successfully")
 
     def text_get(self) :
@@ -89,6 +91,22 @@ class Entry(Node) :
         self._end_set(t)
 
     end = property(end_get, end_set)
+
+    def comment_get(self) :
+        return self.__comment
+
+    def _comment_set(self, t) :
+        self.__comment = t
+
+    def comment_set(self, t) :
+        assert(t != None)
+        assert(type(t) == str)
+        assert(t != "")
+
+        # Remove leading and trailing whitespaces from input string
+        self.__comment = string.rstrip(string.lstrip(t))
+
+    comment = property(comment_get, comment_set)
 
     def mark_as_done(self) :
         self.__end = Time.Time()
