@@ -24,7 +24,7 @@ try :
     import Add
     import Clean
     import Config
-    import Status
+    import Mark
     import Edit
     import Fix
     import Init
@@ -40,7 +40,7 @@ commands = {
     'add'      : Add       . SubCommand(),
     'clean'    : Clean     . SubCommand(),
     'config'   : Config    . SubCommand(),
-    'status'   : Status    . SubCommand(),
+    'mark'     : Mark    . SubCommand(),
     'edit'     : Edit      . SubCommand(),
     'fix'      : Fix       . SubCommand(),
     'init'     : Init      . SubCommand(),

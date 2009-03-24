@@ -60,7 +60,7 @@ class NotDoneVisitor(Visitor) :
 class SubCommand(Command) :
     def __init__(self) :
         Command.__init__(self,
-                         name   = "status",
+                         name   = "mark",
                          footer = [
                 "ID  " + ID.help()
                 ])

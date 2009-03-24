@@ -32,7 +32,7 @@ dist_man_MANS =					\
 	dnt-init.1				\
 	dnt-move.1				\
 	dnt-remove.1				\
-	dnt-status.1				\
+	dnt-mark.1				\
 	dnt-show.1
 
 man_aux       =					\
@@ -48,7 +48,7 @@ man_aux       =					\
 	dnt-move.x				\
 	dnt-remove.x				\
 	dnt-touch.x				\
-	dnt-status.x				\
+	dnt-mark.x				\
 	dnt-show.x
 
 EXTRA_DIST = $(man_aux)
@@ -189,16 +189,16 @@ dnt-touch.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Touch.py $(
 	    --output=dnt-touch.1 \
 	    "$(top_builddir)/src/dnt touch"
 
-dnt-status.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Status.py $(top_srcdir)/configure.ac
+dnt-mark.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Mark.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
-	    --include=$(srcdir)/dnt-status.x \
+	    --include=$(srcdir)/dnt-mark.x \
 	    --source="@PACKAGE_NAME@" \
 	    --manual="User Commands" \
 	    --section=1	\
-	    --output=dnt-status.1 \
-	    "$(top_builddir)/src/dnt status"
+	    --output=dnt-mark.1 \
+	    "$(top_builddir)/src/dnt mark"
 
 dnt-show.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Show.py $(top_srcdir)/configure.ac
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \

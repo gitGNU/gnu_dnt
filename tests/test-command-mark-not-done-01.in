@@ -22,7 +22,7 @@
 # Test to ensure that the test environment has a good set-up
 # Report from Francesco Salvestrini
 
-required=""
+required="diff"
 
 . $testdir/defs || exit 1
 
@@ -33,11 +33,11 @@ $DNT_FLAGS add -t "alfa" || exit 1
 $DNT_FLAGS add -t "beta" || exit 1
 
 # Mark node 0.1 and 0.2 as done
-$DNT_FLAGS status --status=done -i 0.1 || exit 1
-$DNT_FLAGS status --status=done -i 0.2 || exit 1
+$DNT_FLAGS mark --status=done -i 0.1 || exit 1
+$DNT_FLAGS mark --status=done -i 0.2 || exit 1
 
 # Remark only node 0.1 as not-done and check'em all
-$DNT_FLAGS status --status=not-done -i 0.1 || exit 1
+$DNT_FLAGS mark --status=not-done -i 0.1 || exit 1
 
 rm -f test1.log test2.log || exit 1
 

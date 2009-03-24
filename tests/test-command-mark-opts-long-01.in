@@ -22,34 +22,30 @@
 # Test to ensure that the test environment has a good set-up
 # Report from Francesco Salvestrini
 
-required="diff"
+required=""
 
 . $testdir/defs || exit 1
 
-# Fill the tree
-$DNT_FLAGS clean         || exit 1
-$DNT_FLAGS init          || exit 1
-$DNT_FLAGS add -t "alfa" || exit 1
-$DNT_FLAGS add -t "beta" || exit 1
+COMMAND="mark"
 
-# Mark node 0.1 and 0.2 as done
-$DNT_FLAGS status --status=done --id 0.1 || exit 1
-$DNT_FLAGS status --status=done --id 0.2 || exit 1
+# Creating test DB
+$DNT_FLAGS clean               || exit 1
+$DNT_FLAGS init                || exit 1
+$DNT_FLAGS add --text="node_1" || exit 1
+$DNT_FLAGS add --text="node_2" || exit 1
+$DNT_FLAGS add --text="node_3" || exit 1
+$DNT_FLAGS add --text="node_4" || exit 1
 
-cat >test.exp <<EOF
-EOF
+# Testing "done" option status change
+$DNT_FLAGS $COMMAND --status=done --id="1" || exit 1
+$DNT_FLAGS $COMMAND --status=done --id="2" || exit 1
+$DNT_FLAGS $COMMAND --status=done --id="3" || exit 1
+$DNT_FLAGS $COMMAND --status=done --id="4" || exit 1
 
-$DNT_FLAGS show -F not-done -l "%t" -I "" -U "" -L "" -o test.out
-
-diff test.out test.exp || exit 1
-
-cat >test.exp <<EOF
-alfa
-beta
-EOF
-
-$DNT_FLAGS show -F done -l "%t" -I "" -U "" -L "" -o test.out
-
-diff test.out test.exp || exit 1
+# Testing "not-done" option status change
+$DNT_FLAGS $COMMAND --status=not-done --id="1" || exit 1
+$DNT_FLAGS $COMMAND --status=not-done --id="2" || exit 1
+$DNT_FLAGS $COMMAND --status=not-done --id="3" || exit 1
+$DNT_FLAGS $COMMAND --status=not-done --id="4" || exit 1
 
 exit 0

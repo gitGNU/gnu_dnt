@@ -22,24 +22,30 @@
 # Test to ensure that the test environment has a good set-up
 # Report from Francesco Salvestrini
 
-required="diff"
+required=""
 
 . $testdir/defs || exit 1
 
-: >test1.log || exit 1
-: >test2.log || exit 1
+COMMAND="mark"
 
-COMMAND="status"
+# Creating test DB
+$DNT_FLAGS clean           || exit 1
+$DNT_FLAGS init            || exit 1
+$DNT_FLAGS add -t "node_1" || exit 1
+$DNT_FLAGS add -t "node_2" || exit 1
+$DNT_FLAGS add -t "node_3" || exit 1
+$DNT_FLAGS add -t "node_4" || exit 1
 
-# Output of "-h" option
-$DNT_NOFLAGS $COMMAND -h 1>test1.log || exit 1
+# Testing "done" option status change
+$DNT_FLAGS $COMMAND -s done -i "1" || exit 1
+$DNT_FLAGS $COMMAND -s done -i "2" || exit 1
+$DNT_FLAGS $COMMAND -s done -i "3" || exit 1
+$DNT_FLAGS $COMMAND -s done -i "4" || exit 1
 
-# Output of "--help" option
-$DNT_NOFLAGS $COMMAND --help 1>test2.log || exit 1
-
-diff test1.log test2.log || exit 1
-
-rm -f test1.log
-rm -f test2.log
+# Testing "not-done" option status change
+$DNT_FLAGS $COMMAND -s not-done -i "1" || exit 1
+$DNT_FLAGS $COMMAND -s not-done -i "2" || exit 1
+$DNT_FLAGS $COMMAND -s not-done -i "3" || exit 1
+$DNT_FLAGS $COMMAND -s not-done -i "4" || exit 1
 
 exit 0

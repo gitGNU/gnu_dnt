@@ -132,15 +132,15 @@ tests/test-command-show-10
 tests/test-command-show-wrap-01
 tests/test-command-show-wrap-02
 
-tests/test-command-status-help-01
-tests/test-command-status-opts-short-01
-tests/test-command-status-opts-long-01
-tests/test-command-status-version-01
-tests/test-command-status-done-01
-tests/test-command-status-done-02
-tests/test-command-status-done-03
-tests/test-command-status-done-04
-tests/test-command-status-not-done-01
+tests/test-command-mark-help-01
+tests/test-command-mark-opts-short-01
+tests/test-command-mark-opts-long-01
+tests/test-command-mark-version-01
+tests/test-command-mark-done-01
+tests/test-command-mark-done-02
+tests/test-command-mark-done-03
+tests/test-command-mark-done-04
+tests/test-command-mark-not-done-01
 
 tests/test-import-export-01
 tests/test-import-export-02

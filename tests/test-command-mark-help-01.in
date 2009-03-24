@@ -22,33 +22,24 @@
 # Test to ensure that the test environment has a good set-up
 # Report from Francesco Salvestrini
 
-required=""
+required="diff"
 
 . $testdir/defs || exit 1
 
-# Fill the tree
-$DNT_FLAGS clean         || exit 1
-$DNT_FLAGS init          || exit 1
-$DNT_FLAGS add -t "alfa" || exit 1
-$DNT_FLAGS add -t "beta" || exit 1
+: >test1.log || exit 1
+: >test2.log || exit 1
 
-# Mark node 0.1 as done and check'em all
-$DNT_FLAGS status --status=done -i 0.1 || exit 1
+COMMAND="mark"
 
-$DNT_FLAGS show -F done -l "%t" -I "" -U "" -L "" -o test1.log || exit 1
-cat > test2.log <<EOF
-alfa
-EOF
+# Output of "-h" option
+$DNT_NOFLAGS $COMMAND -h 1>test1.log || exit 1
+
+# Output of "--help" option
+$DNT_NOFLAGS $COMMAND --help 1>test2.log || exit 1
 
 diff test1.log test2.log || exit 1
 
-rm -f test3.log test4.log || exit 1
-
-$DNT_FLAGS show -F not-done -l "%t" -I "" -U "" -L "" -o test3.log || exit 1
-cat > test4.log <<EOF
-beta
-EOF
-
-diff test3.log test4.log || exit 1
+rm -f test1.log
+rm -f test2.log
 
 exit 0

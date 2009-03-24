@@ -22,30 +22,23 @@
 # Test to ensure that the test environment has a good set-up
 # Report from Francesco Salvestrini
 
-required=""
+required="diff"
 
 . $testdir/defs || exit 1
 
-COMMAND="status"
+: >test1.log || exit 1
+: >test2.log || exit 1
 
-# Creating test DB
-$DNT_FLAGS clean               || exit 1
-$DNT_FLAGS init                || exit 1
-$DNT_FLAGS add --text="node_1" || exit 1
-$DNT_FLAGS add --text="node_2" || exit 1
-$DNT_FLAGS add --text="node_3" || exit 1
-$DNT_FLAGS add --text="node_4" || exit 1
+COMMAND="mark"
 
-# Testing "done" option status change
-$DNT_FLAGS $COMMAND --status=done --id="1" || exit 1
-$DNT_FLAGS $COMMAND --status=done --id="2" || exit 1
-$DNT_FLAGS $COMMAND --status=done --id="3" || exit 1
-$DNT_FLAGS $COMMAND --status=done --id="4" || exit 1
+# Executing command
+$DNT_NOFLAGS $COMMAND --version 1> test2.log || exit 1
 
-# Testing "not-done" option status change
-$DNT_FLAGS $COMMAND --status=not-done --id="1" || exit 1
-$DNT_FLAGS $COMMAND --status=not-done --id="2" || exit 1
-$DNT_FLAGS $COMMAND --status=not-done --id="3" || exit 1
-$DNT_FLAGS $COMMAND --status=not-done --id="4" || exit 1
+# Checking if we had non-empty output
+diff test1.log test2.log || {
+     rm -f test1.log
+     rm -f test2.log
+     exit 0
+}
 
-exit 0
+exit 1

@@ -36,7 +36,7 @@ if test ! "x${EMPTY}" = "x"; then
   exit 1
 fi
 
-$DNT_FLAGS status --status=done -i 1 || exit 1
+$DNT_FLAGS mark --status=done -i 1 || exit 1
 
 EMPTY="`$DNT_NOFLAGS --mono show -F not-done | head -n -1`"
 
