@@ -179,6 +179,12 @@
                 Done
             </comment>
         </note>
+        <note priority="veryhigh" time="1236434848" done="1237929052">
+            Merge done and not-done commands into mark (with options --done and --not-done)
+            <comment>
+                Done
+            </comment>
+        </note>
         <note priority="veryhigh" time="1236865149" done="1236865228">
             Add %i to dump command help epilog
             <comment>
@@ -350,6 +356,15 @@
                 </comment>
             </note>
         </note>
+        <note priority="medium" time="1237210210" done="1237850527">
+            Rename format options into fill options (show command)
+            <comment>
+                Done
+            </comment>
+            <note priority="high" time="1236865030" done="0">
+                Fix all the show tests which use the (old) -...-format options
+            </note>
+        </note>
         <note priority="low" time="1229468141" done="1236950054">
             Add dnt-to-devtodo exporter
             <comment>
@@ -368,34 +383,31 @@
                 Done
             </comment>
         </note>
-        <note priority="veryhigh" time="1236434848">
-            Merge done and not-done commands into mark (with options --done and --not-done)
-        </note>
         <note priority="high" time="1235431214">
             Fix the wrapper.in script in the test directory (find a better fix)
         </note>
         <note priority="high" time="1236852541">
             Add comment handling
-            <note priority="veryhigh" time="1233939736">
+            <note priority="veryhigh" time="1233939736" done="1237929238">
                 Add comment field on Entry
+                <comment>
+                    Done
+                </comment>
             </note>
-            <note priority="medium" time="1236641564">
-                Add %c (comment) into formatting rules for dump command
+            <note priority="medium" time="1236641564" done="1237929208">
+                Add %c (comment) into formatting rules for show command
+                <comment>
+                    Done
+                </comment>
+            </note>
+            <note priority="veryhigh" time="1237929255">
+                Add regression tests
             </note>
         </note>
         <note priority="high" time="1236955593">
             Add dnt version retrieval in configure.ac
             <note priority="high" time="1236955573">
                 Rearrange dnt-to-devtodo and devtodo-to-dnt (in order to bound xslt with tools versions)
-            </note>
-        </note>
-        <note priority="medium" time="1237210210" done="1237850527">
-            Rename format options into fill options (show command)
-            <comment>
-                Done
-            </comment>
-            <note priority="high" time="1236865030" done="0">
-                Fix all the show tests which use the (old) -...-format options
             </note>
         </note>
     </note>
