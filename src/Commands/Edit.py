@@ -83,6 +83,12 @@ class SubCommand(Command) :
                            dest   = "end",
                            help   = "specify node end time")
         Command.add_option(self,
+                           "-c", "--comment",
+                           action = "store",
+                           type   = "string",
+                           dest   = "comment",
+                           help   = "specify node comment")
+        Command.add_option(self,
                            "-I", "--interactive",
                            action = "store_true",
                            dest   = "interactive",
@@ -105,6 +111,7 @@ class SubCommand(Command) :
             (opts.priority    == None) and
             (opts.start       == None) and
             (opts.end         == None) and
+            (opts.comment     == None) and
             (opts.interactive == None)) :
             raise Exceptions.MissingParameters()
 
@@ -156,6 +163,7 @@ class SubCommand(Command) :
         priority = None
         start    = None
         end      = None
+        comment  = None
 
         # Look for all the values
         if (opts.text != None) :
@@ -193,12 +201,21 @@ class SubCommand(Command) :
                 end = o.tostring()
                 debug("Got end value from node")
 
+        if (opts.comment != None) :
+            comment = opts.comment
+            debug("Got comment value from user")
+        else :
+            comment = node.comment
+            if (comment != None) :
+                debug("Got comment value from node")
+
         # Use str() in order to avoid problems with None values
         debug("Got values from user")
         debug("text     = `" + str(text)     + "'")
         debug("priority = `" + str(priority) + "'")
         debug("start    = `" + str(start)    + "'")
         debug("end      = `" + str(end)      + "'")
+        debug("comment  = `" + str(comment)  + "'")
 
         if (opts.interactive == True) :
             console = Console.Console()
@@ -238,6 +255,14 @@ class SubCommand(Command) :
                 end = tmp
             del tmp
 
+            tmp = comment
+            if (tmp == None) :
+                tmp = ""
+            tmp = console.interact("comment> ", tmp)
+            if (tmp != "") :
+                comment = tmp
+            del tmp
+
         # Update only non-empty fields
         if (text != None) :
             node.text = text
@@ -263,6 +288,10 @@ class SubCommand(Command) :
             t.fromstring(end)
             node.end = t
             debug("Wrote node end")
+
+        if (comment != None) :
+            node.comment = comment
+            debug("Wrote node comment")
 
         debug("Wrote node values")
 
