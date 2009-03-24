@@ -31,7 +31,7 @@ endif
 
 commandsdir = $(pkgvpythondir)/Commands
 
-commands_SRCS = 				\
+commands_SRCS =					\
 	Commands/Add.py				\
 	Commands/Config.py			\
 	Commands/Edit.py			\
@@ -49,6 +49,7 @@ commands_PYTHON =				\
 
 pkgvpython_PYTHON =				\
 	__init__.py				\
+	Configuration.py			\
 	Trace.py				\
 	Exceptions.py				\
 	Command.py				\
@@ -69,10 +70,10 @@ pkgvpython_PYTHON =				\
 	ID.py
 
 nodist_pkgvpython_PYTHON =			\
-	Configuration.py
+	Autoconfiguration.py
 
 BUILT_SOURCES =					\
-	Configuration.py
+	Autoconfiguration.py
 
 ## NOTE: The following variable is used by maintainer-check-local target
 ALL_PYTHON_SRCS =				\
@@ -123,15 +124,15 @@ devtodo-to-dnt: $(srcdir)/devtodo-to-dnt.in Makefile
 	}
 EXTRA_DIST += devtodo-to-dnt.in
 
-Configuration.py: $(srcdir)/Configuration.py.in Makefile
+Autoconfiguration.py: $(srcdir)/Autoconfiguration.py.in Makefile
 	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/Configuration.py.in > $@.tmp && \
+	  $(do_subst) < $(srcdir)/Autoconfiguration.py.in > $@.tmp && \
 	  chmod a-w $@.tmp && \
 	  mv -f $@.tmp $@ ) || { \
 		rm -f $@ $@.tmp ; \
 		exit 1 ; \
 	}
-EXTRA_DIST += Configuration.py.in
+EXTRA_DIST += Autoconfiguration.py.in
 
 ##
 ## Local check target

@@ -45,7 +45,7 @@ src/dnt-to-devtodo
 src/devtodo-to-dnt
 src/*.pyc
 src/Commands/*.pyc
-src/Configuration.py
+src/Autoconfiguration.py
 
 tests/defs
 tests/wrapper
