@@ -36,7 +36,8 @@ DOWNLOAD = 					\
 
 MACROS =					\
 	$(DOWNLOAD)				\
-	ax_prog_python_modules.m4
+	ax_prog_python_modules.m4		\
+	ax_prog_devtodo_version.m4
 
 update-local: Makefile
 	rm -r -f fetch-dir && \

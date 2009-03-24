@@ -54,6 +54,8 @@ AX_PATH_MISSING([PERL],     [perl])
 
 AC_PATH_PROG([XSLTPROC],             [xsltproc])
 AM_CONDITIONAL([XSLTPROC_AVAILABLE], [ test ! "$XSLTPROC" = "" ])
+AC_PATH_PROG([DEVTODO],              [devtodo])
+AX_PROG_DEVTODO_VERSION([1.2.0],[:])
 
 #
 # Runtime related programs
