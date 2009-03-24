@@ -59,6 +59,7 @@ $DNT_FLAGS $COMMAND -l "%e"        || exit 1
 $DNT_FLAGS $COMMAND -l "%p"        || exit 1
 $DNT_FLAGS $COMMAND -l "%I"        || exit 1
 $DNT_FLAGS $COMMAND -l "%i"        || exit 1
+$DNT_FLAGS $COMMAND -l "%c"        || exit 1
 $DNT_FLAGS $COMMAND -l "%t" -I "x" || exit 1
 $DNT_FLAGS $COMMAND -l "%t" -U "y" || exit 1
 $DNT_FLAGS $COMMAND -l "%t" -L "z" || exit 1

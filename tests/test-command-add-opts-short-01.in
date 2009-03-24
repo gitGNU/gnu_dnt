@@ -64,4 +64,8 @@ $DNT_FLAGS $COMMAND -t "Node 4" -p "medium"   || exit 1
 $DNT_FLAGS $COMMAND -t "Node 5" -p "low"      || exit 1
 $DNT_FLAGS $COMMAND -t "Node 6" -p "verylow"  || exit 1
 
+# Testing "-c" option
+$DNT_FLAGS $COMMAND -t "Node 7"                  \
+                    -c "testing comment" || exit 1
+
 exit 0

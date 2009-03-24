@@ -69,4 +69,8 @@ $DNT_FLAGS $COMMAND --text="Node 5" \
 $DNT_FLAGS $COMMAND --text="Node 6" \
      --priority="verylow"  || exit 1
 
+# Testing "--comment" option
+$DNT_FLAGS $COMMAND --text="Node 7"                     \
+                    --comment="testing comment" || exit 1
+
 exit 0

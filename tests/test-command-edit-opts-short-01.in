@@ -48,12 +48,16 @@ $DNT_FLAGS $COMMAND -i "1" -s "2009-02-26 15:06:00" || exit 1
 # Testing "-e" option
 $DNT_FLAGS $COMMAND -i "1" -e "2009-02-28 15:06:00" || exit 1
 
+# Testing "-c" option
+$DNT_FLAGS $COMMAND -i "1" -c"comment" || exit 1
+
 # Testing "-I" option
 {
   echo "beta";
   echo "high";
   echo "2009-02-26 16:05:00";
   echo "2009-02-28 16:05:00";
+  echo "comment";
 } | $DNT_FLAGS $COMMAND -i "1" -I || exit 1
 
 exit 0
