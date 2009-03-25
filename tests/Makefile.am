@@ -102,6 +102,7 @@ SUCCESS_TESTS +=				\
 	test-command-add-01			\
 	test-command-add-02			\
 	test-command-add-03			\
+	test-command-add-04			\
 						\
 	test-command-remove-help-01		\
 	test-command-remove-opts-short-01	\
@@ -116,6 +117,7 @@ SUCCESS_TESTS +=				\
 	test-command-edit-01			\
 	test-command-edit-02			\
 	test-command-edit-03			\
+	test-command-edit-04			\
 	test-command-edit-interactive-01	\
 	test-command-edit-interactive-02	\
 						\
@@ -306,6 +308,18 @@ test-command-edit-03: $(srcdir)/test-command-edit-03.in Makefile
 EXTRA_DIST += test-command-edit-03.in
 CLEANFILES += test-command-edit-03
 
+test-command-edit-04: $(srcdir)/test-command-edit-04.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-edit-04.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-edit-04.in
+CLEANFILES += test-command-edit-04
+
 test-command-edit-interactive-01: $(srcdir)/test-command-edit-interactive-01.in Makefile
 	( rm -f $@ $@.tmp && \
 	  $(do_subst) < $(srcdir)/test-command-edit-interactive-01.in > $@.tmp && \
@@ -389,6 +403,18 @@ test-command-add-03: $(srcdir)/test-command-add-03.in Makefile
 	}
 EXTRA_DIST += test-command-add-03.in
 CLEANFILES += test-command-add-03
+
+test-command-add-04: $(srcdir)/test-command-add-04.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-add-04.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-add-04.in
+CLEANFILES += test-command-add-04
 
 test-command-remove-01: $(srcdir)/test-command-remove-01.in Makefile
 	( rm -f $@ $@.tmp && \

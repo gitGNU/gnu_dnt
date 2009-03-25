@@ -85,6 +85,7 @@ tests/test-command-add-version-01
 tests/test-command-add-01
 tests/test-command-add-02
 tests/test-command-add-03
+tests/test-command-add-04
 
 tests/test-command-config-help-01
 tests/test-command-config-opts-short-01
@@ -99,6 +100,7 @@ tests/test-command-edit-version-01
 tests/test-command-edit-01
 tests/test-command-edit-02
 tests/test-command-edit-03
+tests/test-command-edit-04
 tests/test-command-edit-interactive-01
 tests/test-command-edit-interactive-02
 
