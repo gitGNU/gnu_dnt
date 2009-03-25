@@ -45,28 +45,46 @@ AUTOMAKE_OPTIONS = check-news
 ## NOTE:
 ##     Makefile.sub is automatically distributed by automake rules
 ##
-EXTRA_DIST =							\
-	BUGS TODO README NEWS COPYING AUTHORS INSTALL THANKS	\
-	bootstrap						\
-	configure.ac.in						\
-	python.af						\
+EXTRA_DIST =						\
+	TODO NEWS 					\
+	BUGS README COPYING AUTHORS INSTALL THANKS	\
+	bootstrap					\
+	configure.ac.in					\
+	python.af					\
 	.todo
 
 ##
 ## Maintainer related targets
 ##
 
-DNT_DB = $(top_srcdir)/.dnt.db
+DNT_DB    = $(top_srcdir)/.dnt.db
+DNT_FLAGS = --database=$(DNT_DB) --mono
+
 TODO: $(DNT_DB)
-	$(top_builddir)/src/dnt			\
-		--database=$(DNT_DB)		\
-		--mono				\
-		dump				\
-		--format="* %t"			\
-		--width=0			\
-		--filter=not-done		\
-		--output=TODO || {		\
+	$(top_builddir)/src/dnt	$(DNT_FLAGS)	\
+	       show				\
+	       --filter=not-done		\
+	       --line-format="* %t"		\
+	       --width=0			\
+	       --indent-fill=""			\
+	       --unindent-fill=""		\
+	       --level-fill=""			\
+	       --output=TODO || {		\
 		rm -f TODO ;			\
+		exit 1 ;			\
+	}
+
+NEWS: $(DNT_DB)
+	$(top_builddir)/src/dnt	$(DNT_FLAGS)	\
+	       show				\
+	       --filter=done			\
+	       --line-format="* %t"		\
+	       --width=0			\
+	       --indent-fill=""			\
+	       --unindent-fill=""		\
+	       --level-fill=""			\
+	       --output=NEWS || {		\
+		rm -f NEWS ;			\
 		exit 1 ;			\
 	}
 
