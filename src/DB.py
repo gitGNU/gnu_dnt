@@ -19,9 +19,10 @@
 import sys
 from   xml.etree   import ElementTree as ET
 
+from   Debug       import *
 from   Trace       import *
-from   Root        import *
-from   Entry       import *
+import Root
+import Entry
 import Time
 import Priority
 import Exceptions
@@ -49,7 +50,7 @@ def fromxml(xml) :
             text = "Default DB name"
 
         # Build a root node
-        node = Root(text)
+        node = Root.Root(text)
 
     elif (xml.tag == "entry") :
         text = xml.text
@@ -115,7 +116,7 @@ def fromxml(xml) :
             pass
 
         # Build an entry node
-        node = Entry(text, priority, start, end, comment)
+        node = Entry.Entry(text, priority, start, end, comment)
 
     else :
         raise Exceptions.UnknownElement(xml.tag)
@@ -141,10 +142,10 @@ def toxml(node, xml) :
 
     tag        = ""
     attributes = { }
-    if (type(node) == Root) :
+    if (type(node) == Root.Root) :
         #debug("Creating root XML element");
         tag = "root"
-    elif (type(node) == Entry) :
+    elif (type(node) == Entry.Entry) :
         #debug("Creating entry XML element");
         if (node.priority != None) :
             attributes['priority'] = node.priority.tostring()

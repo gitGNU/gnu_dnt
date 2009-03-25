@@ -23,7 +23,6 @@ from   Debug         import *
 from   Trace         import *
 from   Command       import *
 import Exceptions
-from   Configuration import *
 import DB
 import Root
 import Entry

@@ -21,11 +21,11 @@ import string
 
 from   Debug    import *
 from   Trace    import *
-from   Node     import *
+import Node
 import Priority
 import Time
 
-class Entry(Node) :
+class Entry(Node.Node) :
     def __init__(self,
                  text,
                  priority = Priority.Priority(),

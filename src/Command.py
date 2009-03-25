@@ -17,7 +17,7 @@
 #
 
 import sys
-from   optparse   import OptionParser, IndentedHelpFormatter
+from   optparse   import OptionParser
 import textwrap
 
 from   Trace      import *

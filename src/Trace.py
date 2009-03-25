@@ -18,7 +18,7 @@
 
 import sys
 
-from   Configuration import *
+from   Autoconfiguration import *
 
 debug_enabled = False
 

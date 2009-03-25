@@ -21,10 +21,10 @@ import string
 
 from   Debug    import *
 from   Trace    import *
-from   Node     import *
+import Node
 import Time
 
-class Root(Node) :
+class Root(Node.Node) :
     def __init__(self, t = "") :
         super(Root, self).__init__()
         self.text_set(t)

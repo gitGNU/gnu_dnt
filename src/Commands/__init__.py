@@ -18,6 +18,7 @@
 
 import sys
 
+from   Debug import *
 from   Trace import *
 
 try :
