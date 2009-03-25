@@ -377,6 +377,12 @@
                 Done
             </comment>
         </note>
+        <note priority="medium" time="1237935215" done="1237971539">
+            Change all import-with-from to import-with-import for newly-created-Configuration module (leave Autoconfiguration module imported as it is now)
+            <comment>
+                Done
+            </comment>
+        </note>
         <note priority="low" time="1229468141" done="1236950054">
             Add dnt-to-devtodo exporter
             <comment>
@@ -398,8 +404,11 @@
         <note priority="high" time="1235431214">
             Fix the wrapper.in script in the test directory (find a better fix)
         </note>
-        <note priority="high" time="1236852541">
+        <note priority="high" time="1236852541" done="1237982522">
             Add comment handling
+            <comment>
+                Done
+            </comment>
             <note priority="veryhigh" time="1233939736" done="1237929238">
                 Add comment field on Entry
                 <comment>
@@ -412,7 +421,7 @@
                     Done
                 </comment>
             </note>
-            <note priority="veryhigh" time="1237929255">
+            <note priority="veryhigh" time="1237929255" done="0">
                 Add regression tests
             </note>
         </note>
@@ -421,9 +430,6 @@
         </note>
         <note priority="high" time="1237936902">
             Replace element with tag for comment handling (XML)
-        </note>
-        <note priority="medium" time="1237935215">
-            Change all import-with-from to import-with-import for newly-created-Configuration module (leave Autoconfiguration module imported as it is now)
         </note>
     </note>
     <note priority="high" time="1233694836">
