@@ -107,21 +107,22 @@ def fromxml(xml) :
             pass
 
         comment = None
-        value   = None
-        try :
-            value   = xml.attrib['comment']
-            comment = value
-        except :
-            #debug("No comment for entry `" + text + "'")
-            pass
+
+        for subelement in xml.getchildren() :
+            if (subelement.tag == "comment") :
+                comment = subelement.text
 
         # Build an entry node
         node = Entry.Entry(text, priority, start, end, comment)
 
+    elif (xml.tag == "comment") :
+        pass
+
     else :
         raise Exceptions.UnknownElement(xml.tag)
 
-    assert(node != None)
+    if (xml.tag != "comment") :
+        assert(node != None)
 
     for x in xml.getchildren() :
         #debug("Working with child `" + str(x) + "'")
@@ -153,12 +154,16 @@ def toxml(node, xml) :
             attributes['start']    = str(node.start.toint())
         if (node.end      != None) :
             attributes['end']      = str(node.end.toint())
-        if (node.comment  != None) :
-            attributes['comment']  = node.comment
         tag = "entry"
 
     child      = ET.Element(tag, attributes)
     child.text = node.text
+
+    if ((type(node) == Entry.Entry) and (node.comment  != None)) :
+        tag          = "comment"
+        attributes   = { }
+        comment      = ET.SubElement(child, tag, attributes)
+        comment.text = node.comment
 
     #print(str(xml) + " (" + str(type(xml)) + ") = " + str(dir(xml)))
 
