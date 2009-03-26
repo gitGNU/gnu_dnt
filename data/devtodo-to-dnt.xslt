@@ -51,15 +51,18 @@
         <xsl:attribute name="end">
           <xsl:value-of select="@done"/>
         </xsl:attribute>
-        <xsl:attribute name="comment">
+      </xsl:if>
+
+      <xsl:value-of select="child::text()"/>
+
+      <xsl:if test="comment">
+        <comment>
           <xsl:variable name="c">
             <xsl:value-of select="comment"/>
           </xsl:variable>
           <xsl:value-of select="normalize-space($c)"/>
-        </xsl:attribute>
+        </comment>
       </xsl:if>
-
-      <xsl:value-of select="child::text()"/>
 
       <xsl:for-each select="./note">
         <xsl:call-template name="noteItem"/>

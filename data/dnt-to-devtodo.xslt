@@ -54,9 +54,14 @@
       </xsl:if>
       <xsl:value-of select="text()"/>
       <xsl:if test="@end">
-        <comment>
-          <xsl:value-of select="@comment"/>
-        </comment>
+        <xsl:if test="comment">
+          <comment>
+            <xsl:variable name="c">
+              <xsl:value-of select="comment"/>
+            </xsl:variable>
+            <xsl:value-of select="normalize-space($c)"/>
+          </comment>
+        </xsl:if>
       </xsl:if>
       <xsl:call-template name="subnodesProcess"/>
     </note>
