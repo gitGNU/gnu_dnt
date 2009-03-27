@@ -341,7 +341,7 @@ class SubCommand(Command) :
         #
         if (verbose == True) :
             indent_fill   = ""
-            line_format     = "%i %t [%c]\n  (%s, %e, %p)\n"
+            line_format     = "%i %t\n  [%c]\n  (%s, %e, %p)\n"
             unindent_fill = ""
             level_fill    = "  "
         else :
