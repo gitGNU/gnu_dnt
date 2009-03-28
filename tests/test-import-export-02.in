@@ -22,19 +22,21 @@
 # Test to ensure that the test environment has a good set-up
 # Report from Francesco Salvestrini
 
-required="xsltproc diff devtodo"
+required="xsltproc diff devtodo tidy"
 
 . $testdir/defs || exit 1
 
 # Creating devtodo DB
-devtodo --database devtodo.db -a "alfa" -p "medium"   || exit 1
-devtodo --database devtodo.db -a "beta" -p "medium"   || exit 1
-devtodo --database devtodo.db -a "beta_1" -p "medium" || exit 1
-devtodo --database devtodo.db -a "gamma" -p "medium"  || exit 1
-devtodo --database devtodo.db -R 3,2                  || exit 1
+devtodo --database devtodo.db -a "alfa"    -p "medium" || exit 1
+devtodo --database devtodo.db -a "beta"    -p "medium" || exit 1
+devtodo --database devtodo.db -a "beta_1"  -p "medium" || exit 1
+devtodo --database devtodo.db -a "gamma"   -p "medium" || exit 1
+devtodo --database devtodo.db -a "gamma_1" -p "medium" || exit 1
+devtodo --database devtodo.db -R 3,2                   || exit 1
+devtodo --database devtodo.db -R 4,3                   || exit 1
 
 # Converting to dnt
-: >to-dnt.db
+: >to-dnt.db || exit 1
 $DEVTODO_TO_DNT -i devtodo.db -o to-dnt.db -f || exit 1
 
 # Turning back to devtodo format
@@ -45,8 +47,8 @@ $DNT_TO_DEVTODO -i to-dnt.db -o to-devtodo.db -f || exit 1
 : >devtodo-tidy.xml    || exit 1
 : >to-devtodo-tidy.xml || exit 1
 
-cat devtodo.db | tidy -quiet -xml >devtodo-tidy.xml       || exit 1
-cat to-devtodo.db | tidy -quiet -xml >to-devtodo-tidy.xml || exit 1
+cat devtodo.db    | tidy -quiet -xml > devtodo-tidy.xml    || exit 1
+cat to-devtodo.db | tidy -quiet -xml > to-devtodo-tidy.xml || exit 1
 
 # Comparing the XMLs
 diff devtodo-tidy.xml to-devtodo-tidy.xml || exit 1
