@@ -20,6 +20,9 @@
 
 me="dnt-to-devtodo"
 
+dnt_version="@PACKAGE_VERSION@"
+devtodo_version="@DEVTODO_VERSION@"
+
 function hint {
     echo "$1"
     echo "Try \`$me -h' for more information."
@@ -56,12 +59,6 @@ force="no"
 input=".dnt.db"
 output=".todo"
 libdir="@pkgvdatadir@"
-
-#
-# FIX ME:
-# change with variable from package configuration
-#
-dt_version="0.1.20"
 
 while test $# -gt 0 ; do
     case $1 in
@@ -104,7 +101,7 @@ if test x"$force" != x"yes" ; then
     fi
 fi
 
-if test x"$dt_version" = x""; then
+if test x"$devtodo_version" = x""; then
    error "Bug hit! Missing devtodo version"
    exit 1
 fi
@@ -116,9 +113,10 @@ if test ! -f $XSLT ; then
 fi
 
 rm -f $output
-@XSLTPROC@ --output $output \
-           --stringparam dt_version $dt_version \
-           $XSLT $input || {
+@XSLTPROC@ \
+    --output $output \
+    --stringparam dt_version @DEVTODO_VERSION@ \
+    $XSLT $input 2>&1 || {
     echo "$me: Cannot transform file \`${input}' to file \`${output}'"
     rm -f $output
     exit 1

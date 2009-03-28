@@ -20,6 +20,9 @@
 
 me="devtodo-to-dnt"
 
+dnt_version="@PACKAGE_VERSION@"
+devtodo_version="@DEVTODO_VERSION@"
+
 function hint {
     echo "$1"
     echo "Try \`$me -h' for more information."
@@ -105,7 +108,9 @@ if test ! -f $XSLT ; then
 fi
 
 rm -f $output
-@XSLTPROC@ --output $output $XSLT $input || {
+@XSLTPROC@ \
+    --output $output \
+    $XSLT $input 2>&1 || {
     echo "$me: Cannot transform file \`${input}' to file \`${output}'"
     rm -f $output
     exit 1
