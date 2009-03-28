@@ -45,6 +45,14 @@ AC_DEFUN([AX_PROG_DEVTODO_VERSION],[
         AC_MSG_CHECKING([for devtodo version])
         changequote(<<,>>)
         devtodo_version=`$DEVTODO --version 2>&1`
+        #
+        # Some buggy systems have ncurses problems, they output unneeded escape
+        # sequences. In order to avoid those escape sequences in the output we
+        # must filter the devtodo output.
+        #
+        # XXX FIXME: We should find a better filtering expression ...
+        #
+        devtodo_version=`echo $devtodo_version | $SED -e 's,^.*h,,'`
         changequote([,])
         AC_MSG_RESULT($devtodo_version)
 
