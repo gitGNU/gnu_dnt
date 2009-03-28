@@ -311,6 +311,12 @@
                 Done
             </comment>
         </note>
+        <note priority="high" time="1237936902" done="1238243598">
+            Replace element with tag for comment handling (XML)
+            <comment>
+                Done
+            </comment>
+        </note>
         <note priority="medium" time="1233608861" done="1234300185">
             Rearrange command epilogs (we should not use docstrings to get help for ID, TIME ..., docstrings may be discarded ...)
             <comment>
@@ -425,8 +431,8 @@
         <note priority="high" time="1236955573">
             Rearrange dnt-to-devtodo and devtodo-to-dnt (in order to bound xslt with tools versions)
         </note>
-        <note priority="high" time="1237936902">
-            Replace element with tag for comment handling (XML)
+        <note priority="high" time="1238243664">
+            Add non-lossy regression tests for dnt-&gt;devtodo-&gt;dnt transformations
         </note>
     </note>
     <note priority="high" time="1233694836">
