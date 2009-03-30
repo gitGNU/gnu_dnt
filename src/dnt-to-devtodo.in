@@ -101,10 +101,16 @@ if test x"$force" != x"yes" ; then
     fi
 fi
 
+
 if test x"$devtodo_version" = x""; then
    error "Bug hit! Missing devtodo version"
    exit 1
 fi
+if test x"$dnt_version" = x""; then
+   error "Bug hit! Missing dnt version"
+   exit 1
+fi
+
 
 XSLT="${libdir}/${me}.xslt"
 if test ! -f $XSLT ; then
@@ -115,7 +121,7 @@ fi
 rm -f $output
 @XSLTPROC@ \
     --output $output \
-    --stringparam dt_version @DEVTODO_VERSION@ \
+    --stringparam dt_version $devtodo_version \
     $XSLT $input 2>&1 || {
     echo "$me: Cannot transform file \`${input}' to file \`${output}'"
     rm -f $output

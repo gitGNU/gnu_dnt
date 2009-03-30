@@ -101,6 +101,17 @@ if test x"$force" != x"yes" ; then
     fi
 fi
 
+
+if test x"$devtodo_version" = x""; then
+   error "Bug hit! Missing devtodo version"
+   exit 1
+fi
+if test x"$dnt_version" = x""; then
+   error "Bug hit! Missing dnt version"
+   exit 1
+fi
+
+
 XSLT="${libdir}/${me}.xslt"
 if test ! -f $XSLT ; then
     error "Cannot access \`$XSLT' file"
