@@ -1,6 +1,9 @@
 <xsl:stylesheet version="1.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+  <!-- Output settings -->
   <xsl:output xsl:method="text"
+              omit-xml-declaration="no"
               xsl:indent="yes"/>
 
   <!-- Main -->
