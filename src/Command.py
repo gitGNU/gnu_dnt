@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2008 Francesco Salvestrini
+# Copyright (C) 2008, 2009 Francesco Salvestrini
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -76,9 +76,9 @@ class Command(OptionParser) :
         j = 0
         for i in self.authors() :
             if (j == 0) :
-                header = "Copyright (C) 2008 "
+                header = "Copyright (C) 2008, 2009 "
             else :
-                header = "                   "
+                header = "                         "
             print >> file, header + i
             j = j + 1
         print >> file, ""
