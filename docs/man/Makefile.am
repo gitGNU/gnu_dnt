@@ -1,7 +1,7 @@
 ##
 ## Input file for automake
 ##
-## Copyright (C) 2007, 2008 Francesco Salvestrini
+## Copyright (C) 2008, 2009 Francesco Salvestrini
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -79,7 +79,7 @@ devtodo-to-dnt.1: $(top_srcdir)/src/devtodo-to-dnt.in $(top_srcdir)/configure.ac
 	    --output=devtodo-to-dnt.1 \
 	    $(top_builddir)/src/devtodo-to-dnt
 
-dnt.1: $(top_srcdir)/src/dnt.in $(top_srcdir)/configure.ac
+dnt.1: $(top_srcdir)/src/dnt.in $(top_srcdir)/configure.ac $(top_srcdir)/src/Command.py
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
