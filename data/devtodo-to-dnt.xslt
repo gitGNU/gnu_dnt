@@ -1,77 +1,71 @@
 <xsl:stylesheet version="1.0"
-                xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+		xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
   <!-- Output settings -->
-  <xsl:output xsl:method="text"
-              omit-xml-declaration="no"
-              xsl:indent="yes"/>
+  <xsl:output method="xml"
+	      omit-xml-declaration="no"
+	      indent="yes"/>
+
+  <!-- Global variables -->
+  <xsl:variable name="newLine">
+    <xsl:text>
+    </xsl:text>
+  </xsl:variable>
 
   <!-- Main -->
-  <xsl:template match="/">
+  <xsl:template match="/todo">
     <root>
-      <xsl:variable name="title" select="todo/title"/>
-      <xsl:choose>
-	<xsl:when xsl:test = '$title=""'>
-	  TODO list
-	</xsl:when>
-	<xsl:otherwise>
-	  <xsl:value-of select="todo/title"/>
-	</xsl:otherwise>
-      </xsl:choose>
-      <xsl:call-template name="noteList"/>
+      <xsl:if test="/todo/title">
+	<xsl:value-of select="/todo/title"/>
+      </xsl:if>
+      <xsl:for-each select="child::*">
+	<xsl:if test="name() = 'note'">
+	  <xsl:call-template name="nodeProcess"/>
+	</xsl:if>
+      </xsl:for-each>
     </root>
   </xsl:template>
 
-  <!-- Note List -->
-  <xsl:template name="noteList">
-    <xsl:for-each select="todo/note">
-      <xsl:call-template name="noteItem"/>
+  <!-- SubNodes Process  -->
+  <xsl:template name="subnodesProcess">
+    <xsl:for-each select="child::*">
+      <xsl:if test="name() = 'note'">
+	<xsl:call-template name="nodeProcess"/>
+      </xsl:if>
     </xsl:for-each>
   </xsl:template>
 
-  <!-- Note Item -->
-  <xsl:template name="noteItem">
-    <xsl:apply-templates select="."/>
-  </xsl:template>
-
-  <!-- Note -->
-  <xsl:template match="note">
+  <!-- Node Process -->
+  <xsl:template name="nodeProcess">
     <entry>
-
-      <xsl:if test="@priority">
-        <xsl:attribute name="priority">
-          <xsl:value-of select="@priority"/>
-        </xsl:attribute>
-      </xsl:if>
-
-      <xsl:if test="@time">
-        <xsl:attribute name="start">
-          <xsl:value-of select="@time"/>
-        </xsl:attribute>
-      </xsl:if>
-
       <xsl:if test="@done">
-        <xsl:attribute name="end">
-          <xsl:value-of select="@done"/>
-        </xsl:attribute>
+	<xsl:attribute name="end">
+	  <xsl:value-of select="@done"/>
+	</xsl:attribute>
       </xsl:if>
-
-      <xsl:value-of select="child::text()"/>
-
-      <xsl:if test="comment">
-        <comment>
-          <xsl:variable name="c">
-            <xsl:value-of select="comment"/>
-          </xsl:variable>
-          <xsl:value-of select="normalize-space($c)"/>
-        </comment>
+      <xsl:if test="@priority">
+	<xsl:attribute name="priority">
+	  <xsl:value-of select="@priority"/>
+	</xsl:attribute>
       </xsl:if>
-
-      <xsl:for-each select="./note">
-        <xsl:call-template name="noteItem"/>
-      </xsl:for-each>
-
+      <xsl:if test="@time">
+	<xsl:attribute name="start">
+	  <xsl:value-of select="@time"/>
+	</xsl:attribute>
+      </xsl:if>
+      <xsl:value-of select="text()"/>
+      <xsl:if test="@done">
+	<xsl:if test="comment">
+	  <comment>
+	    <xsl:variable name="c">
+	      <xsl:value-of select="comment"/>
+	    </xsl:variable>
+	    <xsl:value-of select="$c"/>
+	  </comment>
+	</xsl:if>
+      </xsl:if>
+      <xsl:call-template name="subnodesProcess"/>
     </entry>
+    <xsl:value-of select="$newLine"/>
   </xsl:template>
-
 </xsl:stylesheet>
