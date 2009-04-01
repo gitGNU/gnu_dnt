@@ -20,12 +20,12 @@
 
 include $(top_srcdir)/Makefile.sub
 
-EXTRA_DIST = devtodo-to-dnt.xslt dnt-to-devtodo.xslt
+EXTRA_DIST = devtodo-0.1.20-to-dnt.xslt dnt-to-devtodo-0.1.20.xslt
 CLEANFILES =
 
 pkgvdata_DATA =					\
-	devtodo-to-dnt.xslt			\
-	dnt-to-devtodo.xslt
+	devtodo-0.1.20-to-dnt.xslt		\
+	dnt-to-devtodo-0.1.20.xslt
 
 ##
 ## Maintainer related targets
