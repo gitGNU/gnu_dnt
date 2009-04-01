@@ -147,6 +147,7 @@ tests/test-command-mark-not-done-01
 
 tests/test-import-export-01
 tests/test-import-export-02
+tests/test-import-export-03
 
 site/in/.sitetool
 site/in/site.stamp

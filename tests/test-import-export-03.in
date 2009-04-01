@@ -1,0 +1,60 @@
+#! @SHELL@
+
+#
+# Copyright (C) 2009 Francesco Salvestrini
+#                    Alessandro Massignan
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+
+# Test to ensure that the test environment has a good set-up
+# Report from Francesco Salvestrini
+
+required="xsltproc diff devtodo tidy"
+
+. $testdir/defs || exit 1
+
+# Creating dnt DB
+: >dnt-orig.db
+$DNT_FLAGS --database dnt-orig.db init -f || exit 1
+$DNT_FLAGS --database dnt-orig.db add -t "alfa" -p "veryhigh"   || exit 1
+$DNT_FLAGS --database dnt-orig.db add -t "alfa2" -p "high" -i 1 || exit 1
+$DNT_FLAGS --database dnt-orig.db add -t "beta" -p "medium"     || exit 1
+$DNT_FLAGS --database dnt-orig.db add -t "gamma" -p "verylow"   || exit 1
+$DNT_FLAGS --database dnt-orig.db add -t "gamma2" -p "low" -i 3 || exit 1
+
+# Marking few nodes as done and adding comments
+$DNT_FLAGS --database dnt-orig.db mark -s done -i 1.1 || exit 1
+$DNT_FLAGS --database dnt-orig.db mark -s done -i 3.1 || exit 1
+
+# Converting to devtodo
+: >to-devtodo.db || exit 1
+$DNT_TO_DEVTODO -i dnt-orig.db -o to-devtodo.db -f || exit 1
+
+# Turning back to dnt format
+: >to-dnt.db || exit 1
+$DEVTODO_TO_DNT -i to-devtodo.db -o to-dnt.db -f || exit 1
+
+# Tidy-ing XML for diff
+: >dnt-orig-tidy.xml || exit 1
+: >to-dnt-tidy.xml   || exit 1
+
+cat dnt-orig.db | tidy -quiet -xml > dnt-orig-tidy.xml || exit 1
+cat to-dnt.db   | tidy -quiet -xml > to-dnt-tidy.xml   || exit 1
+
+# Comparing the XMLs
+diff dnt-orig-tidy.xml to-dnt-tidy.xml || exit 1
+
+exit 0
