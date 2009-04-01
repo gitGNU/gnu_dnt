@@ -22,6 +22,7 @@ me="dnt-to-devtodo"
 
 dnt_version="@PACKAGE_VERSION@"
 devtodo_version="@DEVTODO_VERSION@"
+xslt_file="dnt-to-devtodo-0.1.20"
 
 function hint {
     echo "$1"
@@ -112,7 +113,7 @@ if test x"$dnt_version" = x""; then
 fi
 
 
-XSLT="${libdir}/${me}.xslt"
+XSLT="${libdir}/${xslt_file}.xslt"
 if test ! -f $XSLT ; then
     error "Cannot access \`$XSLT' file"
     exit 1
