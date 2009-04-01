@@ -428,17 +428,17 @@
                 Done
             </comment>
         </note>
-        <note priority="high" time="1236955573">
-            Rearrange dnt-to-devtodo and devtodo-to-dnt (in order to bound xslt with tools versions)
-        </note>
-        <note priority="medium" time="1238249330">
-            Find a better fix for AX_PROG_DEVTODO_VERSION
-        </note>
         <note priority="verylow" time="1238243984" done="1238527354">
             Update all copyright dates
             <comment>
                 Done
             </comment>
+        </note>
+        <note priority="high" time="1236955573">
+            Rearrange dnt-to-devtodo and devtodo-to-dnt (in order to bound xslt with tools versions)
+        </note>
+        <note priority="medium" time="1238249330">
+            Find a better fix for AX_PROG_DEVTODO_VERSION
         </note>
     </note>
     <note priority="high" time="1233694836">
@@ -526,6 +526,9 @@
         </note>
         <note priority="high" time="1238243664">
             Add non-lossy regression tests for dnt-&gt;devtodo-&gt;dnt transformations
+            <note priority="veryhigh" time="1238623498">
+                Re-add test-import-export-03 in the test-suite
+            </note>
         </note>
         <note priority="medium" time="1234045911">
             Add code for interactive mode in fix command
