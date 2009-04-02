@@ -18,31 +18,32 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-me="dnt-to-devtodo"
+PROGRAM_NAME="`echo $0 | @SED@ 's/^.*\/\([^\/][^\/]*\)$/\1/'`"
 
-dnt_version="@PACKAGE_VERSION@"
-devtodo_version="@DEVTODO_VERSION@"
-xslt_file="dnt-to-devtodo-0.1.20"
+DNT_VERSION="@PACKAGE_VERSION@"
+DT_VERSION="@DEVTODO_VERSION@"
+XSLT_FILE=""
 
 function hint {
-    echo "$1"
-    echo "Try \`$me -h' for more information."
+    echo "${PROGRAM_NAME}: ${1}"
+    echo "Try \`${PROGRAM_NAME} -h' for more information."
 }
 
 function error {
-    echo "$me: $1" > /dev/stderr
+    echo "${PROGRAM_NAME}: ${1}" > /dev/stderr
 }
 
 function version {
-    echo "$me (@PACKAGE_NAME@) @PACKAGE_VERSION@"
+    echo "${PROGRAM_NAME} (@PACKAGE_NAME@) @PACKAGE_VERSION@"
 }
 
 function help {
-    echo "Usage: $me [OPTION]..."
+    echo "Usage: ${PROGRAM_NAME} [OPTION]..."
     echo ""
     echo "Options:"
-    echo "  -i, --input=FILE          specify input file (default $input)"
-    echo "  -o, --output=FILE         specify output file (default $output)"
+    echo "  -i, --input=FILE          specify input file (default ${INPUT})"
+    echo "  -o, --output=FILE         specify output file (default ${OUTPUT})"
+    echo "  -D, --dt-version=VERSION  specify devtodo database version"
     echo "  -f, --force               force operation"
     echo "  -l, --libdir=DIRECTORY    specify library directory"
     echo "  -h, --help                print this help, then exit"
@@ -51,27 +52,29 @@ function help {
     echo "Report bugs to <@PACKAGE_BUGREPORT@>"
 }
 
-#if test $# -eq 0 ; then
-#    hint "Missing parameter(s)"
-#    exit 1
-#fi
+if test x"$1" = x""; then
+    hint "Missing parameter(s)"
+    exit 1
+fi
 
-force="no"
-input=".dnt.db"
-output=".todo"
-libdir="@pkgvdatadir@"
+FORCE="no"
+INPUT=".todo"
+OUTPUT=".dnt.db"
+LIBDIR="@pkgvdatadir@"
 
 while test $# -gt 0 ; do
     case $1 in
-        -i|--input)   shift ; input=$1                       ;;
-        --input*=*)   input=`echo $1 | @SED@ 's,^[^=]*=,,'`  ;;
-        -o|--output)  shift ; output=$1                      ;;
-        --output*=*)  output=`echo $1 | @SED@ 's,^[^=]*=,,'` ;;
-        -l|--libdir)  shift ; libdir=$1                      ;;
-        --libdir*=*)  libdir=`echo $1 | @SED@ 's,^[^=]*=,,'` ;;
-        -f|--force)   force="yes"          ;;
-        -h|--help)    help        ; exit 0 ;;
-        -V|--version) version     ; exit 0 ;;
+        -i|--input)      shift ; INPUT=$1                             ;;
+        --input*=*)      INPUT="`echo $1 | @SED@ 's,^[^=]*=,,'`"      ;;
+        -o|--output)     shift ; OUTPUT=$1                            ;;
+        --output*=*)     OUTPUT="`echo $1 | @SED@ 's,^[^=]*=,,'`"     ;;
+        -D|--dt-version) shift ; DT_VERSION=$1                        ;;
+        --dt-version*=*) DT_VERSION="`echo $1 | @SED@ 's,^[^=]*=,,'`" ;;
+        -l|--libdir)     shift ; LIBDIR=$1                            ;;
+        --libdir*=*)     LIBDIR="`echo $1 | @SED@ 's,^[^=]*=,,'`"     ;;
+        -f|--force)      FORCE="yes"          ;;
+        -h|--help)       help        ; exit 0 ;;
+        -V|--version)    version     ; exit 0 ;;
         *)
             hint "Unknown option \`$1'"
             exit 1
@@ -80,53 +83,56 @@ while test $# -gt 0 ; do
     shift
 done
 
-if test x"$input" = x"" ; then
+if test x"${INPUT}" = x"" ; then
     hint "Missing input file"
     exit 1
 fi
 
-if test x"$output" = x"" ; then
+if test x"${OUTPUT}" = x"" ; then
     hint "Missing output file"
     exit 1
 fi
 
-if test x"$libdir" = x"" ; then
+if test x"${LIBDIR}" = x"" ; then
     hint "Missing library directory"
     exit 1
 fi
 
-if test x"$force" != x"yes" ; then
-    if test -f "$output" ; then
+if test x"${FORCE}" != x"yes" ; then
+    if test -f "${OUTPUT}" ; then
         hint "Output file already exists, use \`--force' to override"
         exit 1
     fi
 fi
 
-
-if test x"$devtodo_version" = x""; then
+if test x"${DT_VERSION}" = x""; then
    error "Bug hit! Missing devtodo version"
    exit 1
 fi
-if test x"$dnt_version" = x""; then
+XSLT_FILE="${LIBDIR}/dnt-to-devtodo-${DT_VERSION}.xslt"
+
+if test ! -r "${XSLT_FILE}"; then
+    error "Cannot access \`${XSLT_FILE}' file"
+    exit 1
+fi
+
+if test x"${DNT_VERSION}" = x""; then
    error "Bug hit! Missing dnt version"
    exit 1
 fi
 
-
-XSLT="${libdir}/${xslt_file}.xslt"
-if test ! -f $XSLT ; then
-    error "Cannot access \`$XSLT' file"
-    exit 1
-fi
-
-rm -f $output
-@XSLTPROC@ \
-    --output $output \
-    --stringparam dt_version $devtodo_version \
-    $XSLT $input 2>&1 || {
-    echo "$me: Cannot transform file \`${input}' to file \`${output}'"
-    rm -f $output
-    exit 1
+: >$OUTPUT || {
+  error "Cannot write \`${OUTPUT}' file"
+  exit 1
 }
+
+@XSLTPROC@ \
+    --output $OUTPUT \
+    --stringparam dt_version $DT_VERSION \
+    $XSLT_FILE $INPUT >/dev/null 2>&1 || {
+      error "Cannot transform file \`${INPUT}' to file \`${OUTPUT}'"
+      rm -f $OUTPUT >/dev/null 2>&1
+      exit 1
+    }
 
 exit 0
