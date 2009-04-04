@@ -53,8 +53,18 @@ EXTRA_DIST =						\
 ## Maintainer related targets
 ##
 
-DNT_DB    = $(top_srcdir)/.dnt.db
-DNT_FLAGS = --database=$(DNT_DB) --mono
+DNT_DB     = $(top_builddir)/.dnt.db
+DEVTODO_DB = $(top_srcdir)/.todo
+DNT_FLAGS  = --database=$(DNT_DB) --mono
+
+$(DNT_DB): $(DEVTODO_DB)
+	$(top_builddir)/src/devtodo-to-dnt	\
+		--input=$(DEVTODO_DB)		\
+		--output=$(DNT_DB)		\
+		--force || {			\
+		rm -f $(DNT_DB) ;		\
+		exit 1 ;			\
+	}
 
 TODO: $(DNT_DB)
 	$(top_builddir)/src/dnt	$(DNT_FLAGS)	\
