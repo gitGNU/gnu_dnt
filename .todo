@@ -305,6 +305,18 @@
                 </comment>
             </note>
         </note>
+        <note priority="high" time="1236955573" done="1238710748">
+            Rearrange dnt-to-devtodo and devtodo-to-dnt (in order to bound xslt with tools versions)
+            <comment>
+                Done
+            </comment>
+            <note priority="veryhigh" time="1238658066" done="0">
+                devtodo-to-dnt should look for the devtodo version used to create the file in order to use the appropriate XSLT (whenever available)
+            </note>
+            <note priority="veryhigh" time="1238658131" done="0">
+                dnt-to-devtodo should use an option to write a devtodo file with a different XSLT than the default one (which is inferred from devtodo version, autodetected at configure time)
+            </note>
+        </note>
         <note priority="high" time="1236955593" done="1237930935">
             Add devtodo version retrieval in configure.ac
             <comment>
@@ -434,21 +446,6 @@
                 Done
             </comment>
         </note>
-        <note priority="high" time="1236955573" done="1238710748">
-            Rearrange dnt-to-devtodo and devtodo-to-dnt (in order to bound xslt with tools versions)
-            <comment>
-                Done
-            </comment>
-            <note priority="veryhigh" time="1238658066" done="0">
-                devtodo-to-dnt should look for the devtodo version used to create the file in order to use the appropriate XSLT (whenever available)
-            </note>
-            <note priority="veryhigh" time="1238658131" done="0">
-                dnt-to-devtodo should use an option to write a devtodo file with a different XSLT than the default one (which is inferred from devtodo version, autodetected at configure time)
-            </note>
-        </note>
-        <note priority="medium" time="1238249330">
-            Find a better fix for AX_PROG_DEVTODO_VERSION
-        </note>
     </note>
     <note priority="high" time="1233694836">
         Release 0.2.0
@@ -547,6 +544,9 @@
         </note>
         <note priority="medium" time="1234300133">
             Add a Formatter class. Rearrange show and dump command to use the formatter for all substitutions
+        </note>
+        <note priority="medium" time="1238249330">
+            Find a better fix for AX_PROG_DEVTODO_VERSION
         </note>
         <note priority="low" time="1230926257">
             Rearrange Exceptions in order to use super(Class...)
