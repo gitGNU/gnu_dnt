@@ -99,6 +99,11 @@ if test x"${LIBDIR}" = x"" ; then
     exit 1
 fi
 
+if test ! -d "${LIBDIR}" ; then
+    hint "Library directory not present"
+    exit 1
+fi
+
 if test x"${FORCE}" != x"yes" ; then
     if test -f "${OUTPUT}" ; then
         hint "Output file already exists, use \`--force' to override"
