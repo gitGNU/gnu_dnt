@@ -52,7 +52,7 @@ AC_DEFUN([AX_PROG_DEVTODO_VERSION],[
         #
         # XXX FIXME: We should find a better filtering expression ...
         #
-        devtodo_version=`echo $devtodo_version | $SED -e 's,^.*h,,'`
+        devtodo_version=`echo $devtodo_version | $SED -e 's,^.*\([0-9]+\.[0-9]+\.[0-9]+\),\1,'`
         changequote([,])
         AC_MSG_RESULT($devtodo_version)
 
