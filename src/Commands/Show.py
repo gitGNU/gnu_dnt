@@ -43,16 +43,16 @@ def show(level,
          indent_fill, line_format, unindent_fill, level_fill,
          filter) :
 
-    assert(node            != None)
-    assert(type(colors)    == bool)
-    assert(type(verbose)   == bool)
-    assert(filehandle      != None)
-    assert(width           >= 0)
+    assert(node          != None)
+    assert(type(colors)  == bool)
+    assert(type(verbose) == bool)
+    assert(filehandle    != None)
+    assert(width         >= 0)
     assert(indent_fill   != None)
-    assert(line_format     != None)
+    assert(line_format   != None)
     assert(unindent_fill != None)
     assert(level_fill    != None)
-    assert(filter          != None)
+    assert(filter        != None)
 
     # Dump the current node
     if (type(node) == Root.Root) :

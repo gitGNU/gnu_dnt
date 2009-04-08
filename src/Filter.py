@@ -30,6 +30,7 @@ def help() :
 class Filter(object) :
     def __init__(self, s = None) :
         filter = None
+
         if (s == None) :
             filter = lambda x: True
         else :
@@ -46,7 +47,9 @@ class Filter(object) :
                     tmp = lambda x: not(x.done())
                 else :
                     raise Exceptions.UnknownFilter(s)
+            assert(tmp != None)
             filter = tmp
+
         assert(filter != None)
         self.__function = filter
 
