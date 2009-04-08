@@ -269,6 +269,10 @@ class UnknownFilter(EFilter):
     def __init__(self, message) :
         EFilter.__init__(self, "unknown filter `" + message + "'")
 
+class UnsupportedFilter(EFilter):
+    def __init__(self, message) :
+        EFilter.__init__(self, "unsupported filter `" + message + "'")
+
 # Test
 if (__name__ == '__main__') :
     debug("Test completed")

@@ -36,7 +36,9 @@ class Filter(object) :
         else :
             tmp = None
             for i in s.split(",") :
-                assert(tmp == None)
+                if (tmp != None) :
+                    raise Exceptions.UnsupportedFilter(s)
+
                 debug("Handling filter `" + i + "'")
                 # Filter is != None
                 if (i == "all") :
@@ -47,6 +49,7 @@ class Filter(object) :
                     tmp = lambda x: not(x.done())
                 else :
                     raise Exceptions.UnknownFilter(s)
+
             assert(tmp != None)
             filter = tmp
 
