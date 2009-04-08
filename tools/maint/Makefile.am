@@ -24,6 +24,7 @@ EXTRA_DIST =					\
 	fetch.in				\
 	whitespace-detect.in			\
 	gitlog-to-committers.in			\
+	gittag-to-date.in			\
 	python-autofrisk			\
 	\
 	git-version-gen				\

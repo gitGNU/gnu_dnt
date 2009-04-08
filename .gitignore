@@ -26,6 +26,7 @@ config.status
 tools/maint/fetch
 tools/maint/whitespace-detect
 tools/maint/gitlog-to-committers
+tools/maint/gittag-to-date
 
 tools/autotools/install-sh
 tools/autotools/missing
