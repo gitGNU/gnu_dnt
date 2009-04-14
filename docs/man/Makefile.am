@@ -47,7 +47,6 @@ man_aux       =					\
 	dnt-init.x				\
 	dnt-move.x				\
 	dnt-remove.x				\
-	dnt-touch.x				\
 	dnt-mark.x				\
 	dnt-show.x
 
