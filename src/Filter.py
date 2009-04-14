@@ -18,6 +18,7 @@
 
 import sys
 import string
+import re
 
 from   Debug      import *
 from   Trace      import *
@@ -29,32 +30,50 @@ def help() :
 
 class Filter(object) :
     def __init__(self, s = None) :
-        filter = None
-
         if (s == None) :
-            filter = lambda x: True
-        else :
-            tmp = None
-            for i in s.split(",") :
-                if (tmp != None) :
-                    raise Exceptions.UnsupportedFilter(s)
+            s = "all"
+        self.__function = self._parse(s)
+        assert(self.__function != None)
 
-                debug("Handling filter `" + i + "'")
-                # Filter is != None
-                if (i == "all") :
-                    tmp = lambda x: True
-                elif (i == "done") :
-                    tmp = lambda x: x.done()
-                elif (i == "not-done") :
-                    tmp = lambda x: not(x.done())
-                else :
-                    raise Exceptions.UnknownFilter(s)
+    def _parse(self, s) :
+        assert(s != None)
 
-            assert(tmp != None)
-            filter = tmp
+        t = s
+        debug("Filter is `" + str(s) + "'")
 
-        assert(filter != None)
-        self.__function = filter
+        # Replace ',' with 'and'
+        t = t.replace(",", " and ")
+        # Replace '&' with 'and'
+        t = t.replace("&", " and ")
+        # Replace '|' with 'or'
+        t = t.replace("|", " or ")
+        debug("Filter is now `" + str(t) + "'")
+
+        # Remove useless spaces
+        t = re.sub(r'\s+', ' ', t)
+
+        # Then split using ' '
+        t = t.split(" ")
+        debug("Filter is now `" + str(t) + "'")
+
+        tmp = None
+        for i in t :
+            debug("Handling filter `" + i + "'")
+            if (i == "all") :
+                tmp = lambda x: True
+            elif (i == "done") :
+                tmp = lambda x: x.done()
+            elif (i == "not-done") :
+                tmp = lambda x: not(x.done())
+            elif (i == "and") :
+                tmp = lambda x, y: x and y
+            elif (i == "or") :
+                tmp = lambda x, y: x or y
+            else :
+                raise Exceptions.UnknownFilter(s)
+        assert(tmp != None)
+
+        return tmp
 
     def function_get(self) :
         assert(self.__function != None)
@@ -69,6 +88,20 @@ if (__name__ == '__main__') :
     v = Filter("done")
     assert(v != None)
     v = Filter("not-done")
+    assert(v != None)
+    v = Filter("all,done,not-done")
+    assert(v != None)
+    v = Filter("all, done, not-done")
+    assert(v != None)
+    v = Filter("all ,done ,not-done")
+    assert(v != None)
+    v = Filter("all , done , not-done")
+    assert(v != None)
+    v = Filter("all  ,  done  ,  not-done")
+    assert(v != None)
+    v = Filter("all   ,   done   ,   not-done")
+    assert(v != None)
+    v = Filter("all    ,    done    ,    not-done")
     assert(v != None)
 
     debug("Test completed")
