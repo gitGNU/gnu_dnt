@@ -45,9 +45,9 @@ fmt='
                 d=%(authordate:short)
                 b=%(body)
         fi
-	echo "$d $T"
+	echo "$T $d"
 '
 
-eval=`git for-each-ref --shell --format="$fmt" --sort=taggerdate refs/tags`
+eval=`git for-each-ref --shell --format="$fmt" --sort=authordate refs/tags`
 
 eval "$eval"
