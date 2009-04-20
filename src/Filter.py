@@ -56,6 +56,11 @@ class Filter(object) :
         t = t.split(" ")
         debug("Filter is now `" + str(t) + "'")
 
+        # Some consistency checks
+        for i in t :
+            assert(t[i] != None)
+            assert(t[i] != "")
+
         tmp = None
         for i in t :
             debug("Handling filter `" + i + "'")
