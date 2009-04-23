@@ -58,8 +58,8 @@ class Filter(object) :
 
         # Some consistency checks
         for i in t :
-            assert(t[i] != None)
-            assert(t[i] != "")
+            assert(i != None)
+            assert(i != "")
 
         tmp = None
         for i in t :
