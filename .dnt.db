@@ -11,11 +11,6 @@
             <comment>
                 Fixed
             </comment></entry>
-    <entry end="1233696564" priority="veryhigh" start="1230934015">
-            Rearrange the Exceptions classes replacing 'value' with 'message' where needed
-            <comment>
-                Done
-            </comment></entry>
     <entry end="1233180669" priority="veryhigh" start="1233010167">
             Complete show and dump commands in order to respect the --width parameter
             <comment>
@@ -169,6 +164,11 @@
             <comment>
                 Done
             </comment></entry>
+    <entry end="1239215472" priority="veryhigh" start="1239204598">
+            Fix bug arising when 'dnt show --filter=done,done' is issued
+            <comment>
+                Done
+            </comment></entry>
     <entry end="1230733158" priority="high" start="1230733148">
             Fix colors in show command
             <comment>
@@ -254,6 +254,17 @@
                 <comment>
                     Done
                 </comment></entry>
+    </entry>
+    <entry end="1238710748" priority="high" start="1236955573">
+            Rearrange dnt-to-devtodo and devtodo-to-dnt (in order to bound xslt with tools versions)
+            <comment>
+                Done
+            </comment><entry end="0" priority="veryhigh" start="1238658066">
+                devtodo-to-dnt should look for the devtodo version used to create the file in order to use the appropriate XSLT (whenever available)
+            </entry>
+    <entry end="0" priority="veryhigh" start="1238658131">
+                dnt-to-devtodo should use an option to write a devtodo file with a different XSLT than the default one (which is inferred from devtodo version, autodetected at configure time)
+            </entry>
     </entry>
     <entry end="1237930935" priority="high" start="1236955593">
             Add devtodo version retrieval in configure.ac
@@ -363,26 +374,29 @@
             <comment>
                 Done
             </comment></entry>
-    <entry end="1238710748" priority="high" start="1236955573">
-            Rearrange dnt-to-devtodo and devtodo-to-dnt (in order to bound xslt with tools versions)
-            <comment>
-                Done
-            </comment><entry end="0" priority="veryhigh" start="1238658066">
-                devtodo-to-dnt should look for the devtodo version used to create the file in order to use the appropriate XSLT (whenever available)
-            </entry>
-    <entry end="0" priority="veryhigh" start="1238658131">
-                dnt-to-devtodo should use an option to write a devtodo file with a different XSLT than the default one (which is inferred from devtodo version, autodetected at configure time)
-            </entry>
+    <entry priority="medium" start="1239198401">
+            Modify the build procedure in order to use gittag-to-date and filters for NEWS file update
+            <entry priority="high" start="1239200917">
+                Add suboption handling (like in --filter=not-done,start=10-10-2008)
+                <entry priority="medium" start="1239198365">
+                    Add from-date and to-date filters (in order to filter entries in a date-range)
+                </entry>
     </entry>
-    <entry priority="medium" start="1238249330">
-            Find a better fix for AX_PROG_DEVTODO_VERSION
-        </entry>
+    <entry end="1239286118" priority="medium" start="1239198333">
+                Add gittag-to-date script (in order to extract ordered tag-dates)
+                <comment>
+                    Done
+                </comment></entry>
+    </entry>
     </entry>
     <entry priority="high" start="1233694836">
         Release 0.2.0
         <entry priority="veryhigh" start="1229587888">
             Check the ConfigParser getboolean() problem (we must use get(..., raw=True, ...))
         </entry>
+    <entry priority="veryhigh" start="1230934015">
+            Rearrange the Exceptions classes replacing 'value' with 'message' where needed
+            </entry>
     <entry priority="veryhigh" start="1231436828">
             Replace fromstring() and tostring() with proper builtins (where applicable)
         </entry>
@@ -399,9 +413,6 @@
             </entry>
     <entry priority="veryhigh" start="1234175019">
                 Rearrange show footer in order to be class dependent (instead of hard-wired)
-            </entry>
-    <entry priority="veryhigh" start="1234175028">
-                Rearrange dump footer in order to be class dependent (instead of hard-wired)
             </entry>
     <entry priority="veryhigh" start="1234177196">
                 Fix command epilogs in order to be handled correctly from help2man
@@ -473,6 +484,12 @@
         </entry>
     <entry priority="medium" start="1234300133">
             Add a Formatter class. Rearrange show and dump command to use the formatter for all substitutions
+        </entry>
+    <entry priority="medium" start="1238249330">
+            Find a better fix for AX_PROG_DEVTODO_VERSION
+        </entry>
+    <entry priority="medium" start="1239200014">
+            Add --max-depth option on show (in order to limit the show recursion)
         </entry>
     <entry priority="low" start="1230926257">
             Rearrange Exceptions in order to use super(Class...)

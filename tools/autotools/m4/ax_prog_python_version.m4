@@ -1,5 +1,5 @@
 # ===========================================================================
-#         http://autoconf-archive.cryp.to/ax_prog_python_version.html
+#     http://www.nongnu.org/autoconf-archive/ax_prog_python_version.html
 # ===========================================================================
 #
 # SYNOPSIS
@@ -26,13 +26,9 @@
 #   macro. The $PYTHON_VERSION variable will be valorized with the detected
 #   version.
 #
-# LAST MODIFICATION
+# LICENSE
 #
-#   2008-12-25
-#
-# COPYLEFT
-#
-#   Copyright (c) 2008 Francesco Salvestrini <salvestrini@users.sourceforge.net>
+#   Copyright (c) 2009 Francesco Salvestrini <salvestrini@users.sourceforge.net>
 #
 #   Copying and distribution of this file, with or without modification, are
 #   permitted in any medium without royalty provided the copyright notice
