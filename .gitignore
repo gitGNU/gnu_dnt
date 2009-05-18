@@ -134,6 +134,7 @@ tests/test-command-show-07
 tests/test-command-show-08
 tests/test-command-show-09
 tests/test-command-show-10
+tests/test-command-show-11
 tests/test-command-show-wrap-01
 tests/test-command-show-wrap-02
 
