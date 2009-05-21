@@ -130,6 +130,15 @@ class Node(object) :
 
     id = property(id_get, None)
 
+    def flag_get(self) :
+        return self.__flag
+
+    def flag_set(self, value) :
+        assert(type(value) == bool)
+        self.__flag = value
+
+    flag = property(flag_get, flag_set)
+
 # Test
 if (__name__ == '__main__') :
     root = Node()
@@ -181,6 +190,11 @@ if (__name__ == '__main__') :
     assert(e11.id  == ID.ID("0.1.1"))
     assert(e1.id   == ID.ID("0.1"))
     assert(root.id == ID.ID("0"))
+
+    root.flag = True
+    assert(root.flag == True)
+    root.flag = False
+    assert(root.flag == False)
 
     debug("Test completed")
     sys.exit(0)
