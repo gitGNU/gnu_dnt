@@ -19,9 +19,6 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-# Test to ensure that the test environment has a good set-up
-# Report from Francesco Salvestrini
-
 required="date"
 
 . $testdir/defs || exit 1
