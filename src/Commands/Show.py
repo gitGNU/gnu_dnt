@@ -34,14 +34,14 @@ import Entry
 import Terminal
 import Filter
 import ANSI
+import Enum
 
 def show(level,
          node,
          colors, verbose,
          cmap,
          filehandle, width, max_depth,
-         indent_fill, line_format, unindent_fill, level_fill,
-         filter) :
+         indent_fill, line_format, unindent_fill, level_fill) :
 
     assert(node          != None)
     assert(type(colors)  == bool)
@@ -53,7 +53,6 @@ def show(level,
     assert(line_format   != None)
     assert(unindent_fill != None)
     assert(level_fill    != None)
-    assert(filter        != None)
 
     # Dump the current node
     if (type(node) == Root.Root) :
@@ -61,11 +60,11 @@ def show(level,
     elif (type(node) == Entry.Entry) :
         e = node
 
-        if (filter.function(e) == False) :
+        if not (('visible' in e.flags)   or
+                ('collapsed' in e.flags)) :
             debug("Entry "                 +
                   "`" + str(e) + "' "      +
-                  "does not match filter " +
-                  "`" + str(filter) + "'")
+                  "does not match any flag")
         else :
             debug("Visiting entry " + str(e))
 
@@ -100,6 +99,10 @@ def show(level,
 
             id_temp = e.id
             id_absolute = str(id_temp)
+            # Remove leading '0.' (we don't print anything related
+            # to the Root node)
+            id_absolute = re.sub('^0\.', '', id_absolute)
+
             try :
                 id_list     = id_temp.tolist()
                 id_relative = str(id_list[len(id_list) - 1])
@@ -139,7 +142,13 @@ def show(level,
             t = re.sub('%c', comment,                   t)
             # Always substitute text at last in order to avoid re-substitutions
             # if text contains %i, %s, %e, %p, %c and so on
-            t = re.sub('%t', color_text(text),          t)
+            #
+            # If line is set as "collapsed", substitute text with "..."
+            if ('collapsed' in e.flags) :
+                t = re.sub('%t', color_text('...'), t)
+            else :
+                t = re.sub('%t', color_text(text),  t)
+
             debug("output = `" + t + "'")
 
             if (t != '') :
@@ -169,8 +178,10 @@ def show(level,
 
     # Finally handle node children
     assert(hasattr(node, "children"))
-    if ((len(node.children()) > 0) and
-        ((max_depth > 0) or (max_depth == -1))) :
+    if ((len(node.children()) > 0)   and
+        (max_depth != 0)             and
+        (('visible' in node.flags)    or
+         ('collapsed' in node.flags))) :
         debug("Indenting more")
         filehandle.write(indent_fill)
 
@@ -184,13 +195,63 @@ def show(level,
                  colors, verbose,
                  cmap,
                  filehandle, width, max_depth,
-                 indent_fill, line_format, unindent_fill, level_fill,
-                 filter)
+                 indent_fill, line_format,
+                 unindent_fill, level_fill)
 
         debug("Indenting less")
         filehandle.write(unindent_fill)
     else :
         debug("No children to handle")
+
+def mark(node, filter) :
+    assert(node != None)
+    assert(filter != None)
+
+    marked = 0
+    node.flags = []
+
+    if (len(node.children()) > 0) :
+        debug("Marking " + str(len(node.children())) + " children")
+
+        for i in node.children() :
+            m       = 0
+            node, m = mark(i, filter)
+            marked  = marked + m
+
+        node = node.parent_get()
+
+    if (marked > 0) :
+        debug("Entry `" +  str(node)   +
+              "' has "  +  str(marked) +
+              " children that match filter")
+
+    if (type(node) == Root.Root) :
+        if (marked > 0) :
+            debug("Entry `"                               + str(node)   +
+                  "' has children those matches filter `" + str(filter) +
+                  "' marking it as collapsed")
+            node.flags = ['collapsed']
+
+    elif (type(node) == Entry.Entry) :
+        match = filter.function(node)
+
+        if ((marked > 0) and (match == False)) :
+            debug("Entry `"                               + str(node)   +
+                  "' has children those matches filter `" + str(filter) +
+                  "' marking it as collapsed")
+            node.flags = ['collapsed']
+
+        if (match == True) :
+            debug("Entry `"            +  str(node)  +
+                  "' matches filter `" + str(filter) +
+                  "', marking it as visible")
+            node.flags = ['visible']
+            marked = marked + 1
+
+    else :
+        bug("Unknown type " + str(type(n)))
+
+    return node, marked
 
 class SubCommand(Command) :
     def __init__(self) :
@@ -433,14 +494,18 @@ class SubCommand(Command) :
             Priority.Priority.PRIORITY_VERYLOW  : ANSI.normal_blue,
             }
 
+        # Marking nodes that match filters
+        m = 0
+        node, m = mark(node, filter)
+        debug("Found " + str(m) + " entries matching filters")
+
         #filehandle.write(indent_fill)
         show(0,
              node,
              colors, verbose,
              cmap,
              filehandle, width, max_depth,
-             indent_fill, line_format, unindent_fill, level_fill,
-             filter)
+             indent_fill, line_format, unindent_fill, level_fill)
         #filehandle.write(unindent_fill)
 
         # Avoid closing precious filehandles
@@ -449,6 +514,7 @@ class SubCommand(Command) :
             filehandle.close()
 
         debug("Success")
+
 
 # Test
 if (__name__ == '__main__') :
