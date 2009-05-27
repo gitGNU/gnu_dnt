@@ -22,12 +22,17 @@ from   Debug      import *
 from   Trace      import *
 import Exceptions
 import ID
+import Enum
 
 class Node(object) :
     def __init__(self) :
-        self.__children = []
-#        self.__iterator = 0
-        self.__parent   = None
+        self.__children  = []
+#        self.__iterator  = 0
+        self.__parent    = None
+        self.__allflags  = Enum.Enum('visible',
+                                     'collapsed')
+        self.__flags     = []
+
         debug("Node `" + str(self) + "' created successfully")
 
     def parent_get(self) :
@@ -139,6 +144,21 @@ class Node(object) :
 
     flag = property(flag_get, flag_set)
 
+    def flags_get(self) :
+        return self.__flags
+
+    def flags_set(self, flags) :
+        assert(type(flags) == list)
+
+        for f in flags :
+            try:
+                self.__allflags(f)
+            except:
+                raise Exceptions.UnknownEnum(str(f))
+        self.__flags = flags
+
+    flags = property(flags_get, flags_set)
+
 # Test
 if (__name__ == '__main__') :
     root = Node()
@@ -195,6 +215,9 @@ if (__name__ == '__main__') :
     assert(root.flag == True)
     root.flag = False
     assert(root.flag == False)
+
+    root.flags = [ 'visible', 'collapsed' ]
+    assert(root.flags == [ 'visible', 'collapsed' ])
 
     debug("Test completed")
     sys.exit(0)
