@@ -92,4 +92,6 @@ if (__name__ == '__main__') :
     if (alfa == beta) :
         exit(1)
 
+    test = Enum('test')
+
     exit(0)
