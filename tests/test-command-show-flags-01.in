@@ -1,0 +1,120 @@
+#! @SHELL@
+
+#
+# Copyright (C) 2008, 2009 Francesco Salvestrini
+#                          Alessandro Massignan
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+
+required="diff"
+
+. $testdir/defs || exit 1
+
+COMMAND="show"
+
+# Creating test DB
+$DNT_FLAGS clean                      || exit 1
+$DNT_FLAGS init                       || exit 1
+$DNT_FLAGS add -t "alfa_1"            || exit 1
+$DNT_FLAGS add -i 1 -t "alfa_1_1"     || exit 1
+$DNT_FLAGS add -i 1 -t "alfa_1_2"     || exit 1
+$DNT_FLAGS add -i 1.1 -t "alfa_1_1_1" || exit 1
+$DNT_FLAGS add -t "beta_2"            || exit 1
+$DNT_FLAGS add -i 2 -t "beta_2_1"     || exit 1
+$DNT_FLAGS add -i 2 -t "beta_2_2"     || exit 1
+$DNT_FLAGS add -i 2.2 -t "beta_2_2_1" || exit 1
+$DNT_FLAGS add -t "gamma_3"           || exit 1
+$DNT_FLAGS add -i 3 -t "gamma_3_1"    || exit 1
+$DNT_FLAGS add -i 3 -t "gamma_3_2"    || exit 1
+$DNT_FLAGS add -i 3 -t "gamma_3_3"    || exit 1
+
+: >test.out || exit 1
+: >test.exp || exit 1
+
+# Building and checking output (without filters)
+$DNT_NOFLAGS show -L "" -l "%I %t" >test.out
+cat >test.exp <<EOF
+1 alfa_1
+1.1 alfa_1_1
+1.1.1 alfa_1_1_1
+1.2 alfa_1_2
+2 beta_2
+2.1 beta_2_1
+2.2 beta_2_2
+2.2.1 beta_2_2_1
+3 gamma_3
+3.1 gamma_3_1
+3.2 gamma_3_2
+3.3 gamma_3_3
+EOF
+
+diff test.out test.exp || exit 1
+
+# Marking few nodes as done
+$DNT_FLAGS mark -i 1.1.1 -s "done" || exit 1
+$DNT_FLAGS mark -i 2.1 -s "done"   || exit 1
+$DNT_FLAGS mark -i 2.2.1 -s "done" || exit 1
+
+# Building and checking output (without "done" filtered nodes)
+$DNT_NOFLAGS show -L "" -l "%I %t" -F "done" >test.out
+cat >test.exp <<EOF
+1 ...
+1.1 ...
+1.1.1 alfa_1_1_1
+2 ...
+2.1 beta_2_1
+2.2 ...
+2.2.1 beta_2_2_1
+EOF
+
+diff test.out test.exp || exit 1
+
+# Building and checking output (without "done" filtered nodes)
+$DNT_NOFLAGS show -L "" -l "%I %t" -F "not-done" >test.out
+cat >test.exp <<EOF
+1 alfa_1
+1.1 alfa_1_1
+1.2 alfa_1_2
+2 beta_2
+2.2 beta_2_2
+3 gamma_3
+3.1 gamma_3_1
+3.2 gamma_3_2
+3.3 gamma_3_3
+EOF
+
+diff test.out test.exp || exit 1
+
+# Building and re-checking output (without filters)
+$DNT_NOFLAGS show -L "" -l "%I %t" >test.out
+cat >test.exp <<EOF
+1 alfa_1
+1.1 alfa_1_1
+1.1.1 alfa_1_1_1
+1.2 alfa_1_2
+2 beta_2
+2.1 beta_2_1
+2.2 beta_2_2
+2.2.1 beta_2_2_1
+3 gamma_3
+3.1 gamma_3_1
+3.2 gamma_3_2
+3.3 gamma_3_3
+EOF
+
+diff test.out test.exp || exit 1
+
+exit 0
