@@ -135,15 +135,6 @@ class Node(object) :
 
     id = property(id_get, None)
 
-    def flag_get(self) :
-        return self.__flag
-
-    def flag_set(self, value) :
-        assert(type(value) == bool)
-        self.__flag = value
-
-    flag = property(flag_get, flag_set)
-
     def flags_get(self) :
         return self.__flags
 
@@ -218,6 +209,15 @@ if (__name__ == '__main__') :
 
     root.flags = [ 'visible', 'collapsed' ]
     assert(root.flags == [ 'visible', 'collapsed' ])
+    assert(root.flags != [ ])
+
+    root.flags = [ 'visible' ]
+    assert(root.flags == [ 'visible' ])
+    assert(root.flags != [ ])
+
+    root.flags = [ 'collapsed' ]
+    assert(root.flags != [ ])
+    assert(root.flags != [ ])
 
     debug("Test completed")
     sys.exit(0)
