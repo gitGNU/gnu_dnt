@@ -52,7 +52,7 @@ if test ! "x${OUTPUT}" = "xmedium"; then
 fi
 
 OUTPUT="`$DNT_NOFLAGS --mono $COMMAND -I \"\" -U \"\" -L \"\" -l \"%I\"`"
-if test ! "x${OUTPUT}" = "x0.1"; then
+if test ! "x${OUTPUT}" = "x1"; then
   exit 1
 fi
 
