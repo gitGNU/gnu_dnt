@@ -217,7 +217,6 @@ if (__name__ == '__main__') :
 
     root.flags = [ 'collapsed' ]
     assert(root.flags != [ ])
-    assert(root.flags != [ ])
 
     debug("Test completed")
     sys.exit(0)
