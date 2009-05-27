@@ -16,6 +16,7 @@ non-critical-internal Entry
 non-critical-internal Terminal
 non-critical-internal Debug
 non-critical-internal Filter
+non-critical-internal Enum
 non-critical-internal Tree
 non-critical-internal Root
 non-critical-internal Configuration
