@@ -287,6 +287,17 @@ class UnknownEnum(EEnum) :
     def __init__(self, message) :
         EEnum.__init__(self, "no enumeration for `" + message + "'")
 
+#
+# Expression related exceptions
+#
+class EExpression(EBase) :
+    def __init__(self, message) :
+        EBase.__init__(self, message)
+
+class InvalidExpression(EExpression) :
+    def __init__(self, message) :
+        EEnum.__init__(self, "invalid `" + message + "' expression")
+
 # Test
 if (__name__ == '__main__') :
     debug("Test completed")
