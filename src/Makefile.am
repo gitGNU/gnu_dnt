@@ -63,6 +63,7 @@ pkgvpython_PYTHON =				\
 	Visitor.py				\
 	Filter.py				\
 	Enum.py					\
+	Expression.py				\
 	Node.py					\
 	Tree.py					\
 	Entry.py				\
