@@ -422,6 +422,12 @@
                 Done
             </comment>
         </note>
+        <note priority="medium" time="1243286739" done="1243286752">
+            Add enumeration related class
+            <comment>
+                Done
+            </comment>
+        </note>
         <note priority="low" time="1229468141" done="1236950054">
             Add dnt-to-devtodo exporter
             <comment>
@@ -464,11 +470,32 @@
                 </note>
             </note>
         </note>
-        <note priority="medium" time="1243286739" done="1243286752">
-            Add enumeration related class
-            <comment>
-                Done
-            </comment>
+        <note priority="medium" time="1243498941">
+            Add expression parsing for filters handling
+            <note priority="medium" time="1243497798" done="1243500472">
+                Add node flags handling (via Enum class)
+                <comment>
+                    Done
+                </comment>
+            </note>
+            <note priority="medium" time="1243498922" done="1243500484">
+                Add Enumeration class
+                <comment>
+                    Done
+                </comment>
+            </note>
+            <note priority="medium" time="1243498952">
+                Add Expression class
+            </note>
+            <note priority="medium" time="1243498982">
+                Use expressions inside filters (Expression into Filter)
+            </note>
+            <note priority="medium" time="1243500410" done="1243500502">
+                Use enumeration inside nodes for flags (Enum into Node)
+                <comment>
+                    Done
+                </comment>
+            </note>
         </note>
     </note>
     <note priority="high" time="1233694836">
