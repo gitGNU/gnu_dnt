@@ -2,6 +2,7 @@
 
 files-glob src/dnt\.in
 files-glob src/.*py
+files-glob src/.*py\.in
 files-glob src/Commands/.*py
 
 non-critical-internal Stack
@@ -17,6 +18,7 @@ non-critical-internal Terminal
 non-critical-internal Debug
 non-critical-internal Filter
 non-critical-internal Enum
+non-critical-internal Expression
 non-critical-internal Tree
 non-critical-internal Root
 non-critical-internal Configuration
