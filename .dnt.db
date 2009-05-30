@@ -374,19 +374,22 @@
             <comment>
                 Done
             </comment></entry>
+    <entry priority="high" start="1239200014">
+            Transform --max-depth option code (show command) to filter (into Filter class)
+        </entry>
     <entry priority="medium" start="1239198401">
             Modify the build procedure in order to use gittag-to-date and filters for NEWS file update
-            <entry priority="high" start="1239200917">
+            <entry end="1239286118" priority="medium" start="1239198333">
+                Add gittag-to-date script (in order to extract ordered tag-dates)
+                <comment>
+                    Done
+                </comment></entry>
+    <entry priority="high" start="1239200917">
                 Add suboption handling (like in --filter=not-done,start=10-10-2008)
                 <entry priority="medium" start="1239198365">
                     Add from-date and to-date filters (in order to filter entries in a date-range)
                 </entry>
     </entry>
-    <entry end="1239286118" priority="medium" start="1239198333">
-                Add gittag-to-date script (in order to extract ordered tag-dates)
-                <comment>
-                    Done
-                </comment></entry>
     </entry>
     </entry>
     <entry priority="high" start="1233694836">
@@ -487,9 +490,6 @@
         </entry>
     <entry priority="medium" start="1238249330">
             Find a better fix for AX_PROG_DEVTODO_VERSION
-        </entry>
-    <entry priority="medium" start="1239200014">
-            Add --max-depth option on show (in order to limit the show recursion)
         </entry>
     <entry priority="low" start="1230926257">
             Rearrange Exceptions in order to use super(Class...)
