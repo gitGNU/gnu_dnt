@@ -484,17 +484,17 @@
                     Done
                 </comment>
             </note>
-            <note priority="medium" time="1243498952">
-                Add Expression class
-            </note>
-            <note priority="medium" time="1243498982">
-                Use expressions inside filters (Expression into Filter)
-            </note>
             <note priority="medium" time="1243500410" done="1243500502">
                 Use enumeration inside nodes for flags (Enum into Node)
                 <comment>
                     Done
                 </comment>
+            </note>
+            <note priority="medium" time="1243498952">
+                Add Expression class
+            </note>
+            <note priority="medium" time="1243498982">
+                Use expressions inside filters (Expression into Filter)
             </note>
         </note>
     </note>
@@ -662,5 +662,8 @@
         <note priority="verylow" time="1233656428">
             Integrate dnt with SCM (git and svn)
         </note>
+    </note>
+    <note priority="low" time="1243950845">
+        Release 0.4.0
     </note>
 </todo>
