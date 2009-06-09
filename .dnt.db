@@ -354,6 +354,11 @@
             <comment>
                 Done
             </comment></entry>
+    <entry end="1243286752" priority="medium" start="1243286739">
+            Add enumeration related class
+            <comment>
+                Done
+            </comment></entry>
     <entry end="1236950054" priority="low" start="1229468141">
             Add dnt-to-devtodo exporter
             <comment>
@@ -390,6 +395,30 @@
                     Add from-date and to-date filters (in order to filter entries in a date-range)
                 </entry>
     </entry>
+    </entry>
+    <entry priority="medium" start="1243498941">
+            Add expression parsing for filters handling
+            <entry end="1243500472" priority="medium" start="1243497798">
+                Add node flags handling (via Enum class)
+                <comment>
+                    Done
+                </comment></entry>
+    <entry end="1243500484" priority="medium" start="1243498922">
+                Add Enumeration class
+                <comment>
+                    Done
+                </comment></entry>
+    <entry end="1243500502" priority="medium" start="1243500410">
+                Use enumeration inside nodes for flags (Enum into Node)
+                <comment>
+                    Done
+                </comment></entry>
+    <entry priority="medium" start="1243498952">
+                Add Expression class
+            </entry>
+    <entry priority="medium" start="1243498982">
+                Use expressions inside filters (Expression into Filter)
+            </entry>
     </entry>
     </entry>
     <entry priority="high" start="1233694836">
@@ -548,5 +577,8 @@
     <entry priority="verylow" start="1233656428">
             Integrate dnt with SCM (git and svn)
         </entry>
+    </entry>
+    <entry priority="low" start="1243950845">
+        Release 0.4.0
     </entry>
     </root>
