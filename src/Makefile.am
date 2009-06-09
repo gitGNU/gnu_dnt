@@ -29,6 +29,8 @@ bin_SCRIPTS +=					\
 	devtodo-to-dnt
 endif
 
+EXTRA_DIST =
+
 commandsdir = $(pkgvpythondir)/Commands
 
 commands_SRCS =					\
@@ -46,6 +48,21 @@ commands_SRCS =					\
 commands_PYTHON =				\
 	Commands/__init__.py			\
 	$(commands_SRCS)
+
+plydir = $(pkgvpythondir)/ply
+
+ply_SRCS =					\
+	ply/__init__.py				\
+	ply/cpp.py				\
+	ply/ctokens.py				\
+	ply/lex.py				\
+	ply/yacc.py
+
+ply_PYTHON =					\
+	$(ply_SRCS)
+
+EXTRA_DIST +=					\
+	ply/README
 
 pkgvpython_PYTHON =				\
 	__init__.py				\
@@ -78,12 +95,10 @@ BUILT_SOURCES =					\
 	Autoconfiguration.py
 
 ## NOTE: The following variable is used by maintainer-check-local target
-ALL_PYTHON_SRCS =				\
+OUR_PYTHON_SRCS =				\
 	$(pkgvpython_PYTHON)			\
 	$(nodist_pkgvpython_PYTHON)		\
 	$(commands_PYTHON)
-
-EXTRA_DIST =
 
 CLEANFILES =					\
 	$(nodist_pkgvpython_PYTHON)		\
@@ -91,7 +106,9 @@ CLEANFILES =					\
 	*.pyc					\
 	*.pyo					\
 	Commands/*.pyc				\
-	Commands/*.pyo
+	Commands/*.pyo				\
+	ply/*.pyc				\
+	ply/*.pyo
 
 dnt: $(srcdir)/dnt.in Makefile
 	( rm -f $@ $@.tmp && \
@@ -220,4 +237,4 @@ maintainer-check-parameters: Makefile $(bin_SCRIPTS)
 	done
 
 maintainer-check-local: Makefile maintainer-check-parameters
-	$(WHITESPACE_DETECT) $(ALL_PYTHON_SRCS)
+	$(WHITESPACE_DETECT) $(OUR_PYTHON_SRCS)
