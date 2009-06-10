@@ -490,17 +490,17 @@
                     Done
                 </comment>
             </note>
-            <note priority="medium" time="1243498952">
-                Add Expression class
-            </note>
-            <note priority="medium" time="1243498982">
-                Use expressions inside filters (Expression into Filter)
-            </note>
             <note priority="medium" time="1244545065" done="1244545110">
                 Import ply parser sources inside our source tree
                 <comment>
                     Done
                 </comment>
+            </note>
+            <note priority="medium" time="1243498952">
+                Add Expression class
+            </note>
+            <note priority="medium" time="1243498982">
+                Use expressions inside filters (Expression into Filter)
             </note>
         </note>
     </note>
@@ -671,5 +671,8 @@
     </note>
     <note priority="low" time="1243950845">
         Release 0.4.0
+        <note priority="medium" time="1244669261">
+            Fix bootstrap in order to exit when a missing program is called
+        </note>
     </note>
 </todo>
