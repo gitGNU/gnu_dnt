@@ -1,15 +1,19 @@
 # Input file for python-autofrisk
 
 files-glob src/dnt\.in
-files-glob src/.*py
-files-glob src/.*py\.in
-files-glob src/Commands/.*py
+files-glob src/.*\.py
+files-glob src/.*\.py\.in
+#files-glob src/Commands/.*\.py
+#files-glob src/ply/.*\.py
 
+non-critical-internal __init__
+
+# Main directory
+non-critical-internal Autoconfiguration
 non-critical-internal Stack
 non-critical-internal ID
 non-critical-internal Console
 non-critical-internal Command
-non-critical-internal __init__
 non-critical-internal Node
 non-critical-internal Trace
 non-critical-internal Visitor
@@ -28,7 +32,7 @@ non-critical-internal Priority
 non-critical-internal DB
 non-critical-internal ANSI
 
-non-critical-internal __init__
+# Commands directory
 non-critical-internal Commands
 non-critical-internal Add
 non-critical-internal Edit
@@ -41,6 +45,16 @@ non-critical-internal Init
 non-critical-internal Clean
 non-critical-internal Mark
 
+# ply directory
+non-critical-internal ply
+non-critical-internal lex
+non-critical-internal ply\.lex
+non-critical-internal ply\.yacc
+#non-critical-internal cpp
+#non-critical-internal ctokens
+#non-critical-internal lex
+#non-critical-internal yacc
+
 #non-critical-external strict[ \t]*.*
 #non-critical-external diagnostics[ \t]*.*
 #non-critical-external warnings[ \t]*.*
@@ -48,5 +62,3 @@ non-critical-internal Mark
 #non-critical-external [0-9]\..*
 #non-critical-external POSIX[ \t]*.*
 #non-critical-external base[ \t]*.*
-
-
