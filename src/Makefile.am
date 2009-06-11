@@ -78,9 +78,9 @@ pkgvpython_PYTHON =				\
 	Stack.py				\
 	DB.py					\
 	Visitor.py				\
+	Expression.py				\
 	Filter.py				\
 	Enum.py					\
-	Expression.py				\
 	Node.py					\
 	Tree.py					\
 	Entry.py				\
