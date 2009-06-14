@@ -28,8 +28,8 @@ DEFAULT_DB_FILE   = "." + _DB_FILE_TPL
 DEFAULT_CFG_FILE  = "." + _CFG_FILE_TPL
 
 # Search paths we look into for the configuration files
-CFG_SEARCH_PATHS  = [ '@sysconfdir@/' + _CFG_FILE_TPL,
-                      '$HOME/.'       + _CFG_FILE_TPL ]
+CFG_SEARCH_PATHS  = [ SYSCONFDIR + '/' +       _CFG_FILE_TPL,
+                      '$HOME'    + '/' + '.' + _CFG_FILE_TPL ]
 
 class Configuration(ConfigParser.ConfigParser) :
     __modified = False
