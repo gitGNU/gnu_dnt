@@ -302,15 +302,15 @@ class InvalidExpression(EExpression) :
 # Expression lexer related exceptions
 #
 class InvalidToken(EExpression) :
-    def __init__(self, token) :
-        EExpression.__init__(self, "invalid token `" + token + "'")
+    def __init__(self, message) :
+        EExpression.__init__(self, "invalid token `" + message + "'")
 
 #
 # Expression parser related exceptions
 #
 class InvalidSyntax(EExpression) :
-    def __init__(self, syntax) :
-        EExpression.__init__(self, "invalid syntax `" + syntax + "'")
+    def __init__(self, message) :
+        EExpression.__init__(self, "invalid syntax `" + message + "'")
 
 # Test
 if (__name__ == '__main__') :
