@@ -24,52 +24,101 @@ import re
 from   Debug      import *
 from   Trace      import *
 import Exceptions
+import ply.lex as lex
+import ply.yacc as yacc
 
 class Expression(object) :
     def __init__(self, s = "") :
         self.__function = self._parse(s)
+        assert(self.__function != None)
 
     def _parse(self, s) :
+        assert(self != None)
         assert(s != None)
 
-        t = s
-        debug("Expression is `" + str(s) + "'")
+        debug("Building lexer")
 
-        # Replace ',' with 'and'
-        t = t.replace(",", " and ")
-        # Replace '&' with 'and'
-        t = t.replace("&", " and ")
-        # Replace '|' with 'or'
-        t = t.replace("|", " or ")
-        debug("Expression is now `" + str(t) + "'")
+        tokens = (
+            'IDENTIFIER',
+            'AND', 'OR',
+            'SPACES'
+            )
 
-        # Remove useless spaces
-        t = re.sub(r'\s+', ' ', t)
+        def t_IDENTIFIER(t) :
+            r'[A-Za-z_][A-Za-z0-9_-]*'
+            return t
 
-        # Then split using ' '
-        t = t.split(" ")
-        debug("Expression is now `" + str(t) + "'")
+        def t_AND(t) :
+            r'\&|,'
+            t.value = "and"
+            return t
 
-        # Some consistency checks
-        for i in t :
-            assert(i != None)
-            assert(i != "")
+        def t_OR(t) :
+            r'\|'
+            t.value = "or"
+            return t
 
-        tmp = None
-        for i in t :
-            debug("Handling expression `" + i + "'")
-            if (i == "all") :
+        def t_SPACES(t) :
+            r'\s+'
+            t.lexer.skip(len(t.value[0]) - 1)
+
+        def t_error(t) :
+            raise Exceptions.InvalidToken(t.value[0])
+
+        lex.lex()
+
+        precedence = ( )
+
+        def p_expression(t) :
+            '''expression : identifier
+                          | identifier operator expression'''
+            if (len(t) == 4) :
+                if (t[2] == "and") :
+                    tmp = lambda x, y: x and y
+                elif (t[2] == "or") :
+                    tmp = lambda x, y: x or y
+                else :
+                    raise Exceptions.InvalidSyntax(s)
+            elif (len(t) == 2) :
+                tmp = t[1]
+
+            assert(tmp != None)
+            t[0] = tmp
+            return t[0]
+
+        def p_identifier(t) :
+            'identifier : IDENTIFIER'
+            tmp = None
+
+            if (t[1] == "all") :
                 tmp = lambda x: True
-            elif (i == "done") :
+            elif (t[1] == "done") :
                 tmp = lambda x: x.done()
-            elif (i == "not-done") :
+            elif (t[1] == "not-done") :
                 tmp = lambda x: not(x.done())
-            elif (i == "and") :
-                tmp = lambda x, y: x and y
-            elif (i == "or") :
-                tmp = lambda x, y: x or y
             else :
-                raise Exceptions.InvalidExpression(s)
+                raise Exceptions.InvalidSyntax(s)
+
+            assert(tmp != None)
+            t[0] = tmp
+
+        def p_operator(t) :
+            '''operator : AND
+                        | OR'''
+            t[0] = t[1]
+
+        def p_error(t) :
+            raise Exceptions.InvalidSyntax(s)
+
+        yacc.yacc()
+
+        debug("Parsing expression `" + str(s) + "'")
+
+        # Avoiding unnecessary debugging files
+        yacc.yacc(debug=0)
+        yacc.yacc(write_tables=0)
+
+        tmp = yacc.parse(s)
         assert(tmp != None)
 
         return tmp
