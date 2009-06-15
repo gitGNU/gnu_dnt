@@ -48,6 +48,7 @@ src/dnt-to-devtodo
 src/devtodo-to-dnt
 src/*.pyc
 src/Commands/*.pyc
+src/ply/*.pyc
 src/Autoconfiguration.py
 
 tests/defs
