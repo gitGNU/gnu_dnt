@@ -38,16 +38,16 @@ except ImportError :
     sys.exit(-1)
 
 commands = {
-    'add'      : Add       . SubCommand(),
-    'clean'    : Clean     . SubCommand(),
-    'config'   : Config    . SubCommand(),
-    'mark'     : Mark    . SubCommand(),
-    'edit'     : Edit      . SubCommand(),
-    'fix'      : Fix       . SubCommand(),
-    'init'     : Init      . SubCommand(),
-    'move'     : Move      . SubCommand(),
-    'remove'   : Remove    . SubCommand(),
-    'show'     : Show      . SubCommand(),
+    'add'      : Add    . SubCommand(),
+    'clean'    : Clean  . SubCommand(),
+    'config'   : Config . SubCommand(),
+    'mark'     : Mark   . SubCommand(),
+    'edit'     : Edit   . SubCommand(),
+    'fix'      : Fix    . SubCommand(),
+    'init'     : Init   . SubCommand(),
+    'move'     : Move   . SubCommand(),
+    'remove'   : Remove . SubCommand(),
+    'show'     : Show   . SubCommand(),
     }
 
 # Test
