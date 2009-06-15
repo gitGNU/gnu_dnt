@@ -21,10 +21,10 @@ import sys
 import string
 import re
 
-from   Debug      import *
-from   Trace      import *
+from   Debug       import *
+from   Trace       import *
 import Exceptions
-import ply.lex as lex
+import ply.lex  as lex
 import ply.yacc as yacc
 
 class Expression(object) :
@@ -110,13 +110,10 @@ class Expression(object) :
         def p_error(t) :
             raise Exceptions.InvalidSyntax(s)
 
-        yacc.yacc()
+        # Avoiding unnecessary debugging files
+        yacc.yacc(debug = 0, write_tables = 0)
 
         debug("Parsing expression `" + str(s) + "'")
-
-        # Avoiding unnecessary debugging files
-        yacc.yacc(debug=0)
-        yacc.yacc(write_tables=0)
 
         tmp = yacc.parse(s)
         assert(tmp != None)
