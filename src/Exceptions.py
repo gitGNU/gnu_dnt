@@ -313,8 +313,8 @@ class InvalidSyntax(EExpression) :
         EExpression.__init__(self, "invalid syntax `" + message + "'")
 
 class InvalidIdentifier(EExpression) :
-    def __init__(self, id) :
-        EExpression.__init__(self, "invalid identifier `" + id + "'")
+    def __init__(self, message) :
+        EExpression.__init__(self, "invalid identifier `" + message + "'")
 
 # Test
 if (__name__ == '__main__') :

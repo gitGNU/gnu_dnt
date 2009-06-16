@@ -40,11 +40,11 @@ class Expression(object) :
 
         reserved = {
             'not' : 'NOT',
+            'and' : 'AND',
+            'or'  : 'OR'
             }
 
         tokens = [ 'IDENTIFIER',
-                   'AND',
-                   'OR'
                    ] + list(reserved.values())
 
         t_AND    = r'\&|,'
