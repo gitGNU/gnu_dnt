@@ -42,9 +42,9 @@ $DNT_NOFLAGS $COMMAND -i "2" || exit 1
 $DNT_NOFLAGS $COMMAND -w "16" || exit 1
 
 # Testing "-F" option
-$DNT_FLAGS $COMMAND -F "done"     || exit 1
-$DNT_FLAGS $COMMAND -F "not-done" || exit 1
-$DNT_FLAGS $COMMAND -F "all"      || exit 1
+$DNT_FLAGS $COMMAND -F "done"  || exit 1
+$DNT_FLAGS $COMMAND -F "~done" || exit 1
+$DNT_FLAGS $COMMAND -F "all"   || exit 1
 
 # Testing "-o" option
 $DNT_FLAGS $COMMAND -o "test1.log" || exit 1

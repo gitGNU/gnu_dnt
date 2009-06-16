@@ -83,7 +83,7 @@ EOF
 diff test.out test.exp || exit 1
 
 # Building and checking output (without "done" filtered nodes)
-$DNT_NOFLAGS show -L "" -l "%I %t" -F "not-done" >test.out
+$DNT_NOFLAGS show -L "" -l "%I %t" -F "not done" >test.out
 cat >test.exp <<EOF
 1 alfa_1
 1.1 alfa_1_1

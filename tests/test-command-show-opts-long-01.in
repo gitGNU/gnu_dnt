@@ -43,7 +43,7 @@ $DNT_FLAGS $COMMAND --width="16" || exit 1
 
 # Testing "--filter" option
 $DNT_FLAGS $COMMAND --filter="done"     || exit 1
-$DNT_FLAGS $COMMAND --filter="not-done" || exit 1
+$DNT_FLAGS $COMMAND --filter="not done" || exit 1
 $DNT_FLAGS $COMMAND --filter="all"      || exit 1
 
 # Testing "--output" option

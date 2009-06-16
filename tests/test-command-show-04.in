@@ -36,9 +36,9 @@ $DNT_FLAGS add -t "alfa"   || exit 1
 # Marking node 1 as done
 $DNT_FLAGS mark --status done -i 1 || exit 1
 
-# Checking "done" and "not-done" filters (they must differ)
+# Checking "done" and "not done" filters (they must differ)
 $DNT_FLAGS $COMMAND -F "done"     --output test-done.out     || exit 1
-$DNT_FLAGS $COMMAND -F "not-done" --output test-not-done.out || exit 1
+$DNT_FLAGS $COMMAND -F "not done" --output test-not-done.out || exit 1
 
 diff test-done.out test-not-done.out && exit 1
 
