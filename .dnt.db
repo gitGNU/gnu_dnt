@@ -413,6 +413,11 @@
                 <comment>
                     Done
                 </comment></entry>
+    <entry end="1244545110" priority="medium" start="1244545065">
+                Import ply parser sources inside our source tree
+                <comment>
+                    Done
+                </comment></entry>
     <entry priority="medium" start="1243498952">
                 Add Expression class
             </entry>
@@ -580,5 +585,8 @@
     </entry>
     <entry priority="low" start="1243950845">
         Release 0.4.0
+        <entry priority="medium" start="1244669261">
+            Fix bootstrap in order to exit when a missing program is called
+        </entry>
     </entry>
     </root>
