@@ -38,53 +38,57 @@ class Expression(object) :
 
         debug("Building lexer")
 
-        tokens = (
-            'IDENTIFIER',
-            'AND', 'OR',
-            'SPACES'
-            )
+        reserved = {
+            'not' : 'NOT',
+            }
+
+        tokens = [ 'IDENTIFIER',
+                   'AND',
+                   'OR'
+                   ] + list(reserved.values())
+
+        t_AND    = r'\&|,'
+        t_OR     = r'\|'
+        t_NOT    = r'~'
 
         def t_IDENTIFIER(t) :
             r'[A-Za-z_][A-Za-z0-9_-]*'
+            t.type = reserved.get(t.value,'IDENTIFIER')
             return t
 
-        def t_AND(t) :
-            r'\&|,'
-            t.value = "and"
-            return t
-
-        def t_OR(t) :
-            r'\|'
-            t.value = "or"
-            return t
-
-        def t_SPACES(t) :
-            r'\s+'
-            t.lexer.skip(len(t.value[0]) - 1)
+        t_ignore = ' \t\n\v\r\b'
 
         def t_error(t) :
             raise Exceptions.InvalidToken(t.value[0])
 
         lex.lex()
 
-        precedence = ( )
+        debug("Building parser")
 
-        def p_expression(t) :
-            '''expression : identifier
-                          | identifier operator expression'''
-            if (len(t) == 4) :
-                if (t[2] == "and") :
-                    tmp = lambda x, y: x and y
-                elif (t[2] == "or") :
-                    tmp = lambda x, y: x or y
-                else :
-                    raise Exceptions.InvalidSyntax(s)
-            elif (len(t) == 2) :
-                tmp = t[1]
+        precedence = (
+            ('left', 'AND', 'OR'),
+            ('right', 'NOT'),
+            )
 
-            assert(tmp != None)
-            t[0] = tmp
-            return t[0]
+        def p_expression_identifier(t) :
+            'expression : identifier'
+            t[0] = t[1]
+            assert(t[0] != None)
+
+        def p_expression_not(t) :
+            'expression : NOT expression'
+            t[0] = lambda x : not(t[2](x))
+            assert(t[0] != None)
+
+        def p_expression_and(t) :
+            'expression : expression AND expression'
+            t[0] = lambda x : t[1](x) and t[3](x)
+            assert(t[0] != None)
+
+        def p_expression_or(t) :
+            'expression : expression OR expression'
+            t[0] = lambda x : t[1](x) or t[3](x)
+            assert(t[0] != None)
 
         def p_identifier(t) :
             'identifier : IDENTIFIER'
@@ -94,18 +98,11 @@ class Expression(object) :
                 tmp = lambda x: True
             elif (t[1] == "done") :
                 tmp = lambda x: x.done()
-            elif (t[1] == "not-done") :
-                tmp = lambda x: not(x.done())
             else :
-                raise Exceptions.InvalidSyntax(s)
+                raise Exceptions.InvalidIdentifier(t[1])
 
             assert(tmp != None)
             t[0] = tmp
-
-        def p_operator(t) :
-            '''operator : AND
-                        | OR'''
-            t[0] = t[1]
 
         def p_error(t) :
             raise Exceptions.InvalidSyntax(s)
@@ -133,21 +130,21 @@ if (__name__ == '__main__') :
     assert(v != None)
     v = Expression("done")
     assert(v != None)
-    v = Expression("not-done")
+    v = Expression("not done")
     assert(v != None)
-    v = Expression("all,done,not-done")
+    v = Expression("all,done,not done")
     assert(v != None)
-    v = Expression("all, done, not-done")
+    v = Expression("all, done, ~done")
     assert(v != None)
-    v = Expression("all ,done ,not-done")
+    v = Expression("all ,done ,not done")
     assert(v != None)
-    v = Expression("all , done , not-done")
+    v = Expression("all , done , ~ done")
     assert(v != None)
-    v = Expression("all  ,  done  ,  not-done")
+    v = Expression("all  ,  done  ,  ~ done")
     assert(v != None)
-    v = Expression("all   ,   done   ,   not-done")
+    v = Expression("all   ,   done   ,   ~ done")
     assert(v != None)
-    v = Expression("all    ,    done    ,    not-done")
+    v = Expression("all    ,    done    ,    ~    done")
     assert(v != None)
 
 #    # The following tests should PASS
