@@ -71,7 +71,7 @@ $(DNT_DB): $(DEVTODO_DB)
 TODO: $(DNT_DB)
 	$(top_builddir)/src/dnt	$(DNT_FLAGS)	\
 	       show				\
-	       --filter=not-done		\
+	       --filter="not done"		\
 	       --line-format="* %t"		\
 	       --width=0			\
 	       --indent-fill=""			\
