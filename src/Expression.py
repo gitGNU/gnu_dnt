@@ -28,7 +28,7 @@ import ply.lex  as lex
 import ply.yacc as yacc
 
 class Expression(object) :
-    def __init__(self, s = "") :
+    def __init__(self, s = "all") :
         self.__function = self._parse(s)
         assert(self.__function != None)
 

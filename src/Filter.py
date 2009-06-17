@@ -45,26 +45,11 @@ class Filter(object) :
 
 # Test
 if (__name__ == '__main__') :
-    v = Filter("all")
+    v = Filter()
     assert(v != None)
-    v = Filter("done")
-    assert(v != None)
-    v = Filter("not done")
-    assert(v != None)
-    v = Filter("all,done,not done")
-    assert(v != None)
-    v = Filter("all, done, ~done")
-    assert(v != None)
-    v = Filter("all ,done ,not done")
-    assert(v != None)
-    v = Filter("all , done , ~ done")
-    assert(v != None)
-    v = Filter("all  ,  done  ,  ~ done")
-    assert(v != None)
-    v = Filter("all   ,   done   ,   ~ done")
-    assert(v != None)
-    v = Filter("all    ,    done    ,    ~    done")
-    assert(v != None)
+
+    f = v.function
+    assert(f != None)
 
     debug("Test completed")
     sys.exit(0)
