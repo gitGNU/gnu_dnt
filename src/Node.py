@@ -212,14 +212,16 @@ if (__name__ == '__main__') :
     assert(e2.id   == ID.ID("0.2"))
     assert(e13.id  == ID.ID("0.1.3"))
     assert(e121.id == ID.ID("0.1.2.1"))
+
+    e12.remove(e121)
+    assert(e121.depth == 0)
+    e12.add(e121)
+    assert(e121.depth == 3)
+
     assert(e12.id  == ID.ID("0.1.2"))
     assert(e11.id  == ID.ID("0.1.1"))
     assert(e1.id   == ID.ID("0.1"))
     assert(root.id == ID.ID("0"))
-
-    # XXX FIXME:
-    #     We should add some regression tests for depth related issues when
-    #     adding/removing nodes ...
 
     root.flag = True
     assert(root.flag == True)
