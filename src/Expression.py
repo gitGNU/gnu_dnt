@@ -39,6 +39,12 @@ class Expression(object) :
         debug("Building lexer")
 
         reserved = {
+            'eq'  : 'EQ',
+            'neq' : 'NEQ',
+            'gt'  : 'GT',
+            'ge'  : 'GE',
+            'lt'  : 'LT',
+            'le'  : 'LE',
             'not' : 'NOT',
             'and' : 'AND',
             'or'  : 'OR'
@@ -47,9 +53,15 @@ class Expression(object) :
         tokens = [ 'IDENTIFIER',
                    ] + list(reserved.values())
 
-        t_AND    = r'\&|,'
-        t_OR     = r'\|'
-        t_NOT    = r'~'
+        t_EQ  = r'='
+        t_NEQ = r'!='
+        t_GT  = r'>'
+        t_GE  = r'>='
+        t_LT  = r'<'
+        t_LE  = r'<='
+        t_NOT = r'~'
+        t_AND = r'\&|,'
+        t_OR  = r'\|'
 
         def t_IDENTIFIER(t) :
             r'[A-Za-z_][A-Za-z0-9_-]*'
@@ -66,13 +78,43 @@ class Expression(object) :
         debug("Building parser")
 
         precedence = (
-            ('left', 'AND', 'OR'),
+            ('left',  'AND', 'OR', 'EQ', 'NEQ', 'GT', 'GE', 'LT', 'LE'),
             ('right', 'NOT'),
             )
 
         def p_expression_identifier(t) :
             'expression : identifier'
             t[0] = t[1]
+            assert(t[0] != None)
+
+        def p_expression_le(t) :
+            'expression : LE expression'
+            t[0] = lambda x : t[1](x) <= t[2](x)
+            assert(t[0] != None)
+
+        def p_expression_lt(t) :
+            'expression : LT expression'
+            t[0] = lambda x : t[1](x) < t[2](x)
+            assert(t[0] != None)
+
+        def p_expression_ge(t) :
+            'expression : GE expression'
+            t[0] = lambda x : t[1](x) >= t[2](x)
+            assert(t[0] != None)
+
+        def p_expression_gt(t) :
+            'expression : GT expression'
+            t[0] = lambda x : t[1](x) > t[2](x)
+            assert(t[0] != None)
+
+        def p_expression_neq(t) :
+            'expression : NEQ expression'
+            t[0] = lambda x : t[1](x) != t[2](x)
+            assert(t[0] != None)
+
+        def p_expression_eq(t) :
+            'expression : EQ expression'
+            t[0] = lambda x : t[1](x) == t[2](x)
             assert(t[0] != None)
 
         def p_expression_not(t) :
