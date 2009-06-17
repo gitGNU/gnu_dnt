@@ -29,9 +29,9 @@ class Node(object) :
         self.__children  = []
 #        self.__iterator  = 0
         self.__parent    = None
-        self.__allflags  = Enum.Enum('visible',
-                                     'collapsed')
+        self.__allflags  = Enum.Enum('visible', 'collapsed')
         self.__flags     = []
+        self.__depth     = 0
 
         debug("Node `" + str(self) + "' created successfully")
 
@@ -41,6 +41,11 @@ class Node(object) :
         self.__parent = node
 
     parent = property(parent_get, parent_set)
+
+    def depth_get(self) :
+        return self.__depth
+
+    depth = property(depth_get, None)
 
     def children(self) :
         return self.__children
@@ -79,6 +84,7 @@ class Node(object) :
         assert(found == False)
         self.__children.append(node)
         node.__parent = self
+        node.__depth  = self.__depth + 1
         debug("Node `" + str(node) + "' added to node `" + str(self) + "'")
 
     # Remove a child node based on object
@@ -94,6 +100,7 @@ class Node(object) :
         assert(found == True)
         self.__children.remove(node)
         node.__parent = None
+        node.__depth  = 0
         debug("Node `" + str(node) + "' removed to node `" + str(self) + "'")
 
     # Iterator related methods
@@ -171,27 +178,35 @@ if (__name__ == '__main__') :
 
     print(str(root.id))
     assert(root.id == ID.ID("0"))
+    assert(root.depth == 0)
 
     print(str(e1.id))
     assert(e1.id   == ID.ID("0.1"))
+    assert(e1.depth == 1)
 
     print(str(e11.id))
     assert(e11.id  == ID.ID("0.1.1"))
+    assert(e11.depth == 2)
 
     print(str(e12.id))
     assert(e12.id  == ID.ID("0.1.2"))
+    assert(e12.depth == 2)
 
     print(str(e121.id))
     assert(e121.id == ID.ID("0.1.2.1"))
+    assert(e121.depth == 3)
 
     print(str(e13.id))
     assert(e13.id  == ID.ID("0.1.3"))
+    assert(e13.depth == 2)
 
     print(str(e2.id))
     assert(e2.id   == ID.ID("0.2"))
+    assert(e2.depth == 1)
 
     print(str(e21.id))
     assert(e21.id  == ID.ID("0.2.1"))
+    assert(e21.depth == 2)
 
     assert(e21.id  == ID.ID("0.2.1"))
     assert(e2.id   == ID.ID("0.2"))
@@ -201,6 +216,10 @@ if (__name__ == '__main__') :
     assert(e11.id  == ID.ID("0.1.1"))
     assert(e1.id   == ID.ID("0.1"))
     assert(root.id == ID.ID("0"))
+
+    # XXX FIXME:
+    #     We should add some regression tests for depth related issues when
+    #     adding/removing nodes ...
 
     root.flag = True
     assert(root.flag == True)
