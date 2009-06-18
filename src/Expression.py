@@ -88,32 +88,32 @@ class Expression(object) :
             assert(t[0] != None)
 
         def p_expression_le(t) :
-            'expression : LE expression'
+            'expression : expression LE expression'
             t[0] = lambda x : t[1](x) <= t[2](x)
             assert(t[0] != None)
 
         def p_expression_lt(t) :
-            'expression : LT expression'
+            'expression : expression LT expression'
             t[0] = lambda x : t[1](x) < t[2](x)
             assert(t[0] != None)
 
         def p_expression_ge(t) :
-            'expression : GE expression'
+            'expression : expression GE expression'
             t[0] = lambda x : t[1](x) >= t[2](x)
             assert(t[0] != None)
 
         def p_expression_gt(t) :
-            'expression : GT expression'
+            'expression : expression GT expression'
             t[0] = lambda x : t[1](x) > t[2](x)
             assert(t[0] != None)
 
         def p_expression_neq(t) :
-            'expression : NEQ expression'
+            'expression : expression NEQ expression'
             t[0] = lambda x : t[1](x) != t[2](x)
             assert(t[0] != None)
 
         def p_expression_eq(t) :
-            'expression : EQ expression'
+            'expression : expression EQ expression'
             t[0] = lambda x : t[1](x) == t[2](x)
             assert(t[0] != None)
 
