@@ -178,15 +178,15 @@ def show(level,
 
     # Finally handle node children
     assert(hasattr(node, "children"))
-    if ((len(node.children()) > 0)   and
-        (max_depth != 0)             and
+    if ((len(node.children) > 0)      and
+        (max_depth != 0)              and
         (('visible' in node.flags)    or
          ('collapsed' in node.flags))) :
         debug("Indenting more")
         filehandle.write(indent_fill)
 
         debug("Handling children")
-        for j in node.children() :
+        for j in node.children :
             if (max_depth >= 1) :
                 max_depth = max_depth - 1
 
@@ -210,10 +210,10 @@ def mark(node, filter) :
     marked = 0
     node.flags = []
 
-    if (len(node.children()) > 0) :
-        debug("Marking " + str(len(node.children())) + " children")
+    if (len(node.children) > 0) :
+        debug("Marking " + str(len(node.children)) + " children")
 
-        for i in node.children() :
+        for i in node.children :
             m       = 0
             node, m = mark(i, filter)
             marked  = marked + m

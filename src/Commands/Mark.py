@@ -131,7 +131,7 @@ class SubCommand(Command) :
             node.mark_as_done()
 
             # Mark node's children as done
-            for i in node.children() :
+            for i in node.children :
                 v = DoneVisitor(verbose)
                 node.accept(v)
         elif (opts.status == "not-done") :
@@ -139,7 +139,7 @@ class SubCommand(Command) :
             node.mark_as_not_done()
 
             # Mark node's children as not-done
-            for i in node.children() :
+            for i in node.children :
                 v = NotDoneVisitor(verbose)
                 node.accept(v)
         else :

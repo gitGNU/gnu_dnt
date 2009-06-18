@@ -93,9 +93,9 @@ class SubCommand(Command) :
 
         debug("Node "
               "`" + str(node_id) + "' "
-              "has " + str(len(node.children())) + " child/children")
+              "has " + str(len(node.children)) + " child/children")
 
-        if ((len(node.children()) > 0) and (opts.recursive != True)) :
+        if ((len(node.children) > 0) and (opts.recursive != True)) :
             raise Exceptions.MissingParameters("--recursive")
 
         parent.remove(node)

@@ -39,6 +39,8 @@ class Node(object) :
         return self.__parent
     def parent_set(self, node) :
         self.__parent = node
+        self.__depth  = node.depth + 1
+        assert(self.__depth >= 0)
 
     parent = property(parent_get, parent_set)
 
@@ -47,8 +49,10 @@ class Node(object) :
 
     depth = property(depth_get, None)
 
-    def children(self) :
+    def children_get(self) :
         return self.__children
+
+    children = property(children_get, None)
 
 #    # Add/Remove a node based on id
 #    def child(self, i = 0, node = None) :
@@ -213,6 +217,11 @@ if (__name__ == '__main__') :
     e12.remove(e121)
     assert(e121.depth == 0)
     e12.add(e121)
+    assert(e121.depth == 3)
+
+    e12.remove(e121)
+    assert(e121.depth == 0)
+    e121.parent = e12
     assert(e121.depth == 3)
 
     assert(e12.id  == ID.ID("0.1.2"))

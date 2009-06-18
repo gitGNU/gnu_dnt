@@ -148,7 +148,7 @@ if (__name__ == '__main__') :
     class TestVisitor(object) :
         def visit(self, e) :
             debug("Visiting entry " + str(e))
-            for j in e.children() :
+            for j in e.children :
                 j.accept(self) # Re-accept myself
 
     v = TestVisitor()

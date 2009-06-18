@@ -44,12 +44,12 @@ def _find_recursive(node, l) :
     tmp = node
     i   = l[0] - 1
 
-    if ((i < 0) or (i >= len(tmp.children()))) :
+    if ((i < 0) or (i >= len(tmp.children))) :
         return None
 
     try :
         debug("Descending into children #" + str(i) + " in `" + str(tmp) + "'")
-        tmp = (tmp.children())[i]
+        tmp = tmp.children[i]
     except IndexError :
         debug("Child #" + str(i) + " is missing in `" + str(tmp) + "'")
         return None

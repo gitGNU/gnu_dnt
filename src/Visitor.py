@@ -65,7 +65,7 @@ class Visitor(object) :
         self.__level_previous = self.__level_current
         self.__level_current  = self.__level_current + 1
         index                = 0
-        for j in n.children() :
+        for j in n.children :
             index        = index + 1
             self.__index = index
             # Please, re-accept myself ;-)

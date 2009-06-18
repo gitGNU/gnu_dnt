@@ -68,7 +68,7 @@ class Root(Node.Node) :
                       "`" + str(i) + "' "
                       "in node "
                       "`" + str(tmp) + "'")
-                tmp = (tmp.children())[i - 1]
+                tmp = tmp.children[i - 1]
             except IndexError :
                 debug("Child `" + str(i) + "' "
                       "is missing in node "

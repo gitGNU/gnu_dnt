@@ -174,7 +174,7 @@ def toxml(node, xml) :
     else :
         bug("Unhandled exception while transforming to xml")
 
-    for i in node.children() :
+    for i in node.children :
         #debug("Navigating node `" + str(i) + "'")
         toxml(i, child)
 
