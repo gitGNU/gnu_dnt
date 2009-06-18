@@ -140,6 +140,8 @@ class Expression(object) :
                 tmp = lambda x: True
             elif (t[1] == "done") :
                 tmp = lambda x: x.done()
+            elif (t[1] == "depth") :
+                tmp = lambda x: x.depth
             else :
                 raise Exceptions.InvalidIdentifier(t[1])
 
