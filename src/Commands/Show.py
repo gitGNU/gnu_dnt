@@ -97,6 +97,8 @@ def show(level,
             else :
                 comment = ""
 
+            depth = str(e.depth)
+
             id_temp = e.id
             id_absolute = str(id_temp)
             # Remove leading '0.' (we don't print anything related
@@ -140,6 +142,7 @@ def show(level,
             t = re.sub('%e', end,                       t)
             t = re.sub('%p', color_text(priority),      t)
             t = re.sub('%c', comment,                   t)
+            t = re.sub('%d', depth,                     t)
             # Always substitute text at last in order to avoid re-substitutions
             # if text contains %i, %s, %e, %p, %c and so on
             #
@@ -270,6 +273,7 @@ class SubCommand(Command) :
                 "  %I  index (absolute)",
                 "  %i  index (relative)",
                 "  %c  comment",
+                "  %d  depth",
                 "",
                 "FILTER  " + Filter.help(),
                 "ID      " + ID.help(),
