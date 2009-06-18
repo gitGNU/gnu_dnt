@@ -35,12 +35,17 @@ class Node(object) :
 
         debug("Node `" + str(self) + "' created successfully")
 
+    def _update_depth(self, value) :
+        assert(value >= 0)
+        self.__depth = value
+        for i in self.__children :
+            i._update_depth(value + 1)
+
     def parent_get(self) :
         return self.__parent
     def parent_set(self, node) :
         self.__parent = node
-        self.__depth  = node.depth + 1
-        assert(self.__depth >= 0)
+        self._update_depth(node.depth + 1)
 
     parent = property(parent_get, parent_set)
 
@@ -78,30 +83,33 @@ class Node(object) :
     # Add a child node based on object
     def add(self, node) :
         assert(node != None)
+
         found = False
         for j in self.__children :
             if (j == node) :
                 found = True
                 break
         assert(found == False)
+
         self.__children.append(node)
         node.__parent = self
-        node.__depth  = self.__depth + 1
-        assert(self.__depth >= 0)
+        node._update_depth(self.__depth + 1)
         debug("Node `" + str(node) + "' added to node `" + str(self) + "'")
 
     # Remove a child node based on object
     def remove(self, node) :
         assert(node != None)
+
         found = False
         for j in self.__children :
             if (j == node) :
                 found = True
                 break
         assert(found == True)
+
         self.__children.remove(node)
         node.__parent = None
-        node.__depth  = 0
+        node._update_depth(0)
         debug("Node `" + str(node) + "' removed to node `" + str(self) + "'")
 
     # Iterator related methods
