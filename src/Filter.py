@@ -27,6 +27,7 @@ import Entry
 import Expression
 import Exceptions
 
+# XXX FIXME: Please update ASAP !!!
 def help() :
     return "Recognized filters are: all, done, not-done"
 
