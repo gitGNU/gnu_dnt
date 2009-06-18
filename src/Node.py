@@ -74,29 +74,26 @@ class Node(object) :
     # Add a child node based on object
     def add(self, node) :
         assert(node != None)
-        i     = 0
         found = False
         for j in self.__children :
             if (j == node) :
                 found = True
                 break
-            i = i + 1
         assert(found == False)
         self.__children.append(node)
         node.__parent = self
         node.__depth  = self.__depth + 1
+        assert(self.__depth >= 0)
         debug("Node `" + str(node) + "' added to node `" + str(self) + "'")
 
     # Remove a child node based on object
     def remove(self, node) :
         assert(node != None)
-        i     = 0
         found = False
         for j in self.__children :
             if (j == node) :
                 found = True
                 break
-            i = i + 1
         assert(found == True)
         self.__children.remove(node)
         node.__parent = None
