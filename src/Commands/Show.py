@@ -40,7 +40,7 @@ def show(level,
          node,
          colors, verbose,
          cmap,
-         filehandle, width, max_depth,
+         filehandle, width,
          indent_fill, line_format, unindent_fill, level_fill) :
 
     assert(node          != None)
@@ -48,7 +48,6 @@ def show(level,
     assert(type(verbose) == bool)
     assert(filehandle    != None)
     assert(width         >= 0)
-    assert(max_depth     >= -1)
     assert(indent_fill   != None)
     assert(line_format   != None)
     assert(unindent_fill != None)
@@ -182,7 +181,6 @@ def show(level,
     # Finally handle node children
     assert(hasattr(node, "children"))
     if ((len(node.children) > 0)      and
-        (max_depth != 0)              and
         (('visible' in node.flags)    or
          ('collapsed' in node.flags))) :
         debug("Indenting more")
@@ -190,14 +188,11 @@ def show(level,
 
         debug("Handling children")
         for j in node.children :
-            if (max_depth >= 1) :
-                max_depth = max_depth - 1
-
             show(level + 1,
                  j,
                  colors, verbose,
                  cmap,
-                 filehandle, width, max_depth,
+                 filehandle, width,
                  indent_fill, line_format,
                  unindent_fill, level_fill)
 
@@ -340,12 +335,6 @@ class SubCommand(Command) :
                            type   = "string",
                            dest   = "filter",
                            help   = "specify selection filter")
-        Command.add_option(self,
-                           "-D", "--max-depth",
-                           action = "store",
-                           type   = "string",
-                           dest   = "max_depth",
-                           help   = "specify maximum show depth")
 
         (opts, args) = Command.parse_args(self, arguments)
         if (len(args) > 0) :
@@ -392,25 +381,6 @@ class SubCommand(Command) :
         assert(width >= 0)
 
         debug("Output width is " + str(width))
-
-        # Handle depth...
-        max_depth = -1
-
-        try:
-            if (opts.max_depth != None) :
-               max_depth = int(opts.max_depth)
-        except :
-            raise Exceptions.WrongParameter("depth must be greater or equal "
-                                            "than 0")
-
-        if ((opts.max_depth != None) and (max_depth < 0)) :
-            raise Exceptions.WrongParameter("depth must be greater or equal "
-                                            "than 0")
-
-        assert(type(max_depth) == int)
-        assert(max_depth >= -1)
-
-        debug("Max-depth is: `" + str(max_depth) + "'")
 
         try :
             colors = configuration.get(PROGRAM_NAME, 'colors', raw = True)
@@ -508,7 +478,7 @@ class SubCommand(Command) :
              node,
              colors, verbose,
              cmap,
-             filehandle, width, max_depth,
+             filehandle, width,
              indent_fill, line_format, unindent_fill, level_fill)
         #filehandle.write(unindent_fill)
 
