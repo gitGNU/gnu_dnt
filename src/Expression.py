@@ -51,6 +51,7 @@ class Expression(object) :
             }
 
         tokens = [ 'IDENTIFIER',
+                   'INT',
                    ] + list(reserved.values())
 
         t_EQ  = r'='
@@ -66,6 +67,11 @@ class Expression(object) :
         def t_IDENTIFIER(t) :
             r'[A-Za-z_][A-Za-z0-9_-]*'
             t.type = reserved.get(t.value,'IDENTIFIER')
+            return t
+
+        def t_INT(t) :
+            r'-?[0-9]+'
+            t.value = int(t.value)
             return t
 
         t_ignore = ' \t\n\v\r\b'
@@ -87,34 +93,39 @@ class Expression(object) :
             t[0] = t[1]
             assert(t[0] != None)
 
+        def p_expression_INT(t) :
+            'expression : INT'
+            t[0] = lambda x : t[1]
+            assert(t[0] != None)
+
         def p_expression_le(t) :
             'expression : expression LE expression'
-            t[0] = lambda x : t[1](x) <= t[2](x)
+            t[0] = lambda x : t[1](x) <= t[3](x)
             assert(t[0] != None)
 
         def p_expression_lt(t) :
             'expression : expression LT expression'
-            t[0] = lambda x : t[1](x) < t[2](x)
+            t[0] = lambda x : t[1](x) < t[3](x)
             assert(t[0] != None)
 
         def p_expression_ge(t) :
             'expression : expression GE expression'
-            t[0] = lambda x : t[1](x) >= t[2](x)
+            t[0] = lambda x : t[1](x) >= t[3](x)
             assert(t[0] != None)
 
         def p_expression_gt(t) :
             'expression : expression GT expression'
-            t[0] = lambda x : t[1](x) > t[2](x)
+            t[0] = lambda x : t[1](x) > t[3](x)
             assert(t[0] != None)
 
         def p_expression_neq(t) :
             'expression : expression NEQ expression'
-            t[0] = lambda x : t[1](x) != t[2](x)
+            t[0] = lambda x : t[1](x) != t[3](x)
             assert(t[0] != None)
 
         def p_expression_eq(t) :
             'expression : expression EQ expression'
-            t[0] = lambda x : t[1](x) == t[2](x)
+            t[0] = lambda x : t[1](x) == t[3](x)
             assert(t[0] != None)
 
         def p_expression_not(t) :
