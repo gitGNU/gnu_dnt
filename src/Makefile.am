@@ -49,21 +49,6 @@ commands_PYTHON =				\
 	Commands/__init__.py			\
 	$(commands_SRCS)
 
-plydir = $(pkgvpythondir)/ply
-
-ply_SRCS =					\
-	ply/__init__.py				\
-	ply/cpp.py				\
-	ply/ctokens.py				\
-	ply/lex.py				\
-	ply/yacc.py
-
-ply_PYTHON =					\
-	$(ply_SRCS)
-
-EXTRA_DIST +=					\
-	ply/README
-
 pkgvpython_PYTHON =				\
 	__init__.py				\
 	Configuration.py			\
@@ -78,7 +63,6 @@ pkgvpython_PYTHON =				\
 	Stack.py				\
 	DB.py					\
 	Visitor.py				\
-	Expression.py				\
 	Filter.py				\
 	Enum.py					\
 	Node.py					\
@@ -106,9 +90,7 @@ CLEANFILES =					\
 	*.pyc					\
 	*.pyo					\
 	Commands/*.pyc				\
-	Commands/*.pyo				\
-	ply/*.pyc				\
-	ply/*.pyo
+	Commands/*.pyo
 
 dnt: $(srcdir)/dnt.in Makefile
 	( rm -f $@ $@.tmp && \
