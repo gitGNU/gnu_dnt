@@ -298,24 +298,6 @@ class InvalidExpression(EExpression) :
     def __init__(self, message) :
         EEnum.__init__(self, "invalid `" + message + "' expression")
 
-#
-# Expression lexer related exceptions
-#
-class InvalidToken(EExpression) :
-    def __init__(self, message) :
-        EExpression.__init__(self, "invalid token `" + message + "'")
-
-#
-# Expression parser related exceptions
-#
-class InvalidSyntax(EExpression) :
-    def __init__(self, message) :
-        EExpression.__init__(self, "invalid syntax `" + message + "'")
-
-class InvalidIdentifier(EExpression) :
-    def __init__(self, message) :
-        EExpression.__init__(self, "invalid identifier `" + message + "'")
-
 # Test
 if (__name__ == '__main__') :
     debug("Test completed")
