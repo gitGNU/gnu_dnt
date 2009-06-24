@@ -24,33 +24,52 @@ import re
 from   Debug      import *
 from   Trace      import *
 import Entry
-import Expression
 import Exceptions
 
-# XXX FIXME: Please update ASAP !!!
+# XXX FIXME: Please update the description ASAP !!!
 def help() :
     return "Recognized filters are: all, done, not-done"
 
 class Filter(object) :
     def __init__(self, s = None) :
         if (s == None) :
-            s = "all"
-        self.__function = Expression.Expression(s).function
+            s = ""
+        self.__function = s
         assert(self.__function != None)
 
-    def function_get(self) :
+    def evaluate(self, node) :
         assert(self.__function != None)
-        return self.__function
+        assert(node != None)
 
-    function = property(function_get, None)
+        # Rename <property> as tmp.<property> using regexps
+        tmp = node
+
+        return eval(self.__function)
 
 # Test
 if (__name__ == '__main__') :
     v = Filter()
     assert(v != None)
-
-    f = v.function
-    assert(f != None)
+    v = Filter("all")
+    assert(v != None)
+    v = Filter("done")
+    assert(v != None)
+    v = Filter("not done")
+    assert(v != None)
+    v = Filter("all,done,not done")
+    assert(v != None)
+    v = Filter("all, done, ~done")
+    assert(v != None)
+    v = Filter("all ,done ,not done")
+    assert(v != None)
+    v = Filter("all , done , ~ done")
+    assert(v != None)
+    v = Filter("all  ,  done  ,  ~ done")
+    assert(v != None)
+    v = Filter("all   ,   done   ,   ~ done")
+    assert(v != None)
+    v = Filter("all    ,    done    ,    ~    done")
+    assert(v != None)
 
     debug("Test completed")
     sys.exit(0)

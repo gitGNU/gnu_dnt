@@ -231,7 +231,7 @@ def mark(node, filter) :
             node.flags = ['collapsed']
 
     elif (type(node) == Entry.Entry) :
-        match = filter.function(node)
+        match = filter.evaluate(node)
 
         if ((marked > 0) and (match == False)) :
             debug("Entry `"                               + str(node)   +
