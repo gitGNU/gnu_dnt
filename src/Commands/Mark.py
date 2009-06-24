@@ -37,7 +37,7 @@ class DoneVisitor(Visitor) :
     def visitEntry(self, e) :
         assert(e != None)
 
-        if (not e.done()) :
+        if (not e.done) :
             e.mark_as_done()
 
     def visitRoot(self, r) :
@@ -51,7 +51,7 @@ class NotDoneVisitor(Visitor) :
     def visitEntry(self, e) :
         assert(e != None)
 
-        if (not e.done()) :
+        if (not e.done) :
             e.mark_as_not_done()
 
     def visitRoot(self, r) :

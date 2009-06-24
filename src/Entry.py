@@ -114,12 +114,14 @@ class Entry(Node.Node) :
     def mark_as_not_done(self) :
         self.__end = None
 
-    def done(self) :
+    def done_get(self) :
         if (self.__end == None) :
             return False
         if (self.__end <= Time.Time()) :
             return True
         return False
+
+    done = property(done_get, None)
 
     def __str__(self) :
         return '<Entry #%x>' % (id(self))
@@ -156,11 +158,11 @@ if (__name__ == '__main__') :
 
     e3 = Entry("test")
     e3.end = e3.start
-    assert(e3.done())
+    assert(e3.done)
 
 #    e3.end   = e3.start
 #    e3.start = e3.start - 1
-#    assert(not(e3.done()))
+#    assert(not(e3.done))
 
     debug("Test completed")
     sys.exit(0)

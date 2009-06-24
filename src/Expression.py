@@ -150,7 +150,7 @@ class Expression(object) :
             if (t[1] == "all") :
                 tmp = lambda x: True
             elif (t[1] == "done") :
-                tmp = lambda x: x.done()
+                tmp = lambda x: x.done
             elif (t[1] == "depth") :
                 tmp = lambda x: x.depth
             else :

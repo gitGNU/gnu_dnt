@@ -86,7 +86,7 @@ def show(level,
             else :
                 priority = "unknown"
 
-            if (e.done()) :
+            if (e.done) :
                 status = "complete"
             else :
                 status = "incomplete"
