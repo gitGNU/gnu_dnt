@@ -26,28 +26,79 @@ from   Trace      import *
 import Entry
 import Exceptions
 
-# XXX FIXME: Please update the description ASAP !!!
+#
+# XXX FIXME:
+#     We should fetch the properies from Node and Entry classes. Only
+#     those are the allowed symbols inside a filter (a subset of them
+#     all: children and parent should be hidden ...)
+#
+#     Please update the description ASAP !!!
+#
 def help() :
     return "Recognized filters are: all, done, not-done"
 
 class Filter(object) :
     def __init__(self, s = None) :
-        if (s == None) :
-            s = ""
-        self.__function = s
-        assert(self.__function != None)
+        if ((s == None) or (s == "")) :
+            self.__expression = "True"
+        else :
+            self.__expression = s
+        assert(self.__expression != None)
+
+    def _transform(self, string, pfx) :
+        assert(string != None)
+        assert(pfx != None)
+
+        #
+        # XXX FIXME:
+        #     These are weak regexp because we could find
+        #     matching string inside a quoted string
+        #
+        # XXX FIXME:
+        #     Patterns are hand-written, we should find a way to
+        #     autocompute them all (from Node and Entry properties)
+        #     The proposed task is not straightforward because we
+        #     should not allow children or parent node property
+        #     access ...
+        #
+        patterns = [
+            (re.compile('text',     re.I), pfx + '.text'),
+            (re.compile('priority', re.I), pfx + '.priority'),
+            (re.compile('start',    re.I), pfx + '.start'),
+            (re.compile('end',      re.I), pfx + '.end'),
+            (re.compile('comment',  re.I), pfx + '.comment'),
+            (re.compile('done',     re.I), pfx + '.done'),
+            (re.compile('depth',    re.I), pfx + '.depth'),
+            (re.compile('id',       re.I), pfx + '.id'),
+            ]
+
+        for r, s in patterns :
+            string = r.sub(s, string)
+
+        return string
 
     def evaluate(self, node) :
-        assert(self.__function != None)
+        assert(self.__expression != None)
         assert(node != None)
 
-        # Rename <property> as tmp.<property> using regexps
         tmp = node
+        fnc = self._transform(self.__expression, "tmp")
 
-        return eval(self.__function)
+        ret = False
+        try :
+            ret = eval(fnc, locals())
+        except :
+            raise Exceptions.InvalidExpression(self.__expression)
+
+        return ret
 
 # Test
 if (__name__ == '__main__') :
+    #
+    # XXX FIXME:
+    #     We should evaluate all the checks over a tree or a node
+    #     Please fix ASAP !!!
+
     v = Filter()
     assert(v != None)
     v = Filter("all")
