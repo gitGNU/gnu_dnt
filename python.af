@@ -4,7 +4,6 @@ files-glob src/dnt\.in
 files-glob src/.*\.py
 files-glob src/.*\.py\.in
 #files-glob src/Commands/.*\.py
-#files-glob src/ply/.*\.py
 
 non-critical-internal __init__
 
@@ -44,16 +43,6 @@ non-critical-internal Remove
 non-critical-internal Init
 non-critical-internal Clean
 non-critical-internal Mark
-
-# ply directory
-non-critical-internal ply
-non-critical-internal lex
-non-critical-internal ply\.lex
-non-critical-internal ply\.yacc
-#non-critical-internal cpp
-#non-critical-internal ctokens
-#non-critical-internal lex
-#non-critical-internal yacc
 
 #non-critical-external strict[ \t]*.*
 #non-critical-external diagnostics[ \t]*.*
