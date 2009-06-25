@@ -38,7 +38,7 @@ $DNT_FLAGS mark --status=not-done -i 0.1 || exit 1
 
 rm -f test1.log test2.log || exit 1
 
-$DNT_FLAGS show -F "~ done" -l "%t" -I "" -U "" -L "" -o test1.log || exit 1
+$DNT_FLAGS show -F "not done" -l "%t" -I "" -U "" -L "" -o test1.log || exit 1
 cat > test2.log <<EOF
 alfa
 EOF
