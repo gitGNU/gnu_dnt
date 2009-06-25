@@ -296,7 +296,7 @@ class EExpression(EBase) :
 
 class InvalidExpression(EExpression) :
     def __init__(self, message) :
-        EEnum.__init__(self, "invalid `" + message + "' expression")
+        EExpression.__init__(self, "invalid `" + message + "' expression")
 
 # Test
 if (__name__ == '__main__') :
