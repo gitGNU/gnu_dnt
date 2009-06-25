@@ -79,13 +79,13 @@ class Terminal :
         self._update()
         return self.__rows
 
-    rows = property(rows_get, None)
+    rows = property(rows_get, None, None, None)
 
     def columns_get(self) :
         self._update()
         return self.__columns
 
-    columns = property(columns_get, None)
+    columns = property(columns_get, None, None, None)
 
 # Test
 if (__name__ == '__main__') :

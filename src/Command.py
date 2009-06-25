@@ -99,7 +99,7 @@ class Command(OptionParser) :
 
         self.__name = n
 
-    name = property(name_get, name_set)
+    name = property(name_get, name_set, None, None)
 
     # Override OptParse print_help() method
     def print_help(self, file = sys.stdout) :

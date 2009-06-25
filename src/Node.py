@@ -47,17 +47,17 @@ class Node(object) :
         self.__parent = node
         self._update_depth(node.depth + 1)
 
-    parent = property(parent_get, parent_set)
+    parent = property(parent_get, parent_set, None, None)
 
     def depth_get(self) :
         return self.__depth
 
-    depth = property(depth_get, None)
+    depth = property(depth_get, None, None, None)
 
     def children_get(self) :
         return self.__children
 
-    children = property(children_get, None)
+    children = property(children_get, None, None, None)
 
 #    # Add/Remove a node based on id
 #    def child(self, i = 0, node = None) :
@@ -149,7 +149,7 @@ class Node(object) :
         debug("Node id is `" + str(i) + "'")
         return i
 
-    id = property(id_get, None)
+    id = property(id_get, None, None, None)
 
     def flags_get(self) :
         return self.__flags
@@ -164,7 +164,7 @@ class Node(object) :
                 raise Exceptions.UnknownEnum(str(f))
         self.__flags = flags
 
-    flags = property(flags_get, flags_set)
+    flags = property(flags_get, flags_set, None, None)
 
 # Test
 if (__name__ == '__main__') :

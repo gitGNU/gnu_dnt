@@ -51,7 +51,7 @@ class Entry(Node.Node) :
         # Remove leading and trailing whitespaces from input string
         self.__text = string.rstrip(string.lstrip(t))
 
-    text = property(text_get, text_set)
+    text = property(text_get, text_set, None, None)
 
     def priority_get(self) :
         return self.__priority
@@ -60,7 +60,7 @@ class Entry(Node.Node) :
         assert(p != None)
         self.__priority = p
 
-    priority = property(priority_get, priority_set)
+    priority = property(priority_get, priority_set, None, None)
 
     def start_get(self) :
         return self.__start
@@ -75,7 +75,7 @@ class Entry(Node.Node) :
                 raise ValueError("start date after end date")
         self._start_set(t)
 
-    start = property(start_get, start_set)
+    start = property(start_get, start_set, None, None)
 
     def end_get(self) :
         return self.__end
@@ -90,7 +90,7 @@ class Entry(Node.Node) :
                 raise ValueError("end date before start date")
         self._end_set(t)
 
-    end = property(end_get, end_set)
+    end = property(end_get, end_set, None, None)
 
     def comment_get(self) :
         return self.__comment
@@ -106,7 +106,7 @@ class Entry(Node.Node) :
         # Remove leading and trailing whitespaces from input string
         self.__comment = string.rstrip(string.lstrip(t))
 
-    comment = property(comment_get, comment_set)
+    comment = property(comment_get, comment_set, None, None)
 
     def mark_as_done(self) :
         self.__end = Time.Time()
@@ -121,7 +121,7 @@ class Entry(Node.Node) :
             return True
         return False
 
-    done = property(done_get, None)
+    done = property(done_get, None, None, None)
 
     def __str__(self) :
         return '<Entry #%x>' % (id(self))

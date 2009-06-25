@@ -84,7 +84,7 @@ class Console(object) :
     def buffer_get(self) :
         return self.__buffer
 
-    buffer = property(buffer_get, None)
+    buffer = property(buffer_get, None, None, None)
 
 # Test
 if (__name__ == '__main__') :

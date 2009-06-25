@@ -39,7 +39,7 @@ class Root(Node.Node) :
         # Remove leading and trailing whitespaces from input string
         self.__text = string.rstrip(string.lstrip(t))
 
-    text = property(text_get, text_set)
+    text = property(text_get, text_set, None, None)
 
     def __str__(self) :
         return '<Root #%x>' % (id(self))

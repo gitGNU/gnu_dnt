@@ -68,12 +68,12 @@ class Priority(object) :
     def value_get(self) :
         return self.__priority
 
-    value = property(value_get, None)
+    value = property(value_get, None, None, None)
 
     def priorities_get(self) :
         return self.__priorities
 
-    priorities = property(priorities_get, None)
+    priorities = property(priorities_get, None, None, None)
 
 # Test
 if (__name__ == '__main__') :
