@@ -45,8 +45,10 @@ class Filter(object) :
             self.__expression = s
         assert(self.__expression != None)
 
-    def _transform(self, string, pfx) :
-        assert(string != None)
+    def _transform(self, input, pfx) :
+        tmp = input
+
+        assert(tmp != None)
         assert(pfx != None)
 
         #
@@ -73,9 +75,9 @@ class Filter(object) :
             ]
 
         for r, s in patterns :
-            string = r.sub(s, string)
+            tmp = r.sub(s, tmp)
 
-        return string
+        return tmp
 
     def evaluate(self, node) :
         assert(self.__expression != None)
