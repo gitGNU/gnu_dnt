@@ -32,9 +32,12 @@ try :
     import Move
     import Remove
     import Show
-except ImportError :
-    # XXX FIXME: Add better error reporting ....
-    print("Cannot import package's commands ...")
+except ImportError, e :
+    try :
+        why = "(" + str(e) + ")"
+    except :
+        why = ""
+    print("Cannot import package's commands " + why + " ...")
     sys.exit(-1)
 
 commands = {
