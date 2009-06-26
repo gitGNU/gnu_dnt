@@ -21,7 +21,13 @@
 try :
     import sys
 except Exception, e:
-    print("Cannot import required system modules, bailing out ...")
+    try :
+        why = "(" + str(e) + ")"
+    except :
+        why = ""
+    print("Cannot import required system modules " +
+          why +
+          ", bailing out ...")
     print(str(e))
     exit(-1)
 
@@ -29,38 +35,68 @@ try :
     import os
     import getopt
 except Exception, e:
-    print("Cannot import required system modules, bailing out ...")
+    try :
+        why = "(" + str(e) + ")"
+    except :
+        why = ""
+    print("Cannot import required system modules " +
+          why +
+          ", bailing out ...")
     print(str(e))
     sys.exit(-1)
 
 sys.path.append("@pkgvpythondir@")
 # Now start importing our modules
 
-# NOTE: Import Trace at first, in order to use traces consistently
+#
+# NOTE:
+#     Import Trace at first, in order to use traces consistently
+#
 try :
     # XXX FIXME: The ugliest way to read debug_enabled variable
     from   Trace import *
     import Trace
 except Exception, e:
-    # XXX FIXME: Add better error reporting ....
-    print("Cannot import package's own bootstrap modules, bailing out ...")
+    try :
+        why = "(" + str(e) + ")"
+    except :
+        why = ""
+    print("Cannot import package's own bootstrap modules " +
+          why +
+          ", bailing out ...")
     sys.exit(-1)
 
-# We are now able to use Trace module facilities
-
+#
+# NOTE:
+#     We are now able to use Trace module facilities
+#
 try :
     import warnings
 except Exception, e:
-    warning("Cannot import optional system modules, continuing ...")
+    try :
+        why = "(" + str(e) + ")"
+    except :
+        why = ""
+    warning("Cannot import optional system modules " +
+            why +
+            ", continuing ...")
 
 try :
     from   Debug import *
 except Exception, e:
-    error("Cannot import package's debugging modules, bailing out ...")
+    try :
+        why = "(" + str(e) + ")"
+    except :
+        why = ""
+    error("Cannot import package's debugging modules " +
+          why +
+          ", bailing out ...")
     sys.exit(-1)
 
-# We are now able to use Debug module facilities
-
+#
+# NOTE:
+#     We are now able to use Debug module facilities
+#
 try :
     from   Entry         import *
     from   Configuration import *
@@ -68,7 +104,11 @@ try :
     from   Command       import *
     import Commands
 except ImportError, e:
-    error("Cannot import package's own modules, bailing out ...")
+    try :
+        why = "(" + str(e) + ")"
+    except :
+        why = ""
+    error("Cannot import package's own modules " + why + ", bailing out ...")
     sys.exit(-1)
 #except Exception, e:
 #    bug(str(e))
