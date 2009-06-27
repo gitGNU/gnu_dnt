@@ -350,6 +350,15 @@
                 Fix filters for depth (property)
             </note>
         </note>
+        <note priority="high" time="1239200917" done="1246007078">
+            Add suboption handling (like in --filter=not-done,start=10-10-2008)
+            <comment>
+                Done
+            </comment>
+            <note priority="medium" time="1239198365" done="0">
+                Add from-date and to-date filters (in order to filter entries in a date-range)
+            </note>
+        </note>
         <note priority="high" time="1245754840" done="1245754881">
             Replace functions with properties in Node and Entry classes (for omogeneous filtering)
             <comment>
@@ -536,20 +545,14 @@
         <note priority="veryhigh" time="1245943006">
             Fix the weak regexps in Filter class
         </note>
-        <note priority="high" time="1239200917" done="1246007078">
-            Add suboption handling (like in --filter=not-done,start=10-10-2008)
-            <comment>
-                Done
-            </comment>
-            <note priority="medium" time="1239198365" done="0">
-                Add from-date and to-date filters (in order to filter entries in a date-range)
+        <note priority="veryhigh" time="1246096040">
+            Update filter related regression tests
+            <note priority="high" time="1245922985">
+                Rearrange old filter tests
             </note>
-        </note>
-        <note priority="high" time="1245922985">
-            Rearrange Filter tests
-        </note>
-        <note priority="high" time="1245923008">
-            Add some filter based regression tests
+            <note priority="high" time="1245923008">
+                Add some filter based regression tests
+            </note>
         </note>
         <note priority="medium" time="1239198401">
             Modify the build procedure in order to use gittag-to-date and filters for NEWS file update
