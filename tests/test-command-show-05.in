@@ -63,7 +63,7 @@ $DNT_FLAGS show            --indent-fill="aaa"                    \
 
 $DNT_FLAGS show --filter=all                      || exit 1
 $DNT_FLAGS show --filter=done                     || exit 1
-$DNT_FLAGS show --filter=~done                    || exit 1
+$DNT_FLAGS show --filter="not done"               || exit 1
 
 #$DNT_NOFLAGS --colors show > test1.log || exit 1
 #$DNT_NOFLAGS --mono   show > test2.log || exit 1
@@ -73,8 +73,8 @@ $DNT_FLAGS show --filter=~done                    || exit 1
 #    exit 0
 #}
 #
-#$DNT_NOFLAGS --mono show --filter=done  > test1.log || exit 1
-#$DNT_NOFLAGS --mono show --filter=~done > test2.log || exit 1
+#$DNT_NOFLAGS --mono show --filter=done       > test1.log || exit 1
+#$DNT_NOFLAGS --mono show --filter="not done" > test2.log || exit 1
 #diff test1.log test2.log || {
 #    rm -f test1.log
 #    rm -f test2.log
