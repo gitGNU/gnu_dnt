@@ -109,7 +109,7 @@ class Filter(object) :
                         # Parentheses
                         result += j
                     else :
-                        raise Exceptions.InvalidExpression(tmp)
+                        raise Exceptions.InvalidExpression(input)
 
         return result
 
