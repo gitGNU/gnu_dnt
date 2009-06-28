@@ -92,10 +92,7 @@ class Filter(object) :
                     j = re.sub('^\s*', '', j)
                     j = re.sub('\s*$', '', j)
 
-                    if (re.match('not|and|or|'        +
-                                 'is\s+not|is|'       +
-                                 '!=|==|>|<|>=|<=',
-                                 j)) :
+                    if (re.match('not|and|or|!=|==|>|<|>=|<=', j)) :
                         # Operator
                         result += ' ' + j + ' '
                     elif (re.match('all', j)) :
