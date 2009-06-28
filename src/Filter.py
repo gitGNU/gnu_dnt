@@ -42,7 +42,7 @@ class Filter(object) :
         if ((s == None) or (s == "")) :
             self.__expression = "1"
         else :
-            self.__expression = s
+            self.__expression = self._transform(s, "node")
         assert(self.__expression != None)
 
     def _transform(self, input, pfx) :
@@ -112,16 +112,21 @@ class Filter(object) :
 
         return result
 
+    #
+    # NOTE:
+    #     Due to eval() and the transformation performed on __init__ we must
+    #     have the 'node' variable.
+    #
+    # XXX FIXME:
+    #     Find a better way to handle this task
+    #
     def evaluate(self, node) :
         assert(self.__expression != None)
         assert(node != None)
 
-        tmp = node
-        fnc = self._transform(self.__expression, "tmp")
-
-        ret = False
+        ret = False # Useless
         try :
-            ret = eval(fnc, locals())
+            ret = eval(self.__expression, locals())
         except :
             raise Exceptions.InvalidExpression(self.__expression)
 
@@ -142,19 +147,19 @@ if (__name__ == '__main__') :
     assert(v != None)
     v = Filter("not done")
     assert(v != None)
-    v = Filter("all,done,not done")
+    v = Filter("all and done and not done")
     assert(v != None)
-    v = Filter("all, done, ~done")
+    v = Filter("all and done and not done")
     assert(v != None)
-    v = Filter("all ,done ,not done")
+    v = Filter("all or done or not done")
     assert(v != None)
-    v = Filter("all , done , ~ done")
+    v = Filter("all and done and not done")
     assert(v != None)
-    v = Filter("all  ,  done  ,  ~ done")
+    v = Filter("all  and  done  and  not done")
     assert(v != None)
-    v = Filter("all   ,   done   ,   ~ done")
+    v = Filter("all   and   done   and   not done")
     assert(v != None)
-    v = Filter("all    ,    done    ,    ~    done")
+    v = Filter("all    and    done    and    not    done")
     assert(v != None)
 
     debug("Test completed")
