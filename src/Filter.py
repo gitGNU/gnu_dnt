@@ -40,9 +40,11 @@ def help() :
 class Filter(object) :
     def __init__(self, s = None) :
         if ((s == None) or (s == "")) :
-            self.__expression = "1"
-        else :
-            self.__expression = self._transform(s, "node")
+            s = "1"
+
+        self.__original   =  s
+        self.__expression = self._transform(self.__original, "node")
+
         assert(self.__expression != None)
 
     def _transform(self, input, prefix) :
@@ -129,7 +131,7 @@ class Filter(object) :
         try :
             ret = eval(self.__expression, locals())
         except :
-            raise Exceptions.InvalidExpression(self.__expression)
+            raise Exceptions.InvalidExpression(self.__original)
 
         return ret
 
