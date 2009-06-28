@@ -40,7 +40,7 @@ def help() :
 class Filter(object) :
     def __init__(self, s = None) :
         if ((s == None) or (s == "")) :
-            self.__expression = "True"
+            self.__expression = "1"
         else :
             self.__expression = s
         assert(self.__expression != None)
@@ -63,21 +63,54 @@ class Filter(object) :
         #     should not allow children or parent node property
         #     access ...
         #
-        patterns = [
-            (re.compile('text',     re.I), pfx + '.text'),
-            (re.compile('priority', re.I), pfx + '.priority'),
-            (re.compile('start',    re.I), pfx + '.start'),
-            (re.compile('end',      re.I), pfx + '.end'),
-            (re.compile('comment',  re.I), pfx + '.comment'),
-            (re.compile('done',     re.I), pfx + '.done'),
-            (re.compile('depth',    re.I), pfx + '.depth'),
-            (re.compile('id',       re.I), pfx + '.id'),
-            ]
 
-        for r, s in patterns :
-            tmp = r.sub(s, tmp)
+        # Spitting by quoted strings matches
+        split1 = re.split(r'([\"\'][^\'\"]*[\"\'])+', tmp)
 
-        return tmp
+        # Splitting by non-word matches
+        result = ""
+
+        for i in split1 :
+            if (re.match('^\s+$', i)) :
+                continue
+
+            i = re.sub('^\s+', '', i)
+            i = re.sub('\s+$', '', i)
+
+            if (re.match('^[\"\'].*[\"\']$', i)) :
+                # Quoted string
+                result += i
+            else :
+                split2 = re.split('(\W+)', i)
+
+                for j in split2 :
+                    if (re.match('^\s+$', j)) :
+                        continue
+
+                    j = re.sub('^\s*', '', j)
+                    j = re.sub('\s*$', '', j)
+
+                    if (re.match('not|and|or|'        +
+                                 'is\s+not|is|!=|==|' +
+                                 '>|<|>=|<=', j)) :
+                        # Operator
+                        result += ' ' + j + ' '
+                    elif(re.match('all', j)) :
+                        # Special case
+                        result += '1'
+                    elif (re.match('[A-Za-z_][A-Za-z0-9_]*', j)) :
+                        # Identifier
+                        result += 'node.' + j
+                    elif (re.match('-?[0-9]+', j)) :
+                        # Integer value
+                        result += j
+                    elif (re.match('\(|\)', j)) :
+                        # Parentheses
+                        result += j
+                    else :
+                        raise Exceptions.InvalidExpression(tmp)
+
+        return result
 
     def evaluate(self, node) :
         assert(self.__expression != None)
