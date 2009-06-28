@@ -45,11 +45,11 @@ class Filter(object) :
             self.__expression = self._transform(s, "node")
         assert(self.__expression != None)
 
-    def _transform(self, input, pfx) :
+    def _transform(self, input, prefix) :
         tmp = input
 
-        assert(tmp != None)
-        assert(pfx != None)
+        assert(tmp    != None)
+        assert(prefix != None)
 
         #
         # XXX FIXME:
@@ -91,16 +91,17 @@ class Filter(object) :
                     j = re.sub('\s*$', '', j)
 
                     if (re.match('not|and|or|'        +
-                                 'is\s+not|is|!=|==|' +
-                                 '>|<|>=|<=', j)) :
+                                 'is\s+not|is|'       +
+                                 '!=|==|>|<|>=|<=',
+                                 j)) :
                         # Operator
                         result += ' ' + j + ' '
-                    elif(re.match('all', j)) :
+                    elif (re.match('all', j)) :
                         # Special case
                         result += '1'
                     elif (re.match('[A-Za-z_][A-Za-z0-9_]*', j)) :
-                        # Identifier
-                        result += 'node.' + j
+                        # Identifier, add the requested prefix
+                        result += prefix + '.' + j
                     elif (re.match('-?[0-9]+', j)) :
                         # Integer value
                         result += j
