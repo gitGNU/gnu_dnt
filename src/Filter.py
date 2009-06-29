@@ -40,76 +40,145 @@ def help() :
 class Filter(object) :
     def __init__(self, s = None) :
         if ((s == None) or (s == "")) :
-            s = "1"
+            # XXX FIXME: ugly as hell
+            s = "1 == 1"
 
         self.__original   =  s
         self.__expression = self._transform(self.__original, "node")
 
         assert(self.__expression != None)
 
-    def _transform(self, input, prefix) :
+    def _transform_part(self, input, prefix) :
+        assert(input  != None)
+        assert(type(input) == list)
+        assert(prefix != None)
+        assert(prefix != "")
+
         tmp = input
 
-        assert(tmp    != None)
-        assert(prefix != None)
+        debug("Transforming filter (recursive) " +
+              "`" + str(tmp) + "'")
+
+        # Remove leading/trailing whites
+        tmp = map(lambda x:
+                      string.rstrip(string.lstrip(x)),
+                  tmp)
+        debug("Mangled representation (pass #B.1) is: " +
+              "`" + str(tmp) + "'")
+
+        # Filter-out whitespaces and empty strings
+        tmp = filter(lambda x:
+                         len(x) != 0 and not(x.isspace()),
+                     tmp)
+
+        debug("Mangled representation (pass #B.2) is: " +
+              "`" + str(tmp) + "'")
+
+        result = []
+
+        # Perform tokens check
+        for i in tmp :
+            debug("Iterating over `" + i + "'")
+
+            #
+            # XXX FIXME:
+            #     Patterns are hand-written, we should find a way to
+            #     autocompute them all (from Node and Entry properties)
+            #     The proposed task is not straightforward because we
+            #     should not allow children or parent node property
+            #     access ...
+            #
+
+            debug("Looking for a match against `" + i + "'")
+            if (i == "not" or
+                i == "and" or
+                i == "or"  or
+                i == "!="  or
+                i == "=="  or
+                i == ">"   or
+                i == "<"   or
+                i == ">="  or
+                i == "<="  or
+                i == ",") :
+                # Got an operator
+                debug("Got operator/separator `" + i + "'")
+                result.append(i)
+            elif (re.match('\(+', i) or
+                  re.match('\)+', i)) :
+                # Got paren(s)
+                debug("Got paren(s) `" + i + "'")
+                result.append(i)
+            elif (re.match('all', i)) :
+                # Special case
+                debug("Got special case `" + i + "'")
+                # XXX FIXME: ugly as hell
+                result.append("1 == 1")
+            elif (re.match('[_A-Za-z][_A-Za-z0-9]*', i)) :
+                # Got an identifier, add the requested prefix
+                debug("Got identifier  `" + i + "'")
+                result.append(prefix + '.' + i)
+            elif (re.match('[+-]?[0-9]+', i)) :
+                # Got an integer
+                debug("Got integer `" + i + "'")
+                result.append(i)
+            else :
+                raise Exceptions.InvalidToken(i)
+
+        debug("Returning from recursion `" + str(result) + "'")
+        return result
+
+    def _transform(self, input, prefix) :
+        assert(type(input)  == str)
+        assert(type(prefix) == str)
+        assert(prefix != "")
+
+        debug("Transforming filter `" + input + "'")
 
         #
-        # XXX FIXME:
-        #     These are weak regexp because we could find
-        #     matching string inside a quoted string
+        # NOTE:
+        #     We are going to split by quoted strings, in order
+        #     to avoid mangling quoted and non-quoted string.
+        #     We must rearrange the non-quoted ones ...
         #
-        # XXX FIXME:
-        #     Patterns are hand-written, we should find a way to
-        #     autocompute them all (from Node and Entry properties)
-        #     The proposed task is not straightforward because we
-        #     should not allow children or parent node property
-        #     access ...
-        #
+        tmp = re.split(r'([\"\'][^\'\"]*[\"\'])+', input)
+        debug("Mangled representation (pass #A.1) is: " +
+              "`" + str(tmp) + "'")
 
-        # Spitting by quoted strings matches
-        split1 = re.split(r'([\"\'][^\'\"]*[\"\'])+', tmp)
-
-        # Splitting by non-word matches
         result = ""
 
-        for i in split1 :
-            if (re.match('^\s+$', i)) :
-                continue
-
-            i = re.sub('^\s+', '', i)
-            i = re.sub('\s+$', '', i)
+        for i in tmp :
+            debug("Handling `" + i + "'")
 
             if (re.match('^[\"\'].*[\"\']$', i)) :
-                # Quoted string
+                # This is a quoted string, keep as it is
+                debug("Keeping quoted string `" + i + "' as it is")
                 result += i
             else :
-                split2 = re.split('(\W+)', i)
+                # Perform word-splitting and symbol mangling on the
+                # remaining junk
+                tmp1 = i
+                tmp1 = re.split(r'(\W+)', tmp1)
+                debug("Mangled representation (pass #A.2) is: " +
+                      "`" + str(tmp1) + "'")
 
-                for j in split2 :
-                    if (re.match('^\s+$', j)) :
-                        continue
+                try :
+                    tmp2 = self._transform_part(tmp1, prefix)
+                except Exceptions.InvalidToken, e:
+                    # We have a more specific exception to raise ...
+                    raise e
+                except Exception, e:
+                    raise Exceptions.InvalidExpression(str(e))
 
-                    j = re.sub('^\s*', '', j)
-                    j = re.sub('\s*$', '', j)
+                debug("Mangled representation (pass #A.3) is: " +
+                      "`" + str(tmp2) + "'")
 
-                    if (re.match('not|and|or|!=|==|>|<|>=|<=', j)) :
-                        # Operator
-                        result += ' ' + j + ' '
-                    elif (re.match('all', j)) :
-                        # Special case
-                        result += '1'
-                    elif (re.match('[A-Za-z_][A-Za-z0-9_]*', j)) :
-                        # Identifier, add the requested prefix
-                        result += prefix + '.' + j
-                    elif (re.match('-?[0-9]+', j)) :
-                        # Integer value
-                        result += j
-                    elif (re.match('\(|\)', j)) :
-                        # Parentheses
-                        result += j
-                    else :
-                        raise Exceptions.InvalidExpression(input)
+                result += string.join(tmp2, " ")
 
+            debug("Result is now `" + result + "'")
+
+        assert(result != None)
+
+        debug("Resulting filter is `" + result + "'")
         return result
 
     #
@@ -124,11 +193,17 @@ class Filter(object) :
         assert(self.__expression != None)
         assert(node != None)
 
+        debug("Evaluating filter expression " +
+              "`" + self.__expression + "' "  +
+              "over node `" + str(node) + "'")
+
         ret = False # Useless
         try :
             ret = eval(self.__expression, locals())
         except :
             raise Exceptions.InvalidExpression(self.__original)
+
+        assert(type(ret) == bool)
 
         return ret
 
