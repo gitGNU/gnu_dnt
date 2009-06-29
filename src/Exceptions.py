@@ -296,7 +296,11 @@ class EExpression(EBase) :
 
 class InvalidExpression(EExpression) :
     def __init__(self, message) :
-        EExpression.__init__(self, "invalid `" + message + "' expression")
+        EExpression.__init__(self, "invalid expression `" + message + "'")
+
+class InvalidToken(EExpression) :
+    def __init__(self, message) :
+        EExpression.__init__(self, "invalid token `" + message + "'")
 
 # Test
 if (__name__ == '__main__') :
