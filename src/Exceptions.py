@@ -39,13 +39,6 @@ class EBase(Exception) :
     __repr__ = __str__
 
 #
-# OS related exceptions
-#
-class EOS(EBase) :
-    def __init__(self, message) :
-        EBase.__init__(self, message)
-
-#
 # Time related exceptions
 #
 class ETime(EBase) :
@@ -131,6 +124,10 @@ class CannotWrite(EFile) :
 class CannotRead(EFile) :
     def __init__(self, message) :
         EFile.__init__(self, "cannot read from file `" + message + "'")
+
+class CannotRemove(EFile) :
+    def __init__(self, message) :
+        EFile.__init__(self, "cannot remove file `" + message + "'")
 
 #
 # ID related exceptions
