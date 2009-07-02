@@ -169,6 +169,11 @@
             <comment>
                 Done
             </comment></entry>
+    <entry end="1246532102" priority="veryhigh" start="1246293330">
+            Fix NEWS target when dnt is not installed (devtodo-to-dnt accesses its XSLT into the target directory, devtodo gets called in order to updated the dnt database from its todo ancestor)
+            <comment>
+                Done
+            </comment></entry>
     <entry end="1230733158" priority="high" start="1230733148">
             Fix colors in show command
             <comment>
@@ -459,19 +464,21 @@
     <entry priority="veryhigh" start="1245943006">
             Fix the weak regexps in Filter class
         </entry>
-    <entry priority="veryhigh" start="1246096040">
+    <entry end="1246539734" priority="veryhigh" start="1246096040">
             Update filter related regression tests
-            <entry end="1246292966" priority="high" start="1245922985">
+            <comment>
+                Done
+            </comment><entry end="1246292966" priority="high" start="1245922985">
                 Rearrange old filter tests
                 <comment>
                     Done
                 </comment></entry>
-    <entry priority="high" start="1245923008">
-                Add some filter based regression tests
-            </entry>
     </entry>
-    <entry priority="veryhigh" start="1246293330">
-            Fix NEWS target when no dnt is already installed
+    <entry priority="high" start="1235558583">
+            Fix the colored-wrap problem (add -t "Hello world", dump -l "%t" -w 6 in order to see it)
+        </entry>
+    <entry priority="high" start="1245923008">
+            Add some filter based regression tests
         </entry>
     <entry priority="medium" start="1239198401">
             Modify the build procedure in order to use gittag-to-date and filters for NEWS file update
@@ -544,9 +551,6 @@
     </entry>
     <entry priority="high" start="1235431214">
             Fix the wrapper.in script in the test directory (find a better fix)
-        </entry>
-    <entry priority="high" start="1235558583">
-            Fix the colored-wrap problem (add -t "Hello world", dump -l "%t" -w 6 in order to see it)
         </entry>
     <entry priority="high" start="1235638003">
             Replace from with proper import in all modules
