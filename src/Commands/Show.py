@@ -437,7 +437,7 @@ class SubCommand(Command) :
         debug("Level-fill is: `" + level_fill + "'")
 
         # Build the filter
-        filter_text = ""
+        filter_text = "not done"
         if (opts.filter != None) :
             filter_text = opts.filter
         filter = Filter.Filter(filter_text)
