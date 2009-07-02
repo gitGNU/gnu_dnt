@@ -44,8 +44,8 @@ $DNT_FLAGS add -i 3 -t "gamma_3_3"    || exit 1
 : >test.out || exit 1
 : >test.exp || exit 1
 
-# Building and checking output (without filters)
-$DNT_NOFLAGS show -L "" -l "%I %t" >test.out
+# Building and checking output ("all" nodes)
+$DNT_NOFLAGS show -L "" -l "%I %t" -F "all" >test.out
 cat >test.exp <<EOF
 1 alfa_1
 1.1 alfa_1_1
@@ -68,7 +68,7 @@ $DNT_FLAGS mark -i 1.1.1 -s "done" || exit 1
 $DNT_FLAGS mark -i 2.1 -s "done"   || exit 1
 $DNT_FLAGS mark -i 2.2.1 -s "done" || exit 1
 
-# Building and checking output (without "done" filtered nodes)
+# Building and checking output (only "done" nodes)
 $DNT_NOFLAGS show -L "" -l "%I %t" -F "done" >test.out
 cat >test.exp <<EOF
 1 ...
@@ -82,7 +82,7 @@ EOF
 
 diff test.out test.exp || exit 1
 
-# Building and checking output (without "done" filtered nodes)
+# Building and checking output (only "not done" nodes)
 $DNT_NOFLAGS show -L "" -l "%I %t" -F "not done" >test.out
 cat >test.exp <<EOF
 1 alfa_1
@@ -98,8 +98,8 @@ EOF
 
 diff test.out test.exp || exit 1
 
-# Building and re-checking output (without filters)
-$DNT_NOFLAGS show -L "" -l "%I %t" >test.out
+# Building and re-checking output ("all" nodes again)
+$DNT_NOFLAGS show -L "" -l "%I %t" -F "all" >test.out
 cat >test.exp <<EOF
 1 alfa_1
 1.1 alfa_1_1
