@@ -60,7 +60,7 @@ class SubCommand(Command) :
 
         name = opts.name
         if (name == None) :
-            name = "Nameless DNT database"
+            name = "Nameless " + PROGRAM_NAME + " database"
 
         db_file = configuration.get(PROGRAM_NAME, 'database')
         assert(db_file != None)
