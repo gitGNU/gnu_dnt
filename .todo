@@ -203,6 +203,12 @@
                 Done
             </comment>
         </note>
+        <note priority="veryhigh" time="1246293330" done="1246532102">
+            Fix NEWS target when dnt is not installed (devtodo-to-dnt accesses its XSLT into the target directory, devtodo gets called in order to updated the dnt database from its todo ancestor)
+            <comment>
+                Done
+            </comment>
+        </note>
         <note priority="high" time="1230733148" done="1230733158">
             Fix colors in show command
             <comment>
@@ -545,20 +551,23 @@
         <note priority="veryhigh" time="1245943006">
             Fix the weak regexps in Filter class
         </note>
-        <note priority="veryhigh" time="1246096040">
+        <note priority="veryhigh" time="1246096040" done="1246539734">
             Update filter related regression tests
+            <comment>
+                Done
+            </comment>
             <note priority="high" time="1245922985" done="1246292966">
                 Rearrange old filter tests
                 <comment>
                     Done
                 </comment>
             </note>
-            <note priority="high" time="1245923008">
-                Add some filter based regression tests
-            </note>
         </note>
-        <note priority="veryhigh" time="1246293330">
-            Fix NEWS target when no dnt is already installed
+        <note priority="high" time="1235558583">
+            Fix the colored-wrap problem (add -t "Hello world", dump -l "%t" -w 6 in order to see it)
+        </note>
+        <note priority="high" time="1245923008">
+            Add some filter based regression tests
         </note>
         <note priority="medium" time="1239198401">
             Modify the build procedure in order to use gittag-to-date and filters for NEWS file update
@@ -637,9 +646,6 @@
         </note>
         <note priority="high" time="1235431214">
             Fix the wrapper.in script in the test directory (find a better fix)
-        </note>
-        <note priority="high" time="1235558583">
-            Fix the colored-wrap problem (add -t "Hello world", dump -l "%t" -w 6 in order to see it)
         </note>
         <note priority="high" time="1235638003">
             Replace from with proper import in all modules
