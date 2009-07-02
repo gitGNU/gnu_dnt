@@ -63,6 +63,7 @@ $(DNT_DB): $(DEVTODO_DB)
 	$(top_builddir)/src/devtodo-to-dnt	\
 		--input=$(DEVTODO_DB)		\
 		--output=$(DNT_DB)		\
+		--libdir=$(top_srcdir)/data	\
 		--force || {			\
 		rm -f $(DNT_DB) ;		\
 		exit 1 ;			\
