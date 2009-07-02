@@ -156,6 +156,10 @@ SUCCESS_TESTS +=				\
 	test-command-show-11			\
 	test-command-show-filter-01		\
 	test-command-show-filter-02		\
+	test-command-show-filter-03		\
+	test-command-show-filter-04		\
+	test-command-show-filter-05		\
+	test-command-show-filter-06		\
 	test-command-show-wrap-01		\
 	test-command-show-wrap-02		\
 	test-command-show-flags-01		\
@@ -1154,6 +1158,54 @@ test-command-show-filter-02: $(srcdir)/test-command-show-filter-02.in Makefile
 	}
 EXTRA_DIST += test-command-show-filter-02.in
 CLEANFILES += test-command-show-filter-02
+
+test-command-show-filter-03: $(srcdir)/test-command-show-filter-03.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-filter-03.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-filter-03.in
+CLEANFILES += test-command-show-filter-03
+
+test-command-show-filter-04: $(srcdir)/test-command-show-filter-04.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-filter-04.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-filter-04.in
+CLEANFILES += test-command-show-filter-04
+
+test-command-show-filter-05: $(srcdir)/test-command-show-filter-05.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-filter-05.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-filter-05.in
+CLEANFILES += test-command-show-filter-05
+
+test-command-show-filter-06: $(srcdir)/test-command-show-filter-06.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-filter-06.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-filter-06.in
+CLEANFILES += test-command-show-filter-06
 
 test-command-show-help-01: $(srcdir)/test-command-show-help-01.in Makefile
 	( rm -f $@ $@.tmp && \
