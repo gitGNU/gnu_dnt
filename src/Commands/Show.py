@@ -408,12 +408,12 @@ class SubCommand(Command) :
             indent_fill   = ""
             line_format     = "%i %t\n  [%c]\n  (%s, %e, %p)\n"
             unindent_fill = ""
-            level_fill    = "  "
+            level_fill    = "    "
         else :
             indent_fill   = ""
             line_format     = "%i %t\n"
             unindent_fill = ""
-            level_fill    = "  "
+            level_fill    = "    "
 
         if (opts.indent_fill != None) :
             indent_fill = opts.indent_fill
