@@ -154,25 +154,35 @@ class Filter(object) :
                 debug("Keeping quoted string `" + i + "' as it is")
                 result += i
             else :
-                # Perform word-splitting and symbol mangling on the
-                # remaining junk
+                # Perform word and spaces splitting, and symbol
+                # mangling on the remaining junk
                 tmp1 = i
                 tmp1 = re.split(r'(\W+)', tmp1)
                 debug("Mangled representation (pass #A.2) is: " +
                       "`" + str(tmp1) + "'")
 
+                tmp2 = [ ]
+                for t in tmp1 :
+                    if (re.match(r'.*\s.*', t)) :
+                        tmp2.extend(re.split(r'\s+', t))
+                    else :
+                        tmp2.append(t)
+
+                debug("Mangled representation (pass #A.3) is: " +
+                      "`" + str(tmp2) + "'")
+
                 try :
-                    tmp2 = self._transform_part(tmp1, prefix)
+                    tmp3 = self._transform_part(tmp2, prefix)
                 except Exceptions.InvalidToken, e:
                     # We have a more specific exception to raise ...
                     raise e
                 except Exception, e:
                     raise Exceptions.InvalidExpression(str(e))
 
-                debug("Mangled representation (pass #A.3) is: " +
-                      "`" + str(tmp2) + "'")
+                debug("Mangled representation (pass #A.4) is: " +
+                      "`" + str(tmp3) + "'")
 
-                result += string.join(tmp2, " ")
+                result += string.join(tmp3, " ")
 
             debug("Result is now `" + result + "'")
 
