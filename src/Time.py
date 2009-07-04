@@ -30,31 +30,34 @@ class TimeDiff(object) :
     def __init__(self, t) :
         self.__time = t
 
-    def fromstring(self, s) :
-        assert(type(s) == str)
-        raise Exceptions.WrongTimeFormat(s)
+#    def fromstring(self, s) :
+#        assert(type(s) == str)
+#        raise Exceptions.WrongTimeFormat(s)
 
     def tostring(self) :
         t = self.__time.seconds
 
         seconds = t % 60
         t       = t / 60
+        assert(seconds < 60)
 
         minutes = t % 60
         t       = t / 60
+        assert(minutes < 60)
 
         hours   = t % 60
         t       = t / 60
-
-        assert(t < 24)
+        assert(hours < 24)
 
         t       = self.__time.days
 
         days    = t % 30
         t       = t / 30
+        assert(days < 31)
 
         months  = t / 12
         t       = t % 12
+        assert(months < 12)
 
         years   = t / 365
         t       = t % 365
@@ -115,29 +118,39 @@ class Time(object) :
         return int(time.mktime(self.__time.timetuple()))
 
     def __add__(self, other) :
-        assert(type(other) == Time)
+        assert(type(self) == type(other))
         return TimeDiff(self.__time + other.time())
 
     def __sub__(self, other) :
-        assert(type(other) == Time)
+        assert(type(self) == type(other))
         return TimeDiff(self.__time - other.time())
 
-#    def __eq__(self, other) :
-#        return (self.__time == other.time())
+    def __eq__(self, other) :
+        if (other == None) :
+            return False
+        assert(type(self) == type(other))
+        return (self.__time == other.time())
 
-#    def __ne__(self, other) :
-#        return (self.__time != other.time())
+    def __ne__(self, other) :
+        if (other == None) :
+            return True
+        assert(type(self) == type(other))
+        return (self.__time != other.time())
 
     def __gt__(self, other) :
+        assert(type(self) == type(other))
         return (self.__time > other.time())
 
     def __ge__(self, other) :
+        assert(type(self) == type(other))
         return (self.__time >= other.time())
 
     def __lt__(self, other) :
+        assert(type(self) == type(other))
         return (self.__time < other.time())
 
     def __le__(self, other) :
+        assert(type(self) == type(other))
         return (self.__time <= other.time())
 
 # Test
@@ -161,9 +174,37 @@ if (__name__ == '__main__') :
 
     t2 = Time("2008-11-2 1:1:1")
     debug("Time is = " + str(t2))
+    assert(t2 == t1)
 
-#    assert(t2 == t1)
-#    assert(t1 == t2)
+    t2 = Time("2008-11-2 1:1:2")
+    assert(t1 != t2)
+    assert(t1 <= t2)
+    assert(t2 >= t1)
+    t2 = Time("2008-11-2 1:2:1")
+    assert(t1 != t2)
+    assert(t1 <= t2)
+    assert(t2 >= t1)
+    t2 = Time("2008-11-2 2:1:1")
+    assert(t1 != t2)
+    assert(t1 <= t2)
+    assert(t2 >= t1)
+    t2 = Time("2008-11-3 1:1:1")
+    assert(t1 != t2)
+    assert(t1 <= t2)
+    assert(t2 >= t1)
+    t2 = Time("2008-12-2 2:1:1")
+    assert(t1 != t2)
+    assert(t1 <= t2)
+    assert(t2 >= t1)
+    t2 = Time("2009-11-2 2:1:1")
+    assert(t1 != t2)
+    assert(t1 <= t2)
+    assert(t2 >= t1)
+
+    t2 = t1
+    assert(t1 == t2)
+    assert(t1 <= t2)
+    assert(t2 >= t1)
 
     debug("Test completed")
     sys.exit(0)
