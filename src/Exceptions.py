@@ -295,6 +295,10 @@ class InvalidExpression(EExpression) :
     def __init__(self, message) :
         EExpression.__init__(self, "invalid expression `" + message + "'")
 
+class InvalidExpressionType(EExpression) :
+    def __init__(self, message) :
+        EExpression.__init__(self, "invalid expression type `" + message + "'")
+
 class InvalidToken(EExpression) :
     def __init__(self, message) :
         EExpression.__init__(self, "invalid token `" + message + "'")
