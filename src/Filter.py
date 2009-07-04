@@ -203,7 +203,9 @@ class Filter(object) :
         except :
             raise Exceptions.InvalidExpression(self.__original)
 
-        assert(type(ret) == bool)
+        # The evaluation result must be boolean
+        if (type(ret) != bool) :
+            raise Exceptions.InvalidExpressionType(self.__original)
 
         return ret
 
