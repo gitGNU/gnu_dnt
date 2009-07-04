@@ -69,10 +69,10 @@ class Entry(Node.Node) :
         self.__start = t
 
     def start_set(self, t) :
-        assert(t != None)
-        if (self.__end != None) :
-            if (t > self.__end) :
-                raise ValueError("start date after end date")
+        if (t != None) :
+            if (self.__end != None) :
+                if (t > self.__end) :
+                    raise ValueError("start date after end date")
         self._start_set(t)
 
     start = property(start_get, start_set, None, None)
@@ -84,10 +84,10 @@ class Entry(Node.Node) :
         self.__end = t
 
     def end_set(self, t) :
-        assert(t != None)
-        if (self.__start != None) :
-            if (t < self.__start) :
-                raise ValueError("end date before start date")
+        if (t != None) :
+            if (self.__start != None) :
+                if (t < self.__start) :
+                    raise ValueError("end date before start date")
         self._end_set(t)
 
     end = property(end_get, end_set, None, None)
