@@ -560,8 +560,11 @@
         <note priority="veryhigh" time="1245932194">
             Fix the Time class in order to parse string formats correctly
         </note>
-        <note priority="veryhigh" time="1245943006">
+        <note priority="veryhigh" time="1245943006" done="1246918695">
             Fix the weak regexps in Filter class
+            <comment>
+                Done
+            </comment>
         </note>
         <note priority="high" time="1245923008">
             Add some filter based regression tests
@@ -624,7 +627,13 @@
             Add XML header in database file
         </note>
         <note priority="veryhigh" time="1246871280">
-            Add unknown symbols detection in filters (the expression True evals to node.True, with no meaningful error message)
+            Add unknown symbols detection in filters
+            <note priority="veryhigh" time="1246918468">
+                Fix the evaluation of meaningless expressions (like True which evals to node.True without a good error message)
+            </note>
+            <note priority="veryhigh" time="1246918520">
+                Fix the evaluation of meaningless expression (which could call dangerous methods)
+            </note>
         </note>
         <note priority="high" time="1231780779">
             Add toxml() and fromxml() to Entry and Root classes
