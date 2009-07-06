@@ -74,7 +74,8 @@ SUCCESS_TESTS =
 
 FAIL_TESTS    +=				\
 	test-fail				\
-	test-command-show-filter-07
+	test-command-show-filter-07		\
+	test-command-show-filter-10
 
 SUCCESS_TESTS +=				\
 	test-success				\
@@ -162,6 +163,8 @@ SUCCESS_TESTS +=				\
 	test-command-show-filter-05		\
 	test-command-show-filter-06		\
 	test-command-show-filter-08		\
+	test-command-show-filter-09		\
+	test-command-show-filter-11		\
 	test-command-show-wrap-01		\
 	test-command-show-wrap-02		\
 	test-command-show-flags-01		\
@@ -1232,6 +1235,42 @@ test-command-show-filter-08: $(srcdir)/test-command-show-filter-08.in Makefile
 	}
 EXTRA_DIST += test-command-show-filter-08.in
 CLEANFILES += test-command-show-filter-08
+
+test-command-show-filter-09: $(srcdir)/test-command-show-filter-09.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-filter-09.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-filter-09.in
+CLEANFILES += test-command-show-filter-09
+
+test-command-show-filter-10: $(srcdir)/test-command-show-filter-10.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-filter-10.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-filter-10.in
+CLEANFILES += test-command-show-filter-10
+
+test-command-show-filter-11: $(srcdir)/test-command-show-filter-11.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-filter-11.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-filter-11.in
+CLEANFILES += test-command-show-filter-11
 
 test-command-show-help-01: $(srcdir)/test-command-show-help-01.in Makefile
 	( rm -f $@ $@.tmp && \
