@@ -80,15 +80,6 @@ class Filter(object) :
         for i in tmp :
             debug("Iterating over `" + i + "'")
 
-            #
-            # XXX FIXME:
-            #     Patterns are hand-written, we should find a way to
-            #     autocompute them all (from Node and Entry properties)
-            #     The proposed task is not straightforward because we
-            #     should not allow children or parent node property
-            #     access ...
-            #
-
             debug("Looking for a match against `" + i + "'")
             if (i == "not" or
                 i == "and" or
