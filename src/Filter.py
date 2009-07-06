@@ -209,6 +209,7 @@ class Filter(object) :
 
         ret = False # Useless
         try :
+            debug("Evaluating expression `" + self.__expression + "'")
             ret = eval(self.__expression, locals())
         except :
             raise Exceptions.InvalidExpression(self.__original)
