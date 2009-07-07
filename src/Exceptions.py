@@ -56,9 +56,17 @@ class EPriority(EBase) :
     def __init__(self, message) :
         EBase.__init__(self, message)
 
-class UnknownPriority(EPriority) :
+class UnknownPriorityName(EPriority) :
     def __init__(self, message) :
-        EPriority.__init__(self, "unknown priority `" + message + "'")
+        EPriority.__init__(self, "unknown priority name `" + message + "'")
+
+class UnknownPriorityValue(EPriority) :
+    def __init__(self, message) :
+        EPriority.__init__(self, "unknown priority value `" + message + "'")
+
+class WrongPriorityFormat(EPriority) :
+    def __init__(self, message) :
+        EPriority.__init__(self, "wrong priority format `" + message + "'")
 
 #
 # Database related exceptions
