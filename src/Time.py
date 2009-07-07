@@ -125,33 +125,39 @@ class Time(object) :
         assert(type(self) == type(other))
         return TimeDiff(self.__time - other.time())
 
+    #
+    # Comparison operators
+    #
+
     def __eq__(self, other) :
-        if (other == None) :
-            return False
-        assert(type(self) == type(other))
-        return (self.__time == other.time())
+        if isinstance(other, Time):
+            return (self.__time == other.time())
+        return False
 
     def __ne__(self, other) :
-        if (other == None) :
-            return True
-        assert(type(self) == type(other))
-        return (self.__time != other.time())
+        if isinstance(other, Time):
+            return (self.__time != other.time())
+        return True
 
     def __gt__(self, other) :
-        assert(type(self) == type(other))
-        return (self.__time > other.time())
+        if isinstance(other, Time):
+            return (self.__time > other.time())
+        raise Exceptions.WrongTimeFormat(str(other))
 
     def __ge__(self, other) :
-        assert(type(self) == type(other))
-        return (self.__time >= other.time())
+        if isinstance(other, Time):
+            return (self.__time >= other.time())
+        raise Exceptions.WrongTimeFormat(str(other))
 
     def __lt__(self, other) :
-        assert(type(self) == type(other))
-        return (self.__time < other.time())
+        if isinstance(other, Time):
+            return (self.__time < other.time())
+        raise Exceptions.WrongTimeFormat(str(other))
 
     def __le__(self, other) :
-        assert(type(self) == type(other))
-        return (self.__time <= other.time())
+        if isinstance(other, Time):
+            return (self.__time <= other.time())
+        raise Exceptions.WrongTimeFormat(str(other))
 
 # Test
 if (__name__ == '__main__') :
