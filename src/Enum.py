@@ -16,6 +16,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
+import sys
 import string
 
 from   Debug      import *
@@ -87,11 +88,12 @@ if (__name__ == '__main__') :
     gamma = color.red
 
     if (alfa != gamma) :
-        exit(1)
+        sys.exit(1)
 
     if (alfa == beta) :
-        exit(1)
+        sys.exit(1)
 
     test = Enum('test')
 
-    exit(0)
+    debug("Test completed")
+    sys.exit(0)
