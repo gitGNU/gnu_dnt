@@ -103,7 +103,7 @@ class CorruptedDatabase(EDatabase) :
 class ProblemsReading(EDatabase) :
     def __init__(self, name, message) :
         tmp = ""
-        if (message != None) :
+        if (message != None and len(message) != 0) :
             tmp = ", " + message
         EDatabase.__init__(self,
                            "problems reading database "
@@ -112,7 +112,7 @@ class ProblemsReading(EDatabase) :
 class ProblemsWriting(EDatabase) :
     def __init__(self, name, message) :
         tmp = ""
-        if (message != None) :
+        if (message != None and len(message) != 0) :
             tmp = ", " + message
         EDatabase.__init__(self,
                            "problems writing database "
@@ -291,6 +291,17 @@ class ReadOnlyEnum(EEnum) :
 class UnknownEnum(EEnum) :
     def __init__(self, message) :
         EEnum.__init__(self, "no enumeration for `" + message + "'")
+
+#
+# Constant related exceptions
+#
+class EConst(EBase) :
+    def __init__(self, message) :
+        EBase.__init__(self, message)
+
+class ReadOnlyConstant(EBase) :
+    def __init__(self, message) :
+        EConst.__init__(self, "variable `' is read-only")
 
 #
 # Expression related exceptions
