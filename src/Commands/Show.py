@@ -461,11 +461,11 @@ class SubCommand(Command) :
         #
 
         cmap = {
-            Priority.Priority.PRIORITY_VERYHIGH : ANSI.bright_red,
-            Priority.Priority.PRIORITY_HIGH     : ANSI.bright_yellow,
-            Priority.Priority.PRIORITY_MEDIUM   : ANSI.bright_white,
-            Priority.Priority.PRIORITY_LOW      : ANSI.normal_cyan,
-            Priority.Priority.PRIORITY_VERYLOW  : ANSI.normal_blue,
+            Priority.PRIORITY_VERYHIGH : ANSI.bright_red,
+            Priority.PRIORITY_HIGH     : ANSI.bright_yellow,
+            Priority.PRIORITY_MEDIUM   : ANSI.bright_white,
+            Priority.PRIORITY_LOW      : ANSI.normal_cyan,
+            Priority.PRIORITY_VERYLOW  : ANSI.normal_blue,
             }
 
         # Marking nodes that match filters
