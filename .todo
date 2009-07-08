@@ -389,6 +389,30 @@
                 Done
             </comment>
         </note>
+        <note priority="high" time="1246919275" done="1247068281">
+            Add comparison operators for Priority class (veryhigh &gt; high &gt; medium &gt; low &gt; verylow)
+            <comment>
+                Done
+            </comment>
+        </note>
+        <note priority="high" time="1247067879" done="1247068293">
+            Add comparison operators for Time class
+            <comment>
+                Done
+            </comment>
+        </note>
+        <note priority="high" time="1247068207" done="1247068304">
+            Add initialization from int() and str() in Time class
+            <comment>
+                Done
+            </comment>
+        </note>
+        <note priority="high" time="1247068213" done="1247068313">
+            Add initialization from int() and str() in Property class
+            <comment>
+                Done
+            </comment>
+        </note>
         <note priority="medium" time="1233608861" done="1234300185">
             Rearrange command epilogs (we should not use docstrings to get help for ID, TIME ..., docstrings may be discarded ...)
             <comment>
@@ -539,6 +563,9 @@
                 </comment>
             </note>
         </note>
+        <note priority="medium" time="1247055640" done="1247055660">
+            Add a constant handling module (Const)
+        </note>
         <note priority="low" time="1229468141" done="1236950054">
             Add dnt-to-devtodo exporter
             <comment>
@@ -569,11 +596,14 @@
         <note priority="veryhigh" time="1246919183">
             Add regression tests for nodes priority property
         </note>
+        <note priority="veryhigh" time="1247069054" done="1247069108">
+            Rearrange fromstring() method in Time and Priority classes in order to be more robust
+        </note>
         <note priority="high" time="1245923008">
             Add some filter based regression tests
         </note>
-        <note priority="high" time="1246919275">
-            Add comparison operators for priority property (veryhigh &gt; high &gt; medium &gt; low &gt; verylow)
+        <note priority="high" time="1247042871">
+            Replace type() checks with isinstance() (everywhere)
         </note>
         <note priority="medium" time="1239198401">
             Modify the build procedure in order to use gittag-to-date and filters for NEWS file update
@@ -689,6 +719,9 @@
         <note priority="high" time="1238660607">
             Find a better fix for devtodo-to-dnt .todo version detection
         </note>
+        <note priority="high" time="1247057640">
+            Rearrange Priority module, that code smells
+        </note>
         <note priority="medium" time="1234045911">
             Add code for interactive mode in fix command
         </note>
@@ -739,6 +772,9 @@
         </note>
         <note priority="high" time="1233868020">
             Add the description field in Entry class
+        </note>
+        <note priority="high" time="1246962539">
+            Rearrange priorities in order to remove hardwired values out of the user view
         </note>
         <note priority="medium" time="1233872395">
             Add mans and src/__init__.py generation rules in docs/man/Makefile.am and src/Makefile.am

@@ -169,6 +169,21 @@
             <comment>
                 Done
             </comment></entry>
+    <entry end="1246918695" priority="veryhigh" start="1245943006">
+            Fix the weak regexps in Filter class
+            <comment>
+                Done
+            </comment></entry>
+    <entry end="1246539734" priority="veryhigh" start="1246096040">
+            Update filter related regression tests
+            <comment>
+                Done
+            </comment><entry end="1246292966" priority="high" start="1245922985">
+                Rearrange old filter tests
+                <comment>
+                    Done
+                </comment></entry>
+    </entry>
     <entry end="1246532102" priority="veryhigh" start="1246293330">
             Fix NEWS target when dnt is not installed (devtodo-to-dnt accesses its XSLT into the target directory, devtodo gets called in order to updated the dnt database from its todo ancestor)
             <comment>
@@ -312,6 +327,26 @@
             <comment>
                 Done
             </comment></entry>
+    <entry end="1247068281" priority="high" start="1246919275">
+            Add comparison operators for Priority class (veryhigh &gt; high &gt; medium &gt; low &gt; verylow)
+            <comment>
+                Done
+            </comment></entry>
+    <entry end="1247068293" priority="high" start="1247067879">
+            Add comparison operators for Time class
+            <comment>
+                Done
+            </comment></entry>
+    <entry end="1247068304" priority="high" start="1247068207">
+            Add initialization from int() and str() in Time class
+            <comment>
+                Done
+            </comment></entry>
+    <entry end="1247068313" priority="high" start="1247068213">
+            Add initialization from int() and str() in Property class
+            <comment>
+                Done
+            </comment></entry>
     <entry end="1234300185" priority="medium" start="1233608861">
             Rearrange command epilogs (we should not use docstrings to get help for ID, TIME ..., docstrings may be discarded ...)
             <comment>
@@ -438,6 +473,9 @@
                     Done
                 </comment></entry>
     </entry>
+    <entry end="1247055660" priority="medium" start="1247055640">
+            Add a constant handling module (Const)
+        </entry>
     <entry end="1236950054" priority="low" start="1229468141">
             Add dnt-to-devtodo exporter
             <comment>
@@ -461,24 +499,17 @@
     <entry priority="veryhigh" start="1245932194">
             Fix the Time class in order to parse string formats correctly
         </entry>
-    <entry priority="veryhigh" start="1245943006">
-            Fix the weak regexps in Filter class
+    <entry priority="veryhigh" start="1246919183">
+            Add regression tests for nodes priority property
         </entry>
-    <entry end="1246539734" priority="veryhigh" start="1246096040">
-            Update filter related regression tests
-            <comment>
-                Done
-            </comment><entry end="1246292966" priority="high" start="1245922985">
-                Rearrange old filter tests
-                <comment>
-                    Done
-                </comment></entry>
-    </entry>
-    <entry priority="high" start="1235558583">
-            Fix the colored-wrap problem (add -t "Hello world", dump -l "%t" -w 6 in order to see it)
+    <entry end="1247069108" priority="veryhigh" start="1247069054">
+            Rearrange fromstring() method in Time and Priority classes in order to be more robust
         </entry>
     <entry priority="high" start="1245923008">
             Add some filter based regression tests
+        </entry>
+    <entry priority="high" start="1247042871">
+            Replace type() checks with isinstance() (everywhere)
         </entry>
     <entry priority="medium" start="1239198401">
             Modify the build procedure in order to use gittag-to-date and filters for NEWS file update
@@ -533,6 +564,15 @@
     <entry priority="veryhigh" start="1238451684">
             Add XML header in database file
         </entry>
+    <entry priority="veryhigh" start="1246871280">
+            Add unknown symbols detection in filters
+            <entry priority="veryhigh" start="1246918468">
+                Fix the evaluation of meaningless expressions (like True which evals to node.True without a good error message)
+            </entry>
+    <entry priority="veryhigh" start="1246918520">
+                Fix the evaluation of meaningless expression (which could call dangerous methods)
+            </entry>
+    </entry>
     <entry priority="high" start="1231780779">
             Add toxml() and fromxml() to Entry and Root classes
         </entry>
@@ -551,6 +591,9 @@
     </entry>
     <entry priority="high" start="1235431214">
             Fix the wrapper.in script in the test directory (find a better fix)
+        </entry>
+    <entry priority="high" start="1235558583">
+            Fix the colored-wrap problem (add -t "Hello world", dump -l "%t" -w 6 in order to see it)
         </entry>
     <entry priority="high" start="1235638003">
             Replace from with proper import in all modules
@@ -575,6 +618,9 @@
     </entry>
     <entry priority="high" start="1238660607">
             Find a better fix for devtodo-to-dnt .todo version detection
+        </entry>
+    <entry priority="high" start="1247057640">
+            Rearrange Priority module, that code smells
         </entry>
     <entry priority="medium" start="1234045911">
             Add code for interactive mode in fix command
@@ -623,6 +669,9 @@
         </entry>
     <entry priority="high" start="1233868020">
             Add the description field in Entry class
+        </entry>
+    <entry priority="high" start="1246962539">
+            Rearrange priorities in order to remove hardwired values out of the user view
         </entry>
     <entry priority="medium" start="1233872395">
             Add mans and src/__init__.py generation rules in docs/man/Makefile.am and src/Makefile.am
