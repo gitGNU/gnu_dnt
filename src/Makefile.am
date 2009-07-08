@@ -54,17 +54,18 @@ pkgvpython_PYTHON =				\
 	Configuration.py			\
 	Trace.py				\
 	Exceptions.py				\
+	Enum.py					\
+	Const.py				\
 	Command.py				\
 	Debug.py				\
 	Time.py					\
-	ANSI.py					\
 	Priority.py				\
+	ANSI.py					\
 	Console.py				\
 	Stack.py				\
 	DB.py					\
 	Visitor.py				\
 	Filter.py				\
-	Enum.py					\
 	Node.py					\
 	Tree.py					\
 	Entry.py				\
