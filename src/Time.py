@@ -17,6 +17,7 @@
 #
 
 import sys
+import string
 import datetime
 import time
 
@@ -84,7 +85,7 @@ class Time(object) :
         elif (type(t) == datetime.datetime) :
             self.__time = t
         else :
-            bug("Wrong constructor parameter for Time")
+            raise Exceptions.WrongTimeFormat(str(t))
         assert(type(self.__time) == datetime.datetime)
         debug("Time object initialized to `" + self.tostring() + "'")
 
@@ -95,13 +96,24 @@ class Time(object) :
     def time(self) :
         return self.__time
 
-    def fromstring(self, s) :
-        assert(type(s) == str)
+    def fromstring(self, t) :
+        assert(type(t) == str)
+
+        s = string.rstrip(string.lstrip(t))
+
         try :
+            # Try full-time first
             args = time.strptime(s,"%Y-%m-%d %H:%M:%S")[0:6]
             self.__time = datetime.datetime(*args)
         except :
-            raise Exceptions.WrongTimeFormat(s)
+            try :
+                # Fall-back to date only
+                args = time.strptime(s,"%Y-%m-%d")[0:6]
+                self.__time = datetime.datetime(*args)
+            except :
+                raise Exceptions.WrongTimeFormat(s)
+
+        assert(self.__time != None)
         debug("Time object set to `" + str(self.__time) + "'")
 
     def tostring(self) :
@@ -132,31 +144,43 @@ class Time(object) :
     def __eq__(self, other) :
         if isinstance(other, Time):
             return (self.__time == other.time())
+        if (isinstance(other, str)) :
+            return (self == Time(other))
         return False
 
     def __ne__(self, other) :
         if isinstance(other, Time):
             return (self.__time != other.time())
+        if (isinstance(other, str)) :
+            return (self != Time(other))
         return True
 
     def __gt__(self, other) :
         if isinstance(other, Time):
             return (self.__time > other.time())
+        if (isinstance(other, str)) :
+            return (self > Time(other))
         raise Exceptions.WrongTimeFormat(str(other))
 
     def __ge__(self, other) :
         if isinstance(other, Time):
             return (self.__time >= other.time())
+        if (isinstance(other, str)) :
+            return (self >= Time(other))
         raise Exceptions.WrongTimeFormat(str(other))
 
     def __lt__(self, other) :
         if isinstance(other, Time):
             return (self.__time < other.time())
+        if (isinstance(other, str)) :
+            return (self < Time(other))
         raise Exceptions.WrongTimeFormat(str(other))
 
     def __le__(self, other) :
         if isinstance(other, Time):
             return (self.__time <= other.time())
+        if (isinstance(other, str)) :
+            return (self <= Time(other))
         raise Exceptions.WrongTimeFormat(str(other))
 
 # Test
@@ -211,6 +235,14 @@ if (__name__ == '__main__') :
     assert(t1 == t2)
     assert(t1 <= t2)
     assert(t2 >= t1)
+
+    t1 = Time("2008-11-2 1:1:1")
+    t2 =      "2009-11-2 2:1:1"
+    assert(t1 != t2)
+    assert(t1 <= t2)
+    assert(t2 >= t1)
+    assert(t1 <  t2)
+    assert(t2 >  t1)
 
     debug("Test completed")
     sys.exit(0)
