@@ -52,9 +52,9 @@ class Visitor(object) :
     def visit(self, n) :
         debug("Visiting " + str(n))
 
-        if (type(n) == Root.Root) :
+        if (isinstance(n, Root.Root)) :
             self.visitRoot(n)
-        elif (type(n) == Entry.Entry) :
+        elif (isinstance(n, Entry.Entry)) :
             self.visitEntry(n)
         else :
             bug("Unknown type " + str(type(n)) + " for Visitor")

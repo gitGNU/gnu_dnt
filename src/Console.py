@@ -56,10 +56,10 @@ class Console(object) :
         # Fill the history
         if (history != None) :
             debug("History is not empty")
-            assert(type(history) == list)
+            assert(isinstance(history, list))
             debug("Filling console history")
             for i in range(0, len(history)) :
-                assert(type(history[i]) == str)
+                assert(isinstance(history[i], str))
                 readline.add_history(history[i])
 
         # Fill the history with buffer

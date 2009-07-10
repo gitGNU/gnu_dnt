@@ -32,7 +32,7 @@ class TimeDiff(object) :
         self.__time = t
 
 #    def fromstring(self, s) :
-#        assert(type(s) == str)
+#        assert(isinstance(s, str))
 #        raise Exceptions.WrongTimeFormat(s)
 
     def tostring(self) :
@@ -78,15 +78,15 @@ class Time(object) :
     __time = None
 
     def __init__(self, t = datetime.datetime.now()) :
-        if (type(t) == str) :
+        if (isinstance(t, str)) :
             self.fromstring(t)
-        elif (type(t) == int) :
+        elif (isinstance(t, int)) :
             self.fromint(t)
-        elif (type(t) == datetime.datetime) :
+        elif (isinstance(t, datetime.datetime)) :
             self.__time = t
         else :
             raise Exceptions.WrongTimeFormat(str(t))
-        assert(type(self.__time) == datetime.datetime)
+        assert(isinstance(self.__time, datetime.datetime))
         debug("Time object initialized to `" + self.tostring() + "'")
 
     def __str__(self) :
@@ -97,7 +97,7 @@ class Time(object) :
         return self.__time
 
     def fromstring(self, t) :
-        assert(type(t) == str)
+        assert(isinstance(t, str))
 
         s = string.rstrip(string.lstrip(t))
 
@@ -120,7 +120,7 @@ class Time(object) :
         return self.__time.strftime("%Y-%m-%d %H:%M:%S")
 
     def fromint(self, i) :
-        assert(type(i) == int)
+        assert(isinstance(i, int))
         try :
             self.__time = datetime.datetime.fromtimestamp(i)
         except :

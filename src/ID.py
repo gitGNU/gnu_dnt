@@ -29,7 +29,7 @@ def help() :
 class ID(object) :
     def __init__(self, s = "") :
         assert(s != None)
-        assert(type(s) == str)
+        assert(isinstance(s, str))
 
         if (s == "") :
             raise Exceptions.MalformedId("passed id is empty")
@@ -75,13 +75,13 @@ class ID(object) :
 # Test
 if (__name__ == '__main__') :
     def proc_node(i) :
-        assert(type(i) == str)
+        assert(isinstance(i, str))
         node = ID(i)
         assert(i == str(node))
         debug(i + " node   = " + str(node))
 
     def proc_parent(i) :
-        assert(type(i) == str)
+        assert(isinstance(i, str))
         node = ID(i)
         assert(i == str(node))
         parent = node.parent()

@@ -50,7 +50,7 @@ class Filter(object) :
 
     def _transform_part(self, input, prefix) :
         assert(input  != None)
-        assert(type(input) == list)
+        assert(isinstance(input, list))
         assert(prefix != None)
         assert(prefix != "")
 
@@ -120,7 +120,7 @@ class Filter(object) :
 
     def _transform(self, input, prefix) :
         assert(type(input)  == str)
-        assert(type(prefix) == str)
+        assert(isinstance(prefix, str))
         assert(prefix != "")
 
         debug("Transforming filter `" + input + "'")

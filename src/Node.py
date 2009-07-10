@@ -155,7 +155,7 @@ class Node(object) :
         return self.__flags
 
     def flags_set(self, flags) :
-        assert(type(flags) == list)
+        assert(isinstance(flags, list))
 
         for f in flags :
             try:

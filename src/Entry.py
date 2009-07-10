@@ -45,7 +45,7 @@ class Entry(Node.Node) :
 
     def text_set(self, t) :
         assert(t != None)
-        assert(type(t) == str)
+        assert(isinstance(t, str))
         assert(t != "")
 
         # Remove leading and trailing whitespaces from input string
@@ -100,7 +100,7 @@ class Entry(Node.Node) :
 
     def comment_set(self, t) :
         assert(t != None)
-        assert(type(t) == str)
+        assert(isinstance(t, str))
         assert(t != "")
 
         # Remove leading and trailing whitespaces from input string

@@ -143,10 +143,10 @@ def toxml(node, xml) :
 
     tag        = ""
     attributes = { }
-    if (type(node) == Root.Root) :
+    if (isinstance(node, Root.Root)) :
         #debug("Creating root XML element");
         tag = "root"
-    elif (type(node) == Entry.Entry) :
+    elif (isinstance(node, Entry.Entry)) :
         #debug("Creating entry XML element");
         if (node.priority != None) :
             attributes['priority'] = node.priority.tostring()
@@ -159,7 +159,7 @@ def toxml(node, xml) :
     child      = ET.Element(tag, attributes)
     child.text = node.text
 
-    if ((type(node) == Entry.Entry) and (node.comment  != None)) :
+    if ((isinstance(node, Entry.Entry)) and (node.comment  != None)) :
         tag          = "comment"
         attributes   = { }
         comment      = ET.SubElement(child, tag, attributes)

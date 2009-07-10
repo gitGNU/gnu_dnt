@@ -28,11 +28,11 @@ class Command(OptionParser) :
     # NOTE: An empty string is an allowed name (main uses it)
     def __init__(self, name, format = "[OPTION]...", footer = []) :
         assert(name != None)
-        assert(type(name) == str)
+        assert(isinstance(name, str))
         assert(format != None)
-        assert(type(format) == str)
+        assert(isinstance(format, str))
         assert(footer != None)
-        assert(type(footer) == list)
+        assert(isinstance(footer, list))
 
         self.__name   = name
 
@@ -40,7 +40,7 @@ class Command(OptionParser) :
         tmp = ""
         if (len(footer) > 0) :
             for i in range(0, len(footer)) :
-                assert(type(footer[i]) == str)
+                assert(isinstance(footer[i], str))
                 tmp = tmp + footer[i]
                 if (i != (len(footer) - 1)) :
                     tmp = tmp + "\n"
@@ -92,7 +92,7 @@ class Command(OptionParser) :
         # Give the caller a copy of our internal data ...
         return str(self.__name)
     def name_set(self, n) :
-        assert(type(n) == str)
+        assert(isinstance(n, str))
         assert(n != "")
         assert(n != None)
         assert(n == string.rstrip(string.lstrip(n)))

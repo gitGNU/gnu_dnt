@@ -30,7 +30,7 @@ from   Trace import *
 class EBase(Exception) :
     def __init__(self, message) :
         assert(message != None)
-        assert(type(message) == str)
+        assert(isinstance(message, str))
         self.__message = message
 
     def __str__(self) :
@@ -191,7 +191,7 @@ class EParameters(EBase) :
 class ExplicitExit(EParameters) :
     def __init__(self, message, code) :
         assert(code != None)
-        assert(type(code) == int)
+        assert(isinstance(code, int))
 
         #
         # NOTE:
