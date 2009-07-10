@@ -148,6 +148,9 @@ tests/test-command-show-filter-09
 tests/test-command-show-filter-10
 tests/test-command-show-filter-11
 tests/test-command-show-filter-12
+tests/test-command-show-filter-13
+tests/test-command-show-filter-14
+tests/test-command-show-filter-15
 tests/test-command-show-wrap-01
 tests/test-command-show-wrap-02
 tests/test-command-show-flags-01
