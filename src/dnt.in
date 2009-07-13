@@ -53,7 +53,11 @@ sys.path.append("@pkgvpythondir@")
 #     Import Trace at first, in order to use traces consistently
 #
 try :
-    # XXX FIXME: The ugliest way to read debug_enabled variable
+    #
+    # XXX FIXME:
+    #     The ugliest way to read debug_enabled and warning_enabled
+    #     variables ...
+    #
     from   Trace import *
     import Trace
 except Exception, e:
@@ -140,6 +144,7 @@ def main(arguments) :
     configuration.set(PROGRAM_NAME, 'colors',        True)
     configuration.set(PROGRAM_NAME, 'verbose',       False)
     configuration.set(PROGRAM_NAME, 'debug',         False)
+    configuration.set(PROGRAM_NAME, 'warning',       False)
     configuration.set(PROGRAM_NAME, 'database',      DEFAULT_DB_FILE)
     configuration.set(PROGRAM_NAME, 'configuration', DEFAULT_CFG_FILE)
 
@@ -190,6 +195,10 @@ def main(arguments) :
                        action = "store_true",
                        dest   = "debug",
                        help   = "enable debug mode")
+    command.add_option("-W", "--warning",
+                       action = "store_true",
+                       dest   = "warning",
+                       help   = "enable warnings")
 #    command.add_option("-n", "--dry-run",
 #                       action = "store_true",
 #                       dest   = "dry_run",
@@ -258,6 +267,8 @@ def main(arguments) :
 
     if (opts.debug == True) :
         configuration.set(PROGRAM_NAME, 'debug',         True)
+    if (opts.warning == True) :
+        configuration.set(PROGRAM_NAME, 'warning',       True)
     if (opts.database != None) :
         configuration.set(PROGRAM_NAME, 'database',      opts.database)
     if (opts.configuration != None) :
@@ -270,6 +281,9 @@ def main(arguments) :
     if (configuration.get(PROGRAM_NAME, 'debug', raw = True) == True) :
         Trace.debug_enabled = True
         debug("Debugging enabled")
+    if (configuration.get(PROGRAM_NAME, 'warning', raw = True) == True) :
+        Trace.warning_enabled = True
+        debug("Warnings enabled")
 
     # Start as normal now
 
