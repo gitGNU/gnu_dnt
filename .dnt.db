@@ -189,6 +189,14 @@
             <comment>
                 Done
             </comment></entry>
+    <entry end="1247478955" priority="veryhigh" start="1246919183">
+            Add regression tests for nodes priority property
+            <comment>
+                Done
+            </comment></entry>
+    <entry end="1247069108" priority="veryhigh" start="1247069054">
+            Rearrange fromstring() method in Time and Priority classes in order to be more robust
+        </entry>
     <entry end="1230733158" priority="high" start="1230733148">
             Fix colors in show command
             <comment>
@@ -327,8 +335,18 @@
             <comment>
                 Done
             </comment></entry>
+    <entry end="1247479006" priority="high" start="1245923008">
+            Add some filter based regression tests
+            <comment>
+                Done
+            </comment></entry>
     <entry end="1247068281" priority="high" start="1246919275">
             Add comparison operators for Priority class (veryhigh &gt; high &gt; medium &gt; low &gt; verylow)
+            <comment>
+                Done
+            </comment></entry>
+    <entry end="1247478842" priority="high" start="1247042871">
+            Replace type() checks with isinstance() (everywhere)
             <comment>
                 Done
             </comment></entry>
@@ -496,20 +514,14 @@
             <comment>
                 Done
             </comment></entry>
-    <entry priority="veryhigh" start="1245932194">
-            Fix the Time class in order to parse string formats correctly
+    <entry priority="veryhigh" start="1233871611">
+            Enhance the Time.fromstring() method in order to be more robust and parse string formats correctly
         </entry>
-    <entry priority="veryhigh" start="1246919183">
-            Add regression tests for nodes priority property
+    <entry priority="high" start="1247520482">
+            Add regression test for --warning option
         </entry>
-    <entry end="1247069108" priority="veryhigh" start="1247069054">
-            Rearrange fromstring() method in Time and Priority classes in order to be more robust
-        </entry>
-    <entry priority="high" start="1245923008">
-            Add some filter based regression tests
-        </entry>
-    <entry priority="high" start="1247042871">
-            Replace type() checks with isinstance() (everywhere)
+    <entry priority="high" start="1247520497">
+            Add regression test for --hide-collapsed option in show command
         </entry>
     <entry priority="medium" start="1239198401">
             Modify the build procedure in order to use gittag-to-date and filters for NEWS file update
@@ -533,9 +545,6 @@
         </entry>
     <entry priority="veryhigh" start="1232149768">
             Fix all return passed by reference (where a reference shouldn't be passed at all ...)
-        </entry>
-    <entry priority="veryhigh" start="1233871611">
-            Enhance the Time.fromstring() method, in order to be more robust
         </entry>
     <entry priority="veryhigh" start="1236640302">
             Add an option parser related class in order to have complete control over option parsing and help generation
@@ -573,6 +582,9 @@
                 Fix the evaluation of meaningless expression (which could call dangerous methods)
             </entry>
     </entry>
+    <entry priority="veryhigh" start="1247482742">
+            Enhance the Time.fromstring() method in order to parse incomplete formats (year only, year and month only etc.)
+        </entry>
     <entry priority="high" start="1231780779">
             Add toxml() and fromxml() to Entry and Root classes
         </entry>
