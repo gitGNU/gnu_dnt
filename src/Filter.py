@@ -32,10 +32,8 @@ import Exceptions
 #     those are the allowed symbols inside a filter (a subset of them
 #     all: children and parent should be hidden ...)
 #
-#     Please update the description ASAP !!!
-#
 def help() :
-    return "Recognized filters are: all, done, not-done"
+    return "Boolean expression containing entries properties (" + Entry.help() + ")"
 
 class Filter(object) :
     def __init__(self, s = None) :
@@ -119,7 +117,7 @@ class Filter(object) :
         return result
 
     def _transform(self, input, prefix) :
-        assert(type(input)  == str)
+        assert(isinstance(input, str))
         assert(isinstance(prefix, str))
         assert(prefix != "")
 
@@ -206,7 +204,7 @@ class Filter(object) :
             raise Exceptions.InvalidExpression(self.__original)
 
         # The evaluation result must be boolean
-        if (type(ret) != bool) :
+        if (not isinstance(ret, bool)) :
             raise Exceptions.InvalidExpressionType(self.__original)
 
         return ret
