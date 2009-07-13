@@ -41,7 +41,8 @@ def show(level,
          colors, verbose,
          cmap,
          filehandle, width,
-         indent_fill, line_format, unindent_fill, level_fill) :
+         indent_fill, line_format, unindent_fill, level_fill,
+         hide_collapsed) :
 
     assert(node          != None)
     assert(isinstance(colors, bool))
@@ -147,7 +148,11 @@ def show(level,
             #
             # If line is set as "collapsed", substitute text with "..."
             if ('collapsed' in e.flags) :
-                t = re.sub('%t', color_text('...'), t)
+                # XXX FIXME: Awful hack
+                if (hide_collapsed) :
+                    t = ''
+                else :
+                    t = re.sub('%t', color_text('...'), t)
             else :
                 t = re.sub('%t', color_text(text),  t)
 
@@ -194,7 +199,8 @@ def show(level,
                  cmap,
                  filehandle, width,
                  indent_fill, line_format,
-                 unindent_fill, level_fill)
+                 unindent_fill, level_fill,
+                 hide_collapsed)
 
         debug("Indenting less")
         filehandle.write(unindent_fill)
@@ -335,6 +341,11 @@ class SubCommand(Command) :
                            type   = "string",
                            dest   = "filter",
                            help   = "specify selection filter")
+        Command.add_option(self,
+                           "-H", "--hide-collapsed",
+                           action = "store_true",
+                           dest   = "hide",
+                           help   = "hide collapsed entries")
 
         (opts, args) = Command.parse_args(self, arguments)
         if (len(args) > 0) :
@@ -364,7 +375,7 @@ class SubCommand(Command) :
         except :
             debug("No width configuration found")
 
-        # Ovveride width with parameters (if present)
+        # Override width with parameters (if present)
         try :
             if (opts.width != None) :
                 width = int(opts.width)
@@ -381,6 +392,25 @@ class SubCommand(Command) :
         assert(width >= 0)
 
         debug("Output width is " + str(width))
+
+        # Handle hide-collapsed
+        hide_collapsed = None
+
+        # Get hide-collapsed from configuration (if present)
+        try :
+            hide_collapsed = configuration.get(PROGRAM_NAME,
+                                               'hide-collapsed',
+                                               raw = True)
+        except :
+            debug("No hide-collapsed configuration found")
+
+        # Override hide-collapsed with parameters (if present)
+        try :
+            if (opts.hide != None) :
+                hide_collapsed = bool(opts.hide)
+        except :
+            raise Exceptions.WrongParameter("hide-collapsed must be boolean")
+
 
         try :
             colors = configuration.get(PROGRAM_NAME, 'colors', raw = True)
@@ -479,7 +509,8 @@ class SubCommand(Command) :
              colors, verbose,
              cmap,
              filehandle, width,
-             indent_fill, line_format, unindent_fill, level_fill)
+             indent_fill, line_format, unindent_fill, level_fill,
+             hide_collapsed)
         #filehandle.write(unindent_fill)
 
         # Avoid closing precious filehandles
