@@ -44,8 +44,8 @@ def show(level,
          indent_fill, line_format, unindent_fill, level_fill) :
 
     assert(node          != None)
-    assert(type(colors)  == bool)
-    assert(type(verbose) == bool)
+    assert(isinstance(colors, bool))
+    assert(isinstance(verbose, bool))
     assert(filehandle    != None)
     assert(width         >= 0)
     assert(indent_fill   != None)
@@ -54,9 +54,9 @@ def show(level,
     assert(level_fill    != None)
 
     # Dump the current node
-    if (type(node) == Root.Root) :
+    if (isinstance(node, Root.Root)) :
         pass
-    elif (type(node) == Entry.Entry) :
+    elif (isinstance(node, Entry.Entry)) :
         e = node
 
         if not (('visible' in e.flags)   or
@@ -223,14 +223,14 @@ def mark(node, filter) :
               "' has "  +  str(marked) +
               " children that match filter")
 
-    if (type(node) == Root.Root) :
+    if (isinstance(node, Root.Root)) :
         if (marked > 0) :
             debug("Entry `"                               + str(node)   +
                   "' has children those matches filter `" + str(filter) +
                   "' marking it as collapsed")
             node.flags = ['collapsed']
 
-    elif (type(node) == Entry.Entry) :
+    elif (isinstance(node, Entry.Entry)) :
         match = filter.evaluate(node)
 
         if ((marked > 0) and (match == False)) :
@@ -377,7 +377,7 @@ class SubCommand(Command) :
             t     = Terminal.Terminal(stream_out = filehandle)
             width = t.columns
 
-        assert(type(width) == int)
+        assert(isinstance(width, int))
         assert(width >= 0)
 
         debug("Output width is " + str(width))

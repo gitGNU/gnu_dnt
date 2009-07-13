@@ -56,7 +56,7 @@ class Enum(object) :
 
     def __call__(self, name_or_value) :
         assert(self.__initialized)
-        if (type(name_or_value) == type(0)) :
+        if (isinstance(name_or_value, int)) :
             for name in self.__names :
                 if (getattr(self, name) == name_or_value) :
                     return name

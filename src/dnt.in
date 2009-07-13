@@ -339,7 +339,7 @@ def main(arguments) :
         bug("Unknown exception in subcommand "
             "`" + cmd_name + "' (" + str(e) + ")")
 
-    assert(type(retval) == int)
+    assert(isinstance(retval, int))
 
     if (retval != 0) :
         debug("Got an error (" + str(retval) + "), bailing out ...")
@@ -414,7 +414,7 @@ if (__name__ == '__main__') :
     except :
         bug("Unknown exception detected in main loop")
 
-    assert(type(retval) == int)
+    assert(isinstance(retval, int))
 
     debug("Program execution completed with return value " + str(retval))
     sys.exit(retval)

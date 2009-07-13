@@ -70,7 +70,7 @@ class Command(OptionParser) :
 
         assert(hasattr(self, "authors"))
         assert(callable(self.authors))
-        assert(type(self.authors()) == list)
+        assert(isinstance(self.authors(), list))
 
         print >> file, ""
         j = 0
