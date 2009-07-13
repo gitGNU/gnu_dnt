@@ -72,7 +72,7 @@ class TimeDiff(object) :
             str(seconds) + "s"
 
 def help() :
-    return "A date-time expressed in YYYY-MM-DD HH:MM:SS"
+    return "A date-time expressed in YYYY-MM-DD [HH:MM:SS]"
 
 class Time(object) :
     __time = None
@@ -130,11 +130,11 @@ class Time(object) :
         return int(time.mktime(self.__time.timetuple()))
 
     def __add__(self, other) :
-        assert(type(self) == type(other))
+        assert(isinstance(self, other))
         return TimeDiff(self.__time + other.time())
 
     def __sub__(self, other) :
-        assert(type(self) == type(other))
+        assert(isinstance(self, other))
         return TimeDiff(self.__time - other.time())
 
     #
