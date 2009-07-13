@@ -25,6 +25,15 @@ import Node
 import Priority
 import Time
 
+#
+# XXX FIXME:
+#     We should fetch the properies from Node and Entry classes. Only
+#     those are the allowed symbols inside a filter (a subset of them
+#     all: children and parent should be hidden ...)
+#
+def help() :
+    return "text, priority, start, end, " + Node.help()
+
 class Entry(Node.Node) :
     def __init__(self,
                  text,

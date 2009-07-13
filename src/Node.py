@@ -24,6 +24,15 @@ import Exceptions
 import ID
 import Enum
 
+#
+# XXX FIXME:
+#     We should fetch the properies from Node and Entry classes. Only
+#     those are the allowed symbols inside a filter (a subset of them
+#     all: children and parent should be hidden ...)
+#
+def help() :
+    return "depth, id"
+
 class Node(object) :
     def __init__(self) :
         self.__children  = []
