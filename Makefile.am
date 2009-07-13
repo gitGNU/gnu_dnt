@@ -85,31 +85,31 @@ TODO: $(DNT_DB)
 MAINTAINERCLEANFILES += TODO
 
 NEWS: $(DNT_DB)
-	start="" ;									\
-	end="`date +"%Y-%m-%d"`" ;							\
-	script="$(GITTAG_TO_DATE)";							\
-	rm -f NEWS ;									\
-	for i in `$$script | $(SED) -e 's,.*\ ,,' | sort -r -k 2` ;			\
-	do										\
-		start="$$i" ;								\
-		echo "$$start -> $$end" ;						\
-		echo "$$end:" >> NEWS;							\
-		$(top_builddir)/src/dnt	$(DNT_FLAGS)					\
-			show								\
-			--filter="start>=\"$$start\" and end<=\"$$end\" and done"	\
-			--line-format="  %t"						\
-			--level-fill=""							\
-			--indent-fill=""						\
-			--unindent-fill=""						\
-			--width=0							\
-			--hide-collapsed						\
-		>> NEWS ;								\
-		echo "" >> NEWS ;							\
-		end="$$start" ;								\
-		start=$$i ;								\
-	done || {									\
-		rm -f NEWS ;								\
-		exit 1 ;								\
+	start="" ;								  \
+	end="`date +"%Y-%m-%d"`" ;						  \
+	script="$(GITTAG_TO_DATE)";						  \
+	rm -f NEWS ;								  \
+	for i in `$$script | $(SED) -e 's,.*\ ,,' | sort -r -k 2` ;		  \
+	do									  \
+		start="$$i" ;							  \
+		echo "$$start -> $$end" ;					  \
+		echo "$$end:" >> NEWS;						  \
+		$(top_builddir)/src/dnt	$(DNT_FLAGS)				  \
+			show							  \
+			--filter="start>=\"$$start\" and end<=\"$$end\" and done" \
+			--line-format="  %t"					  \
+			--level-fill=""						  \
+			--indent-fill=""					  \
+			--unindent-fill=""					  \
+			--width=0						  \
+			--hide-collapsed					  \
+		>> NEWS ;							  \
+		echo "" >> NEWS ;						  \
+		end="$$start" ;							  \
+		start=$$i ;							  \
+	done || {								  \
+		rm -f NEWS ;							  \
+		exit 1 ;							  \
 	}
 MAINTAINERCLEANFILES += NEWS
 
