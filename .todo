@@ -614,6 +614,12 @@
         <note priority="veryhigh" time="1233871611">
             Enhance the Time.fromstring() method in order to be more robust and parse string formats correctly
         </note>
+        <note priority="high" time="1247520482">
+            Add regression test for --warning option
+        </note>
+        <note priority="high" time="1247520497">
+            Add regression test for --hide-collapsed option in show command
+        </note>
         <note priority="medium" time="1239198401">
             Modify the build procedure in order to use gittag-to-date and filters for NEWS file update
             <note priority="medium" time="1239198333" done="1239286118">
