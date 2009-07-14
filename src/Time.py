@@ -20,6 +20,7 @@ import sys
 import string
 import datetime
 import time
+import re
 
 from   Debug      import *
 from   Trace      import *
@@ -99,7 +100,9 @@ class Time(object) :
     def fromstring(self, t) :
         assert(isinstance(t, str))
 
+        # Sanitizing whitespaces
         s = string.rstrip(string.lstrip(t))
+        s = re.sub('\s+', ' ', s)
 
         try :
             # Try full-time first
