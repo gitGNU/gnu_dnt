@@ -57,6 +57,7 @@ tests/testSubDir-*
 tests/test-success
 tests/test-fail
 tests/test-debug
+tests/test-warnings
 tests/test-verbose
 tests/test-help
 tests/test-version
