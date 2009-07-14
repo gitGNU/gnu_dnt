@@ -106,12 +106,12 @@ class Time(object) :
 
         try :
             # Try full-time first
-            args = time.strptime(s,"%Y-%m-%d %H:%M:%S")[0:6]
+            args = time.strptime(s, "%Y-%m-%d %H:%M:%S")[0:6]
             self.__time = datetime.datetime(*args)
         except :
             try :
                 # Fall-back to date only
-                args = time.strptime(s,"%Y-%m-%d")[0:6]
+                args = time.strptime(s, "%Y-%m-%d")[0:6]
                 self.__time = datetime.datetime(*args)
             except :
                 raise Exceptions.WrongTimeFormat(s)
