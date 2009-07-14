@@ -156,6 +156,7 @@ tests/test-command-show-wrap-01
 tests/test-command-show-wrap-02
 tests/test-command-show-flags-01
 tests/test-command-show-warnings-01
+tests/test-command-show-collapsed-01
 
 tests/test-command-mark-help-01
 tests/test-command-mark-opts-short-01
