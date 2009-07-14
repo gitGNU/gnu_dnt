@@ -17,6 +17,7 @@
 #
 
 import sys
+import re
 from   xml.etree   import ElementTree as ET
 
 from   Debug       import *
@@ -45,7 +46,7 @@ def fromxml(xml) :
 
     if (xml.tag == "root") :
         text = xml.text
-        if (text == None) :
+        if ((text == None) or (re.match('^\s*$', text))) :
             warning("Database has no name, using default one")
             text = "Default DB name"
 
