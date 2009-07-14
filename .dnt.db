@@ -365,6 +365,14 @@
             <comment>
                 Done
             </comment></entry>
+    <entry end="1247574231" priority="high" start="1247521002">
+            Add --warning main option
+            <comment>
+                Done
+            </comment><entry end="0" priority="high" start="1247520482">
+                Add regression test for --warning option
+            </entry>
+    </entry>
     <entry end="1234300185" priority="medium" start="1233608861">
             Rearrange command epilogs (we should not use docstrings to get help for ID, TIME ..., docstrings may be discarded ...)
             <comment>
@@ -516,13 +524,18 @@
             </comment></entry>
     <entry priority="veryhigh" start="1233871611">
             Enhance the Time.fromstring() method in order to be more robust and parse string formats correctly
-        </entry>
-    <entry priority="high" start="1247520482">
-            Add regression test for --warning option
-        </entry>
-    <entry priority="high" start="1247520497">
-            Add regression test for --hide-collapsed option in show command
-        </entry>
+            <entry priority="high" start="1247522900">
+                Add regression test to show Time class parsing robustness
+            </entry>
+    </entry>
+    <entry end="1247574241" priority="high" start="1247521020">
+            Add --hide-collapsed to show command
+            <comment>
+                Done
+            </comment><entry end="0" priority="high" start="1247520497">
+                Add regression test for --hide-collapsed option in show command
+            </entry>
+    </entry>
     <entry priority="medium" start="1239198401">
             Modify the build procedure in order to use gittag-to-date and filters for NEWS file update
             <entry end="1239286118" priority="medium" start="1239198333">
@@ -530,6 +543,9 @@
                 <comment>
                     Done
                 </comment></entry>
+    <entry priority="medium" start="1247523014">
+                Skip empty entries in NEWS file generation
+            </entry>
     </entry>
     </entry>
     <entry priority="high" start="1233694836">
