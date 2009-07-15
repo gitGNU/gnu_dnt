@@ -111,7 +111,6 @@ NEWS: $(DNT_DB)
 			echo "$$start -> $$end : Empty" ;			  \
 		fi ;								  \
 		end="$$start" ;							  \
-		start=$$i ;							  \
 	done && rm -f NEWS.tmp) || {						  \
 		rm -f NEWS.tmp ;						  \
 		rm -f NEWS ;							  \
