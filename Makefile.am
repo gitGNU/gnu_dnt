@@ -89,9 +89,10 @@ NEWS: $(DNT_DB)
 	end="`date +"%Y-%m-%d"`" ;						  \
 	script="$(GITTAG_TO_DATE)" ;						  \
 	rm -f NEWS ;								  \
-	(for i in `$$script | $(SED) -e 's,.*\ ,,' | sort -r -k 2` ;		  \
+	(for i in `$$script | sort -r -k 2 | $(SED) -e 's,\ ,_,g'` ;		  \
 	 do									  \
-		start="$$i" ;							  \
+		start="`echo $$i | $(SED) -e 's,^.*_,,'`" ;			  \
+		tag="`echo $$i | $(SED) -e 's,_.*$$,,'`" ;			  \
 		$(top_builddir)/src/dnt	$(DNT_FLAGS)				  \
 			show							  \
 			--filter="start>=\"$$start\" and end<=\"$$end\" and done" \
@@ -103,7 +104,7 @@ NEWS: $(DNT_DB)
 			--hide-collapsed					  \
 		> NEWS.tmp ;							  \
 		if test ! "x`${SED} -n '$$=' < NEWS.tmp`" = "x" ; then		  \
-			echo "$$end:" >> NEWS ;					  \
+			echo "$$end ($$tag):" >> NEWS ;				  \
 			cat NEWS.tmp >> NEWS ;					  \
 			echo "" >> NEWS ;					  \
 			echo "$$start -> $$end : Ok" ;				  \
