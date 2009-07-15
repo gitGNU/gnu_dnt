@@ -373,6 +373,14 @@
                 Add regression test for --warning option
             </entry>
     </entry>
+    <entry end="1247574241" priority="high" start="1247521020">
+            Add --hide-collapsed to show command
+            <comment>
+                Done
+            </comment><entry end="0" priority="high" start="1247520497">
+                Add regression test for --hide-collapsed option in show command
+            </entry>
+    </entry>
     <entry end="1234300185" priority="medium" start="1233608861">
             Rearrange command epilogs (we should not use docstrings to get help for ID, TIME ..., docstrings may be discarded ...)
             <comment>
@@ -522,19 +530,15 @@
             <comment>
                 Done
             </comment></entry>
-    <entry priority="veryhigh" start="1233871611">
+    <entry end="1247648986" priority="veryhigh" start="1233871611">
             Enhance the Time.fromstring() method in order to be more robust and parse string formats correctly
-            <entry priority="high" start="1247522900">
-                Add regression test to show Time class parsing robustness
-            </entry>
-    </entry>
-    <entry end="1247574241" priority="high" start="1247521020">
-            Add --hide-collapsed to show command
             <comment>
                 Done
-            </comment><entry end="0" priority="high" start="1247520497">
-                Add regression test for --hide-collapsed option in show command
-            </entry>
+            </comment><entry end="1247648975" priority="high" start="1247522900">
+                Add regression test to show Time class parsing robustness
+                <comment>
+                    Done
+                </comment></entry>
     </entry>
     <entry priority="medium" start="1239198401">
             Modify the build procedure in order to use gittag-to-date and filters for NEWS file update

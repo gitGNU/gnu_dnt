@@ -113,6 +113,18 @@
                 </note>
             </note>
         </note>
+        <note priority="veryhigh" time="1233871611" done="1247648986">
+            Enhance the Time.fromstring() method in order to be more robust and parse string formats correctly
+            <comment>
+                Done
+            </comment>
+            <note priority="high" time="1247522900" done="1247648975">
+                Add regression test to show Time class parsing robustness
+                <comment>
+                    Done
+                </comment>
+            </note>
+        </note>
         <note priority="veryhigh" time="1234023147" done="1234023208">
             Fix command epilog handling
             <comment>
@@ -629,18 +641,6 @@
                 Done
             </comment>
         </note>
-        <note priority="veryhigh" time="1233871611" done="1247648986">
-            Enhance the Time.fromstring() method in order to be more robust and parse string formats correctly
-            <comment>
-                Done
-            </comment>
-            <note priority="high" time="1247522900" done="1247648975">
-                Add regression test to show Time class parsing robustness
-                <comment>
-                    Done
-                </comment>
-            </note>
-        </note>
         <note priority="medium" time="1239198401">
             Modify the build procedure in order to use gittag-to-date and filters for NEWS file update
             <note priority="medium" time="1239198333" done="1239286118">
@@ -649,8 +649,14 @@
                     Done
                 </comment>
             </note>
-            <note priority="medium" time="1247523014">
+            <note priority="medium" time="1247523014" done="1247696677">
                 Skip empty entries in NEWS file generation
+                <comment>
+                    Done
+                </comment>
+            </note>
+            <note priority="high" time="1247696522">
+                Add the version tag to the NEWS file, in order to satisfy automake check-news rule
             </note>
         </note>
     </note>
