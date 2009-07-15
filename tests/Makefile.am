@@ -170,6 +170,7 @@ SUCCESS_TESTS +=				\
 	test-command-show-filter-13		\
 	test-command-show-filter-14		\
 	test-command-show-filter-15		\
+	test-command-show-filter-16		\
 	test-command-show-wrap-01		\
 	test-command-show-wrap-02		\
 	test-command-show-flags-01		\
@@ -1362,6 +1363,18 @@ test-command-show-filter-15: $(srcdir)/test-command-show-filter-15.in Makefile
 	}
 EXTRA_DIST += test-command-show-filter-15.in
 CLEANFILES += test-command-show-filter-15
+
+test-command-show-filter-16: $(srcdir)/test-command-show-filter-16.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-filter-16.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-filter-16.in
+CLEANFILES += test-command-show-filter-16
 
 test-command-show-help-01: $(srcdir)/test-command-show-help-01.in Makefile
 	( rm -f $@ $@.tmp && \
