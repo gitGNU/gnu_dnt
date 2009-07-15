@@ -443,6 +443,15 @@
                 Add regression test for --warning option
             </note>
         </note>
+        <note priority="high" time="1247521020" done="1247574241">
+            Add --hide-collapsed to show command
+            <comment>
+                Done
+            </comment>
+            <note priority="high" time="1247520497" done="0">
+                Add regression test for --hide-collapsed option in show command
+            </note>
+        </note>
         <note priority="medium" time="1233608861" done="1234300185">
             Rearrange command epilogs (we should not use docstrings to get help for ID, TIME ..., docstrings may be discarded ...)
             <comment>
@@ -620,19 +629,16 @@
                 Done
             </comment>
         </note>
-        <note priority="veryhigh" time="1233871611">
+        <note priority="veryhigh" time="1233871611" done="1247648986">
             Enhance the Time.fromstring() method in order to be more robust and parse string formats correctly
-            <note priority="high" time="1247522900">
-                Add regression test to show Time class parsing robustness
-            </note>
-        </note>
-        <note priority="high" time="1247521020" done="1247574241">
-            Add --hide-collapsed to show command
             <comment>
                 Done
             </comment>
-            <note priority="high" time="1247520497" done="0">
-                Add regression test for --hide-collapsed option in show command
+            <note priority="high" time="1247522900" done="1247648975">
+                Add regression test to show Time class parsing robustness
+                <comment>
+                    Done
+                </comment>
             </note>
         </note>
         <note priority="medium" time="1239198401">
