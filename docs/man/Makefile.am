@@ -78,7 +78,7 @@ devtodo-to-dnt.1: $(top_srcdir)/src/devtodo-to-dnt.in $(top_srcdir)/configure.ac
 	    --output=devtodo-to-dnt.1 \
 	    $(top_builddir)/src/devtodo-to-dnt
 
-dnt.1: $(top_srcdir)/src/dnt.in $(top_srcdir)/configure.ac $(top_srcdir)/src/Command.py
+dnt.1: $(top_srcdir)/src/dnt.in $(top_srcdir)/src/Command.py $(top_srcdir)/configure.ac 
 	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
