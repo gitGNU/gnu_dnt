@@ -248,6 +248,12 @@
         <note priority="veryhigh" time="1247069054" done="1247069108">
             Rearrange fromstring() method in Time and Priority classes in order to be more robust
         </note>
+        <note priority="veryhigh" time="1247732630" done="1247732644">
+            Fix the distcheck rule (again)
+            <comment>
+                Done
+            </comment>
+        </note>
         <note priority="high" time="1230733148" done="1230733158">
             Fix colors in show command
             <comment>
@@ -641,8 +647,17 @@
                 Done
             </comment>
         </note>
-        <note priority="medium" time="1239198401">
+        <note priority="medium" time="1239198401" done="1247732674">
             Modify the build procedure in order to use gittag-to-date and filters for NEWS file update
+            <comment>
+                Done
+            </comment>
+            <note priority="high" time="1247696522" done="1247732661">
+                Add the version tag to the NEWS file, in order to satisfy automake check-news rule
+                <comment>
+                    Done
+                </comment>
+            </note>
             <note priority="medium" time="1239198333" done="1239286118">
                 Add gittag-to-date script (in order to extract ordered tag-dates)
                 <comment>
@@ -654,9 +669,6 @@
                 <comment>
                     Done
                 </comment>
-            </note>
-            <note priority="high" time="1247696522">
-                Add the version tag to the NEWS file, in order to satisfy automake check-news rule
             </note>
         </note>
     </note>

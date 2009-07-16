@@ -94,6 +94,16 @@
                     </comment></entry>
     </entry>
     </entry>
+    <entry end="1247648986" priority="veryhigh" start="1233871611">
+            Enhance the Time.fromstring() method in order to be more robust and parse string formats correctly
+            <comment>
+                Done
+            </comment><entry end="1247648975" priority="high" start="1247522900">
+                Add regression test to show Time class parsing robustness
+                <comment>
+                    Done
+                </comment></entry>
+    </entry>
     <entry end="1234023208" priority="veryhigh" start="1234023147">
             Fix command epilog handling
             <comment>
@@ -197,6 +207,11 @@
     <entry end="1247069108" priority="veryhigh" start="1247069054">
             Rearrange fromstring() method in Time and Priority classes in order to be more robust
         </entry>
+    <entry end="1247732644" priority="veryhigh" start="1247732630">
+            Fix the distcheck rule (again)
+            <comment>
+                Done
+            </comment></entry>
     <entry end="1230733158" priority="high" start="1230733148">
             Fix colors in show command
             <comment>
@@ -530,26 +545,25 @@
             <comment>
                 Done
             </comment></entry>
-    <entry end="1247648986" priority="veryhigh" start="1233871611">
-            Enhance the Time.fromstring() method in order to be more robust and parse string formats correctly
+    <entry end="1247732674" priority="medium" start="1239198401">
+            Modify the build procedure in order to use gittag-to-date and filters for NEWS file update
             <comment>
                 Done
-            </comment><entry end="1247648975" priority="high" start="1247522900">
-                Add regression test to show Time class parsing robustness
+            </comment><entry end="1247732661" priority="high" start="1247696522">
+                Add the version tag to the NEWS file, in order to satisfy automake check-news rule
                 <comment>
                     Done
                 </comment></entry>
-    </entry>
-    <entry priority="medium" start="1239198401">
-            Modify the build procedure in order to use gittag-to-date and filters for NEWS file update
-            <entry end="1239286118" priority="medium" start="1239198333">
+    <entry end="1239286118" priority="medium" start="1239198333">
                 Add gittag-to-date script (in order to extract ordered tag-dates)
                 <comment>
                     Done
                 </comment></entry>
-    <entry priority="medium" start="1247523014">
+    <entry end="1247696677" priority="medium" start="1247523014">
                 Skip empty entries in NEWS file generation
-            </entry>
+                <comment>
+                    Done
+                </comment></entry>
     </entry>
     </entry>
     <entry priority="high" start="1233694836">
