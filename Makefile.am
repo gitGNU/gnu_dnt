@@ -47,7 +47,8 @@ EXTRA_DIST =						\
 	bootstrap					\
 	configure.ac.in					\
 	python.af					\
-	.todo
+	.todo						\
+	.dnt.db
 
 ##
 ## Maintainer related targets
@@ -70,6 +71,8 @@ $(DNT_DB): $(DEVTODO_DB)
 	}
 
 TODO: $(DNT_DB)
+	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	export PYTHONPATH ; \
 	$(top_builddir)/src/dnt	$(DNT_FLAGS)	\
 	       show				\
 	       --filter="not done"		\
@@ -85,6 +88,8 @@ TODO: $(DNT_DB)
 MAINTAINERCLEANFILES += TODO
 
 NEWS: $(DNT_DB)
+	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	export PYTHONPATH ; \
 	start="" ;								  \
 	end="`date +"%Y-%m-%d"`" ;						  \
 	script="$(GITTAG_TO_DATE)" ;						  \
