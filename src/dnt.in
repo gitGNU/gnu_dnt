@@ -45,7 +45,9 @@ except Exception, e:
     print(str(e))
     sys.exit(-1)
 
+# Add our modules directory to the path
 sys.path.append("@pkgvpythondir@")
+
 # Now start importing our modules
 
 #
@@ -116,6 +118,22 @@ except ImportError, e:
     sys.exit(-1)
 #except Exception, e:
 #    bug(str(e))
+
+# Remove the local directory from the path at last (we want a caged python ...)
+try :
+    cwd = os.getcwd()
+    for i in range(0, sys.path.count(cwd)) :
+        sys.path.remove(cwd)
+except Exception, e:
+    try :
+        why = "(" + str(e) + ")"
+    except :
+        why = ""
+    error("Cannot have a caged python execution " +
+          why +
+          ", bailing out ...")
+    sys.exit(-1)
+
 
 def hint(s) :
     print(s)
