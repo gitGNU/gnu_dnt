@@ -144,7 +144,7 @@ check-local: Makefile
 		m=`echo $$i | $(SED) -e 's,\.py,,'` && \
 		rm -f $$m.pyc && \
 		echo $(ECHO_N) "checking module $$m ($$i)... $(ECHO_C)" && \
-		PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(srcdir)@PATH_SEPARATOR@$(builddir) $(PYTHON) $(srcdir)/$$i > test.log 2>&1 || { \
+		PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_srcdir)@PATH_SEPARATOR@$(abs_builddir) $(PYTHON) $(srcdir)/$$i > test.log 2>&1 || { \
 			echo "$(ECHO_T)no" ; \
 			cat test.log ; \
 			exit 1 ; \
@@ -155,7 +155,7 @@ check-local: Makefile
 		m=`echo $$i | $(SED) -e 's,\.py,,'` && \
 		rm -f $$m.pyc && \
 		echo $(ECHO_N) "checking module $$m ($$i)... $(ECHO_C)" && \
-		PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(srcdir)@PATH_SEPARATOR@$(builddir) $(PYTHON) $(srcdir)/$$i > test.log 2>&1 || { \
+		PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_srcdir)@PATH_SEPARATOR@$(abs_builddir) $(PYTHON) $(srcdir)/$$i > test.log 2>&1 || { \
 			echo "$(ECHO_T)no" ; \
 			cat test.log ; \
 			exit 1 ; \
@@ -166,7 +166,7 @@ check-local: Makefile
 		m=`echo $$i | $(SED) -e 's,\.py,,'` && \
 		rm -f $$m.pyc && \
 		echo $(ECHO_N) "checking module $$m ($$i)... $(ECHO_C)" && \
-		PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(srcdir)@PATH_SEPARATOR@$(builddir) $(PYTHON) $(builddir)/$$i > test.log 2>&1 || { \
+		PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_srcdir)@PATH_SEPARATOR@$(abs_builddir) $(PYTHON) $(builddir)/$$i > test.log 2>&1 || { \
 			echo "$(ECHO_T)no" ; \
 			cat test.log ; \
 			exit 1 ; \
