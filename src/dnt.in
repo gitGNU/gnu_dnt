@@ -121,6 +121,9 @@ except ImportError, e:
 
 # Remove the local directory from the path at last (we want a caged python ...)
 try :
+    cwd = ''
+    for i in range(0, sys.path.count(cwd)) :
+        sys.path.remove(cwd)
     cwd = os.getcwd()
     for i in range(0, sys.path.count(cwd)) :
         sys.path.remove(cwd)
@@ -133,7 +136,6 @@ except Exception, e:
           why +
           ", bailing out ...")
     sys.exit(-1)
-
 
 def hint(s) :
     print(s)
