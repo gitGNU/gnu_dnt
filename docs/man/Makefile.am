@@ -57,7 +57,7 @@ EXTRA_DIST = $(man_aux)
 ##     Distributed files should never depend on non-distributed built files
 ##
 dnt-to-devtodo.1: $(top_srcdir)/src/dnt-to-devtodo.in $(top_srcdir)/configure.ac
-	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	PYTHONPATH=$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
 	    --include=$(srcdir)/dnt-to-devtodo.x \
@@ -68,7 +68,7 @@ dnt-to-devtodo.1: $(top_srcdir)/src/dnt-to-devtodo.in $(top_srcdir)/configure.ac
 	    $(top_builddir)/src/dnt-to-devtodo
 
 devtodo-to-dnt.1: $(top_srcdir)/src/devtodo-to-dnt.in $(top_srcdir)/configure.ac
-	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	PYTHONPATH=$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
 	    --include=$(srcdir)/devtodo-to-dnt.x \
@@ -79,7 +79,7 @@ devtodo-to-dnt.1: $(top_srcdir)/src/devtodo-to-dnt.in $(top_srcdir)/configure.ac
 	    $(top_builddir)/src/devtodo-to-dnt
 
 dnt.1: $(top_srcdir)/src/dnt.in $(top_srcdir)/src/Command.py $(top_srcdir)/configure.ac
-	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	PYTHONPATH=$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
 	    --include=$(srcdir)/dnt.x \
@@ -90,7 +90,7 @@ dnt.1: $(top_srcdir)/src/dnt.in $(top_srcdir)/src/Command.py $(top_srcdir)/confi
 	    $(top_builddir)/src/dnt
 
 dnt-add.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Add.py $(top_srcdir)/configure.ac
-	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	PYTHONPATH=$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
 	    --include=$(srcdir)/dnt-add.x \
@@ -101,7 +101,7 @@ dnt-add.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Add.py $(top_
 	    "$(top_builddir)/src/dnt add"
 
 dnt-clean.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Clean.py $(top_srcdir)/configure.ac
-	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	PYTHONPATH=$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
 	    --include=$(srcdir)/dnt-clean.x \
@@ -112,7 +112,7 @@ dnt-clean.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Clean.py $(
 	    "$(top_builddir)/src/dnt clean"
 
 dnt-config.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Config.py $(top_srcdir)/configure.ac
-	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	PYTHONPATH=$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
 	    --include=$(srcdir)/dnt-config.x \
@@ -123,7 +123,7 @@ dnt-config.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Config.py 
 	    "$(top_builddir)/src/dnt config"
 
 dnt-edit.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Edit.py $(top_srcdir)/configure.ac
-	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	PYTHONPATH=$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
 	    --include=$(srcdir)/dnt-edit.x \
@@ -134,7 +134,7 @@ dnt-edit.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Edit.py $(to
 	    "$(top_builddir)/src/dnt edit"
 
 dnt-fix.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Fix.py $(top_srcdir)/configure.ac
-	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	PYTHONPATH=$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
 	    --include=$(srcdir)/dnt-fix.x \
@@ -145,7 +145,7 @@ dnt-fix.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Fix.py $(top_
 	    "$(top_builddir)/src/dnt fix"
 
 dnt-init.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Init.py $(top_srcdir)/configure.ac
-	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	PYTHONPATH=$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
 	    --include=$(srcdir)/dnt-init.x \
@@ -156,7 +156,7 @@ dnt-init.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Init.py $(to
 	    "$(top_builddir)/src/dnt init"
 
 dnt-move.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Move.py $(top_srcdir)/configure.ac
-	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	PYTHONPATH=$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
 	    --include=$(srcdir)/dnt-move.x \
@@ -167,7 +167,7 @@ dnt-move.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Move.py $(to
 	    "$(top_builddir)/src/dnt move"
 
 dnt-remove.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Remove.py $(top_srcdir)/configure.ac
-	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	PYTHONPATH=$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
 	    --include=$(srcdir)/dnt-remove.x \
@@ -178,7 +178,7 @@ dnt-remove.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Remove.py 
 	    "$(top_builddir)/src/dnt remove"
 
 dnt-touch.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Touch.py $(top_srcdir)/configure.ac
-	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	PYTHONPATH=$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
 	    --include=$(srcdir)/dnt-touch.x \
@@ -189,7 +189,7 @@ dnt-touch.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Touch.py $(
 	    "$(top_builddir)/src/dnt touch"
 
 dnt-mark.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Mark.py $(top_srcdir)/configure.ac
-	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	PYTHONPATH=$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
 	    --include=$(srcdir)/dnt-mark.x \
@@ -200,7 +200,7 @@ dnt-mark.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Mark.py $(to
 	    "$(top_builddir)/src/dnt mark"
 
 dnt-show.1: $(top_srcdir)/src/Command.py $(top_srcdir)/src/Commands/Show.py $(top_srcdir)/configure.ac
-	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	PYTHONPATH=$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(HELP2MAN) \
 	    --include=$(srcdir)/dnt-show.x \

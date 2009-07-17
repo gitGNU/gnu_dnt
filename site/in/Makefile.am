@@ -42,7 +42,7 @@ EXTRA_DIST = $(SITE_SRCS)
 CLEANFILES =
 
 news.dump: $(top_srcdir)/.dnt.db
-	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	PYTHONPATH=$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(top_builddir)/src/dnt --database=$(top_srcdir)/.dnt.db \
 	       --mono \
@@ -69,7 +69,7 @@ news.sxml: news.dump
 CLEANFILES += news.sxml
 
 todos.dump: $(top_srcdir)/.dnt.db
-	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	PYTHONPATH=$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(top_builddir)/src/dnt --database=$(top_srcdir)/.dnt.db \
 	       --mono \

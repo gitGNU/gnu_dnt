@@ -70,8 +70,26 @@ $(DNT_DB): $(DEVTODO_DB)
 		exit 1 ;			\
 	}
 
+#
+# NOTE:
+#
+#     "warning: Not importing directory 'site': missing __init__.py"
+#
+# This warning message happens if you are running Python >= 2.5, and the
+# PYTHONPATH environment variable includes the current working directory.
+# Python is attempting to treat the site directory in the package source
+# tree as a Python module directory.
+# Examples of PYTHONPATH values that can cause this error are any path
+# beginning or ending with a colon (':'), and any path including a period
+# ('.') as an element.
+#
+# This excerpt has been extracted from the SiLK site:
+#
+# http://tools.netsa.cert.org/silk/silk_faq.html#pythonpath-problem
+#
+
 TODO: $(DNT_DB)
-	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	PYTHONPATH=$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	$(top_builddir)/src/dnt	$(DNT_FLAGS)	\
 	       show				\
@@ -88,7 +106,7 @@ TODO: $(DNT_DB)
 MAINTAINERCLEANFILES += TODO
 
 NEWS: $(DNT_DB)
-	PYTHONPATH=$$PYTHONPATH@PATH_SEPARATOR@$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
+	PYTHONPATH=$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
 	export PYTHONPATH ; \
 	start="" ;								  \
 	end="`date +"%Y-%m-%d"`" ;						  \
