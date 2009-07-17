@@ -474,6 +474,26 @@
             <comment>
                 Done
             </comment></entry>
+    <entry end="1247732674" priority="medium" start="1239198401">
+            Modify the build procedure in order to use gittag-to-date and filters for NEWS file update
+            <comment>
+                Done
+            </comment><entry end="1247732661" priority="high" start="1247696522">
+                Add the version tag to the NEWS file, in order to satisfy automake check-news rule
+                <comment>
+                    Done
+                </comment></entry>
+    <entry end="1239286118" priority="medium" start="1239198333">
+                Add gittag-to-date script (in order to extract ordered tag-dates)
+                <comment>
+                    Done
+                </comment></entry>
+    <entry end="1247696677" priority="medium" start="1247523014">
+                Skip empty entries in NEWS file generation
+                <comment>
+                    Done
+                </comment></entry>
+    </entry>
     <entry end="1243286752" priority="medium" start="1243286739">
             Add enumeration related class
             <comment>
@@ -545,26 +565,11 @@
             <comment>
                 Done
             </comment></entry>
-    <entry end="1247732674" priority="medium" start="1239198401">
-            Modify the build procedure in order to use gittag-to-date and filters for NEWS file update
+    <entry end="1247822573" priority="veryhigh" start="1247822555">
+            Fix the warning about not importing directory 'site' while generating NEWS and TODO files
             <comment>
                 Done
-            </comment><entry end="1247732661" priority="high" start="1247696522">
-                Add the version tag to the NEWS file, in order to satisfy automake check-news rule
-                <comment>
-                    Done
-                </comment></entry>
-    <entry end="1239286118" priority="medium" start="1239198333">
-                Add gittag-to-date script (in order to extract ordered tag-dates)
-                <comment>
-                    Done
-                </comment></entry>
-    <entry end="1247696677" priority="medium" start="1247523014">
-                Skip empty entries in NEWS file generation
-                <comment>
-                    Done
-                </comment></entry>
-    </entry>
+            </comment></entry>
     </entry>
     <entry priority="high" start="1233694836">
         Release 0.2.0
