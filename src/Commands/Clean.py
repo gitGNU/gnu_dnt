@@ -59,7 +59,7 @@ class SubCommand(Command) :
 
         try :
             os.unlink(db_file)
-        except IOError, e :
+        except IOError :
             raise Exceptions.CannotRemove(db_file)
         except :
             bug("Unhandled exception unlinking db file `" + db_file + "'")
