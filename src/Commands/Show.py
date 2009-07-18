@@ -87,10 +87,13 @@ def show(level,
             else :
                 priority = "unknown"
 
-            if (e.done) :
-                status = "complete"
-            else :
-                status = "incomplete"
+            #
+            # NOTE: 'done' get not substituted, yet ...
+            #
+            #if (e.done) :
+            #    status = "complete"
+            #else :
+            #    status = "incomplete"
 
             if (e.comment != None) :
                 comment = e.comment
