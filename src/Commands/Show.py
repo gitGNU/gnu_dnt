@@ -181,7 +181,7 @@ def show(level,
             else :
                 debug("Empty output, skipping ...")
     else :
-        bug("Unknown type " + str(type(n)))
+        bug("Unknown type " + str(type(node)))
 
     # Finally handle node children
     assert(hasattr(node, "children"))
