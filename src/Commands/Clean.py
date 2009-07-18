@@ -51,7 +51,7 @@ class SubCommand(Command) :
         #
         try :
             os.stat(db_file)
-        except OSError, e :
+        except OSError :
             warning("Nothing to do, directory already clean")
             return
         except :
