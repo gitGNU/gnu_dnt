@@ -65,6 +65,9 @@ class Command(OptionParser) :
                               )
         OptionParser.disable_interspersed_args(self)
 
+    def authors(self) :
+        bug("No authors() method provided by the derived class")
+
     # Override OptParse print_version() method
     def print_version(self, file = None) :
         OptionParser.print_version(self, file)

@@ -32,13 +32,13 @@ class Visitor(object) :
         self.__index          = index
         debug("Visitor initialized")
 
-# The following method must be provided by the subclass
-#    def visitEntry(self, e) :
-#        bug()
+    # The following method must be provided by the derived class
+    def visitEntry(self, node) :
+        bug("No visitEntry() method provided by the derived class")
 
-# The following method must be provided by the subclass
-#    def visitRoot(self, r) :
-#        bug()
+    # The following method must be provided by the derived class
+    def visitRoot(self, node) :
+        bug()
 
     def level_previous(self) :
         return self.__level_previous
