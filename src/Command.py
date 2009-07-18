@@ -25,7 +25,7 @@ from   Trace      import *
 from   Debug      import *
 import Exceptions
 
-class Command(OptionParser) :
+class Command(OptionParser, object) :
     # NOTE: An empty string is an allowed name (main uses it)
     def __init__(self, name, format = "[OPTION]...", footer = []) :
         assert(name != None)
