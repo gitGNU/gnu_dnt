@@ -139,10 +139,11 @@ EXTRA_DIST += Autoconfiguration.py.in
 ##
 ## Local check target
 ##
-PYCHECKER_FLAGS =
+PYCHECKER_FLAGS = --stdlib --blacklist ConfigParser
 
 check-python: Makefile
 	$(PYCHECKER) $(PYCHECKER_FLAGS) $(OUR_PYTHON_SRCS)
+#	$(PYCHECKER) $(PYCHECKER_FLAGS) $(srcdir)/dnt.in
 
 check-local: check-python Makefile
 	for i in $(pkgvpython_PYTHON) ; do \
