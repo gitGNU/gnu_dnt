@@ -49,7 +49,7 @@ class Root(Node.Node) :
         debug("Root " + str(self) + " accepted visitor " + str(visitor))
         visitor.visit(self)
 
-    def find(node, id) :
+    def find(self, node, id) :
         assert(node != None)
         assert(id != None)
 
