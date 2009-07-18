@@ -139,7 +139,7 @@ EXTRA_DIST += Autoconfiguration.py.in
 ##
 ## Local check target
 ##
-PYCHECKER_FLAGS = --limit 20 --maxlines 250 --stdlib --blacklist ConfigParser
+PYCHECKER_FLAGS = --limit 30 --maxlines 260 --stdlib --blacklist ConfigParser
 
 check-python: Makefile
 	$(PYCHECKER) $(PYCHECKER_FLAGS) $(OUR_PYTHON_SRCS)
