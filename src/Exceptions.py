@@ -168,11 +168,17 @@ class UnknownSection(EConfiguration) :
 
 class MissingSection(EConfiguration) :
     def __init__(self, message) :
-        EConfiguration.__init__(self, "missing section")
+        s = ""
+        if (message != None) :
+            s = ", " + message
+        EConfiguration.__init__(self, "missing section" + s)
 
 class MissingKey(EConfiguration) :
     def __init__(self, message) :
-        EConfiguration.__init__(self, "missing key")
+        s = ""
+        if (message != None) :
+            s = ", " + message
+        EConfiguration.__init__(self, "missing key" + s)
 
 class UnknownKey(EConfiguration) :
     def __init__(self, message) :
@@ -301,7 +307,10 @@ class EConst(EBase) :
 
 class ReadOnlyConstant(EBase) :
     def __init__(self, message) :
-        EConst.__init__(self, "variable `' is read-only")
+        s = ""
+        if (message != None) :
+            s = ", " + message
+        EConst.__init__(self, "variable `' is read-only" + s)
 
 #
 # Expression related exceptions
