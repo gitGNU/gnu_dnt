@@ -139,7 +139,12 @@ EXTRA_DIST += Autoconfiguration.py.in
 ##
 ## Local check target
 ##
-check-local: Makefile
+PYCHECKER_FLAGS =
+
+check-python: Makefile
+	$(PYCHECKER) $(PYCHECKER_FLAGS) $(OUR_PYTHON_SRCS)
+
+check-local: check-python Makefile
 	for i in $(pkgvpython_PYTHON) ; do \
 		m=`echo $$i | $(SED) -e 's,\.py,,'` && \
 		rm -f $$m.pyc && \
