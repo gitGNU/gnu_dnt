@@ -470,8 +470,8 @@ class SubCommand(Command) :
         filter_text = "not done"
         if (opts.filter != None) :
             filter_text = opts.filter
-        filter = Filter.Filter(filter_text)
-        assert(filter != None)
+        filter_obj = Filter.Filter(filter_text)
+        assert(filter_obj != None)
 
         #
         # Load database from file
@@ -500,7 +500,7 @@ class SubCommand(Command) :
 
         # Marking nodes that match filters
         m = 0
-        node, m = mark(node, filter)
+        node, m = mark(node, filter_obj)
         debug("Found " + str(m) + " entries matching filters")
 
         #filehandle.write(indent_fill)
