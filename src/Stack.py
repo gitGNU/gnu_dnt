@@ -26,15 +26,15 @@ class Stack(object) :
     def __init__(self) :
         self.__stack = []
 
-    def push(self, object) :
-        self.__stack.append(object)
+    def push(self, obj) :
+        self.__stack.append(obj)
 
     def pop(self) :
         if (len(self.__stack) == 0) :
             raise Exceptions.EmptyStack()
-        object = self.__stack[-1]
+        obj = self.__stack[-1]
         del self.__stack[-1]
-        return object
+        return obj
 
     def empty(self) :
         if (len(self.__stack) == 0) :
