@@ -100,7 +100,7 @@ class SubCommand(Command) :
         if (opts.status != "done" and opts.status != "not-done") :
             raise Exceptions.WrongParameter("node status")
 
-        id = ID.ID(opts.id)
+        nid = ID.ID(opts.id)
 
         try :
             verbose = configuration.get(PROGRAM_NAME, 'verbose', raw = True)
@@ -121,9 +121,9 @@ class SubCommand(Command) :
         #
         # Work
         #
-        node = Tree.find(tree, id)
+        node = Tree.find(tree, nid)
         if (node == None) :
-            raise Exceptions.NodeUnavailable(str(id))
+            raise Exceptions.NodeUnavailable(str(nid))
         assert(node != None)
 
         if (opts.status == "done") :
