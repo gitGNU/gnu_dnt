@@ -677,8 +677,8 @@
                 Done
             </comment>
         </note>
-        <note priority="veryhigh" time="1247924599" done="1247924650">
-            Add pycheck support to the dist-check rule
+        <note priority="veryhigh" time="1247924599" done="1247924768">
+            Add pychecker support to the dist-check rule
             <comment>
                 Done
             </comment>
