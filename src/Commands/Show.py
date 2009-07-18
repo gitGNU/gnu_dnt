@@ -253,7 +253,7 @@ def mark(node, filter) :
             marked = marked + 1
 
     else :
-        bug("Unknown type " + str(type(n)))
+        bug("Unknown type " + str(type(node)))
 
     return node, marked
 
