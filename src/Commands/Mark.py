@@ -98,7 +98,7 @@ class SubCommand(Command) :
         if (opts.status == None) :
             raise Exceptions.MissingParameters("node status")
         if (opts.status != "done" and opts.status != "not-done") :
-            raise Exceptions.WrongParameters("node status")
+            raise Exceptions.WrongParameter("node status")
 
         id = ID.ID(opts.id)
 
