@@ -34,11 +34,13 @@ class Visitor(object) :
 
     # The following method must be provided by the derived class
     def visitEntry(self, node) :
-        bug("No visitEntry() method provided by the derived class")
+        bug("No visitEntry() method provided by the derived class " +
+            "(while visiting " + str(node) + ")")
 
     # The following method must be provided by the derived class
     def visitRoot(self, node) :
-        bug()
+        bug("No visitRoot() method provided by the derived class " +
+            "(while visiting " + str(node) + ")")
 
     def level_previous(self) :
         return self.__level_previous
