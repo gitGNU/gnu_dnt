@@ -140,6 +140,8 @@ class SubCommand(Command) :
 
             # Mark node's children as not-done
             for i in node.children :
+                debug("Accessing child " + str(i) +
+                      " for node " + str(node))
                 v = NotDoneVisitor(verbose)
                 node.accept(v)
         else :
