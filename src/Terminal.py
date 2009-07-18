@@ -29,7 +29,7 @@ from   Trace    import *
 #     Some tweaks got from:
 #         http://pleac.sourceforge.net/pleac_python/userinterfaces.html
 #
-class Terminal :
+class Terminal(object) :
     def __init__(self,
                  stream_in  = sys.stdout,
                  stream_out = sys.stdin,
