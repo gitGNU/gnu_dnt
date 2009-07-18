@@ -65,7 +65,7 @@ class SubCommand(Command) :
         db_file = configuration.get(PROGRAM_NAME, 'database')
         assert(db_file != None)
 
-        if (opts.force != True) :
+        if (opts.force is not True) :
             debug("Force mode disabled")
             assert(db_file != None)
             if (os.path.isfile(db_file)) :

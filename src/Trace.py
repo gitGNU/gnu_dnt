@@ -31,13 +31,13 @@ def error(s) :
 def warning(s) :
     assert(s != None)
     assert(s != "")
-    if (warning_enabled == True) :
+    if (warning_enabled is True) :
         sys.stdout.write(PROGRAM_NAME + ": " + str(s) + '\n')
 
 def debug(s) :
     assert(s != None)
     assert(s != "")
-    if (debug_enabled == True) :
+    if (debug_enabled is True) :
         sys.stdout.write(PROGRAM_NAME + ": " + str(s) + '\n')
 
 # Test

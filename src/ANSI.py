@@ -40,7 +40,7 @@ color_enabled = True
 
 def _bright(color, text) :
     t = None
-    if (color_enabled == True) :
+    if (color_enabled is True) :
         try :
             t = '\033[1;' + _color_codes[color] + 'm' + text + '\033[1;m'
         #    except IndexError, e :
@@ -54,7 +54,7 @@ def _bright(color, text) :
 
 def _normal(color, text) :
     t = None
-    if (color_enabled == True) :
+    if (color_enabled is True) :
         try :
             t = '\033[' + _color_codes[color] + 'm' + text + '\033[m'
         #    except IndexError, e :

@@ -98,7 +98,7 @@ class Node(object) :
             if (j == node) :
                 found = True
                 break
-        assert(found == False)
+        assert(found is False)
 
         self.__children.append(node)
         node.__parent = self
@@ -114,7 +114,7 @@ class Node(object) :
             if (j == node) :
                 found = True
                 break
-        assert(found == True)
+        assert(found is True)
 
         self.__children.remove(node)
         node.__parent = None
@@ -247,9 +247,9 @@ if (__name__ == '__main__') :
     assert(root.id == ID.ID("0"))
 
     root.flag = True
-    assert(root.flag == True)
+    assert(root.flag is True)
     root.flag = False
-    assert(root.flag == False)
+    assert(root.flag is False)
 
     root.flags = [ 'visible', 'collapsed' ]
     assert(root.flags == [ 'visible', 'collapsed' ])

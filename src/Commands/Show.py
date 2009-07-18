@@ -114,7 +114,7 @@ def show(level,
             debug("Handling colors")
 
             # Handle colors
-            if ((filehandle.isatty()) and (colors == True)) :
+            if ((filehandle.isatty()) and (colors is True)) :
                 color_info  = ANSI.normal_green
                 color_index = ANSI.normal_green
                 p           = e.priority.value
@@ -239,13 +239,13 @@ def mark(node, filter) :
     elif (isinstance(node, Entry.Entry)) :
         match = filter.evaluate(node)
 
-        if ((marked > 0) and (match == False)) :
+        if ((marked > 0) and (match is False)) :
             debug("Entry `"                               + str(node)   +
                   "' has children those matches filter `" + str(filter) +
                   "' marking it as collapsed")
             node.flags = ['collapsed']
 
-        if (match == True) :
+        if (match is True) :
             debug("Entry `"            +  str(node)  +
                   "' matches filter `" + str(filter) +
                   "', marking it as visible")
@@ -434,7 +434,7 @@ class SubCommand(Command) :
         #     formatting tules. We will use a different format for quiet and
         #     verbose mode however ...
         #
-        if (verbose == True) :
+        if (verbose is True) :
             indent_fill   = ""
             line_format     = "%i %t\n  [%c]\n  (%s, %e, %p)\n"
             unindent_fill = ""
@@ -489,7 +489,6 @@ class SubCommand(Command) :
         #
         # Work
         #
-
         cmap = {
             Priority.PRIORITY_VERYHIGH : ANSI.bright_red,
             Priority.PRIORITY_HIGH     : ANSI.bright_yellow,

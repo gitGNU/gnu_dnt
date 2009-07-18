@@ -89,29 +89,33 @@ class SubCommand(Command) :
         if (len(args) > 0) :
             raise Exceptions.UnknownParameter(args[0])
 
-        if (opts.set != True and opts.get != True and opts.show != True) :
+        if ((opts.set is not True) and
+            (opts.get is not True) and
+            (opts.show is not True)) :
             raise Exceptions.MissingParameters()
-        if (opts.set == True and opts.get == True) :
+        if ((opts.set is True) and
+            (opts.get is True)) :
             raise Exceptions.TooManyParameters()
-        if ((opts.set == True or opts.get == True) and opts.show == True) :
+        if (((opts.set is True) or (opts.get is True)) and
+            (opts.show is True)) :
             raise Exceptions.WrongParameter("set or get with show " +
                                             "cannot be mixed")
 
-        if (opts.set == True) :
+        if (opts.set is True) :
             if (opts.key == None) :
                 raise Exceptions.MissingParameters("key in order to set "
                                                    "a configuration entry")
             if (opts.value == None) :
                 raise Exceptions.MissingParameters("value in order to set "
                                                    "a configuration entry")
-        if (opts.get == True) :
+        if (opts.get is True) :
             if (opts.key == None) :
                 raise Exceptions.MissingParameters("key in order to get "
                                                    "a configuration entry")
         #
         # Work
         #
-        if (opts.get == True) :
+        if (opts.get is True) :
             debug("Performing get")
             assert(opts.key != None)
 
@@ -133,7 +137,7 @@ class SubCommand(Command) :
             value = configuration.get(section, option, raw = True)
             sys.stdout.write(str(value) + '\n')
 
-        elif (opts.set == True) :
+        elif (opts.set is True) :
             debug("Performing set")
             assert(opts.key   != None)
             assert(opts.value != None)
@@ -154,7 +158,7 @@ class SubCommand(Command) :
                   "to `" + value + "'")
             configuration.set(section, option, value)
 
-        elif (opts.show == True) :
+        elif (opts.show is True) :
             debug("Showing all key/value pairs")
             # Compute maximum key length
             l = 0

@@ -217,7 +217,7 @@ class SubCommand(Command) :
         debug("end      = `" + str(end)      + "'")
         debug("comment  = `" + str(comment)  + "'")
 
-        if (opts.interactive == True) :
+        if (opts.interactive is True) :
             console = Console.Console()
             assert(console != None)
 
