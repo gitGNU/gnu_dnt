@@ -18,7 +18,7 @@
 
 import sys
 from   optparse   import OptionParser
-import textwrap
+#import textwrap
 import string
 
 from   Trace      import *
