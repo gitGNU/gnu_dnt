@@ -212,6 +212,11 @@
             <comment>
                 Done
             </comment></entry>
+    <entry end="1247822573" priority="veryhigh" start="1247822555">
+            Fix the warning about not importing directory 'site' while generating NEWS and TODO files
+            <comment>
+                Done
+            </comment></entry>
     <entry end="1230733158" priority="high" start="1230733148">
             Fix colors in show command
             <comment>
@@ -565,8 +570,8 @@
             <comment>
                 Done
             </comment></entry>
-    <entry end="1247822573" priority="veryhigh" start="1247822555">
-            Fix the warning about not importing directory 'site' while generating NEWS and TODO files
+    <entry end="1247924768" priority="veryhigh" start="1247924599">
+            Add pychecker support to the dist-check rule
             <comment>
                 Done
             </comment></entry>
