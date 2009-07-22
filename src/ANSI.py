@@ -17,9 +17,11 @@
 #
 
 import sys
+import re
 
 from   Debug import *
 from   Trace import *
+import Exceptions
 
 # NOTE:
 #     See http://en.wikipedia.org/wiki/ANSI_escape_code for a detailed
@@ -100,6 +102,59 @@ def bright_white(t) :
     return _bright(COLOR_IDX_WHITE, t)
 def normal_white(t) :
     return _normal(COLOR_IDX_WHITE, t)
+
+def ansi_textwrap(t, w) :
+    assert(t != None)
+    assert(w > 0)
+
+    result        = [ ]
+    buffer        = ''
+    buffer_length = 0
+    re_ansi       = re.compile(r'(' + chr(27) + '\[[0-9;]*[m]' + r')')
+
+    # Split over ansi sequences
+    for i in re_ansi.split(t) :
+
+        if re_ansi.match(i) :
+            buffer += i
+        else :
+
+            # Split over chars
+            for j in i :
+
+                if (buffer_length + 1) > w :
+
+                    if re.match(r'^\s+('        +
+                                chr(27)         +
+                                '\[[0-9;]*[m]'  +
+                                r')+$', buffer) :
+                        # Special case: spaces preceding ANSI
+                        # escapes should be clean from the buffer
+                        # if we reach wrap's width
+                        buffer = re.sub(r'^\s+', '', buffer)
+                        buffer += j
+                        buffer_length = 1
+                    elif re.match(r'^\s*$', buffer) :
+                        # An empty line? Don't output it.
+                        buffer = re.sub(r'\s*$', '', buffer)
+                        buffer         += j
+                        buffer_length  += 1
+                    else :
+                        # Clean trailing spaces and append to result
+                        buffer = re.sub(r'\s+$', '', buffer)
+                        result.append(buffer)
+                        buffer         = j
+                        buffer_length  = 1
+                else :
+                    buffer        += j
+                    buffer_length += 1
+
+    # Append the crumbs to result
+    if len(buffer) > 0  :
+        buffer = re.sub(r'\s+$', '', buffer)
+        result.append(buffer)
+
+    return result
 
 # Test
 if (__name__ == '__main__') :
