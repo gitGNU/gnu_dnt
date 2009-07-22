@@ -173,14 +173,22 @@ def show(level,
                 t = t.rstrip()
 
                 # Dump each line
+
+                dump = [ ]
                 for i in t.split('\n') :
                     if (width != 0) :
-                        lines = textwrap.wrap(i, width)
-                    else :
-                        lines = [ i ]
+                        w = width - (len(level_fill) * level)
 
-                    for j in lines :
-                        filehandle.write(level_fill * level + j + "\n")
+                        if (w <= 0) :
+                            dump = [ ]
+                            raise Exceptions.WidthTooSmall(i)
+
+                        dump.extend(ANSI.ansi_textwrap(t, w))
+                    else :
+                        dump.append(i)
+
+                for j in dump :
+                    filehandle.write(level_fill * level + j + "\n")
             else :
                 debug("Empty output, skipping ...")
     else :
