@@ -331,6 +331,17 @@ class InvalidToken(EExpression) :
     def __init__(self, message) :
         EExpression.__init__(self, "invalid token `" + message + "'")
 
+#
+# Show related exceptions
+#
+class EShow(EBase) :
+    def __init__(self, message) :
+        EBase.__init__(self, message)
+
+class WidthTooSmall(EShow) :
+    def __init__(self, message) :
+        EShow.__init__(self, "width is too small for wrap `" + message + "'")
+
 # Test
 if (__name__ == '__main__') :
     debug("Test completed")
