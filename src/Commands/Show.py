@@ -183,7 +183,7 @@ def show(level,
                             dump = [ ]
                             raise Exceptions.WidthTooSmall(i)
 
-                        dump.extend(ANSI.ansi_textwrap(t, w))
+                        dump.extend(ANSI.wrap(t, w))
                     else :
                         dump.append(i)
 

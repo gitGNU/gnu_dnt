@@ -18,6 +18,7 @@
 
 import sys
 import re
+import textwrap
 
 from   Debug import *
 from   Trace import *
@@ -103,7 +104,7 @@ def bright_white(t) :
 def normal_white(t) :
     return _normal(COLOR_IDX_WHITE, t)
 
-def ansi_textwrap(t, w) :
+def wrap(t, w) :
     assert(t != None)
     assert(w > 0)
 
@@ -158,5 +159,51 @@ def ansi_textwrap(t, w) :
 
 # Test
 if (__name__ == '__main__') :
+
+    # Preliminary checks
+    assert(textwrap.wrap("test", 1) == wrap("test", 1))
+    assert(textwrap.wrap("test", 2) == wrap("test", 2))
+    assert(textwrap.wrap("test", 3) == wrap("test", 3))
+    assert(textwrap.wrap("test", 4) == wrap("test", 4))
+    assert(textwrap.wrap("test", 5) == wrap("test", 5))
+
+    # Extensive checks to ensure that
+    #
+    #     textwrap.wrap() == ANSI.textwrap()
+    #
+    # On non-ANSI input
+    x = [ "this",
+          "this is",
+          "this is a",
+          "this is a test",
+
+          " this",
+          "this ",
+
+          "  this",
+          "this  ",
+
+          "  this is",
+          "this is  ",
+
+          "  this  is",
+          "this  is  ",
+
+          "  this   is",
+          "this   is  ",
+
+          "     this     is      a         test",
+          "this   is   a     test     ",
+          "         this   is   a     test     "
+          ]
+
+    for i in range(0, len(x)) :
+        print("x[" + str(i) + "] = '" + x[i] + "'")
+        for j in range (1, len(x[i]) + 1) :
+            print("wrap " + str(j))
+            print(str(textwrap.wrap(x[i], j)))
+            print(str(wrap(x[i], j)))
+            assert(textwrap.wrap(x[i], j) == wrap(x[i], j))
+
     debug("Test completed")
     sys.exit(0)
