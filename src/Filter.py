@@ -32,8 +32,8 @@ import Exceptions
 #     those are the allowed symbols inside a filter (a subset of them
 #     all: children and parent should be hidden ...)
 #
-def help() :
-    return "Boolean expression containing entries properties (" + Entry.help() + ")"
+def help_text() :
+    return "Boolean expression containing entries properties (" + Entry.help_text() + ")"
 
 class Filter(object) :
     def __init__(self, s = None) :

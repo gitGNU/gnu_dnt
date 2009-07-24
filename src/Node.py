@@ -30,7 +30,7 @@ import Enum
 #     those are the allowed symbols inside a filter (a subset of them
 #     all: children and parent should be hidden ...)
 #
-def help() :
+def help_text() :
     return "depth, id"
 
 class Node(object) :

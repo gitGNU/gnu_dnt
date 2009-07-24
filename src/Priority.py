@@ -69,7 +69,7 @@ def value2name(value) :
         return __values2names[value]
     raise Exceptions.UnknownPriorityValue(str(value))
 
-def help() :
+def help_text() :
     prios = __names2values.keys()
     tmp   = "Recognized priorities are: "
 

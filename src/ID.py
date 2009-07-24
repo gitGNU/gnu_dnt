@@ -23,7 +23,7 @@ from   Debug      import *
 from   Trace      import *
 import Exceptions
 
-def help() :
+def help_text() :
     return "A dot separated integers list"
 
 class ID(object) :

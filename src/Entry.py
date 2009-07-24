@@ -31,8 +31,8 @@ import Time
 #     those are the allowed symbols inside a filter (a subset of them
 #     all: children and parent should be hidden ...)
 #
-def help() :
-    return "text, priority, start, end, " + Node.help()
+def help_text() :
+    return "text, priority, start, end, " + Node.help_text()
 
 class Entry(Node.Node) :
     def __init__(self,
