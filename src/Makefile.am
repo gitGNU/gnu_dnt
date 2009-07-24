@@ -139,12 +139,6 @@ EXTRA_DIST += Autoconfiguration.py.in
 ##
 ## Local check target
 ##
-PYCHECKER_FLAGS = --stdlib --blacklist ConfigParser --limit 50 --maxlines 260
-
-check-python: Makefile
-	$(PYCHECKER) $(PYCHECKER_FLAGS) $(OUR_PYTHON_SRCS)
-#	$(PYCHECKER) $(PYCHECKER_FLAGS) $(srcdir)/dnt.in
-
 check-local: Makefile
 	for i in $(pkgvpython_PYTHON) ; do \
 		m=`echo $$i | $(SED) -e 's,\.py,,'` && \
@@ -225,5 +219,11 @@ maintainer-check-parameters: Makefile $(bin_SCRIPTS)
 		fi ; \
 	done
 
-maintainer-check-local: check-python Makefile maintainer-check-parameters
+PYCHECKER_FLAGS = --stdlib --blacklist ConfigParser --limit 50 --maxlines 260
+
+maintainer-check-python: Makefile $(OUR_PYTHON_SRCS)
+	$(PYCHECKER) $(PYCHECKER_FLAGS) $(OUR_PYTHON_SRCS)
+#	$(PYCHECKER) $(PYCHECKER_FLAGS) $(srcdir)/dnt.in
+
+maintainer-check-local: Makefile maintainer-check-python maintainer-check-parameters
 	$(WHITESPACE_DETECT) $(OUR_PYTHON_SRCS)
