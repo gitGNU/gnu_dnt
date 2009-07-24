@@ -17,14 +17,12 @@
 #
 
 import sys
-import textwrap
 import re
 
 from   Debug      import *
 from   Trace      import *
 from   Command    import *
 import Exceptions
-import ANSI
 import DB
 import Tree
 import Priority
@@ -34,7 +32,6 @@ import Entry
 import Terminal
 import Filter
 import ANSI
-import Enum
 
 def show(level,
          node,
@@ -287,8 +284,8 @@ class SubCommand(Command) :
                 "  %c  comment",
                 "  %d  depth",
                 "",
-                "FILTER  " + Filter.help(),
-                "ID      " + ID.help(),
+                "FILTER  " + Filter.help_text(),
+                "ID      " + ID.help_text(),
                 "WIDTH   An integer >= 0, 0 means no formatting"
                 ])
 

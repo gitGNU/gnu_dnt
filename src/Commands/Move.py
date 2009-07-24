@@ -24,7 +24,6 @@ from   Command       import *
 import Exceptions
 import DB
 import ID
-import Entry
 import Tree
 
 class SubCommand(Command) :
@@ -32,8 +31,8 @@ class SubCommand(Command) :
         Command.__init__(self,
                          name   = "move",
                          footer = [
-                "NODE    " + ID.help(),
-                "PARENT  " + ID.help()
+                "NODE    " + ID.help_text(),
+                "PARENT  " + ID.help_text()
                 ])
 
     def short_help(self) :

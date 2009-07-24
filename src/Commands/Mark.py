@@ -26,7 +26,6 @@ import ID
 import DB
 import Entry
 import Tree
-import Time
 from   Visitor    import *
 
 class DoneVisitor(Visitor) :
@@ -62,7 +61,7 @@ class SubCommand(Command) :
         Command.__init__(self,
                          name   = "mark",
                          footer = [
-                "ID  " + ID.help()
+                "ID  " + ID.help_text()
                 ])
 
     def short_help(self) :

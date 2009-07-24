@@ -34,10 +34,10 @@ class SubCommand(Command):
         Command.__init__(self,
                          name   = "add",
                          footer = [
-                "PARENT    " + ID.help(),
-                "PRIORITY  " + Priority.help(),
-                "START     " + Time.help(),
-                "END       " + Time.help()
+                "PARENT    " + ID.help_text(),
+                "PRIORITY  " + Priority.help_text(),
+                "START     " + Time.help_text(),
+                "END       " + Time.help_text()
                 ])
 
     def short_help(self) :

@@ -25,7 +25,6 @@ from   Command    import *
 import Exceptions
 import DB
 import ID
-import Entry
 import Tree
 import Time
 import Priority
@@ -36,10 +35,10 @@ class SubCommand(Command) :
         Command.__init__(self,
                          name   = "edit",
                          footer = [
-                "ID        " + ID.help(),
-                "PRIORITY  " + Priority.help(),
-                "START     " + Time.help(),
-                "END       " + Time.help()
+                "ID        " + ID.help_text(),
+                "PRIORITY  " + Priority.help_text(),
+                "START     " + Time.help_text(),
+                "END       " + Time.help_text()
                 ])
 
     def short_help(self) :

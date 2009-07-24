@@ -24,7 +24,6 @@ from   Command       import *
 import Exceptions
 import DB
 import ID
-import Entry
 import Tree
 
 class SubCommand(Command) :
@@ -32,7 +31,7 @@ class SubCommand(Command) :
         Command.__init__(self,
                          name   = "remove",
                          footer = [
-                "ID  " + ID.help()
+                "ID  " + ID.help_text()
                 ])
 
     def short_help(self) :

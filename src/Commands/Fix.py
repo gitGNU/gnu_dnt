@@ -23,8 +23,6 @@ from   Trace      import *
 from   Command    import *
 import Exceptions
 import DB
-import Entry
-import Tree
 
 class SubCommand(Command) :
     def __init__(self) :
