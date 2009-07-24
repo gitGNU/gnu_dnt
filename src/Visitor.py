@@ -20,10 +20,8 @@ import sys
 
 from   Debug      import *
 from   Trace      import *
-import Exceptions
 import Entry
 import Root
-import Tree
 
 class Visitor(object) :
     def __init__(self, level_current = 0, index = 0, level_previous = 0) :
@@ -76,8 +74,6 @@ class Visitor(object) :
 
 # Test
 if (__name__ == '__main__') :
-    import Entry
-
     class V(Visitor) :
         def __init__(self, data) :
             super(V, self).__init__()
