@@ -17,7 +17,6 @@
 #
 
 import sys
-import exceptions
 
 from   Debug import *
 from   Trace import *
