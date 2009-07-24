@@ -22,7 +22,6 @@ import textwrap
 
 from   Debug import *
 from   Trace import *
-import Exceptions
 
 # NOTE:
 #     See http://en.wikipedia.org/wiki/ANSI_escape_code for a detailed
@@ -108,52 +107,52 @@ def wrap(t, w) :
     assert(t != None)
     assert(w > 0)
 
-    result        = [ ]
-    buffer        = ''
-    buffer_length = 0
-    re_ansi       = re.compile(r'(' + chr(27) + '\[[0-9;]*[m]' + r')')
+    result      = [ ]
+    temp        = ''
+    temp_length = 0
+    re_ansi     = re.compile(r'(' + chr(27) + '\[[0-9;]*[m]' + r')')
 
     # Split over ansi sequences
     for i in re_ansi.split(t) :
 
         if re_ansi.match(i) :
-            buffer += i
+            temp += i
         else :
 
             # Split over chars
             for j in i :
 
-                if (buffer_length + 1) > w :
+                if (temp_length + 1) > w :
 
-                    if re.match(r'^\s+('        +
-                                chr(27)         +
-                                '\[[0-9;]*[m]'  +
-                                r')+$', buffer) :
+                    if re.match(r'^\s+('       +
+                                chr(27)        +
+                                '\[[0-9;]*[m]' +
+                                r')+$', temp) :
                         # Special case: spaces preceding ANSI
                         # escapes should be clean from the buffer
                         # if we reach wrap's width
-                        buffer = re.sub(r'^\s+', '', buffer)
-                        buffer += j
-                        buffer_length = 1
-                    elif re.match(r'^\s*$', buffer) :
+                        temp         = re.sub(r'^\s+', '', temp)
+                        temp        += j
+                        temp_length  = 1
+                    elif re.match(r'^\s*$', temp) :
                         # An empty line? Don't output it.
-                        buffer = re.sub(r'\s*$', '', buffer)
-                        buffer         += j
-                        buffer_length  += 1
+                        temp = re.sub(r'\s*$', '', temp)
+                        temp         += j
+                        temp_length  += 1
                     else :
                         # Clean trailing spaces and append to result
-                        buffer = re.sub(r'\s+$', '', buffer)
-                        result.append(buffer)
-                        buffer         = j
-                        buffer_length  = 1
+                        temp = re.sub(r'\s+$', '', temp)
+                        result.append(temp)
+                        temp         = j
+                        temp_length  = 1
                 else :
-                    buffer        += j
-                    buffer_length += 1
+                    temp        += j
+                    temp_length += 1
 
     # Append the crumbs to result
-    if len(buffer) > 0  :
-        buffer = re.sub(r'\s+$', '', buffer)
-        result.append(buffer)
+    if len(temp) > 0  :
+        temp = re.sub(r'\s+$', '', temp)
+        result.append(temp)
 
     return result
 
