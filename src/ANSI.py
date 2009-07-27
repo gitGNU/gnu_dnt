@@ -103,56 +103,87 @@ def bright_white(t) :
 def normal_white(t) :
     return _normal(COLOR_IDX_WHITE, t)
 
+def length(t) :
+    assert(t != None)
+
+    return len(re.sub(r'(' + chr(27) + '\[[0-9;]*[m]' + r')+', '', t))
+
 def wrap(t, w) :
     assert(t != None)
     assert(w > 0)
 
-    result      = [ ]
-    temp        = ''
-    temp_length = 0
-    re_ansi     = re.compile(r'(' + chr(27) + '\[[0-9;]*[m]' + r')')
+    result  = [ ]
+    re_ansi = re.compile(r'(' + chr(27) + '\[[0-9;]*[m]' + r')+')
 
-    # Split over ansi sequences
-    for i in re_ansi.split(t) :
+    if re.match(r'\t', t) :
+        t = t.expandtabs()
 
-        if re_ansi.match(i) :
-            temp += i
+    if length(t) <= w :
+        return [ re.sub(r'\s*$', '', t) ]
+
+    s    = re_ansi.split(t, 1)
+    head = s[0]
+    try :
+        ansi = s[1]
+    except :
+        ansi = ""
+    try :
+        tail = s[2]
+    except :
+        tail = ""
+
+    if len(head) > w :
+        m      = re.match(r'^(.*)(\s*)$', head)
+        head   = m.group(1)
+        spc    = m.group(2)
+        result = textwrap.wrap(head, w)
+
+        if tail == "" or tail.isspace() :
+            # Should we really append ANSI escape at the
+            # end of the last line?
+            # Should it be our fault?
+            result[-1] += ansi
         else :
+            if len(result[-1]) == w :
+                result[-1] += ansi
+            else :
+                tail = result.pop() + spc + ansi + tail
 
-            # Split over chars
-            for j in i :
+            result.extend(wrap(tail, w))
+    elif len(head) < w :
+        m    = re.match(r'^(.*)(\s*)$', head)
+        head = m.group(1)
+        spc  = m.group(2)
 
-                if (temp_length + 1) > w :
+        if tail == "" :
+            # Should we really append ANSI escape at the
+            # end of the last line?
+            # Should it be our fault?
+            return [ head + ansi ]
+        else :
+            index  = 0
+            tail   = head + spc + tail
+            result = wrap(tail, w)
 
-                    if re.match(r'^\s+('       +
-                                chr(27)        +
-                                '\[[0-9;]*[m]' +
-                                r')+$', temp) :
-                        # Special case: spaces preceding ANSI
-                        # escapes should be clean from the buffer
-                        # if we reach wrap's width
-                        temp         = re.sub(r'^\s+', '', temp)
-                        temp        += j
-                        temp_length  = 1
-                    elif re.match(r'^\s*$', temp) :
-                        # An empty line? Don't output it.
-                        temp = re.sub(r'\s*$', '', temp)
-                        temp         += j
-                        temp_length  += 1
-                    else :
-                        # Clean trailing spaces and append to result
-                        temp = re.sub(r'\s+$', '', temp)
-                        result.append(temp)
-                        temp         = j
-                        temp_length  = 1
-                else :
-                    temp        += j
-                    temp_length += 1
+            if re.match(r'^' + head + spc, result[0]) :
+                # Spaces between head and tail are
+                # preserved after wrapping
+                index   = len(head + spc)
+            else :
+                # Spaces between head and tail are not
+                # preserved after wrapping
+                index = len(head)
 
-    # Append the crumbs to result
-    if len(temp) > 0  :
-        temp = re.sub(r'\s+$', '', temp)
-        result.append(temp)
+            # Inserting ANSI escape
+            result[0] = result[0][:index] + ansi + result[0][index:]
+    else :
+        m      = re.match(r'^(.*)(\s*)$', head)
+        head   = m.group(1)
+        spc    = m.group(2)
+        result = [ head + ansi ]
+
+        if tail != "" :
+            result.extend(wrap(tail, w))
 
     return result
 
