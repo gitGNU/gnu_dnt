@@ -101,6 +101,7 @@ def show(level,
 
             id_temp = e.id
             id_absolute = str(id_temp)
+
             # Remove leading '0.' (we don't print anything related
             # to the Root node)
             id_absolute = re.sub('^0\.', '', id_absolute)
@@ -178,7 +179,8 @@ def show(level,
 
                         if (w <= 0) :
                             dump = [ ]
-                            raise Exceptions.WidthTooSmall(i)
+                            raise Exceptions.WidthTooSmall("cannot wrap node " +
+                                                           id_absolute)
 
                         dump.extend(ANSI.wrap(t, w))
                     else :

@@ -309,7 +309,7 @@ class ReadOnlyConstant(EBase) :
         s = ""
         if (message != None) :
             s = ", " + message
-        EConst.__init__(self, "variable `' is read-only" + s)
+        EConst.__init__(self, "variable is read-only" + s)
 
 #
 # Expression related exceptions
@@ -339,7 +339,10 @@ class EShow(EBase) :
 
 class WidthTooSmall(EShow) :
     def __init__(self, message) :
-        EShow.__init__(self, "width is too small for wrap `" + message + "'")
+        s = ""
+        if (message != None) :
+            s = ", " + message
+        EShow.__init__(self, "width too small" + s)
 
 # Test
 if (__name__ == '__main__') :
