@@ -52,6 +52,7 @@ commands_PYTHON =				\
 pkgvpython_PYTHON =				\
 	__init__.py				\
 	Configuration.py			\
+	INI.py					\
 	Trace.py				\
 	Exceptions.py				\
 	Enum.py					\
