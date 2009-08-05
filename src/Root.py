@@ -19,8 +19,8 @@
 import sys
 import string
 
-from   Debug    import *
-from   Trace    import *
+from   Debug  import *
+from   Trace  import *
 import Node
 import Time
 
