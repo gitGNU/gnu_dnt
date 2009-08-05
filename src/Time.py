@@ -145,42 +145,42 @@ class Time(object) :
     #
 
     def __eq__(self, other) :
-        if isinstance(other, Time):
+        if (isinstance(other, Time)) :
             return (self.__time == other.time())
         if (isinstance(other, str)) :
             return (self == Time(other))
         return False
 
     def __ne__(self, other) :
-        if isinstance(other, Time):
+        if (isinstance(other, Time)) :
             return (self.__time != other.time())
         if (isinstance(other, str)) :
             return (self != Time(other))
         return True
 
     def __gt__(self, other) :
-        if isinstance(other, Time):
+        if (isinstance(other, Time)) :
             return (self.__time > other.time())
         if (isinstance(other, str)) :
             return (self > Time(other))
         raise Exceptions.WrongTimeFormat(str(other))
 
     def __ge__(self, other) :
-        if isinstance(other, Time):
+        if (isinstance(other, Time)) :
             return (self.__time >= other.time())
         if (isinstance(other, str)) :
             return (self >= Time(other))
         raise Exceptions.WrongTimeFormat(str(other))
 
     def __lt__(self, other) :
-        if isinstance(other, Time):
+        if (isinstance(other, Time)) :
             return (self.__time < other.time())
         if (isinstance(other, str)) :
             return (self < Time(other))
         raise Exceptions.WrongTimeFormat(str(other))
 
     def __le__(self, other) :
-        if isinstance(other, Time):
+        if (isinstance(other, Time)) :
             return (self.__time <= other.time())
         if (isinstance(other, str)) :
             return (self <= Time(other))

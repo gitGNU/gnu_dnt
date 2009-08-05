@@ -20,7 +20,7 @@
 
 try :
     import sys
-except Exception, e:
+except Exception, e :
     try :
         why = "(" + str(e) + ")"
     except :
@@ -34,7 +34,7 @@ except Exception, e:
 try :
     import os
     import getopt
-except Exception, e:
+except Exception, e :
     try :
         why = "(" + str(e) + ")"
     except :
@@ -62,7 +62,7 @@ try :
     #
     from   Trace import *
     import Trace
-except Exception, e:
+except Exception, e :
     try :
         why = "(" + str(e) + ")"
     except :
@@ -78,7 +78,7 @@ except Exception, e:
 #
 try :
     import warnings
-except Exception, e:
+except Exception, e :
     try :
         why = "(" + str(e) + ")"
     except :
@@ -89,7 +89,7 @@ except Exception, e:
 
 try :
     from   Debug import *
-except Exception, e:
+except Exception, e :
     try :
         why = "(" + str(e) + ")"
     except :
@@ -109,14 +109,14 @@ try :
     import Exceptions
     from   Command       import *
     import Commands
-except ImportError, e:
+except ImportError, e :
     try :
         why = "(" + str(e) + ")"
     except :
         why = ""
     error("Cannot import package's own modules " + why + ", bailing out ...")
     sys.exit(-1)
-#except Exception, e:
+#except Exception, e :
 #    bug(str(e))
 
 # Remove the local directory from the path at last (we want a caged python ...)
@@ -127,7 +127,7 @@ try :
     cwd = os.getcwd()
     for i in range(0, sys.path.count(cwd)) :
         sys.path.remove(cwd)
-except Exception, e:
+except Exception, e :
     try :
         why = "(" + str(e) + ")"
     except :
@@ -270,7 +270,7 @@ def main(arguments) :
 
         error("Problems parsing configuration file" + message)
         return 1
-    except Exceptions.Configuration:
+    except Exceptions.Configuration :
         warning("Problem reading configuration file, using defaults ...")
     except :
         bug("Unknown exception while configuration parsing")
