@@ -137,6 +137,24 @@ class CannotRemove(EFile) :
         EFile.__init__(self, "cannot remove file `" + message + "'")
 
 #
+# INI related exceptions
+#
+class EINI(EBase) :
+    def __init__(self, message) :
+        EBase.__init__(self, message)
+
+class MissingFilename(EINI) :
+    def __init__(self) :
+        EINI.__init__(self, "missing filename")
+
+class KeyNotFound(EINI) :
+    def __init__(self, message) :
+        tmp = ""
+        if (message != None) :
+            tmp = " `" + message + "'"
+        EINI.__init__(self, "key not found" + tmp)
+
+#
 # ID related exceptions
 #
 class EID(EBase) :
