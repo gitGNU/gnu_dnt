@@ -264,7 +264,11 @@ def main(arguments) :
     try :
         cfg_files = configuration.read(os.path.expandvars(CFG_SEARCH_PATHS))
     except Configuration.ParsingError, e :
-        error("Problems parsing configuration file (" + str(e) + ")")
+        message = str(e)
+        if (message != "") :
+            message = " (" + message + ")"
+
+        error("Problems parsing configuration file" + message)
         return 1
     except Exceptions.Configuration:
         warning("Problem reading configuration file, using defaults ...")
