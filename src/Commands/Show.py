@@ -276,8 +276,9 @@ class SubCommand(Command) :
                          footer = [
                 "INDENT_FILL and UNINDENT_FILL are applied " + \
                     "when indentation is needed",
-                "FORMAT  controls the output for each entry " + \
-                    "dumped. Interpreted sequences are:",
+                "LINE_FORMAT controls the output for each entry " + \
+                    "dumped.",
+                "Interpreted sequences are:",
                 "",
                 "  %t  text",
                 "  %s  start time",
