@@ -217,6 +217,11 @@
             <comment>
                 Done
             </comment></entry>
+    <entry end="1247924768" priority="veryhigh" start="1247924599">
+            Add pychecker support to the dist-check rule
+            <comment>
+                Done
+            </comment></entry>
     <entry end="1230733158" priority="high" start="1230733148">
             Fix colors in show command
             <comment>
@@ -570,11 +575,9 @@
             <comment>
                 Done
             </comment></entry>
-    <entry end="1247924768" priority="veryhigh" start="1247924599">
-            Add pychecker support to the dist-check rule
-            <comment>
-                Done
-            </comment></entry>
+    <entry priority="high" start="1235558583">
+            Fix the colored-wrap problem (add -t "Hello world", dump -l "%t" -w 6 in order to see it)
+        </entry>
     </entry>
     <entry priority="high" start="1233694836">
         Release 0.2.0
@@ -647,9 +650,6 @@
     </entry>
     <entry priority="high" start="1235431214">
             Fix the wrapper.in script in the test directory (find a better fix)
-        </entry>
-    <entry priority="high" start="1235558583">
-            Fix the colored-wrap problem (add -t "Hello world", dump -l "%t" -w 6 in order to see it)
         </entry>
     <entry priority="high" start="1235638003">
             Replace from with proper import in all modules
