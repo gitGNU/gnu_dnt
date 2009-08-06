@@ -220,7 +220,7 @@ maintainer-check-parameters: Makefile $(bin_SCRIPTS)
 		fi ; \
 	done
 
-PYCHECKER_FLAGS = --stdlib --blacklist ConfigParser --limit 50 --maxlines 260
+PYCHECKER_FLAGS = --stdlib --limit 50 --maxlines 260
 
 maintainer-check-python: Makefile $(OUR_PYTHON_SRCS)
 	$(PYCHECKER) $(PYCHECKER_FLAGS) $(OUR_PYTHON_SRCS)
