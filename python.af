@@ -25,11 +25,12 @@ non-critical-internal Expression
 non-critical-internal Tree
 non-critical-internal Root
 non-critical-internal Configuration
-non-critical-internal Exceptions
+non-critical-internal INI
 non-critical-internal Time
 non-critical-internal Priority
 non-critical-internal DB
 non-critical-internal ANSI
+non-critical-internal Exceptions
 
 # Commands directory
 non-critical-internal Commands
