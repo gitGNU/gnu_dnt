@@ -58,7 +58,7 @@ class Entry(Node.Node) :
         assert(t != "")
 
         # Remove leading and trailing whitespaces from input string
-        self.__text = string.rstrip(string.lstrip(t))
+        self.__text = string.strip(t)
 
     text = property(text_get, text_set, None, None)
 
@@ -113,7 +113,7 @@ class Entry(Node.Node) :
         assert(t != "")
 
         # Remove leading and trailing whitespaces from input string
-        self.__comment = string.rstrip(string.lstrip(t))
+        self.__comment = string.strip(t)
 
     comment = property(comment_get, comment_set, None, None)
 

@@ -92,7 +92,7 @@ class Priority(object) :
     def fromstring(self, t) :
         if (not isinstance(t, str)) :
             raise Exceptions.WrongPriorityFormat(str(t))
-        s = string.rstrip(string.lstrip(t))
+        s = string.strip(t)
         self.__priority = name2value(s)
 
     def tostring(self) :

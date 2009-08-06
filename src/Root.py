@@ -37,7 +37,7 @@ class Root(Node.Node) :
         assert(t != "")
 
         # Remove leading and trailing whitespaces from input string
-        self.__text = string.rstrip(string.lstrip(t))
+        self.__text = string.strip(t)
 
     text = property(text_get, text_set, None, None)
 

@@ -59,7 +59,7 @@ class Filter(object) :
 
         # Remove leading/trailing whites
         tmp = map(lambda x:
-                      string.rstrip(string.lstrip(x)),
+                      string.strip(x),
                   tmp)
         debug("Mangled representation (pass #B.1) is: " +
               "`" + str(tmp) + "'")

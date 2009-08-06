@@ -101,7 +101,7 @@ class Time(object) :
         assert(isinstance(t, str))
 
         # Sanitizing whitespaces
-        s = string.rstrip(string.lstrip(t))
+        s = string.strip(t)
         s = re.sub('\s+', ' ', s)
 
         try :

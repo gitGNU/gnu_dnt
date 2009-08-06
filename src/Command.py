@@ -99,7 +99,7 @@ class Command(OptionParser, object) :
         assert(isinstance(n, str))
         assert(n != "")
         assert(n != None)
-        assert(n == string.rstrip(string.lstrip(n)))
+        assert(n == string.strip(n))
 
         self.__name = n
 
