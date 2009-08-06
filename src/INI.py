@@ -24,13 +24,35 @@ from   Trace      import *
 import Exceptions
 
 class File(object) :
+    class Error(Exception) :
+        pass
+
     def __init__(self, filename = None) :
         debug("Initializing INI file instance")
-        self.__values = { }
-        if (filename != None) :
-            debug("Passed INI filename")
-            self.__filename = filename
+        self.__values   = { }
+        self.__filename = filename
+        if (self.__filename != None) :
             self.load()
+
+    def filename(self) :
+        return self.__filename
+
+    def sections(self) :
+        return self.__values.keys()
+
+    def has_section(self, section) :
+        if (self.__values.has_key(section)) :
+            return True
+        return False
+
+    def options(self, section) :
+        return self.__values[section].keys()
+
+    def has_option(self, section, option) :
+        if (self.__values.has_key(section)) :
+            if (self.__values[section].has_key(option)) :
+                return True
+        return False
 
     def add_section(self, section) :
         assert(isinstance(section, str))
@@ -41,26 +63,35 @@ class File(object) :
         assert(isinstance(section, str))
         del self.__values[section]
 
-    def get(self, section, option) :
+    def get(self, section, option, raw = None) :
+        debug("Raw parameter is `" + str(raw) + "'")
+
+        # Be kind enough
+        s = string.strip(section)
+        o = string.strip(option)
+
         try:
-            return self.__values[section][option]
+            return self.__values[s][o]
         except KeyError, e:
-            raise Exceptions.KeyNotFound(str(e))
+            raise Exceptions.KeyNotFound("unknown section " +
+                                         "`" + s + "' " +
+                                         "or option " +
+                                         "`" + o + "'")
 
     def set(self, section, option, value) :
         assert(value != None)
 
         if (not self.__values.has_key(section)) :
             self.__values[section] = { }
-        self.__values[section][option] = value
 
-    # XXX: To be removed ASAP
-    def read(self, filename) :
-        self.load(filename)
+        # Be kind enough
+        s = string.strip(section)
+        o = string.strip(option)
 
-    # XXX: To be removed ASAP
-    def write(self, handle) :
-        self.save(handle.name())
+        self.__values[s][o] = value
+
+    def clear(self) :
+        self.__values.clear()
 
     def load(self, filename = None) :
         if (filename != None) :
@@ -82,18 +113,25 @@ class File(object) :
         value   = ""
         option  = ""
         for l in lines :
+            # Purify input string
             l = string.strip(l)
-            if (len(l) > 0) :
-                if (l[0] == "[") :
-                    loc     = string.find(l, "]")
-                    section = l[1:loc]
-                    self.add_section(section)
-                elif ((l[0] in string.letters) or
-                      (l[0] in string.digits)) :
-                    loc    = string.find(l, "=")
-                    option = l[0:loc]
-                    value  = l[(loc + 1):]
-                    self.set(section, option, value)
+
+            # Skip comments and empy lines
+            if ((l == "") or (l[0] == "#")) :
+                continue
+
+            assert(len(l) > 0)
+
+            if (l[0] == "[") :
+                loc     = string.find(l, "]")
+                section = l[1:loc]
+                self.add_section(section)
+            elif ((l[0] in string.letters) or
+                  (l[0] in string.digits)) :
+                loc    = string.find(l, "=")
+                option = string.strip(l[0:loc])
+                value  = string.strip(l[(loc + 1):])
+                self.set(section, option, value)
 
         handle.close()
 
@@ -111,12 +149,13 @@ class File(object) :
         assert(handle != None)
 
         for section in self.__values.keys() :
-            handle.write(string.join(("[", section, "]", "\n"),""))
+            handle.write(string.join(("[", section, "]", "\n"),
+                                     ""))
             for option in self.__values[section].keys() :
-                handle.write(string.join((option, "=",
-                                          self.__values[section][option],
-                                          "\n"),
-                                         ""))
+                handle.write(option +
+                             " = " +
+                             str(self.__values[section][option]))
+                handle.write('\n')
             handle.write('\n')
 
         handle.close()
