@@ -89,7 +89,7 @@ class MalformedDatabase(EDatabase) :
     def __init__(self, message = None) :
         tmp = ""
         if (message != None) :
-            tmp = " `" + message + "'"
+            tmp = ", " + message
         EDatabase.__init__(self, "malformed database" + tmp)
 
 class CorruptedDatabase(EDatabase) :
@@ -151,7 +151,7 @@ class KeyNotFound(EINI) :
     def __init__(self, message) :
         tmp = ""
         if (message != None) :
-            tmp = " `" + message + "'"
+            tmp = ", " + message
         EINI.__init__(self, "key not found" + tmp)
 
 #
