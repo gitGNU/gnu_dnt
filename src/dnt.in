@@ -260,7 +260,7 @@ def main(arguments) :
     # Read all configuration files (if present). The order in the
     # CFG_SEARCH_PATHS variable is important in order to have the
     # right precedence over all files
-    cfg_files = []
+    cfg_files = [ ]
     try :
         cfg_files = configuration.read(os.path.expandvars(CFG_SEARCH_PATHS))
     except Configuration.ParsingError, e :
@@ -275,7 +275,7 @@ def main(arguments) :
     except :
         bug("Unknown exception while configuration parsing")
 
-    if (len(cfg_files) >= 1) :
+    if ((cfg_files != None) and (len(cfg_files) >= 1)) :
         debug("Configuration read from `" + str(cfg_files) + "'")
 
     # Override configuration options with command line ones
@@ -325,6 +325,7 @@ def main(arguments) :
         return 1
     except :
         bug("Unknown exception while looking for command instance")
+
     assert(cmd_instance != None)
     debug("Command is:     `" + cmd_name + "'")
 
@@ -385,23 +386,18 @@ def main(arguments) :
     debug("No error running command")
 
     # Save configuration back to file (if needed)
-    if (configuration.modified()) :
-        debug("Configuration changed, writing it back to file")
+    if (configuration.modified) :
+        debug("Configuration changed, " +
+              "writing it back to file " +
+              "`" + configuration.filename() + "'")
 
-        filename = configuration.get(PROGRAM_NAME,'configuration')
-        assert(filename != None)
-        assert(filename != "")
-
-        debug("Configuration will be stored into `" + filename + "'")
         try :
-            ofp = open(filename, 'w')
-            configuration.write(ofp)
-            ofp.close()
+            configuration.save()
         except Configuration.Error, e :
             error(e)
             return 1
         except :
-            bug("Unknown exception while opening configuration file")
+            bug("Unknown exception while writing configuration file")
 
     debug("All operations completed successfully")
     assert(retval == 0)
