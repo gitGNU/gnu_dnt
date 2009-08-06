@@ -18,6 +18,7 @@
 
 import sys
 import re
+import ANSItextwrap
 
 from   Debug      import *
 from   Trace      import *
@@ -182,7 +183,8 @@ def show(level,
                             raise Exceptions.WidthTooSmall("cannot wrap node " +
                                                            id_absolute)
 
-                        dump.extend(ANSI.wrap(t, w))
+                        dump.extend(ANSItextwrap.wrap(t, w,
+                                                      break_ansi_escapes=False))
                     else :
                         dump.append(i)
 

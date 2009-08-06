@@ -30,6 +30,7 @@ non-critical-internal Time
 non-critical-internal Priority
 non-critical-internal DB
 non-critical-internal ANSI
+non-critical-internal ANSItextwrap
 non-critical-internal Exceptions
 
 # Commands directory

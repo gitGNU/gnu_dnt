@@ -103,137 +103,54 @@ def bright_white(t) :
 def normal_white(t) :
     return _normal(COLOR_IDX_WHITE, t)
 
-def length(t) :
-    assert(t != None)
-
-    return len(re.sub(r'(' + chr(27) + '\[[0-9;]*[m]' + r')+', '', t))
-
-def wrap(t, w) :
-    assert(t != None)
-    assert(w > 0)
-
-    result  = [ ]
-    re_ansi = re.compile(r'(' + chr(27) + '\[[0-9;]*[m]' + r')+')
-
-    if re.match(r'\t', t) :
-        t = t.expandtabs()
-
-    if length(t) <= w :
-        return [ re.sub(r'\s*$', '', t) ]
-
-    s    = re_ansi.split(t, 1)
-    head = s[0]
-    try :
-        ansi = s[1]
-    except :
-        ansi = ""
-    try :
-        tail = s[2]
-    except :
-        tail = ""
-
-    if len(head) > w :
-        m      = re.match(r'^(.*)(\s*)$', head)
-        head   = m.group(1)
-        spc    = m.group(2)
-        result = textwrap.wrap(head, w)
-
-        if tail == "" or tail.isspace() :
-            # Should we really append ANSI escape at the
-            # end of the last line?
-            # Should it be our fault?
-            result[-1] += ansi
-        else :
-            if len(result[-1]) == w :
-                result[-1] += ansi
-            else :
-                tail = result.pop() + spc + ansi + tail
-
-            result.extend(wrap(tail, w))
-    elif len(head) < w :
-        m    = re.match(r'^(.*)(\s*)$', head)
-        head = m.group(1)
-        spc  = m.group(2)
-
-        if tail == "" :
-            # Should we really append ANSI escape at the
-            # end of the last line?
-            # Should it be our fault?
-            return [ head + ansi ]
-        else :
-            index  = 0
-            tail   = head + spc + tail
-            result = wrap(tail, w)
-
-            if re.match(r'^' + head + spc, result[0]) :
-                # Spaces between head and tail are
-                # preserved after wrapping
-                index   = len(head + spc)
-            else :
-                # Spaces between head and tail are not
-                # preserved after wrapping
-                index = len(head)
-
-            # Inserting ANSI escape
-            result[0] = result[0][:index] + ansi + result[0][index:]
-    else :
-        m      = re.match(r'^(.*)(\s*)$', head)
-        head   = m.group(1)
-        spc    = m.group(2)
-        result = [ head + ansi ]
-
-        if tail != "" :
-            result.extend(wrap(tail, w))
-
-    return result
 
 # Test
 if (__name__ == '__main__') :
 
     # Preliminary checks
-    assert(textwrap.wrap("test", 1) == wrap("test", 1))
-    assert(textwrap.wrap("test", 2) == wrap("test", 2))
-    assert(textwrap.wrap("test", 3) == wrap("test", 3))
-    assert(textwrap.wrap("test", 4) == wrap("test", 4))
-    assert(textwrap.wrap("test", 5) == wrap("test", 5))
+#     assert(textwrap.wrap("test", 1) == wrap("test", 1))
+#     assert(textwrap.wrap("test", 2) == wrap("test", 2))
+#     assert(textwrap.wrap("test", 3) == wrap("test", 3))
+#     assert(textwrap.wrap("test", 4) == wrap("test", 4))
+#     assert(textwrap.wrap("test", 5) == wrap("test", 5))
 
     # Extensive checks to ensure that
     #
-    #     textwrap.wrap() == ANSI.textwrap()
+    #     textwrap.wrap() == ANSI.wrap()
     #
     # On non-ANSI input
-    x = [ "this",
-          "this is",
-          "this is a",
-          "this is a test",
+#     x = [ "this",
+#           "this is",
+#           "this is a",
+#           "this is a test",
 
-          " this",
-          "this ",
+#           " this",
+#           "this ",
 
-          "  this",
-          "this  ",
+#           "  this",
+#           "this  ",
 
-          "  this is",
-          "this is  ",
+#           "  this is",
+#           "this is  ",
 
-          "  this  is",
-          "this  is  ",
+#           "  this  is",
+#           "this  is  ",
 
-          "  this   is",
-          "this   is  ",
+#           "  this   is",
+#           "this   is  ",
 
-          "     this     is      a         test",
-          "this   is   a     test     ",
-          "         this   is   a     test     "
-          ]
+#           "     this     is      a         test",
+#           "this   is   a     test     ",
+#           "         this   is   a     test     "
+#           ]
 
-    for i in range(0, len(x)) :
-        print("x[" + str(i) + "] = '" + x[i] + "'")
-        for j in range (1, len(x[i]) + 1) :
-            print("wrap " + str(j))
-            print(str(textwrap.wrap(x[i], j)))
-            print(str(wrap(x[i], j)))
-            assert(textwrap.wrap(x[i], j) == wrap(x[i], j))
+#     for i in range(0, len(x)) :
+#         print("x[" + str(i) + "] = '" + x[i] + "'")
+#         for j in range (1, len(x[i]) + 1) :
+#             print("wrap " + str(j))
+#             print(str(textwrap.wrap(x[i], j)))
+#             print(str(wrap(x[i], j)))
+#             assert(textwrap.wrap(x[i], j) == wrap(x[i], j))
 
     debug("Test completed")
     sys.exit(0)
