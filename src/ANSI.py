@@ -17,8 +17,6 @@
 #
 
 import sys
-import re
-import textwrap
 
 from   Debug import *
 from   Trace import *
