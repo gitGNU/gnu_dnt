@@ -172,11 +172,24 @@ if (__name__ == '__main__') :
         f.set("test", "value1", 1)
         assert(f.get("test", "value1") == 1)
 
-        f.set("test", "value2", True)
-        assert(f.get("test", "value2") == True)
+        f.set("alfa", "value2", True)
+        assert(f.get("alfa", "value2") == True)
+        f.set("alfa", "value2", False)
+        assert(f.get("alfa", "value2") == False)
 
-        f.set("test", "value3", "string")
-        assert(f.get("test", "value3") == "string")
+        f.set("beta", "value3", "string")
+        assert(f.get("beta", "value3") == "string")
+        f.set("beta", "value3", True)
+        assert(f.get("beta", "value3") == True)
+        f.set("beta", "value3", "string")
+        assert(f.get("beta", "value3") == "string")
+
+        assert(len(f.sections()) == 3)
+
+        f.clear()
+
+        assert(not f.has_section("test"))
+        assert(len(f.sections()) == 0)
     except :
         sys.exit(1)
 
