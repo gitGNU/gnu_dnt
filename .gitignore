@@ -155,6 +155,7 @@ tests/test-command-show-filter-15
 tests/test-command-show-filter-16
 tests/test-command-show-wrap-01
 tests/test-command-show-wrap-02
+tests/test-command-show-wrap-03
 tests/test-command-show-flags-01
 tests/test-command-show-warnings-01
 tests/test-command-show-collapsed-01
