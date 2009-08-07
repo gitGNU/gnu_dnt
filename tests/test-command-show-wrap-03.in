@@ -1,0 +1,50 @@
+#! @SHELL@
+
+#
+# Copyright (C) 2008, 2009 Francesco Salvestrini
+#                          Alessandro Massignan
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+
+required="diff"
+
+. $testdir/defs || exit 1
+
+# Creating test DB
+$DNT_FLAGS clean                    || exit 1
+$DNT_FLAGS init                     || exit 1
+$DNT_FLAGS add --text="Hello World" || exit 1
+
+# Testing wrapping result on "--width" option
+
+cat > test1.txt <<EOF
+Hello
+World
+OF
+
+# Force no-colors, first
+$DNT_NOFLAGS --mono show -l "%t" -I "" -U "" -L "" -w 6 -o test2.txt
+
+diff test1.txt test2.txt || exit 1
+
+# Force colors, we want to see if the colors wrapping works 
+$DNT_NOFLAGS --color show -l "%t" -I "" -U "" -L "" -w 6 -o test3.txt
+
+diff test1.txt test3.txt || exit 1
+
+diff test2.txt test3.txt || exit 1
+
+exit 0
