@@ -18,7 +18,6 @@
 
 import sys
 import re
-import ANSItextwrap
 
 from   Debug      import *
 from   Trace      import *
@@ -33,6 +32,7 @@ import Entry
 import Terminal
 import Filter
 import ANSI
+import Text
 
 def show(level,
          node,
@@ -183,8 +183,7 @@ def show(level,
                             raise Exceptions.WidthTooSmall("cannot wrap node " +
                                                            id_absolute)
 
-                        dump.extend(ANSItextwrap.wrap(t, w,
-                                                      break_ansi_escapes=False))
+                        dump.extend(Text.wrap(t, w, break_ansi_escapes=False))
                     else :
                         dump.append(i)
 

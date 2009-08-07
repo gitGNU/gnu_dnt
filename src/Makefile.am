@@ -62,7 +62,7 @@ pkgvpython_PYTHON =				\
 	Time.py					\
 	Priority.py				\
 	ANSI.py					\
-	ANSItextwrap.py				\
+	Text.py					\
 	Console.py				\
 	Stack.py				\
 	DB.py					\

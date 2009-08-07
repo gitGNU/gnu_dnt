@@ -182,7 +182,7 @@ dist-upload: dist-gpg
 		exit 1 ;						\
 	}
 
-announcement:
+announcement: dist
 	$(ANNOUNCE_GEN)				\
 	  --release-type=alpha			\
 	  --package=$(PACKAGE_TARNAME)		\
