@@ -100,21 +100,80 @@ class Time(object) :
     def fromstring(self, t) :
         assert(isinstance(t, str))
 
-        # Sanitizing whitespaces
-        s = string.strip(t)
-        s = re.sub('\s+', ' ', s)
+        # Splitting text
+        d = filter(None, re.split(r'\s+', t))
+
+        # Default date values (year, month, day, hour,
+        # minutes, seconds), year is set to None as
+        # control item
+        date = [ None, # Year
+                 "01", # Month
+                 "01", # Day
+                 "00", # Hour
+                 "00", # Minutes
+                 "00"  # Seconds
+                 ]
+
+        for i in d :
+            # Matching date string
+            if re.match(r'^\d{1,4}\-', i) :
+                x = filter(None, i.split('-'))
+
+                try :
+                    assert(len(x) <= 3)
+                except :
+                    raise Exceptions.WrongTimeFormat(t)
+
+                # Fill array date elements
+                c = 0
+
+                for j in x :
+                    date[c] = j
+                    c += 1
+
+            # Matching time string
+            elif re.match(r'^\d{1,2}:', i) :
+                x = filter(None, i.split(':'))
+
+                try :
+                    assert(len(x) <= 3)
+                except :
+                    raise Exceptions.WrongTimeFormat(t)
+
+                # Fill array time elements
+                c = 3
+
+                for j in x :
+                    date[c] = j
+                    c += 1
+
+            # Single digit token, handling as year token
+            elif re.match(r'^\d{1,4}$', i) :
+
+                if date[0] != None :
+                    raise Exceptions.WrongTimeFormat(t)
+
+                # Fill array year element
+                date[0] = i
+            else :
+                # Invalid input
+                raise Exceptions.WrongTimeFormat(t)
+
+        # Building date string
+        if date[0] == None :
+            # If date is not passed (year value is not
+            # passed) then we'll take today
+            s = time.strftime("%Y-%m-%d") + ' ' + \
+                date[3] + ':' + date[4] + ':' + date[5]
+        else :
+            s = date[0] + '-' + date[1] + '-' + date[2] + ' ' + \
+                date[3] + ':' + date[4] + ':' + date[5]
 
         try :
-            # Try full-time first
             args = time.strptime(s, "%Y-%m-%d %H:%M:%S")[0:6]
             self.__time = datetime.datetime(*args)
         except :
-            try :
-                # Fall-back to date only
-                args = time.strptime(s, "%Y-%m-%d")[0:6]
-                self.__time = datetime.datetime(*args)
-            except :
-                raise Exceptions.WrongTimeFormat(s)
+            raise Exceptions.WrongTimeFormat(t)
 
         assert(self.__time != None)
         debug("Time object set to `" + str(self.__time) + "'")
@@ -241,6 +300,30 @@ if (__name__ == '__main__') :
 
     t1 = Time("2008-11-2 1:1:1")
     t2 =      "2009-11-2 2:1:1"
+    assert(t1 != t2)
+    assert(t1 <= t2)
+    assert(t2 >= t1)
+    assert(t1 <  t2)
+    assert(t2 >  t1)
+
+    t1 = Time("2008")
+    t2 =      "2009"
+    assert(t1 != t2)
+    assert(t1 <= t2)
+    assert(t2 >= t1)
+    assert(t1 <  t2)
+    assert(t2 >  t1)
+
+    t1 = Time("2008")
+    t2 =      "2008-02"
+    assert(t1 != t2)
+    assert(t1 <= t2)
+    assert(t2 >= t1)
+    assert(t1 <  t2)
+    assert(t2 >  t1)
+
+    t1 = Time(time.strftime("%Y-%m-%d") + ' 12:00:00')
+    t2 =      "12:00:01"
     assert(t1 != t2)
     assert(t1 <= t2)
     assert(t2 >= t1)
