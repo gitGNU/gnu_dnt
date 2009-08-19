@@ -36,30 +36,81 @@ missing ()
 
     for i in $PATH
     do
-
-	if test -f $i/$PROGRAM; then
-	    echo $i/$PROGRAM
-	    return 0
-	fi
+	test -f $i/$PROGRAM && { echo $i/$PROGRAM; return 0; }
     done
 
     return 1
 }
 
+optional ()
+{
+    PROGRAM=$1
+
+    if test "x${PROGRAM}" = "x"; then
+        return 1
+    fi
+
+    X=`missing ${PROGRAM}` && { echo $X; }
+
+    return 0
+}
+
+required_one ()
+{
+    PROGRAMS=$1
+
+    if test "x${PROGRAMS}" = "x"; then
+        return 1
+    fi
+
+    IFS=' '
+
+    for i in $PROGRAMS
+    do
+        X=`missing ${i}` && { echo $X; return 0; }
+    done
+
+    return 1
+}
+
+required ()
+{
+    PROGRAM=$1
+
+    if test "x${PROGRAM}" = "x"; then
+        return 1
+    fi
+    X=`missing ${PROGRAM}` && { echo $X; return 0; }
+
+    return 1
+}
+
+
 #
 # External tools
 #
-AUTOHEADER=`missing autoheader`
-ACLOCAL=`missing aclocal`
-AUTOCONF=`missing autoconf`
-AUTOMAKE=`missing automake`
-AUTORECONF=`missing autoreconf`
-LIBTOOL=`( missing glibtool || missing libtool )`
-LIBTOOLIZE=`( missing glibtoolize || missing libtoolize)`
-GNULIBTOOL=`missing gnulib-tool`
-GIT=`missing git`
-SED=`missing sed`
-PYTHON_AUTOFRISK=`missing python-autofrisk`
+AUTOHEADER="`required autoheader`"                 || \
+    { echo "Missing tool: autoheader"; exit 1; }
+ACLOCAL="`required aclocal`"                       || \
+    { echo "Missing tool: aclocal"; exit 1; }
+AUTOCONF="`required autoconf`"                     || \
+    { echo "Missing tool: autoconf"; exit 1; }
+AUTOMAKE="`required automake`"                     || \
+    { echo "Missing tool: automake"; exit 1; }
+AUTORECONF="`required autoreconf`"                 || \
+    { echo "Missing tool: autoreconf"; exit 1; }
+LIBTOOL="`required_one libtool glibtool`"          || \
+    { echo "Missing tool: libtool"; exit 1; }
+LIBTOOLIZE="`required_one libtoolize glibtoolize`" || \
+    { echo "Missing tool: libtoolize"; exit 1; }
+GNULIBTOOL="`required gnu-libtool`"
+GIT="`required git`"                               || \
+    { echo "Missing tool: git"; exit 1; }
+SED="`required sed`"                               || \
+    { echo "Missing tool: sed"; exit 1; }
+PYTHON_AUTOFRISK="`required python-autofrisk`"     || \
+    { echo "Missing tool: python-autofrisk"; exit 1; }
+
 
 #
 # Dump some useful informations
