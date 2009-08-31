@@ -17,7 +17,7 @@
 #
 
 import sys
-import string
+#import string
 import datetime
 import time
 import re
