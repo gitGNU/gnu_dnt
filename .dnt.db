@@ -578,6 +578,9 @@
     <entry priority="high" start="1235558583">
             Fix the colored-wrap problem (add -t "Hello world", dump -l "%t" -w 6 in order to see it)
         </entry>
+    <entry priority="high" start="1249591268">
+            Rearrange INI and Configuration module, that code smells
+        </entry>
     </entry>
     <entry priority="high" start="1233694836">
         Release 0.2.0
