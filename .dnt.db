@@ -280,6 +280,11 @@
             <comment>
                 Done
             </comment></entry>
+    <entry end="1251965492" priority="high" start="1235558583">
+            Fix the colored-wrap problem (add -t "Hello world", dump -l "%t" -w 6 in order to see it)
+            <comment>
+                Done
+            </comment></entry>
     <entry end="1236158956" priority="high" start="1236094219">
             Add -o/--output tests for show command (like the dump one)
             <comment>
@@ -575,8 +580,8 @@
             <comment>
                 Done
             </comment></entry>
-    <entry priority="high" start="1235558583">
-            Fix the colored-wrap problem (add -t "Hello world", dump -l "%t" -w 6 in order to see it)
+    <entry priority="veryhigh" start="1252443503">
+            Rearrange the build-related code (macros, makefiles, bootstrap, gnulib-use)
         </entry>
     <entry priority="high" start="1249591268">
             Rearrange INI and Configuration module, that code smells
