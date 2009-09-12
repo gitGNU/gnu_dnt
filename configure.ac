@@ -51,11 +51,11 @@ AC_PROG_GREP
 AC_PROG_SED
 AC_PROG_AWK
 
-AX_PATH_MISSING([HELP2MAN],  [help2man])
-AX_PATH_MISSING([SITETOOL],  [sitetool])
-AX_PATH_MISSING([WGET],      [wget])
 AX_PATH_MISSING([PERL],      [perl])
+AX_PATH_MISSING([SITETOOL],  [sitetool])
 AX_PATH_MISSING([PYCHECKER], [pychecker])
+AX_PATH_MISSING([HELP2MAN],  [help2man])
+AX_PATH_MISSING([WGET],      [wget])
 
 AC_PATH_PROG([XSLTPROC],             [xsltproc])
 AM_CONDITIONAL([XSLTPROC_AVAILABLE], [ test ! "$XSLTPROC" = "" ])
