@@ -138,6 +138,18 @@ def show(level,
             # Perform format substitutions
             t = line_format
             debug("input  = `" + t + "'")
+
+            # NOTE:
+            #   re.sub has the following "prototype":
+            #
+            #     re.sub(pattern, repl, string[, count])
+            #
+            # The optional argument count is the maximum
+            # number of pattern occurrences to be replaced;
+            # count must be a non-negative integer.
+            # If omitted or zero, all occurrences will be
+            # replaced.
+
             t = re.sub('%I', color_index(id_absolute),  t)
             t = re.sub('%i', color_index(id_relative),  t)
             t = re.sub('%s', start,                     t)
