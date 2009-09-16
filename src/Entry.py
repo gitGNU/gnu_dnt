@@ -52,13 +52,17 @@ class Entry(Node.Node) :
     def text_get(self) :
         return self.__text
 
+    def _text_set(self, t) :
+        # Remove leading and trailing whitespaces whenever possible
+        self.__text = t
+        if (isinstance(self.__text, str)) :
+            self.__text = string.strip(self.__text)
+
     def text_set(self, t) :
         assert(t != None)
         assert(isinstance(t, str))
         assert(t != "")
-
-        # Remove leading and trailing whitespaces from input string
-        self.__text = string.strip(t)
+        self._text_set(t)
 
     text = property(text_get, text_set, None, None)
 
@@ -67,6 +71,7 @@ class Entry(Node.Node) :
 
     def priority_set(self, p) :
         assert(p != None)
+        assert(isinstance(p, Priority.Priority))
         self.__priority = p
 
     priority = property(priority_get, priority_set, None, None)
@@ -105,15 +110,16 @@ class Entry(Node.Node) :
         return self.__comment
 
     def _comment_set(self, t) :
+        # Remove leading and trailing whitespaces whenever possible
         self.__comment = t
+        if (isinstance(self.__comment, str)) :
+            self.__comment = string.strip(self.__comment)
 
     def comment_set(self, t) :
         assert(t != None)
         assert(isinstance(t, str))
         assert(t != "")
-
-        # Remove leading and trailing whitespaces from input string
-        self.__comment = string.strip(t)
+        self._comment_set(t)
 
     comment = property(comment_get, comment_set, None, None)
 
