@@ -17,10 +17,10 @@
 #
 
 import sys
-from   xml.etree   import ElementTree as ET
-
-from   Debug       import *
-from   Trace       import *
+from   xml.etree       import ElementTree as ET
+from   xml.dom.minidom import parseString as parseString
+from   Debug           import *
+from   Trace           import *
 import Root
 import Entry
 import Time
@@ -234,7 +234,17 @@ class Database(object) :
 
             #root = ET.ElementTree(xml)
             #root.write(name)
-            xml.write(name, encoding = "")
+            #xml.write(name, encoding = "")
+
+            try :
+                filehandle = open(name, "w")
+            except :
+                raise Exceptions.CannotWrite(name)
+
+            filehandle.write(
+                parseString(ET.tostring(xml.getroot())).toprettyxml()
+                )
+            filehandle.close()
 
         except IOError, e :
             raise Exceptions.ProblemsWriting(name, str(e))
