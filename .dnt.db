@@ -696,6 +696,9 @@
 		<entry priority="high" start="1249591268">
 			Rearrange INI and Configuration module, that code smells
 		</entry>
+		<entry priority="medium" start="1253099254">
+			Phase out etree, replacing it with dom module
+		</entry>
 	</entry>
 	<entry priority="high" start="1233694836">
 		Release 0.2.0
