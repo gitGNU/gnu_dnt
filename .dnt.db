@@ -699,6 +699,24 @@
 		<entry priority="medium" start="1253099254">
 			Phase out etree, replacing it with dom module
 		</entry>
+		<entry priority="high" start="1253138787">
+			Update build
+			<entry priority="high" start="1253138787">
+				Fix package version in order to handle git versioning
+			</entry>
+			<entry priority="medium" start="1253138788">
+				Use PACKAGE_URL in site building
+			</entry>
+			<entry priority="high" start="1253138788">
+				Move internal macros to build-utils package
+			</entry>
+			<entry priority="high" start="1253138788">
+				Create AX_PACKAGE_API macro
+				<entry priority="high" start="1253138788">
+					Update configure.ac replacing API-handling with AX_PACKAGE_API
+				</entry>
+			</entry>
+		</entry>
 	</entry>
 	<entry priority="high" start="1233694836">
 		Release 0.2.0
