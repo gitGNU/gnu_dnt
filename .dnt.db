@@ -707,7 +707,7 @@
 			<entry priority="medium" start="1253138788">
 				Use PACKAGE_URL in site building
 			</entry>
-			<entry priority="high" start="1253138788">
+			<entry end="1253616585" priority="high" start="1253138788">
 				Move internal macros to build-utils package
 			</entry>
 			<entry priority="high" start="1253138788">
