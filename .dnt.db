@@ -697,7 +697,7 @@
 			Rearrange INI and Configuration module, that code smells
 		</entry>
 		<entry priority="medium" start="1253099254">
-			Phase out etree, replacing it with dom module
+			Phase out etree, replacing it with DOM module
 		</entry>
 		<entry priority="high" start="1253138787">
 			Update build
@@ -839,6 +839,9 @@
 		</entry>
 		<entry priority="verylow" start="1227122807">
 			Rearrange the build process in order to use EXEEXT (if needed)
+		</entry>
+		<entry priority="high" start="1254261903">
+			Reimplement XML DB with SAX
 		</entry>
 	</entry>
 	<entry priority="medium" start="1233694932">
