@@ -17,8 +17,8 @@
 #
 
 import sys
-from   xml.etree       import ElementTree as ET
-from   xml.dom.minidom import parseString as parseString
+from   xml.dom.minidom import *
+
 from   Debug           import *
 from   Trace           import *
 import Root
@@ -37,117 +37,170 @@ import Exceptions
 #     Root/Entry mix is allowed (at the moment)
 #
 
-def fromxml(xml) :
+def fromxml(input_node) :
     #debug("XML -> Tree in progress")
 
     #debug("Handling tag " + xml.tag)
     node = None
 
-    if (xml.tag == "root") :
-        text = xml.text
-        if ((text == None) or (text.isspace())) :
-            warning("Database has no name, using default one")
-            text = "Default DB name"
+    if (input_node.nodeType == 1) :
+        text     = None
+        priority = None
+        start    = None
+        end      = None
+        marked   = None
+        comment  = None
+        children = [ ]
 
-        # Build a root node
-        node = Root.Root(text)
+       # Collecting entry and comment children and node text data
+        for child in input_node.childNodes :
 
-    elif (xml.tag == "entry") :
-        text = xml.text
-        if (text == None) :
-            raise Exceptions.MalformedDatabase()
+            if child.nodeType == 1 :
 
-        #debug("Priority is:      `" + xml.attrib['priority'] + "'")
-        priority = Priority.Priority()
-        try :
-            priority.fromstring(xml.attrib['priority'])
-        except Exception, e :
-            #debug(str(e))
-            warning("No priority for entry `" + text + "', using default")
-        #debug("Priority will be: `" + priority.tostring() + "'")
+                if child.nodeName == "entry" :
+                    children.append(child)
+                elif child.nodeName == "comment" :
 
-        #
-        # NOTE: Use the current time from Entry.start
-        #
-        start = None
-        value = None
-        try :
-            value = xml.attrib['start']
-            try :
-                #debug("Start time value: `" + value + "'")
-                start = Time.Time(int(value))
-            except ValueError, e :
-                error("Wrong start time format for entry " +
-                      "`" + text +"' (" + str(e) + ")")
-            except Exception, e :
-                bug(str(e))
-        except Exception, e :
-            error("Missing start time for entry "
-                  "`" + text + "'")
-            raise Exceptions.MalformedDatabase()
+                    # Collecting comment string
+                    for i in child.childNodes :
+                        assert(i.nodeType == 3)
 
-        #
-        # NOTE: Use None as default value for Entry.end
-        #
-        end   = None
-        value = None
-        try :
-            value = xml.attrib['end']
-            try :
-                #debug("End time value: `" + value + "'")
-                end  = Time.Time(int(value))
-            except ValueError, e :
-                error("Wrong end time format for entry "
-                      "`" + text +"' (" + str(e) + ")")
+                        if comment == None :
+                            comment = i.data
+                        else :
+                            comment = comment + i.data
+
+                    comment = comment.strip()
+
+            elif child.nodeType == 3 :
+
+                if not child.data.isspace() :
+
+                    if text == None :
+                        text = child.data
+                    else :
+                        text = text + child.data
+
+                    text = text.strip()
+
+            elif (child.nodeType == 2 or (4 <= child.nodeType <= 10)) :
+                # Skip unused nodes
+                pass
+            else :
+                raise Exceptions.UnknownElement(child)
+
+       # If we are on root node, build it and skip attributes processing
+        if input_node.nodeName == "root" :
+
+            if text == None :
+                warning("Database has no name, using default one")
+                text = "Default DB name"
+
+            node = Root.Root(text)
+        elif input_node.nodeName == "entry" :
+
+            if (text == None) :
                 raise Exceptions.MalformedDatabase()
+
+            # Looking for priority attribute
+            # debug("Priority is:      `" + input_node.getAttribute("start") +
+            #       "'")
+            priority = Priority.Priority()
+
+            try :
+                assert(input_node.hasAttribute("priority") == True)
+                priority.fromstring(str(input_node.getAttribute("priority")))
             except Exception, e :
-                bug(str(e))
-        except :
-            #debug("No end time for entry `" + text +"'")
-            pass
+                # debug(str(e))
+                warning("No priority for entry `" + text + "', using default")
 
-        comment = None
+            # Looking for start attribute
+            value = None
 
-        for subelement in xml.getchildren() :
-            if (subelement.tag == "comment") :
-                comment = subelement.text
+            try :
+                assert(input_node.hasAttribute("start") == True)
 
-        # Build an entry node
-        node = Entry.Entry(text, priority, start, end, comment)
+                try :
+                    # debug("Start time value: `" + value + "'")
+                    value = input_node.getAttribute("start")
+                    start = Time.Time(int(value))
+                except ValueError, e :
+                    error("Wrong start time format for entry " +
+                          "`" + text +"' (" + str(e) + ")")
+                    raise Exception.MalformedDatabase()
+                except Exception, e :
+                    bug(str(e))
 
-    elif (xml.tag == "comment") :
-        pass
+            except Exception, e :
+                error("Missing start time for entry "
+                      "`" + text + "'")
+                raise Exceptions.MalformedDatabase()
 
-    else :
-        raise Exceptions.UnknownElement(xml.tag)
+            # Looking for end time attribute
+            value = None
 
-    if (xml.tag != "comment") :
-        assert(node != None)
+            try :
+                assert(input_node.hasAttribute("end") == True)
 
-    for x in xml.getchildren() :
-        #debug("Working with child `" + str(x) + "'")
-        tmp = fromxml(x)
-        if (tmp != None) :
+                try :
+                    value = input_node.getAttribute("end")
+                    # debug("End time value: `" + value + "'")
+                    end   = Time.Time(int(value))
+                except ValueError, e :
+                    error("Wrong end time format for entry " +
+                          "`" + text +"' (" + str(e) + ")")
+                    raise Exception.MalformedDatabase()
+                except Exception, e :
+                    bug(str(e))
+
+            except :
+                # debug("No ned time for entry `" + text + "'")
+                pass
+
+            if comment != None :
+                comment.strip(' \t\n\v\b\r')
+
+            # Build an entry node
+            node = Entry.Entry(text, priority, start, end, comment)
+
+        else :
+            bug("Invalid child node name `" + child.nodeName + "'")
+
+        # Processing children
+        for child in children :
+            tmp = fromxml(child)
+            assert(tmp != None)
+
             node.add(tmp)
 
-    #debug("Returning " + str(entry))
+    else :
+        raise Exceptions.UnknownElement(input_node.nodeType)
+
+    # debug("Returning " + str(entry))
     return node
 
-def toxml(node, xml) :
-    #debug("Tree -> XML for node `" + str(node) + "' in progress")
-    assert(xml != None)
+def toxml(node, xml_document, xml_element) :
+    # debug("Tree -> XML for node `" + str(node) + "' in progress")
+    assert(xml_document != None)
 
     if (node == None) :
-        #debug("Node `" + str(node) + "'has no children")
+        # debug("Node `" + str(node) + "'has no children")
         return
 
+    element    = None
     tag        = ""
     attributes = { }
+    text       = None
+
     if (isinstance(node, Root.Root)) :
-        #debug("Creating root XML element");
+        assert(xml_element == None)
+
+        # debug("Creating root XML element");
         tag = "root"
     elif (isinstance(node, Entry.Entry)) :
-        #debug("Creating entry XML element");
+        assert(xml_element != None)
+
+        # debug("Creating entry XML element");
         if (node.priority != None) :
             attributes['priority'] = node.priority.tostring()
         if (node.start    != None) :
@@ -156,29 +209,42 @@ def toxml(node, xml) :
             attributes['end']      = str(node.end.toint())
         tag = "entry"
 
-    child      = ET.Element(tag, attributes)
-    child.text = node.text
+    element = xml_document.createElement(tag)
+    assert(element != None)
+
+    text = xml_document.createTextNode(node.text)
+    assert(text != None)
+    element.appendChild(text)
 
     if ((isinstance(node, Entry.Entry)) and (node.comment  != None)) :
-        tag          = "comment"
-        attributes   = { }
-        comment      = ET.SubElement(child, tag, attributes)
-        comment.text = node.comment
+        comment_tag        = "comment"
+        subelement         = xml_document.createElement(comment_tag)
+        subelement_text    = xml_document.createTextNode(node.comment)
 
-    #print(str(xml) + " (" + str(type(xml)) + ") = " + str(dir(xml)))
+        subelement.appendChild(subelement_text)
+        element.appendChild(subelement)
 
-    if (hasattr(xml, "_setroot")) :
-        xml._setroot(child)
-    elif (hasattr(xml, "append")):
-        xml.append(child)
-    else :
-        bug("Unhandled exception while transforming to xml")
+    if len(attributes) > 0 :
+
+        for name in attributes :
+            element.setAttribute(name, attributes[name])
+
 
     for i in node.children :
-        #debug("Navigating node `" + str(i) + "'")
-        toxml(i, child)
+        # debug("Navigating node `" + str(i) + "'")
+        x = toxml(i, xml_document, element)
+        assert(x != None)
 
-    #debug("Child `" + str(node) + "' navigation completed")
+        element = x
+
+    if xml_element != None :
+        xml_element.appendChild(element)
+    else :
+        xml_element = element
+
+    # debug("Child `" + str(node) + "' navigation completed")
+
+    return xml_element
 
 class Database(object) :
     def __init__(self) :
@@ -186,21 +252,17 @@ class Database(object) :
 
     def load(self, name) :
         assert(name != None)
-        #debug("Loading DB from `" + name + "'")
+        # debug("Loading DB from `" + name + "'")
 
         try :
-            #debug("Parsing XML file")
-            xml  = ET.parse(name)
-            assert(xml != None)
-            #debug("XML file parsing completed successfully")
+            # debug("Parsing XML file")
+            xml_input  = xml.dom.minidom.parse(name)
+            assert(xml_input != None)
+            # debug("XML file parsing completed successfully")
 
-            xmlroot = xml.getroot()
-            assert(xmlroot != None)
-            #debug("Got root node")
-
-            #ET.dump(xmlroot)
-
-            root = xmlroot
+            xml_root = xml_input.documentElement
+            assert(xml_root != None)
+            # debug("Got root node")
 
         except IOError, e :
             raise Exceptions.ProblemsReading(name, str(e))
@@ -209,41 +271,34 @@ class Database(object) :
         except :
             bug("Unhandled exception while loading DB from file")
 
-        assert(xml != None)
-
-        #debug("XML transformation in progress")
-        tree = fromxml(root)
+        # debug("XML transformation in progress")
+        tree = fromxml(xml_root)
         assert(tree != None)
 
-        #debug("DB `" + name + " ' loaded successfully")
+        # debug("DB `" + name + " ' loaded successfully")
 
         return tree
 
     def save(self, name, tree) :
         assert(name != None)
-        #debug("Saving DB into `" + name + "'")
+        assert(tree != None)
+        # debug("Saving DB into `" + name + "'")
 
         try :
-            #xml = ET.Element(tree.text)
-            xml = ET.ElementTree()
-            assert(xml != None)
-            toxml(tree, xml)
-            assert(tree != None)
+            xml_output = xml.dom.minidom.Document()
+            assert(xml_output != None)
 
-            #ET.dump(xml)
+            x = toxml(tree, xml_output, None)
+            assert(x != None)
 
-            #root = ET.ElementTree(xml)
-            #root.write(name)
-            #xml.write(name, encoding = "")
+            xml_output.appendChild(x)
 
             try :
                 filehandle = open(name, "w")
             except :
                 raise Exceptions.CannotWrite(name)
 
-            filehandle.write(
-                parseString(ET.tostring(xml.getroot())).toprettyxml()
-                )
+            filehandle.write(xml_output.toprettyxml())
             filehandle.close()
 
         except IOError, e :
@@ -253,7 +308,7 @@ class Database(object) :
         except :
             bug("Unhandled exception while saving DB to file")
 
-        #debug("DB `" + name + " ' saved successfully")
+        # debug("DB `" + name + " ' saved successfully")
 
 # Test
 if (__name__ == '__main__') :
