@@ -33,7 +33,7 @@ class Root(Node.Node) :
     def text_get(self) :
         return self.__text
     def text_set(self, t) :
-        assert(isinstance(t, str))
+        assert(isinstance(t, basestring))
         assert(t != "")
 
         # Remove leading and trailing whitespaces from input string

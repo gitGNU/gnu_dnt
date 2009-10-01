@@ -60,7 +60,7 @@ class Entry(Node.Node) :
 
     def text_set(self, t) :
         assert(t != None)
-        assert(isinstance(t, str))
+        assert(isinstance(t, basestring))
         assert(t != "")
         self._text_set(t)
 
