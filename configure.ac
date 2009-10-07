@@ -22,7 +22,7 @@
 
 AC_INIT([DNT],
         m4_esyscmd([tools/maint/git-version-gen .tarball-version]),
-        [salvestrini@gmail.com],
+        [dnt-generic@nongnu.org],
         [dnt],
         [http://www.nongnu.org/dnt])
 
