@@ -28,18 +28,31 @@ SITE_SRCS =					\
 	layout.sxml				\
 	map.as					\
 	pages.as				\
-	site.as					\
 	site.css				\
 						\
 	index.scm				\
 	installation.scm			\
 	downloads.scm				\
-	development.scm				\
-	todos.sxml				\
-	news.sxml
+	development.scm
 
-EXTRA_DIST = $(SITE_SRCS)
+SITE_BUILT_SRCS =                               \
+        site.as                                 \
+        news.sxml                               \
+        todos.sxml
+
+EXTRA_DIST = $(SITE_SRCS) site.as.in
 CLEANFILES =
+
+site.as: $(srcdir)/site.as.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/site.as.in > $@.tmp && \
+	  chmod -x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+		rm -f $@ $@.tmp ; \
+		exit 1 ; \
+	}
+CLEANFILES += site.as
 
 news.dump: $(DNT_DB)
 	PYTHONPATH=$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
@@ -93,7 +106,7 @@ todos.sxml: todos.dump
 	}
 CLEANFILES += todos.sxml
 
-site: $(SITE_SRCS)
+site: $(SITE_SRCS) $(SITE_BUILT_SRCS)
 	$(SITETOOL) -v --mode initialize && \
 	$(SITETOOL) -v --mode build && \
 	$(SITETOOL) -v --mode validate && \
