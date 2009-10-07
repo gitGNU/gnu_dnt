@@ -7,7 +7,7 @@ common = {
 vars = {
         sitename          = "DNT";
         package_url       = "http://www.nongnu.org/dnt";
-        package_bugreport = "salvestrini@gmail.com";
+        package_bugreport = "dnt-generic@nongnu.org";
         ohloh_badge_url   = "http://www.ohloh.net/p/286819/widgets/project_partner_badge.js";
 };
 
