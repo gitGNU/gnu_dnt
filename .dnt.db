@@ -717,6 +717,9 @@
 				</entry>
 			</entry>
 		</entry>
+		<entry end="1255090958" priority="medium" start="1255090950">
+			Grouped as external some site files and added a target to fetch them
+		</entry>
 	</entry>
 	<entry priority="high" start="1233694836">
 		Release 0.2.0
