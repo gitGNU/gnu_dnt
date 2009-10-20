@@ -191,7 +191,7 @@ CLEANFILES += test.log
 install-exec-hook:
 	for p in $(bin_SCRIPTS); do \
 	  f="`echo $$p|sed '$(transform)'`"; \
-	  fv="$$f-$(API_VERSION)"; \
+	  fv="$$f-$(PACKAGE_API)"; \
 	  cd $(DESTDIR)$(bindir) && \
 	  rm -f $$fv && \
 	  mv -f $$f $$fv && \
@@ -201,7 +201,7 @@ install-exec-hook:
 uninstall-hook:
 	for p in $(bin_SCRIPTS); do \
 	  f="`echo $$p|sed '$(transform)'`"; \
-	  fv="$$f-$(API_VERSION)"; \
+	  fv="$$f-$(PACKAGE_API)"; \
 	  rm -f $(DESTDIR)$(bindir)/$$fv; \
 	done
 
