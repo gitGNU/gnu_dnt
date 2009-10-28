@@ -61,6 +61,13 @@ class Configuration(INI.File) :
     def get(self, section, option, raw = None) :
         return super(Configuration, self).get(section, option, raw)
 
+    def get_with_default(self, section, option, raw = None, default = None) :
+        try :
+            tmp = super(Configuration, self).get(section, option, raw)
+        except :
+            tmp = default
+        return tmp
+
     def add_section(self, section) :
         super(Configuration, self).add_section(section)
 
