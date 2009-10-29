@@ -395,7 +395,7 @@ class SubCommand(Command) :
 
         # Get width from configuration (if present)
         try :
-            width = configuration.get(PROGRAM_NAME, 'width', raw = True)
+            width = configuration.get(PROGRAM_NAME, 'width', True)
         except :
             debug("No width configuration found")
 
@@ -422,9 +422,7 @@ class SubCommand(Command) :
 
         # Get hide-collapsed from configuration (if present)
         try :
-            hide_collapsed = configuration.get(PROGRAM_NAME,
-                                               'hide-collapsed',
-                                               raw = True)
+            hide_collapsed = configuration.get(PROGRAM_NAME, 'hide-collapsed', True)
         except :
             debug("No hide-collapsed configuration found")
 
@@ -437,7 +435,7 @@ class SubCommand(Command) :
 
 
         try :
-            colors = configuration.get(PROGRAM_NAME, 'colors', raw = True)
+            colors = configuration.get(PROGRAM_NAME, 'colors', True)
         except :
             colors = False
             debug("No colors related configuration, default to " +
@@ -445,7 +443,7 @@ class SubCommand(Command) :
         assert(colors != None)
 
         try :
-            verbose = configuration.get(PROGRAM_NAME, 'verbose', raw = True)
+            verbose = configuration.get(PROGRAM_NAME, 'verbose', True)
         except :
             verbose = False
             debug("No verboseness related configuration, default to " +
@@ -455,8 +453,8 @@ class SubCommand(Command) :
         #
         # NOTE:
         #     verbose has no meaning when the user specifies its own
-        #     formatting tules. We will use a different format for quiet and
-        #     verbose mode however ...
+        #     formatting tules. We will use a different format for
+        #     quiet and verbose mode however ...
         #
         if (verbose is True) :
             indent_fill   = ""
@@ -500,7 +498,7 @@ class SubCommand(Command) :
         #
         # Load database from file
         #
-        db_file = configuration.get(PROGRAM_NAME, 'database')
+        db_file = configuration.get(PROGRAM_NAME, 'database', True)
         assert(db_file != None)
         db      = DB.Database()
         tree    = db.load(db_file)

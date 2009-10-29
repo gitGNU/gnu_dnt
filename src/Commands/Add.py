@@ -121,8 +121,8 @@ class SubCommand(Command):
         else :
             cfg_priority = configuration.get_with_default(self.name,
                                                           'priority',
-                                                          raw = True,
-                                                          default = 'medium')
+                                                          True,
+                                                          'medium')
             node_priority.fromstring(cfg_priority)
 
         debug("Handling comment")
@@ -133,7 +133,7 @@ class SubCommand(Command):
         #
         # Load database from file
         #
-        db_file = configuration.get(PROGRAM_NAME, 'database')
+        db_file = configuration.get(PROGRAM_NAME, 'database', True)
         assert(db_file != None)
         db      = DB.Database()
         tree    = db.load(db_file)
