@@ -750,7 +750,7 @@
 		<entry end="1255090958" priority="medium" start="1255090950">
 			Grouped as external some site files and added a target to fetch them
 		</entry>
-		<entry priority="veryhigh" start="1256771407">
+		<entry end="1256856690" priority="veryhigh" start="1256771407">
 			Add get_with_default to Configuration module
 		</entry>
 	</entry>
