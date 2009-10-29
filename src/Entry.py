@@ -60,6 +60,8 @@ class Entry(Node.Node) :
 
     def text_set(self, t) :
         assert(t != None)
+        # Use basestring to perform the test, we could have to deal with unicode
+        # characters coming as user-input
         assert(isinstance(t, basestring))
         assert(t != "")
         self._text_set(t)
@@ -114,7 +116,9 @@ class Entry(Node.Node) :
 
     def comment_set(self, t) :
         tmp = t
-        assert((tmp == None) or (isinstance(tmp, str)))
+        # Use basestring to perform the test, we could have to deal with unicode
+        # characters coming as user-input
+        assert((tmp == None) or (isinstance(tmp, basestring)))
         if (isinstance(tmp, str)) :
             # Remove useless whitespaces
             tmp = string.strip(tmp)
