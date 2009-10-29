@@ -110,16 +110,18 @@ class Entry(Node.Node) :
         return self.__comment
 
     def _comment_set(self, t) :
-        # Remove leading and trailing whitespaces whenever possible
         self.__comment = t
-        if (isinstance(self.__comment, str)) :
-            self.__comment = string.strip(self.__comment)
 
     def comment_set(self, t) :
-        assert(t != None)
-        assert(isinstance(t, str))
-        assert(t != "")
-        self._comment_set(t)
+        tmp = t
+        assert((tmp == None) or (isinstance(tmp, str)))
+        if (isinstance(tmp, str)) :
+            # Remove useless whitespaces
+            tmp = string.strip(tmp)
+            if (tmp == "") :
+                # An empty comment means no comment
+                tmp = None
+        self._comment_set(tmp)
 
     comment = property(comment_get, comment_set, None, None)
 
