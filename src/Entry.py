@@ -58,6 +58,8 @@ class Entry(Node.Node) :
         if (isinstance(self.__text, str)) :
             self.__text = string.strip(self.__text)
 
+    # text_set is slightly different from comment_set: test MUST be a non empty string
+    # nor a None ...
     def text_set(self, t) :
         assert(t != None)
         # Use basestring to perform the test, we could have to deal with unicode
