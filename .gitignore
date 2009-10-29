@@ -90,6 +90,7 @@ Makefile
 /tests/test-command-add-02
 /tests/test-command-add-03
 /tests/test-command-add-04
+/tests/test-command-add-configuration-01
 
 /tests/test-command-config-help-01
 /tests/test-command-config-opts-short-01

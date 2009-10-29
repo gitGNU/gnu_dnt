@@ -118,6 +118,12 @@ class SubCommand(Command):
         node_priority = Priority.Priority()
         if (opts.priority != None) :
             node_priority.fromstring(opts.priority)
+        else :
+            cfg_priority = configuration.get_with_default(self.name,
+                                                          'priority',
+                                                          raw = True,
+                                                          default = 'medium')
+            node_priority.fromstring(cfg_priority)
 
         debug("Handling comment")
         node_comment = None
