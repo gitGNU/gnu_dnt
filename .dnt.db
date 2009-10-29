@@ -695,13 +695,13 @@
 		</entry>
 		<entry priority="high" start="1249591268">
 			Rearrange INI and Configuration module, that code smells
-			<entry priority="high" start="1256736377">
+			<entry end="1256825331" priority="high" start="1256736377">
 				Check and fix configuration handling for command Add
 			</entry>
-			<entry priority="high" start="1256736379">
+			<entry end="1256825426" priority="high" start="1256736379">
 				Check and fix configuration handling for command Clean
 			</entry>
-			<entry priority="high" start="1256736379">
+			<entry end="1256827403" priority="high" start="1256736379">
 				Check and fix configuration handling for command Config
 			</entry>
 			<entry priority="high" start="1256736380">
