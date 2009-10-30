@@ -291,7 +291,11 @@ class SubCommand(Command) :
 
         debug("Wrote node values")
 
-        # XXX FIXME: We should work recursively (for start and end ...)
+        # XXX FIXME:
+        #     Should we work recursively (for start and end ...) ?
+        #     We must check that a new start and/or a new end date/time
+        #     do not invalidate children start/end date ... we should
+        #     check those constraints here ...
 
         # Save database back to file
         db.save(db_file, tree)
