@@ -186,14 +186,21 @@ class SubCommand(Command) :
         if (opts.interactive != None) :
             interactive = opts.interactive
             debug("Got interactive value from user")
+        else :
+            cfg_interactive = configuration.get_with_default(self.name,
+                                                             'interactive',
+                                                             True,
+                                                             False)
+            interactive = bool(cfg_interactive)
+            debug("Got interactive value from configuration")
 
-        if ((opts.text        == None) and
-            (opts.priority    == None) and
-            (opts.start       == None) and
-            (opts.end         == None) and
-            (opts.comment     == None) and
-            ((opts.interactive == None) or
-             (opts.interactive == False))) :
+        if ((text        == None) and
+            (priority    == None) and
+            (start       == None) and
+            (end         == None) and
+            (comment     == None) and
+            ((interactive == None) or
+             (interactive == False))) :
             raise Exceptions.MissingParameters()
 
         # Use str() in order to avoid problems with None values
