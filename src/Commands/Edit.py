@@ -216,29 +216,45 @@ class SubCommand(Command) :
             console = Console.Console()
             assert(console != None)
 
-            tmp = ""
+            tmp = node.text
+            if (tmp == None) :
+                tmp = ""
             tmp = console.interact("text> ", tmp)
             if (tmp != "") :
                 text = tmp
 
-            tmp = ""
+            tmp = node.priority
+            if (tmp == None) :
+                tmp = "medium"
+            else :
+                tmp = tmp.tostring()
             tmp = console.interact("priority> ",
                                    tmp,
                                    Priority.Priority().priorities)
             if (tmp != "") :
                 priority = tmp
 
-            tmp = ""
+            tmp = node.start
+            if (tmp == None) :
+                tmp = ""
+            else :
+                tmp = tmp.tostring()
             tmp = console.interact("start> ", tmp)
             if (tmp != "") :
                 start = tmp
 
-            tmp = ""
+            tmp = node.end
+            if (tmp == None) :
+                tmp = ""
+            else :
+                tmp = tmp.tostring()
             tmp = console.interact("end> ", tmp)
             if (tmp != "") :
                 end = tmp
 
-            tmp = ""
+            tmp = node.comment
+            if (tmp == None) :
+                tmp = ""
             tmp = console.interact("comment> ", tmp)
             if (tmp != "") :
                 comment = tmp
