@@ -92,6 +92,11 @@ class SubCommand(Command) :
                            action = "store_true",
                            dest   = "interactive",
                            help   = "edit information interactively")
+        Command.add_option(self,
+                           "-N", "--no-interactive",
+                           action = "store_false",
+                           dest   = "interactive",
+                           help   = "edit information interactively")
 #        Command.add_option(self,
 #                           "-E", "--editor",
 #                           action = "store",
@@ -187,7 +192,8 @@ class SubCommand(Command) :
             (opts.start       == None) and
             (opts.end         == None) and
             (opts.comment     == None) and
-            (opts.interactive == None)) :
+            ((opts.interactive == None) or
+             (opts.interactive == False))) :
             raise Exceptions.MissingParameters()
 
         # Use str() in order to avoid problems with None values
