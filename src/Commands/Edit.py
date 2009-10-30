@@ -106,14 +106,6 @@ class SubCommand(Command) :
         if (opts.id == None) :
             raise Exceptions.MissingParameters("node id")
 
-        if ((opts.text        == None) and
-            (opts.priority    == None) and
-            (opts.start       == None) and
-            (opts.end         == None) and
-            (opts.comment     == None) and
-            (opts.interactive == None)) :
-            raise Exceptions.MissingParameters()
-
 #        editor = None
 #        # Prefer parameter
 #        if (editor == None) :
@@ -158,11 +150,12 @@ class SubCommand(Command) :
                                             "`" + str(node_id) + "'")
 
         # Set the starting values
-        text     = None
-        priority = None
-        start    = None
-        end      = None
-        comment  = None
+        text        = None
+        priority    = None
+        start       = None
+        end         = None
+        comment     = None
+        interactive = None
 
         # Look for all the values
         if (opts.text != None) :
@@ -185,15 +178,28 @@ class SubCommand(Command) :
             comment = opts.comment
             debug("Got comment value from user")
 
+        if (opts.interactive != None) :
+            interactive = opts.interactive
+            debug("Got interactive value from user")
+
+        if ((opts.text        == None) and
+            (opts.priority    == None) and
+            (opts.start       == None) and
+            (opts.end         == None) and
+            (opts.comment     == None) and
+            (opts.interactive == None)) :
+            raise Exceptions.MissingParameters()
+
         # Use str() in order to avoid problems with None values
         debug("Got values from user")
-        debug("text     = `" + str(text)     + "'")
-        debug("priority = `" + str(priority) + "'")
-        debug("start    = `" + str(start)    + "'")
-        debug("end      = `" + str(end)      + "'")
-        debug("comment  = `" + str(comment)  + "'")
+        debug("text        = `" + str(text)        + "'")
+        debug("priority    = `" + str(priority)    + "'")
+        debug("start       = `" + str(start)       + "'")
+        debug("end         = `" + str(end)         + "'")
+        debug("comment     = `" + str(comment)     + "'")
+        debug("interactive = `" + str(interactive) + "'")
 
-        if (opts.interactive is True) :
+        if (interactive is True) :
             console = Console.Console()
             assert(console != None)
 
