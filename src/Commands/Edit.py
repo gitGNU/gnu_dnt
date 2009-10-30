@@ -168,45 +168,22 @@ class SubCommand(Command) :
         if (opts.text != None) :
             text = opts.text
             debug("Got text value from user")
-        else :
-            text = node.text
-            if (text != None) :
-                debug("Got text value from node")
 
         if (opts.priority != None) :
             priority = opts.priority
             debug("Got priority value from user")
-        else :
-            o = node.priority
-            if (o != None) :
-                priority = o.tostring()
-                debug("Got priority value from node")
 
         if (opts.start != None) :
             start = opts.start
             debug("Got start value from user")
-        else :
-            o = node.start
-            if (o != None) :
-                start = o.tostring()
-                debug("Got start value from node")
 
         if (opts.end != None) :
             end = opts.end
             debug("Got end value from user")
-        else :
-            o = node.end
-            if (o != None) :
-                end = o.tostring()
-                debug("Got end value from node")
 
         if (opts.comment != None) :
             comment = opts.comment
             debug("Got comment value from user")
-        else :
-            comment = node.comment
-            if (comment != None) :
-                debug("Got comment value from node")
 
         # Use str() in order to avoid problems with None values
         debug("Got values from user")
