@@ -40,7 +40,7 @@ $DNT_FLAGS add -t "delta" -p medium  -c "delta" || exit 1
   echo "1970-01-01 00:00:01";
   echo "";
   echo "afla";
-} | $DNT_FLAGS $COMMAND --id="1" --interactive || exit 1
+} | $DNT_FLAGS edit --id="1" --interactive || exit 1
 
 {
   echo "ammag";
@@ -48,7 +48,7 @@ $DNT_FLAGS add -t "delta" -p medium  -c "delta" || exit 1
   echo "1970-01-01 00:00:01";
   echo "1970-01-01 00:01:00";
   echo "ammag";
-} | $DNT_FLAGS $COMMAND --id="3" --interactive || exit 1
+} | $DNT_FLAGS edit --id="3" --interactive || exit 1
 
 # Checking values
 test "x`$DNT_NOFLAGS show -i 1    \
@@ -105,5 +105,81 @@ test "x`$DNT_NOFLAGS show -i 4    \
                           -L ''   \
                           -U ''   \
                           -l %c`" = "xdelta"      || exit 1
+
+# Editing and checking some stuff with mixed tools
+$DNT_FLAGS edit -i 2      \
+                -t "ateb" \
+                -c "ateb" \
+                -s "1970-01-01 00:00:01" || exit 1
+{
+  echo "";
+  echo "medium";
+  echo "";
+  echo "1970-01-01 00:00:11";
+  echo "";
+} | $DNT_FLAGS edit -I -i 2 || exit 1
+
+test "x`$DNT_NOFLAGS show -i 2    \
+                          -L ''   \
+                          -U ''   \
+                          -F done \
+                          -l %t`" = "xateb"                || exit 1
+test "x`$DNT_NOFLAGS show -i 2    \
+                          -L ''   \
+                          -U ''   \
+                          -F done \
+                          -l %p`" = "xmedium"              || exit 1
+test "x`$DNT_NOFLAGS show -i 2    \
+                          -L ''   \
+                          -U ''   \
+                          -F done \
+                          -l %s`" = "x1970-01-01 00:00:01" || exit 1
+test "x`$DNT_NOFLAGS show -i 2    \
+                          -L ''   \
+                          -U ''   \
+                          -F done \
+                          -l %e`" = "x1970-01-01 00:00:11" || exit 1
+test "x`$DNT_NOFLAGS show -i 2    \
+                          -L ''   \
+                          -U ''   \
+                          -F done \
+                          -l %c`" = "xateb"                || exit 1
+
+$DNT_FLAGS edit -i 2      \
+                -p "high" \
+                -e "1970-01-01 00:10:00" || exit 1
+{
+  echo "beta";
+  echo "";
+  echo "1970-01-01 00:01:00";
+  echo "";
+  echo "beta";
+} | $DNT_FLAGS edit -I -i 2 || exit 1
+
+test "x`$DNT_NOFLAGS show -i 2    \
+                          -L ''   \
+                          -U ''   \
+                          -F done \
+                          -l %t`" = "xbeta"                || exit 1
+test "x`$DNT_NOFLAGS show -i 2    \
+                          -L ''   \
+                          -U ''   \
+                          -F done \
+                          -l %p`" = "xhigh"                || exit 1
+test "x`$DNT_NOFLAGS show -i 2    \
+                          -L ''   \
+                          -U ''   \
+                          -F done \
+                          -l %s`" = "x1970-01-01 00:01:00" || exit 1
+test "x`$DNT_NOFLAGS show -i 2    \
+                          -L ''   \
+                          -U ''   \
+                          -F done \
+                          -l %e`" = "x1970-01-01 00:10:00" || exit 1
+test "x`$DNT_NOFLAGS show -i 2    \
+                          -L ''   \
+                          -U ''   \
+                          -F done \
+                          -l %c`" = "xbeta"                || exit 1
 
 exit 0
