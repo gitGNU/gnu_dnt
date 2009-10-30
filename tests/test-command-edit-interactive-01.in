@@ -28,14 +28,24 @@ COMMAND="edit"
 # Creating test DB
 $DNT_FLAGS clean || exit 1
 $DNT_FLAGS init  || exit 1
-$DNT_FLAGS add --text="alfa" || exit 1
+$DNT_FLAGS add -t "alfa" -p high -c "testing" || exit 1
+$DNT_FLAGS add -t "beta" -p medium            || exit 1
 
 # Testing "--interactive" option
 {
-  echo "beta";
-  echo "high";
-  echo "2009-02-26 16:05:00";
-  echo "2009-02-28 16:05:00";
+  echo "gamma";
+  echo "veryhigh";
+  echo "";
+  echo "";
+  echo "";
 } | $DNT_FLAGS $COMMAND --id="1" --interactive || exit 1
+
+# Checking values
+test "x`$DNT_NOFLAGS show -i 1 -L '' -U '' -l %t`" = "xgamma"    || \
+  exit 1
+test "x`$DNT_NOFLAGS show -i 1 -L '' -U '' -l %p`" = "xveryhigh" || \
+  exit 1
+test "x`$DNT_NOFLAGS show -i 1 -L '' -U '' -l %c`" = "xtesting"  || \
+  exit 1
 
 exit 0

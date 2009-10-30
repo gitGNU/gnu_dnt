@@ -28,14 +28,82 @@ COMMAND="edit"
 # Creating test DB
 $DNT_FLAGS clean || exit 1
 $DNT_FLAGS init  || exit 1
-$DNT_FLAGS add --text="alfa" || exit 1
+$DNT_FLAGS add -t "alfa"  -p low     -c "alfa"  || exit 1
+$DNT_FLAGS add -t "beta"  -p verylow -c "beta"  || exit 1
+$DNT_FLAGS add -t "gamma" -p low     -c "gamma" || exit 1
+$DNT_FLAGS add -t "delta" -p medium  -c "delta" || exit 1
 
 # Testing "--interactive" option
 {
-  echo "beta";
+  echo "afla";
   echo "high";
-  echo "2009-02-26 16:05:00";
+  echo "1970-01-01 00:00:01";
   echo "";
+  echo "afla";
 } | $DNT_FLAGS $COMMAND --id="1" --interactive || exit 1
+
+{
+  echo "ammag";
+  echo "veryhigh";
+  echo "1970-01-01 00:00:01";
+  echo "1970-01-01 00:01:00";
+  echo "ammag";
+} | $DNT_FLAGS $COMMAND --id="3" --interactive || exit 1
+
+# Checking values
+test "x`$DNT_NOFLAGS show -i 1    \
+                          -L ''   \
+                          -U ''   \
+                          -l %t`" = "xafla"       || exit 1
+test "x`$DNT_NOFLAGS show -i 1    \
+                          -L ''   \
+                          -U ''   \
+                          -l %p`" = "xhigh"       || exit 1
+test "x`$DNT_NOFLAGS show -i 1    \
+                          -L ''   \
+                          -U ''   \
+                          -l %c`" = "xafla"       || exit 1
+
+test "x`$DNT_NOFLAGS show -i 2    \
+                          -L ''   \
+                          -U ''   \
+                          -l %t`" = "xbeta"       || exit 1
+test "x`$DNT_NOFLAGS show -i 2    \
+                          -L ''   \
+                          -U ''   \
+                          -l %p`" = "xverylow"    || exit 1
+test "x`$DNT_NOFLAGS show -i 2    \
+                          -L ''   \
+                          -U ''   \
+                          -l %c`" = "xbeta"       || exit 1
+
+test "x`$DNT_NOFLAGS show -i 3    \
+                          -L ''   \
+                          -U ''   \
+                          -l %t   \
+                          -F done`" = "xammag"    || exit 1
+test "x`$DNT_NOFLAGS show -i 3    \
+                          -L ''   \
+                          -U ''   \
+                          -l %p   \
+                          -F done`" = "xveryhigh" || exit 1
+test "x`$DNT_NOFLAGS show -i 3    \
+                          -L ''   \
+                          -U ''   \
+                          -l %c   \
+                          -F done`" = "xammag"    || exit 1
+
+test "x`$DNT_NOFLAGS show -i 4    \
+                          -L ''   \
+                          -U ''   \
+                          -l %t`" = "xdelta"      || exit 1
+test "x`$DNT_NOFLAGS show -i 4    \
+                          -L ''   \
+                          -U ''   \
+                          -l %p`" = "xmedium"     || exit 1
+test "x`$DNT_NOFLAGS show -i 4    \
+                          -L ''   \
+                          -U ''   \
+                          -l %c`" = "xdelta"      || exit 1
 
 exit 0
