@@ -109,6 +109,7 @@ Makefile
 /tests/test-command-edit-interactive-01
 /tests/test-command-edit-interactive-02
 /tests/test-command-edit-no-interactive-01
+/tests/test-command-edit-configuration-01
 
 /tests/test-command-move-help-01
 /tests/test-command-move-opts-short-01

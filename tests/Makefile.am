@@ -125,6 +125,7 @@ SUCCESS_TESTS +=				\
 	test-command-edit-interactive-01	\
 	test-command-edit-interactive-02	\
 	test-command-edit-no-interactive-01	\
+	test-command-edit-configuration-01	\
 						\
 	test-command-fix-help-01		\
 	test-command-fix-opts-short-01		\
@@ -394,6 +395,18 @@ test-command-edit-no-interactive-01: $(srcdir)/test-command-edit-no-interactive-
 	}
 EXTRA_DIST += test-command-edit-no-interactive-01.in
 CLEANFILES += test-command-edit-no-interactive-01
+
+test-command-edit-configuration-01: $(srcdir)/test-command-edit-configuration-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-edit-configuration-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-edit-configuration-01.in
+CLEANFILES += test-command-edit-configuration-01
 
 test-command-fix-01: $(srcdir)/test-command-fix-01.in Makefile
 	( rm -f $@ $@.tmp && \
