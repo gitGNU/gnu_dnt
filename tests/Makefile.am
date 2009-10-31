@@ -124,6 +124,7 @@ SUCCESS_TESTS +=				\
 	test-command-edit-04			\
 	test-command-edit-interactive-01	\
 	test-command-edit-interactive-02	\
+	test-command-edit-interactive-03	\
 	test-command-edit-no-interactive-01	\
 	test-command-edit-configuration-01	\
 						\
@@ -383,6 +384,18 @@ test-command-edit-interactive-02: $(srcdir)/test-command-edit-interactive-02.in 
 	}
 EXTRA_DIST += test-command-edit-interactive-02.in
 CLEANFILES += test-command-edit-interactive-02
+
+test-command-edit-interactive-03: $(srcdir)/test-command-edit-interactive-03.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-edit-interactive-03.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-edit-interactive-03.in
+CLEANFILES += test-command-edit-interactive-03
 
 test-command-edit-no-interactive-01: $(srcdir)/test-command-edit-no-interactive-01.in Makefile
 	( rm -f $@ $@.tmp && \

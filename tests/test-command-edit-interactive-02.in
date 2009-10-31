@@ -28,158 +28,78 @@ COMMAND="edit"
 # Creating test DB
 $DNT_FLAGS clean || exit 1
 $DNT_FLAGS init  || exit 1
-$DNT_FLAGS add -t "alfa"  -p low     -c "alfa"  || exit 1
-$DNT_FLAGS add -t "beta"  -p verylow -c "beta"  || exit 1
-$DNT_FLAGS add -t "gamma" -p low     -c "gamma" || exit 1
-$DNT_FLAGS add -t "delta" -p medium  -c "delta" || exit 1
 
-# Testing "--interactive" option
+# Set the database in a known-state 
+$DNT_FLAGS add \
+    -t "alfa" \
+    -p low \
+    -s "1970-01-01 00:00:01" \
+    -e "1970-01-01 20:01:01" \
+    -c "comment-alfa" \
+    || exit 1
+$DNT_FLAGS add \
+    -t "beta" \
+    -p verylow \
+    -s "1970-01-01 00:00:01" \
+    -e "1970-01-01 00:01:01" \
+    -c "comment-beta" \
+    || exit 1
+$DNT_FLAGS add \
+    -t "gamma" \
+    -p low \
+    -s "1970-01-01 00:00:01" \
+    -e "1970-01-01 00:01:01" \
+    -c "comment-gamma" \
+    || exit 1
+$DNT_FLAGS add \
+    -t "delta" \
+    -p medium \
+    -s "1970-01-01 00:00:01" \
+    -e "1970-01-01 02:02:02" \
+    -c "comment-delta" \
+    || exit 1
+
+#
+# NOTE: Node 1 and 3 changes build an "intersection of changes"
+#
+
+# Change node 1 interactively
 {
   echo "afla";
-  echo "high";
-  echo "1970-01-01 00:00:01";
   echo "";
-  echo "afla";
+  echo "1970-01-01 01:00:01";
+  echo "";
+  echo "zetazeta";
 } | $DNT_FLAGS edit --id="1" --interactive || exit 1
 
+# Leave node 2 as it is
+
+# Change node 3 interactively
 {
-  echo "ammag";
+  echo "";
   echo "veryhigh";
-  echo "1970-01-01 00:00:01";
-  echo "1970-01-01 00:01:00";
-  echo "ammag";
+  echo "";
+  echo "1970-01-01 11:22:33";
+  echo "";
 } | $DNT_FLAGS edit --id="3" --interactive || exit 1
 
-# Checking values
-test "x`$DNT_NOFLAGS show -i 1    \
-                          -L ''   \
-                          -U ''   \
-                          -l %t`" = "xafla"       || exit 1
-test "x`$DNT_NOFLAGS show -i 1    \
-                          -L ''   \
-                          -U ''   \
-                          -l %p`" = "xhigh"       || exit 1
-test "x`$DNT_NOFLAGS show -i 1    \
-                          -L ''   \
-                          -U ''   \
-                          -l %c`" = "xafla"       || exit 1
+# Leave node 4 as it is
 
-test "x`$DNT_NOFLAGS show -i 2    \
-                          -L ''   \
-                          -U ''   \
-                          -l %t`" = "xbeta"       || exit 1
-test "x`$DNT_NOFLAGS show -i 2    \
-                          -L ''   \
-                          -U ''   \
-                          -l %p`" = "xverylow"    || exit 1
-test "x`$DNT_NOFLAGS show -i 2    \
-                          -L ''   \
-                          -U ''   \
-                          -l %c`" = "xbeta"       || exit 1
+# Check all values on all nodes
+test "x`$DNT_NOFLAGS show -i 1 -F all -L '' -U '' -l \"%t %p %s %e %c\"`" = \
+     "xafla low 1970-01-01 01:00:01 1970-01-01 20:01:01 zetazeta" \
+     || exit 1
 
-test "x`$DNT_NOFLAGS show -i 3    \
-                          -L ''   \
-                          -U ''   \
-                          -l %t   \
-                          -F done`" = "xammag"    || exit 1
-test "x`$DNT_NOFLAGS show -i 3    \
-                          -L ''   \
-                          -U ''   \
-                          -l %p   \
-                          -F done`" = "xveryhigh" || exit 1
-test "x`$DNT_NOFLAGS show -i 3    \
-                          -L ''   \
-                          -U ''   \
-                          -l %c   \
-                          -F done`" = "xammag"    || exit 1
+test "x`$DNT_NOFLAGS show -i 2 -F all -L '' -U '' -l \"%t %p %s %e %c\"`" = \
+     "xbeta verylow 1970-01-01 00:00:01 1970-01-01 00:01:01 comment-beta" \
+     || exit 1
 
-test "x`$DNT_NOFLAGS show -i 4    \
-                          -L ''   \
-                          -U ''   \
-                          -l %t`" = "xdelta"      || exit 1
-test "x`$DNT_NOFLAGS show -i 4    \
-                          -L ''   \
-                          -U ''   \
-                          -l %p`" = "xmedium"     || exit 1
-test "x`$DNT_NOFLAGS show -i 4    \
-                          -L ''   \
-                          -U ''   \
-                          -l %c`" = "xdelta"      || exit 1
+test "x`$DNT_NOFLAGS show -i 3 -F all -L '' -U '' -l \"%t %p %s %e %c\"`" = \
+     "xgamma veryhigh 1970-01-01 00:00:01 1970-01-01 11:22:33 comment-gamma" \
+     || exit 1
 
-# Editing and checking some stuff with mixed tools
-$DNT_FLAGS edit -i 2      \
-                -t "ateb" \
-                -c "ateb" \
-                -s "1970-01-01 00:00:01" || exit 1
-{
-  echo "";
-  echo "medium";
-  echo "";
-  echo "1970-01-01 00:00:11";
-  echo "";
-} | $DNT_FLAGS edit -I -i 2 || exit 1
-
-test "x`$DNT_NOFLAGS show -i 2    \
-                          -L ''   \
-                          -U ''   \
-                          -F done \
-                          -l %t`" = "xateb"                || exit 1
-test "x`$DNT_NOFLAGS show -i 2    \
-                          -L ''   \
-                          -U ''   \
-                          -F done \
-                          -l %p`" = "xmedium"              || exit 1
-test "x`$DNT_NOFLAGS show -i 2    \
-                          -L ''   \
-                          -U ''   \
-                          -F done \
-                          -l %s`" = "x1970-01-01 00:00:01" || exit 1
-test "x`$DNT_NOFLAGS show -i 2    \
-                          -L ''   \
-                          -U ''   \
-                          -F done \
-                          -l %e`" = "x1970-01-01 00:00:11" || exit 1
-test "x`$DNT_NOFLAGS show -i 2    \
-                          -L ''   \
-                          -U ''   \
-                          -F done \
-                          -l %c`" = "xateb"                || exit 1
-
-$DNT_FLAGS edit -i 2      \
-                -p "high" \
-                -e "1970-01-01 00:10:00" || exit 1
-{
-  echo "beta";
-  echo "";
-  echo "1970-01-01 00:01:00";
-  echo "";
-  echo "beta";
-} | $DNT_FLAGS edit -I -i 2 || exit 1
-
-test "x`$DNT_NOFLAGS show -i 2    \
-                          -L ''   \
-                          -U ''   \
-                          -F done \
-                          -l %t`" = "xbeta"                || exit 1
-test "x`$DNT_NOFLAGS show -i 2    \
-                          -L ''   \
-                          -U ''   \
-                          -F done \
-                          -l %p`" = "xhigh"                || exit 1
-test "x`$DNT_NOFLAGS show -i 2    \
-                          -L ''   \
-                          -U ''   \
-                          -F done \
-                          -l %s`" = "x1970-01-01 00:01:00" || exit 1
-test "x`$DNT_NOFLAGS show -i 2    \
-                          -L ''   \
-                          -U ''   \
-                          -F done \
-                          -l %e`" = "x1970-01-01 00:10:00" || exit 1
-test "x`$DNT_NOFLAGS show -i 2    \
-                          -L ''   \
-                          -U ''   \
-                          -F done \
-                          -l %c`" = "xbeta"                || exit 1
+test "x`$DNT_NOFLAGS show -i 4 -F all -L '' -U '' -l \"%t %p %s %e %c\"`" = \
+     "xdelta medium 1970-01-01 00:00:01 1970-01-01 02:02:02 comment-delta" \
+     || exit 1
 
 exit 0
