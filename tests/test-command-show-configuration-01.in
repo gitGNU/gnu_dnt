@@ -1,0 +1,89 @@
+#! @SHELL@
+
+#
+# Copyright (C) 2008, 2009 Francesco Salvestrini
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+
+required=""
+
+. $testdir/defs || exit 1
+
+DB_FILE="test.db"
+CFG_FILE="test.cfg"
+
+rm -f $DB_FILE 2>/dev/null
+rm -f $CFG_FILE 2>/dev/null
+
+CFG_FLAGS="--configuration=${CFG_FILE}"
+
+# Filling configuration
+cat >$CFG_FILE <<EOF
+[show]
+hide = true
+width = 20
+line_format = text: %t
+indent_fill = ">"
+unindent_fill = "<"
+level_fill = "----"
+filter = "depth == 1"
+EOF
+
+# Filling the DB
+$DNT_NOFLAGS init -n "test"                                   || exit 1
+$DNT_NOFLAGS add -t "t1"            -p "medium"   -c "c1"     || exit 1
+$DNT_NOFLAGS add -t "t2"            -p "veryhigh" -c "c2"     || exit 1
+$DNT_NOFLAGS add -t "t1_1"   -i 1   -p "verylow"  -c "c1_1"   || exit 1
+$DNT_NOFLAGS add -t "t2_1"   -i 2   -p "high"     -c "c2_1"   || exit 1
+$DNT_NOFLAGS add -t "t2_2"   -i 2   -p "high"     -c "c2_2"   || exit 1
+$DNT_NOFLAGS add -t "t2_1_1" -i 2.1 -p "high"     -c "c2_1_1" || exit 1
+
+# Checking values
+test "x`$DNT_NOFLAGS $CFG_FLAGS show -i 1  \
+                                     -U '' \
+                                     -L '' \
+                                     -I '' \
+                                     -F 'depth<=1'`" = "xtext: t1" || exit 1
+
+test "x`$DNT_NOFLAGS $CFG_FLAGS show -i 1    \
+                                     -l '%t' \
+                                     -U ''   \
+                                     -I ''   \
+                                     -F 'not done'`" = "xt1
+----t1_1" || exit 1
+
+test "x`$DNT_NOFLAGS $CFG_FLAGS show -i 1    \
+                                     -l '%t' \
+                                     -L ''   \
+                                     -I ''   \
+                                     -F 'not done'`" = "xt1
+t1_1
+<" || exit 1
+
+test "x`$DNT_NOFLAGS $CFG_FLAGS show -i 1    \
+                                     -l '%t' \
+                                     -L ''   \
+                                     -U ''   \
+                                     -F 'not done'`" = "xt1
+>t1_1" || exit 1
+
+test "x`$DNT_NOFLAGS $CFG_FLAGS show -i 2.1.1 \
+                                     -l '%t'  \
+                                     -L ''    \
+                                     -U ''    \
+                                     -I ''`" = "x" || exit 1
+
+exit 0
