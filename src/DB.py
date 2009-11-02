@@ -48,7 +48,6 @@ def fromxml(input_node) :
         priority = None
         start    = None
         end      = None
-        marked   = None
         comment  = None
         children = [ ]
 
@@ -108,7 +107,7 @@ def fromxml(input_node) :
             priority = Priority.Priority()
 
             try :
-                assert(input_node.hasAttribute("priority") == True)
+                assert(input_node.hasAttribute("priority") is True)
                 priority.fromstring(str(input_node.getAttribute("priority")))
             except Exception, e :
                 # debug(str(e))
@@ -118,7 +117,7 @@ def fromxml(input_node) :
             value = None
 
             try :
-                assert(input_node.hasAttribute("start") == True)
+                assert(input_node.hasAttribute("start") is True)
 
                 try :
                     # debug("Start time value: `" + value + "'")
@@ -140,7 +139,7 @@ def fromxml(input_node) :
             value = None
 
             try :
-                assert(input_node.hasAttribute("end") == True)
+                assert(input_node.hasAttribute("end") is True)
 
                 try :
                     value = input_node.getAttribute("end")
