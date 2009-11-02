@@ -388,51 +388,6 @@ class SubCommand(Command) :
             except :
                 raise Exceptions.CannotWrite(opts.output)
         assert(filehandle != None)
-        debug("Output file will be `" + filehandle.name + "'")
-
-        # Handle width ...
-        width = -1
-
-        # Get width from configuration (if present)
-        try :
-            width = configuration.get(PROGRAM_NAME, 'width', True)
-        except :
-            debug("No width configuration found")
-
-        # Override width with parameters (if present)
-        try :
-            if (opts.width != None) :
-                width = int(opts.width)
-        except :
-            raise Exceptions.WrongParameter("width must be greater or equal "
-                                            "than 0")
-
-        # If no width available, try detecting it
-        if (width < 0) :
-            t     = Terminal.Terminal(stream_out = filehandle)
-            width = t.columns
-
-        assert(isinstance(width, int))
-        assert(width >= 0)
-
-        debug("Output width is " + str(width))
-
-        # Handle hide-collapsed
-        hide_collapsed = None
-
-        # Get hide-collapsed from configuration (if present)
-        try :
-            hide_collapsed = configuration.get(PROGRAM_NAME, 'hide-collapsed', True)
-        except :
-            debug("No hide-collapsed configuration found")
-
-        # Override hide-collapsed with parameters (if present)
-        try :
-            if (opts.hide != None) :
-                hide_collapsed = bool(opts.hide)
-        except :
-            raise Exceptions.WrongParameter("hide-collapsed must be boolean")
-
 
         try :
             colors = configuration.get(PROGRAM_NAME, 'colors', True)
@@ -450,48 +405,140 @@ class SubCommand(Command) :
                   str(verbose))
         assert(verbose != None)
 
-        #
-        # NOTE:
-        #     verbose has no meaning when the user specifies its own
-        #     formatting tules. We will use a different format for
-        #     quiet and verbose mode however ...
-        #
-        if (verbose is True) :
-            indent_fill   = ""
-            line_format     = "%i %t\n  [%c]\n  (%s, %e, %p)\n"
-            unindent_fill = ""
-            level_fill    = "    "
+        # Handling configuration
+        width          = None
+        hide_collapsed = None
+        line_format    = None
+        level_fill     = None
+        unindent_fill  = None
+        indent_fill    = None
+        filter_text    = None
+
+        # Width
+        if (opts.width != None) :
+            width = int(opts.width)
+
+            if (width < 0) :
+                raise Exceptions.WrongParameter("width must be greater "
+                                                "or equal than 0")
+            debug("Got width value from user")
         else :
-            indent_fill   = ""
-            line_format     = "%i %t\n"
-            unindent_fill = ""
-            level_fill    = "    "
+            # Try to guess terminal width
+            t = Terminal.Terminal(stream_out = filehandle)
+            w = t.columns
 
-        if (opts.indent_fill != None) :
-            indent_fill = opts.indent_fill
-        assert(indent_fill != None)
-        debug("Indent-fill is:   `" + indent_fill + "'")
+            # If width is not configured, used the guessed one
+            cfg_width = configuration.get_with_default(self.name,
+                                                       'width',
+                                                       True,
+                                                       w)
+            width = int(cfg_width)
+            debug("Got interactive value from configuration")
 
+        # Hide collapsed
+        if (opts.hide != None) :
+            hide = opts.hide
+            debug("Got hide collapsed value from user")
+        else :
+            cfg_hide = configuration.get_with_default(self.name,
+                                                      'hide',
+                                                      True,
+                                                      False)
+            hide = bool(cfg_hide)
+            debug("Got hide collapsed value from configuration")
+
+        # Line format
         if (opts.line_format != None) :
             line_format = opts.line_format
-        assert(line_format != None)
-        debug("Line-format is:     `" + line_format + "'")
+            debug("Got line format value from user")
+        else :
+            if (verbose == True) :
+                l = "%i %t\n  [%c]\n  (%s, %e, %p)\n"
+            else :
+                l = "%i %t\n"
 
+            cfg_line_format = configuration.get_with_default(self.name,
+                                                             'line_format',
+                                                             True,
+                                                             l)
+            line_format = str(cfg_line_format)
+            debug("Got line format value from configuration")
+
+        # Indent fill
+        if (opts.indent_fill != None) :
+            indent_fill = opts.indent_fill
+            debug("Got indent fill value from user")
+        else :
+            if (verbose == True) :
+                i = ""
+            else :
+                i = ""
+
+            cfg_indent_fill = configuration.get_with_default(self.name,
+                                                             'indent_fill',
+                                                             True,
+                                                             i)
+            indent_fill = str(cfg_indent_fill)
+            debug("Got indent fill value from configuration")
+
+        # Unindent fill
         if (opts.unindent_fill != None) :
             unindent_fill = opts.unindent_fill
-        assert(unindent_fill != None)
-        debug("Unindent-fill is: `" + unindent_fill + "'")
+            debug("Got unindent fill value from user")
+        else :
+            if (verbose == True) :
+                u = ""
+            else :
+                u = ""
 
+            cfg_unindent_fill = configuration.get_with_default(self.name,
+                                                               'unindent_fill',
+                                                               True,
+                                                               u)
+            unindent_fill = str(cfg_unindent_fill)
+            debug("Got unindent fill value from configuration")
+
+        # Level fill
         if (opts.level_fill != None) :
             level_fill = opts.level_fill
+            debug("Got level fill value from user")
+        else :
+            if (verbose == True) :
+                l = "    "
+            else :
+                l = "    "
 
-        assert(level_fill != None)
-        debug("Level-fill is: `" + level_fill + "'")
+            cfg_level_fill = configuration.get_with_default(self.name,
+                                                            'level_fill',
+                                                            True,
+                                                            l)
+            level_fill = str(cfg_level_fill)
+            debug("Got level fill value from configuration")
 
-        # Build the filter
-        filter_text = "not done"
+        # Filter text
         if (opts.filter != None) :
             filter_text = opts.filter
+            debug("Got level filter text from user")
+        else :
+            cfg_filter_text = configuration.get_with_default(self.name,
+                                                             'filter',
+                                                             True,
+                                                             "not done")
+            filter_text = str(cfg_filter_text)
+            debug("Got filter text value from configuration")
+
+        # Configuration informations
+        debug("Got configured values")
+        debug("starting id   = `" + str(starting_id)     + "'")
+        debug("output        = `" + str(filehandle.name) + "'")
+        debug("width         = `" + str(width)           + "'")
+        debug("line format   = `" + str(line_format)     + "'")
+        debug("indent fill   = `" + str(indent_fill)     + "'")
+        debug("unindent fill = `" + str(unindent_fill)   + "'")
+        debug("level fill    = `" + str(level_fill)      + "'")
+        debug("filter text   = `" + str(filter_text)     + "'")
+
+        # Build the filter
         filter_obj = Filter.Filter(filter_text)
         assert(filter_obj != None)
 
