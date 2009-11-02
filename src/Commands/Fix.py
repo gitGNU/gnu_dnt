@@ -40,18 +40,9 @@ class SubCommand(Command) :
         #
         # Parameters setup
         #
-        Command.add_option(self,
-                           "-i", "--interactive",
-                           action = "store_true",
-                           dest   = "interactive",
-                           help   = "apply fixes interactively")
-
         (opts, args) = Command.parse_args(self, arguments)
         if (len(args) > 0) :
             raise Exceptions.UnknownParameter(args[0])
-
-        if (opts.interactive != None) :
-            warning("Interactive fixes are not supported yet")
 
         #
         # Load database from file
