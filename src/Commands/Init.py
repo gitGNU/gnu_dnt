@@ -57,9 +57,16 @@ class SubCommand(Command) :
         if (len(args) > 0) :
             raise Exceptions.UnknownParameter(args[0])
 
-        name = opts.name
-        if (name == None) :
-            name = "Nameless " + PROGRAM_NAME + " database"
+        if (opts.name != None) :
+            name = opts.name
+        else :
+            cfg_name = configuration.get_with_default(self.name,
+                                                      'name',
+                                                      True,
+                                                      "Nameless "  +
+                                                      PROGRAM_NAME +
+                                                      " database")
+            name = str(cfg_name)
 
         db_file = configuration.get(PROGRAM_NAME, 'database')
         assert(db_file != None)
