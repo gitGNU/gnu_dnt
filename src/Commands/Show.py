@@ -452,7 +452,7 @@ class SubCommand(Command) :
             line_format = opts.line_format
             debug("Got line format value from user")
         else :
-            if (verbose == True) :
+            if (verbose is True) :
                 l = "%i %t\n  [%c]\n  (%s, %e, %p)\n"
             else :
                 l = "%i %t\n"
@@ -469,7 +469,7 @@ class SubCommand(Command) :
             indent_fill = opts.indent_fill
             debug("Got indent fill value from user")
         else :
-            if (verbose == True) :
+            if (verbose is True) :
                 i = ""
             else :
                 i = ""
@@ -486,7 +486,7 @@ class SubCommand(Command) :
             unindent_fill = opts.unindent_fill
             debug("Got unindent fill value from user")
         else :
-            if (verbose == True) :
+            if (verbose is True) :
                 u = ""
             else :
                 u = ""
@@ -503,7 +503,7 @@ class SubCommand(Command) :
             level_fill = opts.level_fill
             debug("Got level fill value from user")
         else :
-            if (verbose == True) :
+            if (verbose is True) :
                 l = "    "
             else :
                 l = "    "
