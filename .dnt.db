@@ -704,26 +704,29 @@
 			<entry end="1256827403" priority="high" start="1256736379">
 				Check and fix configuration handling for command Config
 			</entry>
-			<entry priority="high" start="1256736380">
+			<entry end="1257166266" priority="high" start="1256736380">
 				Check and fix configuration handling for command Edit
 			</entry>
-			<entry priority="high" start="1256736380">
+			<entry end="1257166274" priority="high" start="1256736380">
 				Check and fix configuration handling for command Fix
 			</entry>
-			<entry priority="high" start="1256736381">
+			<entry end="1257170278" priority="high" start="1256736381">
 				Check and fix configuration handling for command Init
 			</entry>
-			<entry priority="high" start="1256736381">
+			<entry end="1257170062" priority="high" start="1256736381">
 				Check and fix configuration handling for command Mark
 			</entry>
-			<entry priority="high" start="1256736381">
+			<entry end="1257170607" priority="high" start="1256736381">
 				Check and fix configuration handling for command Move
 			</entry>
-			<entry priority="high" start="1256736382">
+			<entry end="1257171034" priority="high" start="1256736382">
 				Check and fix configuration handling for command Remove
 			</entry>
 			<entry priority="high" start="1256736382">
 				Check and fix configuration handling for command Show
+			</entry>
+			<entry priority="medium" start="1257169340">
+				Add regression test for the Init command (configuration defaults)
 			</entry>
 		</entry>
 		<entry end="1254471976" priority="medium" start="1253099254">
