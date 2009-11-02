@@ -722,7 +722,7 @@
 			<entry end="1257171034" priority="high" start="1256736382">
 				Check and fix configuration handling for command Remove
 			</entry>
-			<entry priority="high" start="1256736382">
+			<entry end="1257205300" priority="high" start="1256736382">
 				Check and fix configuration handling for command Show
 			</entry>
 			<entry priority="medium" start="1257169340">

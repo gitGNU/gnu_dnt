@@ -424,6 +424,7 @@ class SubCommand(Command) :
             # Try to guess terminal width
             t = Terminal.Terminal(stream_out = filehandle)
             w = t.columns
+            assert(isinstance(w, int))
 
             # If width is not configured, used the guessed one
             cfg_width = configuration.get_with_default(self.name,
