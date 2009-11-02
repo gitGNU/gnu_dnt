@@ -131,6 +131,12 @@ class File(object) :
                 loc    = string.find(l, "=")
                 option = string.strip(l[0:loc])
                 value  = string.strip(l[(loc + 1):])
+                # Handling quoted values
+                if ((value[0]              == '"' and
+                     value[len(value) - 1] == '"') or
+                    (value[0]              == "'" and
+                     value[len(value) - 1] == "'")):
+                    value = value[1:(len(value) - 1)]
                 self.set(section, option, value)
 
         handle.close()
