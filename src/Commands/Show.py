@@ -192,10 +192,12 @@ def show(level,
 
                         if (w <= 0) :
                             dump = [ ]
-                            raise Exceptions.WidthTooSmall("cannot wrap node " +
+                            raise Exceptions.WidthTooSmall("cannot wrap " +
+                                                           "node " +
                                                            id_absolute)
 
-                        dump.extend(Text.wrap(t, w, break_ansi_escapes=False))
+                        dump.extend(Text.wrap(t, w,
+                                              break_ansi_escapes = False))
                     else :
                         dump.append(i)
 
