@@ -200,7 +200,7 @@ class SubCommand(Command) :
             (end         == None) and
             (comment     == None) and
             ((interactive == None) or
-             (interactive == False))) :
+             (interactive is False))) :
             raise Exceptions.MissingParameters()
 
         # Use str() in order to avoid problems with None values
