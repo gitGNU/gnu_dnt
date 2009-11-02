@@ -417,10 +417,6 @@ class SubCommand(Command) :
         # Width
         if (opts.width != None) :
             width = int(opts.width)
-
-            if (width < 0) :
-                raise Exceptions.WrongParameter("width must be greater "
-                                                "or equal than 0")
             debug("Got width value from user")
         else :
             # Try to guess terminal width
@@ -434,6 +430,11 @@ class SubCommand(Command) :
                                                        w)
             width = int(cfg_width)
             debug("Got interactive value from configuration")
+
+        # Width has to be >= 0 anyway ...
+        if (width < 0) :
+            raise Exceptions.WrongParameter("width must be greater "
+                                            "or equal than 0")
 
         # Hide collapsed
         if (opts.hide != None) :
