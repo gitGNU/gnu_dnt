@@ -437,14 +437,14 @@ class SubCommand(Command) :
 
         # Hide collapsed
         if (opts.hide != None) :
-            hide = opts.hide
+            hide_collapsed = opts.hide
             debug("Got hide collapsed value from user")
         else :
             cfg_hide = configuration.get_with_default(self.name,
                                                       'hide',
                                                       True,
                                                       False)
-            hide = bool(cfg_hide)
+            hide_collapsed = bool(cfg_hide)
             debug("Got hide collapsed value from configuration")
 
         # Line format
@@ -529,14 +529,15 @@ class SubCommand(Command) :
 
         # Configuration informations
         debug("Got configured values")
-        debug("starting id   = `" + str(starting_id)     + "'")
-        debug("output        = `" + str(filehandle.name) + "'")
-        debug("width         = `" + str(width)           + "'")
-        debug("line format   = `" + str(line_format)     + "'")
-        debug("indent fill   = `" + str(indent_fill)     + "'")
-        debug("unindent fill = `" + str(unindent_fill)   + "'")
-        debug("level fill    = `" + str(level_fill)      + "'")
-        debug("filter text   = `" + str(filter_text)     + "'")
+        debug("starting id    = `" + str(starting_id)     + "'")
+        debug("output         = `" + str(filehandle.name) + "'")
+        debug("width          = `" + str(width)           + "'")
+        debug("line format    = `" + str(line_format)     + "'")
+        debug("indent fill    = `" + str(indent_fill)     + "'")
+        debug("unindent fill  = `" + str(unindent_fill)   + "'")
+        debug("level fill     = `" + str(level_fill)      + "'")
+        debug("filter text    = `" + str(filter_text)     + "'")
+        debug("hide collapsed = `" + str(hide_collapsed)  + "'")
 
         # Build the filter
         filter_obj = Filter.Filter(filter_text)
