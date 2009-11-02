@@ -469,15 +469,10 @@ class SubCommand(Command) :
             indent_fill = opts.indent_fill
             debug("Got indent fill value from user")
         else :
-            if (verbose is True) :
-                i = ""
-            else :
-                i = ""
-
             cfg_indent_fill = configuration.get_with_default(self.name,
                                                              'indent_fill',
                                                              True,
-                                                             i)
+                                                             "")
             indent_fill = str(cfg_indent_fill)
             debug("Got indent fill value from configuration")
 
@@ -486,15 +481,10 @@ class SubCommand(Command) :
             unindent_fill = opts.unindent_fill
             debug("Got unindent fill value from user")
         else :
-            if (verbose is True) :
-                u = ""
-            else :
-                u = ""
-
             cfg_unindent_fill = configuration.get_with_default(self.name,
                                                                'unindent_fill',
                                                                True,
-                                                               u)
+                                                               "")
             unindent_fill = str(cfg_unindent_fill)
             debug("Got unindent fill value from configuration")
 
@@ -503,15 +493,10 @@ class SubCommand(Command) :
             level_fill = opts.level_fill
             debug("Got level fill value from user")
         else :
-            if (verbose is True) :
-                l = "    "
-            else :
-                l = "    "
-
             cfg_level_fill = configuration.get_with_default(self.name,
                                                             'level_fill',
                                                             True,
-                                                            l)
+                                                            "    ")
             level_fill = str(cfg_level_fill)
             debug("Got level fill value from configuration")
 
