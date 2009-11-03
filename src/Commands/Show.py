@@ -40,7 +40,7 @@ def show(level,
          cmap,
          filehandle, width,
          indent_fill, line_format, unindent_fill, level_fill,
-         hide_collapsed) :
+         collapsed) :
 
     assert(node          != None)
     assert(isinstance(colors, bool))
@@ -163,7 +163,7 @@ def show(level,
             # If line is set as "collapsed", substitute text with "..."
             if ('collapsed' in e.flags) :
                 # XXX FIXME: Awful hack
-                if (hide_collapsed) :
+                if (collapsed) :
                     t = ''
                 else :
                     t = re.sub('%t', color_text('...'), t)
@@ -225,7 +225,7 @@ def show(level,
                  filehandle, width,
                  indent_fill, line_format,
                  unindent_fill, level_fill,
-                 hide_collapsed)
+                 collapsed)
 
         debug("Indenting less")
         filehandle.write(unindent_fill)
@@ -370,8 +370,14 @@ class SubCommand(Command) :
         Command.add_option(self,
                            "-H", "--hide-collapsed",
                            action = "store_true",
-                           dest   = "hide",
+                           dest   = "collapsed",
                            help   = "hide collapsed entries")
+
+        Command.add_option(self,
+                           "-S", "--show-collapsed",
+                           action = "store_false",
+                           dest   = "collapsed",
+                           help   = "show collapsed entries")
 
         (opts, args) = Command.parse_args(self, arguments)
         if (len(args) > 0) :
@@ -408,13 +414,13 @@ class SubCommand(Command) :
         assert(verbose != None)
 
         # Handling configuration
-        width          = None
-        hide_collapsed = None
-        line_format    = None
-        level_fill     = None
-        unindent_fill  = None
-        indent_fill    = None
-        filter_text    = None
+        width         = None
+        collapsed     = None
+        line_format   = None
+        level_fill    = None
+        unindent_fill = None
+        indent_fill   = None
+        filter_text   = None
 
         # Width
         if (opts.width != None) :
@@ -439,17 +445,17 @@ class SubCommand(Command) :
             raise Exceptions.WrongParameter("width must be greater "
                                             "or equal than 0")
 
-        # Hide collapsed
-        if (opts.hide != None) :
-            hide_collapsed = opts.hide
-            debug("Got hide collapsed value from user")
+        # Collapsed
+        if (opts.collapsed != None) :
+            collapsed = opts.collapsed
+            debug("Got collapsed value from user")
         else :
-            cfg_hide = configuration.get_with_default(self.name,
-                                                      'hide',
-                                                      True,
-                                                      False)
-            hide_collapsed = bool(cfg_hide)
-            debug("Got hide collapsed value from configuration")
+            cfg_collapsed = configuration.get_with_default(self.name,
+                                                           'collapsed',
+                                                           True,
+                                                           False)
+            collapsed = bool(cfg_collapsed)
+            debug("Got collapsed value from configuration")
 
         # Line format
         if (opts.line_format != None) :
@@ -518,15 +524,15 @@ class SubCommand(Command) :
 
         # Configuration informations
         debug("Got configured values")
-        debug("starting id    = `" + str(starting_id)     + "'")
-        debug("output         = `" + str(filehandle.name) + "'")
-        debug("width          = `" + str(width)           + "'")
-        debug("line format    = `" + str(line_format)     + "'")
-        debug("indent fill    = `" + str(indent_fill)     + "'")
-        debug("unindent fill  = `" + str(unindent_fill)   + "'")
-        debug("level fill     = `" + str(level_fill)      + "'")
-        debug("filter text    = `" + str(filter_text)     + "'")
-        debug("hide collapsed = `" + str(hide_collapsed)  + "'")
+        debug("starting id   = `" + str(starting_id)     + "'")
+        debug("output        = `" + str(filehandle.name) + "'")
+        debug("width         = `" + str(width)           + "'")
+        debug("line format   = `" + str(line_format)     + "'")
+        debug("indent fill   = `" + str(indent_fill)     + "'")
+        debug("unindent fill = `" + str(unindent_fill)   + "'")
+        debug("level fill    = `" + str(level_fill)      + "'")
+        debug("filter text   = `" + str(filter_text)     + "'")
+        debug("collapsed     = `" + str(collapsed)       + "'")
 
         # Build the filter
         filter_obj = Filter.Filter(filter_text)
@@ -568,7 +574,7 @@ class SubCommand(Command) :
              cmap,
              filehandle, width,
              indent_fill, line_format, unindent_fill, level_fill,
-             hide_collapsed)
+             collapsed)
         #filehandle.write(unindent_fill)
 
         # Avoid closing precious filehandles
