@@ -33,7 +33,8 @@ import Exceptions
 #     all: children and parent should be hidden ...)
 #
 def help_text() :
-    return "Boolean expression containing entries properties (" + Entry.help_text() + ")"
+    return "Boolean expression containing entries properties " \
+        "(" + Entry.help_text() + ")"
 
 class Filter(object) :
     def __init__(self, s = None) :

@@ -33,8 +33,8 @@ class Root(Node.Node) :
     def text_get(self) :
         return self.__text
     def text_set(self, t) :
-        # Use basestring to perform the test, we could have to deal with unicode
-        # characters coming as user-input
+        # Use basestring to perform the test, we could have to deal with
+        # unicode characters coming as user-input
         assert(isinstance(t, basestring))
         assert(t != "")
 
@@ -77,7 +77,8 @@ class Root(Node.Node) :
                       "`" + str(tmp) +"'")
                 return None
             except :
-                bug("Unhandled exception while looking for node in Root.find()")
+                bug("Unhandled exception while looking for " +
+                    "node in Root.find()")
 
             if (tmp == None) :
                 return tmp

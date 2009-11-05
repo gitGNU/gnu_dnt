@@ -86,8 +86,10 @@ class Command(OptionParser, object) :
             j = j + 1
         print >> file, ""
 
-        print >> file, "This is free software.  You may redistribute copies of it under the terms of"
-        print >> file, "the GNU General Public License <http://www.gnu.org/licenses/gpl.html>."
+        print >> file, "This is free software.  You may " \
+            "redistribute copies of it under the terms of"
+        print >> file, "the GNU General Public License " \
+            "<http://www.gnu.org/licenses/gpl.html>."
         print >> file, "There is NO WARRANTY, to the extent permitted by law."
 
 
