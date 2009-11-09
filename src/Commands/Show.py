@@ -34,14 +34,189 @@ import Filter
 import ANSI
 import Text
 
-def show(level,
+
+def dump(filehandle,
+         text,
+         width,
+         level_fill,
+         level) :
+    debug("Building output")
+
+    #
+    # Build the output
+    #
+    debug("Wrapping entry text to " + str(width))
+
+    # Remove trailing whitespaces (newlines will be added later)
+    text = text.strip()
+
+    # Dump each line
+    dump = [ ]
+    for i in text.split('\n') :
+        if (width != 0) :
+            w = width - (len(level_fill) * level)
+
+            if (w <= 0) :
+                dump = [ ]
+                raise Exceptions.WidthTooSmall("cannot wrap " +
+                                               "text "        +
+                                               text)
+            dump.extend(Text.wrap(text, w,
+                                  break_ansi_escapes = False))
+        else :
+            dump.append(i)
+
+    for j in dump :
+        filehandle.write(level_fill * level + j + "\n")
+
+
+def show_root(node,
+              filehandle,
+              width,
+              indent_fill, unindent_fill, level_fill,
+              level) :
+    debug("Showing root entry")
+
+    text = node.text
+    if (text != '') :
+        dump(filehandle, text, width, level_fill, level)
+    else :
+        debug("Empty output, skipping ...")
+
+
+def show_entry(root_node,
+               node,
+               colors, verbose,
+               cmap,
+               filehandle,
+               width,
+               indent_fill, line_format, unindent_fill, level_fill,
+               level) :
+    e = node
+
+    debug("Visiting entry " + str(e))
+
+    debug("Formatting")
+
+    text = e.text
+
+    if (e.start != None) :
+        start = e.start.tostring()
+    else :
+        start = "unknown"
+
+    if (e.end != None) :
+        end = e.end.tostring()
+    else :
+        end = "unknown"
+
+    if (e.priority != None) :
+        priority = e.priority.tostring()
+    else :
+        priority = "unknown"
+
+    #
+    # NOTE: 'done' get not substituted, yet ...
+    #
+    # if (e.done) :
+    #    status = "complete"
+    # else :
+    #    status = "incomplete"
+
+    if (e.comment != None) :
+        comment = e.comment
+    else :
+        comment = ""
+
+    depth = str(e.depth)
+
+    id_temp = e.id
+    id_absolute = str(id_temp)
+
+    # Remove leading '0.' (we don't print anything related
+    # to the Root node)
+    id_absolute = re.sub('^0\.', '', id_absolute)
+
+    try :
+        id_list     = id_temp.tolist()
+        id_relative = str(id_list[len(id_list) - 1])
+    except:
+        id_relative = "0"
+
+    debug("Handling colors")
+
+    # Handle colors
+    if ((filehandle.isatty()) and (colors is True)) :
+        color_info  = ANSI.normal_green
+        color_index = ANSI.normal_green
+        p           = e.priority.value
+        try :
+            color_text  = cmap[p]
+        except KeyError :
+            bug("Unknown key `" + p.tostring() + "'")
+    else :
+        # A bunch of pass-through lambdas
+        color_text  = lambda x: x
+        color_index = lambda x: x
+        color_info  = lambda x: x
+    assert(color_index != None)
+    assert(color_text  != None)
+    assert(color_info  != None)
+
+    debug("Formatting")
+
+    # Perform format substitutions
+    t = line_format
+    debug("input  = `" + t + "'")
+
+    # NOTE:
+    #   re.sub has the following "prototype":
+    #
+    #     re.sub(pattern, repl, string[, count])
+    #
+    # The optional argument count is the maximum
+    # number of pattern occurrences to be replaced;
+    # count must be a non-negative integer.
+    # If omitted or zero, all occurrences will be
+    # replaced.
+
+    t = re.sub('%I', color_index(id_absolute),  t)
+    t = re.sub('%i', color_index(id_relative),  t)
+    t = re.sub('%s', start,                     t)
+    t = re.sub('%e', end,                       t)
+    t = re.sub('%p', color_text(priority),      t)
+    t = re.sub('%c', comment,                   t)
+    t = re.sub('%d', depth,                     t)
+    t = re.sub('%r', root_node.text,            t)
+    # Always substitute text at last in order to avoid re-substitutions
+    # if text contains %i, %s, %e, %p, %c and so on
+    #
+    # If line is set as "collapsed", substitute text with "..."
+    if ('collapsed' in e.flags) :
+        if ('visible' in e.flags) :
+            t = re.sub('%t', color_text('...'), t)
+        else :
+            t = ''
+    else :
+        t = re.sub('%t', color_text(text),  t)
+
+    debug("output = `" + t + "'")
+
+    if (t != '') :
+        dump(filehandle, t, width, level_fill, level)
+    else :
+        debug("Empty output, skipping ...")
+
+
+def show(root_node,
          node,
          colors, verbose,
          cmap,
          filehandle, width,
          indent_fill, line_format, unindent_fill, level_fill,
-         collapsed) :
+         level) :
 
+    assert(root_node     != None)
     assert(node          != None)
     assert(isinstance(colors, bool))
     assert(isinstance(verbose, bool))
@@ -51,192 +226,101 @@ def show(level,
     assert(line_format   != None)
     assert(unindent_fill != None)
     assert(level_fill    != None)
+    assert(level         >= 0)
 
-    # Dump the current node
     if (isinstance(node, Root.Root)) :
-        pass
+
+        if ('visible' in node.flags) :
+            show_root(node,
+                      filehandle,
+                      width,
+                      indent_fill, unindent_fill, level_fill,
+                      level)
+            level = level + 1
+
+        # Updating root node
+        if (root_node != node) :
+            root_node = node
     elif (isinstance(node, Entry.Entry)) :
-        e = node
 
-        if not (('visible' in e.flags)   or
-                ('collapsed' in e.flags)) :
-            debug("Entry "                 +
-                  "`" + str(e) + "' "      +
-                  "does not match any flag")
-        else :
-            debug("Visiting entry " + str(e))
+        if ('parent' in node.flags) :
+            # XXX Fix me:
+            # no decisions upon a parent node, think about
+            # how to handle them
+            pass
 
-            debug("Formatting")
+        if (('visible'   in node.flags) or
+            ('collapsed' in node.flags))  :
+            show_entry(root_node,
+                       node,
+                       colors, verbose,
+                       cmap,
+                       filehandle,
+                       width,
+                       indent_fill, line_format, unindent_fill, level_fill,
+                       level)
+            level = level + 1
 
-            text = e.text
-
-            if (e.start != None) :
-                start = e.start.tostring()
-            else :
-                start = "unknown"
-
-            if (e.end != None) :
-                end = e.end.tostring()
-            else :
-                end = "unknown"
-
-            if (e.priority != None) :
-                priority = e.priority.tostring()
-            else :
-                priority = "unknown"
-
-            #
-            # NOTE: 'done' get not substituted, yet ...
-            #
-            #if (e.done) :
-            #    status = "complete"
-            #else :
-            #    status = "incomplete"
-
-            if (e.comment != None) :
-                comment = e.comment
-            else :
-                comment = ""
-
-            depth = str(e.depth)
-
-            id_temp = e.id
-            id_absolute = str(id_temp)
-
-            # Remove leading '0.' (we don't print anything related
-            # to the Root node)
-            id_absolute = re.sub('^0\.', '', id_absolute)
-
-            try :
-                id_list     = id_temp.tolist()
-                id_relative = str(id_list[len(id_list) - 1])
-            except:
-                id_relative = "0"
-
-            debug("Handling colors")
-
-            # Handle colors
-            if ((filehandle.isatty()) and (colors is True)) :
-                color_info  = ANSI.normal_green
-                color_index = ANSI.normal_green
-                p           = e.priority.value
-                try :
-                    color_text  = cmap[p]
-                except KeyError :
-                    bug("Unknown key `" + p.tostring() + "'")
-            else :
-                # A bunch of pass-through lambdas
-                color_text  = lambda x: x
-                color_index = lambda x: x
-                color_info  = lambda x: x
-            assert(color_index != None)
-            assert(color_text  != None)
-            assert(color_info  != None)
-
-            debug("Formatting")
-
-            # Perform format substitutions
-            t = line_format
-            debug("input  = `" + t + "'")
-
-            # NOTE:
-            #   re.sub has the following "prototype":
-            #
-            #     re.sub(pattern, repl, string[, count])
-            #
-            # The optional argument count is the maximum
-            # number of pattern occurrences to be replaced;
-            # count must be a non-negative integer.
-            # If omitted or zero, all occurrences will be
-            # replaced.
-
-            t = re.sub('%I', color_index(id_absolute),  t)
-            t = re.sub('%i', color_index(id_relative),  t)
-            t = re.sub('%s', start,                     t)
-            t = re.sub('%e', end,                       t)
-            t = re.sub('%p', color_text(priority),      t)
-            t = re.sub('%c', comment,                   t)
-            t = re.sub('%d', depth,                     t)
-            # Always substitute text at last in order to avoid re-substitutions
-            # if text contains %i, %s, %e, %p, %c and so on
-            #
-            # If line is set as "collapsed", substitute text with "..."
-            if ('collapsed' in e.flags) :
-                # XXX FIXME: Awful hack
-                if (collapsed) :
-                    t = ''
-                else :
-                    t = re.sub('%t', color_text('...'), t)
-            else :
-                t = re.sub('%t', color_text(text),  t)
-
-            debug("output = `" + t + "'")
-
-            if (t != '') :
-                debug("Building output")
-
-                #
-                # Build the output
-                #
-                debug("Wrapping entry text to " + str(width))
-
-                # Remove trailing whitespaces (newlines will be added later)
-                t = t.rstrip()
-
-                # Dump each line
-
-                dump = [ ]
-                for i in t.split('\n') :
-                    if (width != 0) :
-                        w = width - (len(level_fill) * level)
-
-                        if (w <= 0) :
-                            dump = [ ]
-                            raise Exceptions.WidthTooSmall("cannot wrap " +
-                                                           "node " +
-                                                           id_absolute)
-
-                        dump.extend(Text.wrap(t, w,
-                                              break_ansi_escapes = False))
-                    else :
-                        dump.append(i)
-
-                for j in dump :
-                    filehandle.write(level_fill * level + j + "\n")
-            else :
-                debug("Empty output, skipping ...")
     else :
         bug("Unknown type " + str(type(node)))
 
     # Finally handle node children
     assert(hasattr(node, "children"))
-    if ((len(node.children) > 0)      and
-        (('visible' in node.flags)    or
-         ('collapsed' in node.flags))) :
-        debug("Indenting more")
-        filehandle.write(indent_fill)
+    if (len(node.children) > 0) :
 
-        debug("Handling children")
-        for j in node.children :
-            show(level + 1,
-                 j,
-                 colors, verbose,
-                 cmap,
-                 filehandle, width,
-                 indent_fill, line_format,
-                 unindent_fill, level_fill,
-                 collapsed)
+        if (('visible'   in node.flags) or
+            ('collapsed' in node.flags) or
+            ('parent'    in node.flags)) :
+            debug("Indenting more")
+            filehandle.write(indent_fill)
 
-        debug("Indenting less")
-        filehandle.write(unindent_fill)
+            debug("Handling children")
+            for j in node.children :
+                show(root_node,
+                     j,
+                     colors, verbose,
+                     cmap,
+                     filehandle, width,
+                     indent_fill, line_format, unindent_fill, level_fill,
+                     level)
+
+            debug("Indenting less")
+            filehandle.write(unindent_fill)
+
     else :
         debug("No children to handle")
 
-def mark(node, filter) :
-    assert(node != None)
-    assert(filter != None)
 
+def mark_ancestors(node,
+                   show_root,
+                   show_collapsed) :
     marked = 0
+    parent = node.parent_get()
+
+    debug("Marking ancestors")
+
+    while (parent != None) :
+        debug("Entry `" +  str(parent)   +
+              "' has marked as parent")
+        parent.flags = [ 'parent' ]
+
+        marked       = marked + 1
+        node         = parent
+        parent       = node.parent_get()
+
+    if (show_root == True) :
+        debug("Entry `" +  str(node)   +
+              "' has marked as visible")
+        node.flags = [ 'visible', 'parent' ]
+
+    return node, marked
+
+
+def mark_children(node,
+                  filter_obj,
+                  show_root,
+                  show_collapsed) :
+    marked     = 0
     node.flags = []
 
     if (len(node.children) > 0) :
@@ -244,7 +328,10 @@ def mark(node, filter) :
 
         for i in node.children :
             m       = 0
-            node, m = mark(i, filter)
+            node, m = mark_children(i,
+                                    filter_obj,
+                                    show_root,
+                                    show_collapsed)
             marked  = marked + m
 
         node = node.parent_get()
@@ -256,31 +343,60 @@ def mark(node, filter) :
 
     if (isinstance(node, Root.Root)) :
         if (marked > 0) :
-            debug("Entry `"                               + str(node)   +
-                  "' has children those matches filter `" + str(filter) +
+            debug("Entry `"                               + str(node)       +
+                  "' has children those matches filter `" + str(filter_obj) +
                   "' marking it as collapsed")
-            node.flags = ['collapsed']
+            if (show_root == True) :
+                node.flags = [ 'visible', 'collapsed' ]
+            else :
+                node.flags = ['collapsed']
 
     elif (isinstance(node, Entry.Entry)) :
-        match = filter.evaluate(node)
+        match = filter_obj.evaluate(node)
 
         if ((marked > 0) and (match is False)) :
-            debug("Entry `"                               + str(node)   +
-                  "' has children those matches filter `" + str(filter) +
+            debug("Entry `"                               + str(node)       +
+                  "' has children those matches filter `" + str(filter_obj) +
                   "' marking it as collapsed")
-            node.flags = ['collapsed']
+            if (show_collapsed == True) :
+                node.flags = ['visible', 'collapsed']
+            else :
+                node.flags = ['collapsed']
 
         if (match is True) :
-            debug("Entry `"            +  str(node)  +
-                  "' matches filter `" + str(filter) +
+            debug("Entry `"            +  str(node)      +
+                  "' matches filter `" + str(filter_obj) +
                   "', marking it as visible")
             node.flags = ['visible']
-            marked = marked + 1
+            marked     = marked + 1
 
     else :
         bug("Unknown type " + str(type(node)))
 
     return node, marked
+
+
+def mark(node,
+         filter_obj,
+         show_root,
+         show_collapsed) :
+    assert(node != None)
+    assert(filter != None)
+
+    debug("Marking entries")
+
+    # Marking all parent nodes up to root one because they belong to
+    # the family and all children nodes those match the filter
+    m       = 0
+    node, m = mark_children(node, filter_obj, show_root, show_collapsed)
+    debug("Found " + str(m) + " entries matching filters")
+
+    m       = 0
+    node, m = mark_ancestors(node, show_root, show_collapsed)
+    debug("Found " + str(m) + " entries as ancestors")
+
+    return node
+
 
 class SubCommand(Command) :
     def __init__(self) :
@@ -368,16 +484,28 @@ class SubCommand(Command) :
                            dest   = "filter",
                            help   = "specify selection filter")
         Command.add_option(self,
-                           "-H", "--hide-collapsed",
-                           action = "store_true",
-                           dest   = "collapsed",
+                           "-C", "--hide-collapsed",
+                           action = "store_false",
+                           dest   = "show_collapsed",
                            help   = "hide collapsed entries")
 
         Command.add_option(self,
-                           "-S", "--show-collapsed",
-                           action = "store_false",
-                           dest   = "collapsed",
+                           "-c", "--show-collapsed",
+                           action = "store_true",
+                           dest   = "show_collapsed",
                            help   = "show collapsed entries")
+
+        Command.add_option(self,
+                           "-R", "--hide-root",
+                           action = "store_false",
+                           dest   = "show_root",
+                           help   = "hide root entries")
+
+        Command.add_option(self,
+                           "-r", "--show-root",
+                           action = "store_true",
+                           dest   = "show_root",
+                           help   = "show root entries")
 
         (opts, args) = Command.parse_args(self, arguments)
         if (len(args) > 0) :
@@ -414,13 +542,14 @@ class SubCommand(Command) :
         assert(verbose != None)
 
         # Handling configuration
-        width         = None
-        collapsed     = None
-        line_format   = None
-        level_fill    = None
-        unindent_fill = None
-        indent_fill   = None
-        filter_text   = None
+        width          = None
+        show_collapsed = None
+        show_root      = None
+        line_format    = None
+        level_fill     = None
+        unindent_fill  = None
+        indent_fill    = None
+        filter_text    = None
 
         # Width
         if (opts.width != None) :
@@ -445,17 +574,29 @@ class SubCommand(Command) :
             raise Exceptions.WrongParameter("width must be greater "
                                             "or equal than 0")
 
-        # Collapsed
-        if (opts.collapsed != None) :
-            collapsed = opts.collapsed
-            debug("Got collapsed value from user")
+        # Show collapsed
+        if (opts.show_collapsed != None) :
+            show_collapsed = opts.show_collapsed
+            debug("Got show collapsed value from user")
         else :
-            cfg_collapsed = configuration.get_with_default(self.name,
-                                                           'collapsed',
+            cfg_show_collapsed = configuration.get_with_default(self.name,
+                                                                'show_collapsed',
+                                                                True,
+                                                                True)
+            show_collapsed = bool(cfg_show_collapsed)
+            debug("Got show collapsed value from configuration")
+
+        # Root entries
+        if (opts.show_root != None) :
+            show_root = opts.show_root
+            debug("Got show root value from user")
+        else :
+            cfg_show_root = configuration.get_with_default(self.name,
+                                                           'show_root',
                                                            True,
                                                            False)
-            collapsed = bool(cfg_collapsed)
-            debug("Got collapsed value from configuration")
+            show_root = bool(cfg_show_root)
+            debug("Got show root value from configuration")
 
         # Line format
         if (opts.line_format != None) :
@@ -524,15 +665,16 @@ class SubCommand(Command) :
 
         # Configuration informations
         debug("Got configured values")
-        debug("starting id   = `" + str(starting_id)     + "'")
-        debug("output        = `" + str(filehandle.name) + "'")
-        debug("width         = `" + str(width)           + "'")
-        debug("line format   = `" + str(line_format)     + "'")
-        debug("indent fill   = `" + str(indent_fill)     + "'")
-        debug("unindent fill = `" + str(unindent_fill)   + "'")
-        debug("level fill    = `" + str(level_fill)      + "'")
-        debug("filter text   = `" + str(filter_text)     + "'")
-        debug("collapsed     = `" + str(collapsed)       + "'")
+        debug("starting id    = `" + str(starting_id)     + "'")
+        debug("output         = `" + str(filehandle.name) + "'")
+        debug("width          = `" + str(width)           + "'")
+        debug("line format    = `" + str(line_format)     + "'")
+        debug("indent fill    = `" + str(indent_fill)     + "'")
+        debug("unindent fill  = `" + str(unindent_fill)   + "'")
+        debug("level fill     = `" + str(level_fill)      + "'")
+        debug("filter text    = `" + str(filter_text)     + "'")
+        debug("show_collapsed = `" + str(show_collapsed)  + "'")
+        debug("show_root      = `" + str(show_root)       + "'")
 
         # Build the filter
         filter_obj = Filter.Filter(filter_text)
@@ -562,20 +704,27 @@ class SubCommand(Command) :
             Priority.PRIORITY_VERYLOW  : ANSI.normal_blue,
             }
 
-        # Marking nodes that match filters
-        m = 0
-        node, m = mark(node, filter_obj)
-        debug("Found " + str(m) + " entries matching filters")
+        # Marking nodes
+        # mark() starts with marking the passed node for filter matching
+        # but also marks all the parent nodes up to root node and return
+        # it
+        node = mark(node,
+                    filter_obj,
+                    show_root,
+                    show_collapsed)
 
-        #filehandle.write(indent_fill)
-        show(0,
+        # Showing requested nodes
+        # mark() returns the root node so show() descends through the
+        # tree processing all nodes having collapsed, or parent or
+        # visible (the others are skipped) flags printing the ones
+        #those are marked as "visible"
+        show(node,
              node,
              colors, verbose,
              cmap,
              filehandle, width,
              indent_fill, line_format, unindent_fill, level_fill,
-             collapsed)
-        #filehandle.write(unindent_fill)
+             0)
 
         # Avoid closing precious filehandles
         if ((filehandle != sys.stdout) and (filehandle != sys.stderr)) :
