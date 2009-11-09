@@ -302,10 +302,10 @@ def main(arguments) :
     configuration.clean()
 
     # Finally apply global configurations (each command will apply its own)
-    if (configuration.get(PROGRAM_NAME, 'debug', raw = True) == True) :
+    if (configuration.get(PROGRAM_NAME, 'debug', bool) == True) :
         Trace.debug_enabled = True
         debug("Debugging enabled")
-    if (configuration.get(PROGRAM_NAME, 'warning', raw = True) == True) :
+    if (configuration.get(PROGRAM_NAME, 'warning', bool) == True) :
         Trace.warning_enabled = True
         debug("Warnings enabled")
 
@@ -334,7 +334,7 @@ def main(arguments) :
         cmd_parameters = command.rargs[1:]
     debug("Parameters are: `" + str(cmd_parameters) + "'")
 
-    if (configuration.get(PROGRAM_NAME, 'verbose', raw = True) == True) :
+    if (configuration.get(PROGRAM_NAME, 'verbose', bool) == True) :
         line = cmd_name
         for i in cmd_parameters :
             line = line + " " + i
