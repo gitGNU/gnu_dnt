@@ -18,7 +18,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-required=""
+required="diff sort"
 
 . $testdir/defs || exit 1
 
@@ -28,8 +28,10 @@ rm -f $CFG_FILE 2>/dev/null
 
 CFG_FLAGS="--configuration=${CFG_FILE}"
 
-# Does config --show work correctly
+# Does config --show work correctly ?
 $DNT_NOFLAGS $CFG_FLAGS config --show || exit 1
+
+# Start with something more complex
 
 cat > $CFG_FILE << EOF
 dnt.verbose       = True
@@ -51,6 +53,9 @@ dnt.debug         = False
 dnt.configuration = beta
 EOF
 
-diff OUT1.txt OUT2.txt || exit 1
+cat OUT1.txt | sort > OUT11.txt
+cat OUT2.txt | sort > OUT22.txt
+
+diff OUT11.txt OUT22.txt || exit 1
 
 exit 0
