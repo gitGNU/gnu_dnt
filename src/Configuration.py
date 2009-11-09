@@ -58,14 +58,19 @@ class Configuration(INI.File) :
         super(Configuration, self).set(section, option, value)
         self.__modified = True
 
-    def get(self, section, option, datatype) :
-        return super(Configuration, self).get(section, option, datatype)
-
-    def get_with_default(self, section, option, datatype, default) :
+    def get(self, section, option, datatype, default = None) :
         try :
+            # First: look for configuration data from configuration
             tmp = super(Configuration, self).get(section, option, datatype)
         except :
-            tmp = default
+            # ... but we cannot get configuration data ...
+            if (default != None) :
+                # Second: use the provided default
+                assert(isinstance(default, datatype))
+                tmp = datatype(default)
+            else :
+                # Fallback to None if everything else fail
+                tmp = None
         return tmp
 
     def add_section(self, section) :
