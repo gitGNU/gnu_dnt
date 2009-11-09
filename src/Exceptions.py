@@ -154,6 +154,13 @@ class KeyNotFound(EINI) :
             tmp = ", " + message
         EINI.__init__(self, "key not found" + tmp)
 
+class WrongValue(EINI) :
+    def __init__(self, message) :
+        tmp = ""
+        if (message != None) :
+            tmp = ", " + message
+        EINI.__init__(self, "wrong value" + tmp)
+
 #
 # ID related exceptions
 #
