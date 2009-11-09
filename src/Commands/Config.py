@@ -167,7 +167,7 @@ class SubCommand(Command) :
             # Write all key-value pairs
             for s in configuration.sections() :
                 for o in configuration.options(s) :
-                    v = configuration.get(s, o, None)
+                    v = configuration.get_raw(s, o, None)
                     print(("%-" + str(l) + "s = %s")
                           %(s + "." + o,  str(v)))
 
