@@ -18,6 +18,7 @@
 
 import sys
 import os
+import string
 
 from   Debug             import *
 from   Trace             import *
@@ -55,19 +56,37 @@ class Configuration(INI.File) :
         super(Configuration, self).__init__()
 
     def set(self, section, option, value) :
-        super(Configuration, self).set(section, option, value)
+        super(Configuration, self).set_raw(section, option, value)
         self.__modified = True
+
+    def cast(self, value, datatype = None) :
+        assert(value != None)
+        if ((datatype == bool) and (isinstance(value, str))):
+            t = string.lower(value)
+            if ((t == "true") or
+                (t != "0")    or
+                (t == "yes")  or
+                (t == "y")):
+                return True
+            elif ((t == "false") or
+                  (t == "0")     or
+                  (t == "no")    or
+                  (t == "n")) :
+                return False
+        else :
+            return datatype(value)
 
     def get(self, section, option, datatype, default = None) :
         try :
-            # First: look for configuration data from configuration
-            tmp = super(Configuration, self).get(section, option, datatype)
+            # Look for configuration data from configuration
+            tmp = super(Configuration, self).get_raw(section, option)
+            return self.cast(tmp, datatype)
         except :
             # ... but we cannot get configuration data ...
             if (default != None) :
-                # Second: use the provided default
+                # Then use the provided default
                 assert(isinstance(default, datatype))
-                tmp = datatype(default)
+                return self.cast(default, datatype)
             else :
                 # Fallback to None if everything else fail
                 tmp = None
