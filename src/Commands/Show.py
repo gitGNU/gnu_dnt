@@ -557,10 +557,7 @@ class SubCommand(Command) :
             assert(isinstance(w, int))
 
             # If width is not configured, used the guessed one
-            cfg_width = configuration.get_with_default(self.name,
-                                                       'width',
-                                                       int,
-                                                       w)
+            cfg_width = configuration.get(self.name, 'width', int, w)
             width = int(cfg_width)
             debug("Got interactive value from configuration")
 
@@ -574,11 +571,10 @@ class SubCommand(Command) :
             show_collapsed = opts.show_collapsed
             debug("Got show collapsed value from user")
         else :
-            cfg_show_collapsed = \
-                configuration.get_with_default(self.name,
-                                               'show_collapsed',
-                                               bool,
-                                               True)
+            cfg_show_collapsed = configuration.get(self.name,
+                                                   'show_collapsed',
+                                                   bool,
+                                                   True)
             show_collapsed = bool(cfg_show_collapsed)
             debug("Got show collapsed value from configuration")
 
@@ -587,10 +583,10 @@ class SubCommand(Command) :
             show_root = opts.show_root
             debug("Got show root value from user")
         else :
-            cfg_show_root = configuration.get_with_default(self.name,
-                                                           'show_root',
-                                                           bool,
-                                                           False)
+            cfg_show_root = configuration.get(self.name,
+                                              'show_root',
+                                              bool,
+                                              False)
             show_root = bool(cfg_show_root)
             debug("Got show root value from configuration")
 
@@ -604,10 +600,10 @@ class SubCommand(Command) :
             else :
                 l = "%i %t\n"
 
-            cfg_line_format = configuration.get_with_default(self.name,
-                                                             'line_format',
-                                                             str,
-                                                             l)
+            cfg_line_format = configuration.get(self.name,
+                                                'line_format',
+                                                str,
+                                                l)
             line_format = str(cfg_line_format)
             debug("Got line format value from configuration")
 
@@ -616,10 +612,10 @@ class SubCommand(Command) :
             indent_fill = opts.indent_fill
             debug("Got indent fill value from user")
         else :
-            cfg_indent_fill = configuration.get_with_default(self.name,
-                                                             'indent_fill',
-                                                             str,
-                                                             "")
+            cfg_indent_fill = configuration.get(self.name,
+                                                'indent_fill',
+                                                str,
+                                                "")
             indent_fill = str(cfg_indent_fill)
             debug("Got indent fill value from configuration")
 
@@ -628,10 +624,10 @@ class SubCommand(Command) :
             unindent_fill = opts.unindent_fill
             debug("Got unindent fill value from user")
         else :
-            cfg_unindent_fill = configuration.get_with_default(self.name,
-                                                               'unindent_fill',
-                                                               str,
-                                                               "")
+            cfg_unindent_fill = configuration.get(self.name,
+                                                  'unindent_fill',
+                                                  str,
+                                                  "")
             unindent_fill = str(cfg_unindent_fill)
             debug("Got unindent fill value from configuration")
 
@@ -640,10 +636,10 @@ class SubCommand(Command) :
             level_fill = opts.level_fill
             debug("Got level fill value from user")
         else :
-            cfg_level_fill = configuration.get_with_default(self.name,
-                                                            'level_fill',
-                                                            str,
-                                                            "    ")
+            cfg_level_fill = configuration.get(self.name,
+                                               'level_fill',
+                                               str,
+                                               "    ")
             level_fill = str(cfg_level_fill)
             debug("Got level fill value from configuration")
 
@@ -652,10 +648,10 @@ class SubCommand(Command) :
             filter_text = opts.filter
             debug("Got level filter text from user")
         else :
-            cfg_filter_text = configuration.get_with_default(self.name,
-                                                             'filter',
-                                                             str,
-                                                             "not done")
+            cfg_filter_text = configuration.get(self.name,
+                                                'filter',
+                                                str,
+                                                "not done")
             filter_text = str(cfg_filter_text)
             debug("Got filter text value from configuration")
 

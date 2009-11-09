@@ -187,10 +187,10 @@ class SubCommand(Command) :
             interactive = opts.interactive
             debug("Got interactive value from user")
         else :
-            cfg_interactive = configuration.get_with_default(self.name,
-                                                             'interactive',
-                                                             bool,
-                                                             False)
+            cfg_interactive = configuration.get(self.name,
+                                                'interactive',
+                                                bool,
+                                                False)
             interactive = bool(cfg_interactive)
             debug("Got interactive value from configuration")
 

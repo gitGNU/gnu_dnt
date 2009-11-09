@@ -60,12 +60,12 @@ class SubCommand(Command) :
         if (opts.name != None) :
             name = opts.name
         else :
-            cfg_name = configuration.get_with_default(self.name,
-                                                      'name',
-                                                      str,
-                                                      "Nameless "  +
-                                                      PROGRAM_NAME +
-                                                      " database")
+            cfg_name = configuration.get(self.name,
+                                         'name',
+                                         str,
+                                         "Nameless "  +
+                                         PROGRAM_NAME +
+                                         " database")
             name = str(cfg_name)
 
         db_file = configuration.get(PROGRAM_NAME, 'database', str)
