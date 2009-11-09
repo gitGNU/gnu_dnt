@@ -557,8 +557,7 @@ class SubCommand(Command) :
             assert(isinstance(w, int))
 
             # If width is not configured, used the guessed one
-            cfg_width = configuration.get(self.name, 'width', int, w)
-            width = int(cfg_width)
+            width = configuration.get(self.name, 'width', int, w)
             debug("Got interactive value from configuration")
 
         # Width has to be >= 0 anyway ...
@@ -571,11 +570,10 @@ class SubCommand(Command) :
             show_collapsed = opts.show_collapsed
             debug("Got show collapsed value from user")
         else :
-            cfg_show_collapsed = configuration.get(self.name,
+            show_collapsed = configuration.get(self.name,
                                                    'show_collapsed',
                                                    bool,
                                                    True)
-            show_collapsed = bool(cfg_show_collapsed)
             debug("Got show collapsed value from configuration")
 
         # Root entries
@@ -583,11 +581,10 @@ class SubCommand(Command) :
             show_root = opts.show_root
             debug("Got show root value from user")
         else :
-            cfg_show_root = configuration.get(self.name,
-                                              'show_root',
-                                              bool,
-                                              False)
-            show_root = bool(cfg_show_root)
+            show_root = configuration.get(self.name,
+                                          'show_root',
+                                          bool,
+                                          False)
             debug("Got show root value from configuration")
 
         # Line format
@@ -600,11 +597,10 @@ class SubCommand(Command) :
             else :
                 l = "%i %t\n"
 
-            cfg_line_format = configuration.get(self.name,
-                                                'line_format',
-                                                str,
-                                                l)
-            line_format = str(cfg_line_format)
+            line_format = configuration.get(self.name,
+                                            'line_format',
+                                            str,
+                                            l)
             debug("Got line format value from configuration")
 
         # Indent fill
@@ -612,11 +608,10 @@ class SubCommand(Command) :
             indent_fill = opts.indent_fill
             debug("Got indent fill value from user")
         else :
-            cfg_indent_fill = configuration.get(self.name,
-                                                'indent_fill',
-                                                str,
-                                                "")
-            indent_fill = str(cfg_indent_fill)
+            indent_fill = configuration.get(self.name,
+                                            'indent_fill',
+                                            str,
+                                            "")
             debug("Got indent fill value from configuration")
 
         # Unindent fill
@@ -624,11 +619,10 @@ class SubCommand(Command) :
             unindent_fill = opts.unindent_fill
             debug("Got unindent fill value from user")
         else :
-            cfg_unindent_fill = configuration.get(self.name,
-                                                  'unindent_fill',
-                                                  str,
-                                                  "")
-            unindent_fill = str(cfg_unindent_fill)
+            unindent_fill = configuration.get(self.name,
+                                              'unindent_fill',
+                                              str,
+                                              "")
             debug("Got unindent fill value from configuration")
 
         # Level fill
@@ -636,11 +630,10 @@ class SubCommand(Command) :
             level_fill = opts.level_fill
             debug("Got level fill value from user")
         else :
-            cfg_level_fill = configuration.get(self.name,
-                                               'level_fill',
-                                               str,
-                                               "    ")
-            level_fill = str(cfg_level_fill)
+            level_fill = configuration.get(self.name,
+                                           'level_fill',
+                                           str,
+                                           "    ")
             debug("Got level fill value from configuration")
 
         # Filter text
@@ -648,11 +641,10 @@ class SubCommand(Command) :
             filter_text = opts.filter
             debug("Got level filter text from user")
         else :
-            cfg_filter_text = configuration.get(self.name,
-                                                'filter',
-                                                str,
-                                                "not done")
-            filter_text = str(cfg_filter_text)
+            filter_text = configuration.get(self.name,
+                                            'filter',
+                                            str,
+                                            "not done")
             debug("Got filter text value from configuration")
 
         # Configuration informations
