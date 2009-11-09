@@ -50,7 +50,7 @@ gamma_1
 gamma_1_1
 gamma_1_1_1"
 OUTPUT="`$DNT_NOFLAGS --mono $COMMAND -I '' -L '' -l '%t' -U '' \
-                      -H -F 'depth >= 1'`"                      \
+                      -C -F 'depth >= 1'`"                      \
                       || exit 1
 if test ! "x${OUTPUT}" = "x${EXPECTED}"; then
    exit 1
@@ -63,7 +63,7 @@ gamma_1
 gamma_1_1
 gamma_1_1_1"
 OUTPUT="`$DNT_NOFLAGS --mono $COMMAND -I '' -L '' -l '%t' -U '' \
-                      -H -F 'depth >= 2'`"                      \
+                      -C -F 'depth >= 2'`"                      \
                       || exit 1
 if test ! "x${OUTPUT}" = "x${EXPECTED}"; then
    exit 1
@@ -73,7 +73,7 @@ EXPECTED="alfa_1_1
 gamma_1_1
 gamma_1_1_1"
 OUTPUT="`$DNT_NOFLAGS --mono $COMMAND -I '' -L '' -l '%t' -U '' \
-                      -H -F 'depth >= 3'`"                      \
+                      -C -F 'depth >= 3'`"                      \
                       || exit 1
 if test ! "x${OUTPUT}" = "x${EXPECTED}"; then
    exit 1
@@ -81,7 +81,7 @@ fi
 
 EXPECTED="gamma_1_1_1"
 OUTPUT="`$DNT_NOFLAGS --mono $COMMAND -I '' -L '' -l '%t' -U '' \
-                      -H -F 'depth >= 4'`"                      \
+                      -C -F 'depth >= 4'`"                      \
                       || exit 1
 if test ! "x${OUTPUT}" = "x${EXPECTED}"; then
    exit 1
@@ -89,7 +89,7 @@ fi
 
 EXPECTED=""
 OUTPUT="`$DNT_NOFLAGS --mono $COMMAND -I '' -L '' -l '%t' -U '' \
-                      -H -F 'depth >= 5'`"                      \
+                      -C -F 'depth >= 5'`"                      \
                       || exit 1
 if test ! "x${OUTPUT}" = "x${EXPECTED}"; then
    exit 1

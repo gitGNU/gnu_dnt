@@ -76,10 +76,10 @@ rm -f test.out
 rm -f test.exp
 
 cat > test.exp <<EOF
- 1.alfa
-  1.a
-  2.b
- 2.beta
+1.alfa
+ 1.a
+ 2.b
+2.beta
 EOF
 
 $DNT_FLAGS $COMMAND -l "%i.%t" -I "" -U "" -L " " -o test.out || exit 1
