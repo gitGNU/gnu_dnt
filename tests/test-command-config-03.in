@@ -1,4 +1,4 @@
-#! @SHELL@
+B0;115;0c#! @SHELL@
 
 #
 # Copyright (C) 2008, 2009 Francesco Salvestrini
@@ -18,7 +18,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-required=""
+required="diff sort"
 
 . $testdir/defs || exit 1
 
@@ -28,7 +28,26 @@ rm -f $CFG_FILE 2>/dev/null
 
 CFG_FLAGS="--configuration=${CFG_FILE}"
 
-$DNT_NOFLAGS $CFG_FLAGS --set verbose yes   || exit 1
-$DNT_NOFLAGS $CFG_FLAGS --set colors  false || exit 1
+$DNT_NOFLAGS $CFG_FLAGS config --set --key dnt.database --value test  || exit 1
+$DNT_NOFLAGS $CFG_FLAGS config --set --key dnt.warning  --value no    || exit 1
+$DNT_NOFLAGS $CFG_FLAGS config --set --key dnt.verbose  --value yes   || exit 1
+$DNT_NOFLAGS $CFG_FLAGS config --set --key dnt.colors   --value y     || exit 1
+$DNT_NOFLAGS $CFG_FLAGS config --set --key dnt.debug    --value n     || exit 1
+
+$DNT_NOFLAGS $CFG_FLAGS config --show > OUT1.txt || exit 1
+
+cat > OUT2.txt << EOF
+dnt.verbose       = True
+dnt.database      = test
+dnt.colors        = True
+dnt.warning       = False
+dnt.debug         = False
+dnt.configuration = ${CFG_FILE}
+EOF
+
+cat OUT1.txt | sort > OUT11.txt || exit 1
+cat OUT2.txt | sort > OUT22.txt || exit 1
+
+diff OUT11.txt OUT22.txt || exit 1
 
 exit 0
