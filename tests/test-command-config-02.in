@@ -28,6 +28,29 @@ rm -f $CFG_FILE 2>/dev/null
 
 CFG_FLAGS="--configuration=${CFG_FILE}"
 
+# Does config --show work correctly
 $DNT_NOFLAGS $CFG_FLAGS config --show || exit 1
+
+cat <<EOF
+dnt.verbose       = True
+dnt.database      = alfa
+dnt.colors        = True
+dnt.warning       = False
+dnt.debug         = False
+dnt.configuration = beta
+EOF > $CFG_FILE
+
+$DNT_NOFLAGS $CFG_FLAGS config --show > OUT1.txt || exit 1
+
+cat <<EOF
+dnt.verbose       = True
+dnt.database      = alfa
+dnt.colors        = True
+dnt.warning       = False
+dnt.debug         = False
+dnt.configuration = beta
+EOF > OUT2.txt
+
+diff OUT1.txt OUT2.txt || exit 1
 
 exit 0
