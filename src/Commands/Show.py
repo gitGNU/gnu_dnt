@@ -38,7 +38,7 @@ import Text
 def dump(filehandle,
          text,
          width,
-         level_fill,
+         fill,
          level) :
     debug("Building output")
 
@@ -54,35 +54,34 @@ def dump(filehandle,
     dump = [ ]
     for i in text.split('\n') :
         if (width != 0) :
-            w = width - (len(level_fill) * level)
+            w = width - (len(fill) * level)
 
             if (w <= 0) :
                 dump = [ ]
                 raise Exceptions.WidthTooSmall("cannot wrap " +
                                                "text "        +
                                                text)
-            dump.extend(Text.wrap(text, w,
-                                  break_ansi_escapes = False))
+            dump.extend(Text.wrap(text, w, break_ansi_escapes = False))
         else :
             dump.append(i)
 
     for j in dump :
-        filehandle.write(level_fill * level + j + "\n")
-
+        filehandle.write(fill * level + j + "\n")
 
 def show_root(node,
               filehandle,
               width,
-              indent_fill, unindent_fill, level_fill,
+              level_fill,
               level) :
-    debug("Showing root entry")
+    r = node
 
-    text = node.text
+    debug("Visiting root entry " + str(r))
+
+    text = r.text
     if (text != '') :
         dump(filehandle, text, width, level_fill, level)
     else :
         debug("Empty output, skipping ...")
-
 
 def show_entry(root_node,
                node,
@@ -90,13 +89,11 @@ def show_entry(root_node,
                cmap,
                filehandle,
                width,
-               indent_fill, line_format, unindent_fill, level_fill,
+               line_format, level_fill,
                level) :
     e = node
 
     debug("Visiting entry " + str(e))
-
-    debug("Formatting")
 
     text = e.text
 
@@ -140,7 +137,7 @@ def show_entry(root_node,
     try :
         id_list     = id_temp.tolist()
         id_relative = str(id_list[len(id_list) - 1])
-    except:
+    except :
         id_relative = "0"
 
     debug("Handling colors")
@@ -188,15 +185,14 @@ def show_entry(root_node,
     t = re.sub('%c', comment,                   t)
     t = re.sub('%d', depth,                     t)
     t = re.sub('%r', root_node.text,            t)
+
     # Always substitute text at last in order to avoid re-substitutions
     # if text contains %i, %s, %e, %p, %c and so on
-    #
+
     # If line is set as "collapsed", substitute text with "..."
+    assert('visible' in e.flags)
     if ('collapsed' in e.flags) :
-        if ('visible' in e.flags) :
-            t = re.sub('%t', color_text('...'), t)
-        else :
-            t = ''
+        t = re.sub('%t', color_text('...'), t)
     else :
         t = re.sub('%t', color_text(text),  t)
 
@@ -207,9 +203,7 @@ def show_entry(root_node,
     else :
         debug("Empty output, skipping ...")
 
-
-def show(root_node,
-         node,
+def show(root_node, node,
          colors, verbose,
          cmap,
          filehandle, width,
@@ -234,7 +228,7 @@ def show(root_node,
             show_root(node,
                       filehandle,
                       width,
-                      indent_fill, unindent_fill, level_fill,
+                      level_fill,
                       level)
             level = level + 1
 
@@ -244,20 +238,20 @@ def show(root_node,
     elif (isinstance(node, Entry.Entry)) :
 
         if ('parent' in node.flags) :
-            # XXX Fix me:
-            # no decisions upon a parent node, think about
-            # how to handle them
+            # XXX FIX ME:
+            #     No decisions upon a parent node... Think about
+            #     how we should handle them
             pass
 
-        if (('visible'   in node.flags) or
-            ('collapsed' in node.flags))  :
+        if ('visible'   in node.flags) :
             show_entry(root_node,
                        node,
                        colors, verbose,
                        cmap,
                        filehandle,
                        width,
-                       indent_fill, line_format, unindent_fill, level_fill,
+                       line_format,
+                       level_fill,
                        level)
             level = level + 1
 
@@ -271,8 +265,10 @@ def show(root_node,
         if (('visible'   in node.flags) or
             ('collapsed' in node.flags) or
             ('parent'    in node.flags)) :
-            debug("Indenting more")
-            filehandle.write(indent_fill)
+
+            if ('visible' in node.flags) :
+                debug("Indenting more")
+                filehandle.write(indent_fill)
 
             debug("Handling children")
             for j in node.children :
@@ -284,12 +280,12 @@ def show(root_node,
                      indent_fill, line_format, unindent_fill, level_fill,
                      level)
 
-            debug("Indenting less")
-            filehandle.write(unindent_fill)
+            if ('visible' in node.flags) :
+                debug("Indenting less")
+                filehandle.write(unindent_fill)
 
     else :
         debug("No children to handle")
-
 
 def mark_ancestors(node,
                    show_root,
@@ -308,13 +304,12 @@ def mark_ancestors(node,
         node         = parent
         parent       = node.parent_get()
 
-    if (show_root == True) :
+    if (show_root is True) :
         debug("Entry `" +  str(node)   +
               "' has marked as visible")
         node.flags = [ 'visible', 'parent' ]
 
     return node, marked
-
 
 def mark_children(node,
                   filter_obj,
@@ -346,7 +341,7 @@ def mark_children(node,
             debug("Entry `"                               + str(node)       +
                   "' has children those matches filter `" + str(filter_obj) +
                   "' marking it as collapsed")
-            if (show_root == True) :
+            if (show_root is True) :
                 node.flags = [ 'visible', 'collapsed' ]
             else :
                 node.flags = ['collapsed']
@@ -358,7 +353,7 @@ def mark_children(node,
             debug("Entry `"                               + str(node)       +
                   "' has children those matches filter `" + str(filter_obj) +
                   "' marking it as collapsed")
-            if (show_collapsed == True) :
+            if (show_collapsed is True) :
                 node.flags = ['visible', 'collapsed']
             else :
                 node.flags = ['collapsed']
@@ -374,7 +369,6 @@ def mark_children(node,
         bug("Unknown type " + str(type(node)))
 
     return node, marked
-
 
 def mark(node,
          filter_obj,
@@ -396,7 +390,6 @@ def mark(node,
     debug("Found " + str(m) + " entries as ancestors")
 
     return node
-
 
 class SubCommand(Command) :
     def __init__(self) :
@@ -526,19 +519,21 @@ class SubCommand(Command) :
         assert(filehandle != None)
 
         try :
-            colors = configuration.get(PROGRAM_NAME, 'colors', True)
+            colors = configuration.get(PROGRAM_NAME, 'colors', bool)
         except :
             colors = False
             debug("No colors related configuration, default to " +
                   str(colors))
+        assert(isinstance(colors, bool))
         assert(colors != None)
 
         try :
-            verbose = configuration.get(PROGRAM_NAME, 'verbose', True)
+            verbose = configuration.get(PROGRAM_NAME, 'verbose', bool)
         except :
             verbose = False
             debug("No verboseness related configuration, default to " +
                   str(verbose))
+        assert(isinstance(colors, bool))
         assert(verbose != None)
 
         # Handling configuration
@@ -564,7 +559,7 @@ class SubCommand(Command) :
             # If width is not configured, used the guessed one
             cfg_width = configuration.get_with_default(self.name,
                                                        'width',
-                                                       True,
+                                                       int,
                                                        w)
             width = int(cfg_width)
             debug("Got interactive value from configuration")
@@ -579,10 +574,11 @@ class SubCommand(Command) :
             show_collapsed = opts.show_collapsed
             debug("Got show collapsed value from user")
         else :
-            cfg_show_collapsed = configuration.get_with_default(self.name,
-                                                                'show_collapsed',
-                                                                True,
-                                                                True)
+            cfg_show_collapsed = \
+                configuration.get_with_default(self.name,
+                                               'show_collapsed',
+                                               bool,
+                                               True)
             show_collapsed = bool(cfg_show_collapsed)
             debug("Got show collapsed value from configuration")
 
@@ -593,7 +589,7 @@ class SubCommand(Command) :
         else :
             cfg_show_root = configuration.get_with_default(self.name,
                                                            'show_root',
-                                                           True,
+                                                           bool,
                                                            False)
             show_root = bool(cfg_show_root)
             debug("Got show root value from configuration")
@@ -610,7 +606,7 @@ class SubCommand(Command) :
 
             cfg_line_format = configuration.get_with_default(self.name,
                                                              'line_format',
-                                                             True,
+                                                             str,
                                                              l)
             line_format = str(cfg_line_format)
             debug("Got line format value from configuration")
@@ -622,7 +618,7 @@ class SubCommand(Command) :
         else :
             cfg_indent_fill = configuration.get_with_default(self.name,
                                                              'indent_fill',
-                                                             True,
+                                                             str,
                                                              "")
             indent_fill = str(cfg_indent_fill)
             debug("Got indent fill value from configuration")
@@ -634,7 +630,7 @@ class SubCommand(Command) :
         else :
             cfg_unindent_fill = configuration.get_with_default(self.name,
                                                                'unindent_fill',
-                                                               True,
+                                                               str,
                                                                "")
             unindent_fill = str(cfg_unindent_fill)
             debug("Got unindent fill value from configuration")
@@ -646,7 +642,7 @@ class SubCommand(Command) :
         else :
             cfg_level_fill = configuration.get_with_default(self.name,
                                                             'level_fill',
-                                                            True,
+                                                            str,
                                                             "    ")
             level_fill = str(cfg_level_fill)
             debug("Got level fill value from configuration")
@@ -658,7 +654,7 @@ class SubCommand(Command) :
         else :
             cfg_filter_text = configuration.get_with_default(self.name,
                                                              'filter',
-                                                             True,
+                                                             str,
                                                              "not done")
             filter_text = str(cfg_filter_text)
             debug("Got filter text value from configuration")
@@ -683,7 +679,7 @@ class SubCommand(Command) :
         #
         # Load database from file
         #
-        db_file = configuration.get(PROGRAM_NAME, 'database', True)
+        db_file = configuration.get(PROGRAM_NAME, 'database', str)
         assert(db_file != None)
         db      = DB.Database()
         tree    = db.load(db_file)
@@ -696,29 +692,21 @@ class SubCommand(Command) :
         #
         # Work
         #
-        cmap = {
-            Priority.PRIORITY_VERYHIGH : ANSI.bright_red,
-            Priority.PRIORITY_HIGH     : ANSI.bright_yellow,
-            Priority.PRIORITY_MEDIUM   : ANSI.bright_white,
-            Priority.PRIORITY_LOW      : ANSI.normal_cyan,
-            Priority.PRIORITY_VERYLOW  : ANSI.normal_blue,
-            }
+        cmap = { Priority.PRIORITY_VERYHIGH : ANSI.bright_red,
+                 Priority.PRIORITY_HIGH     : ANSI.bright_yellow,
+                 Priority.PRIORITY_MEDIUM   : ANSI.bright_white,
+                 Priority.PRIORITY_LOW      : ANSI.normal_cyan,
+                 Priority.PRIORITY_VERYLOW  : ANSI.normal_blue }
 
-        # Marking nodes
-        # mark() starts with marking the passed node for filter matching
-        # but also marks all the parent nodes up to root node and return
-        # it
-        node = mark(node,
-                    filter_obj,
-                    show_root,
-                    show_collapsed)
+        # mark() marks the filter-matching node children (1) and the nodes
+        # up to the root (2)
+        root = mark(node, filter_obj, show_root, show_collapsed)
 
-        # Showing requested nodes
         # mark() returns the root node so show() descends through the
         # tree processing all nodes having collapsed, or parent or
         # visible (the others are skipped) flags printing the ones
-        #those are marked as "visible"
-        show(node,
+        # those are marked as "visible"
+        show(root,
              node,
              colors, verbose,
              cmap,
