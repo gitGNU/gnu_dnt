@@ -102,16 +102,17 @@ class SubCommand(Command) :
         nid = ID.ID(opts.id)
 
         try :
-            verbose = configuration.get(PROGRAM_NAME, 'verbose', raw = True)
+            verbose = configuration.get(PROGRAM_NAME, 'verbose', bool)
         except :
             debug("No verboseness related configuration, default to false")
             verbose = False
         assert(verbose != None)
+        assert(isinstance(verbose, bool))
 
         #
         # Load database from file
         #
-        db_file = configuration.get(PROGRAM_NAME, 'database')
+        db_file = configuration.get(PROGRAM_NAME, 'database', str)
         assert(db_file != None)
         db      = DB.Database()
         tree    = db.load(db_file)

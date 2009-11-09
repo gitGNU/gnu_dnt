@@ -43,7 +43,7 @@ class SubCommand(Command) :
         if (len(args) > 0) :
             raise Exceptions.UnknownParameter(args[0])
 
-        db_file = configuration.get(PROGRAM_NAME, 'database', True)
+        db_file = configuration.get(PROGRAM_NAME, 'database', str)
         assert(db_file != None)
 
         #

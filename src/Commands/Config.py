@@ -132,7 +132,7 @@ class SubCommand(Command) :
                                                 "is unavailable")
 
             debug("Getting value for `" + section + "." + option + "'")
-            value = configuration.get(section, option, raw = True)
+            value = configuration.get(section, option, None)
             sys.stdout.write(str(value) + '\n')
 
         elif (opts.set is True) :
@@ -167,7 +167,7 @@ class SubCommand(Command) :
             # Write all key-value pairs
             for s in configuration.sections() :
                 for o in configuration.options(s) :
-                    v = configuration.get(s, o, raw = True)
+                    v = configuration.get(s, o, None)
                     print(("%-" + str(l) + "s = %s")
                           %(s + "." + o,  str(v)))
 

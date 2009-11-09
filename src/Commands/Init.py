@@ -62,13 +62,13 @@ class SubCommand(Command) :
         else :
             cfg_name = configuration.get_with_default(self.name,
                                                       'name',
-                                                      True,
+                                                      str,
                                                       "Nameless "  +
                                                       PROGRAM_NAME +
                                                       " database")
             name = str(cfg_name)
 
-        db_file = configuration.get(PROGRAM_NAME, 'database')
+        db_file = configuration.get(PROGRAM_NAME, 'database', str)
         assert(db_file != None)
 
         if (opts.force is not True) :

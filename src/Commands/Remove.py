@@ -71,7 +71,7 @@ class SubCommand(Command) :
         #
         # Load database from file
         #
-        db_file = configuration.get(PROGRAM_NAME, 'database')
+        db_file = configuration.get(PROGRAM_NAME, 'database', str)
         assert(db_file != None)
         db      = DB.Database()
         tree    = db.load(db_file)

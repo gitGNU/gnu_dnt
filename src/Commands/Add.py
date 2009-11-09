@@ -121,7 +121,7 @@ class SubCommand(Command):
         else :
             cfg_priority = configuration.get_with_default(self.name,
                                                           'priority',
-                                                          True,
+                                                          str,
                                                           'medium')
             node_priority.fromstring(cfg_priority)
 
@@ -133,7 +133,7 @@ class SubCommand(Command):
         #
         # Load database from file
         #
-        db_file = configuration.get(PROGRAM_NAME, 'database', True)
+        db_file = configuration.get(PROGRAM_NAME, 'database', str)
         assert(db_file != None)
         db      = DB.Database()
         tree    = db.load(db_file)
