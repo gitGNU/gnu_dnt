@@ -38,7 +38,7 @@ class Node(object) :
         self.__children  = []
 #        self.__iterator  = 0
         self.__parent    = None
-        self.__allflags  = Enum.Enum('visible', 'collapsed')
+        self.__allflags  = Enum.Enum('visible', 'collapsed', 'parent')
         self.__flags     = []
         self.__depth     = 0
 
