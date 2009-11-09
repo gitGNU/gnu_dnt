@@ -63,7 +63,7 @@ class File(object) :
         assert(isinstance(section, str))
         del self.__values[section]
 
-    def get(self, section, option, datatype = None) :
+    def get_raw(self, section, option) :
         assert(isinstance(section, str))
         assert(isinstance(option, str))
 
@@ -71,48 +71,27 @@ class File(object) :
         s = string.strip(section)
         o = string.strip(option)
 
-        try :
-            v = self.__values[s][o]
-        except KeyError, e:
-            raise Exceptions.KeyNotFound("unknown section " +
-                                         "`" + s + "' " +
-                                         "or option " +
-                                         "`" + o + "'")
-        if (datatype == None) :
-            debug("Returning raw value for " +
-                  "`" + s + "."  + o + "'")
-            return v
-        elif ((datatype == bool) and
-              (isinstance(v, str))):
-            t = string.lower(v)
-            if ((t == "true") or
-                (t != "0")    or
-                (t == "yes")  or
-                (t == "y")):
-                return True
-            elif ((t == "false") or
-                  (t == "0")     or
-                  (t == "no")    or
-                  (t == "n")) :
-                return False
-            else :
-                raise Exceptions.WrongValue("key " +
-                                            "`" + s + "." + o + "' " +
-                                            "has a wrong datatype")
-        else :
-            debug("Returning " + str(datatype) + " value for " +
-                  "`" + s + "."  + o + "'")
-            return datatype(v)
-
-    def set(self, section, option, value) :
-        assert(value != None)
-
         if (not self.__values.has_key(section)) :
-            self.__values[section] = { }
+            raise Exceptions.KeyNotFound("section " +
+                                         "`" + s + "' " +
+                                         "not found")
+
+        if (not self.__values[s].has_key(option)) :
+            raise Exceptions.KeyNotFound("section " +
+                                         "`" + s + "' " +
+                                         "has no option "
+                                         "`" + o + "'")
+        return self.__values[s][o]
+
+    def set_raw(self, section, option, value) :
+        assert(value != None)
 
         # Be kind enough
         s = string.strip(section)
         o = string.strip(option)
+
+        if (not self.__values.has_key(s)) :
+            self.__values[section] = { }
 
         self.__values[s][o] = value
 
@@ -163,7 +142,7 @@ class File(object) :
                     (value[0]              == "'" and
                      value[len(value) - 1] == "'")):
                     value = value[1:(len(value) - 1)]
-                self.set(section, option, value)
+                self.set_raw(section, option, value)
 
         handle.close()
 
@@ -201,20 +180,20 @@ if (__name__ == '__main__') :
     try :
         f.add_section("test")
 
-        f.set("test", "value1", 1)
-        assert(f.get("test", "value1") == 1)
+        f.set_raw("test", "value1", 1)
+        assert(f.get_raw("test", "value1") == 1)
 
-        f.set("alfa", "value2", True)
-        assert(f.get("alfa", "value2") == True)
-        f.set("alfa", "value2", False)
-        assert(f.get("alfa", "value2") == False)
+        f.set_raw("alfa", "value2", True)
+        assert(f.get_raw("alfa", "value2") == True)
+        f.set_raw("alfa", "value2", False)
+        assert(f.get_raw("alfa", "value2") == False)
 
-        f.set("beta", "value3", "string")
-        assert(f.get("beta", "value3") == "string")
-        f.set("beta", "value3", True)
-        assert(f.get("beta", "value3") == True)
-        f.set("beta", "value3", "string")
-        assert(f.get("beta", "value3") == "string")
+        f.set_raw("beta", "value3", "string")
+        assert(f.get_raw("beta", "value3") == "string")
+        f.set_raw("beta", "value3", True)
+        assert(f.get_raw("beta", "value3") == True)
+        f.set_raw("beta", "value3", "string")
+        assert(f.get_raw("beta", "value3") == "string")
 
         assert(len(f.sections()) == 3)
 
