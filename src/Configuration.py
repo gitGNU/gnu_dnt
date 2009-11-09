@@ -58,12 +58,12 @@ class Configuration(INI.File) :
         super(Configuration, self).set(section, option, value)
         self.__modified = True
 
-    def get(self, section, option, raw = None) :
-        return super(Configuration, self).get(section, option, raw)
+    def get(self, section, option, datatype) :
+        return super(Configuration, self).get(section, option, datatype)
 
-    def get_with_default(self, section, option, raw = None, default = None) :
+    def get_with_default(self, section, option, datatype, default) :
         try :
-            tmp = super(Configuration, self).get(section, option, raw)
+            tmp = super(Configuration, self).get(section, option, datatype)
         except :
             tmp = default
         return tmp
