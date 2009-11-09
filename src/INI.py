@@ -63,20 +63,46 @@ class File(object) :
         assert(isinstance(section, str))
         del self.__values[section]
 
-    def get(self, section, option, raw = None) :
-        debug("Raw parameter is `" + str(raw) + "'")
+    def get(self, section, option, datatype = None) :
+        assert(isinstance(section, str))
+        assert(isinstance(option, str))
 
         # Be kind enough
         s = string.strip(section)
         o = string.strip(option)
 
-        try:
-            return self.__values[s][o]
+        try :
+            v = self.__values[s][o]
         except KeyError, e:
             raise Exceptions.KeyNotFound("unknown section " +
                                          "`" + s + "' " +
                                          "or option " +
                                          "`" + o + "'")
+        if (datatype == None) :
+            debug("Returning raw value for " +
+                  "`" + s + "."  + o + "'")
+            return v
+        elif ((datatype == bool) and
+              (isinstance(v, str))):
+            t = string.lower(v)
+            if ((t == "true") or
+                (t != "0")    or
+                (t == "yes")  or
+                (t == "y")):
+                return True
+            elif ((t == "false") or
+                  (t == "0")     or
+                  (t == "no")    or
+                  (t == "n")) :
+                return False
+            else :
+                raise Exceptions.WrongValue("key " +
+                                            "`" + s + "." + o + "' " +
+                                            "has a wrong datatype")
+        else :
+            debug("Returning " + str(datatype) + " value for " +
+                  "`" + s + "."  + o + "'")
+            return datatype(v)
 
     def set(self, section, option, value) :
         assert(value != None)
