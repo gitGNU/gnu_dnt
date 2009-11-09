@@ -146,6 +146,7 @@ SUCCESS_TESTS +=				\
 	test-command-config-version-01		\
 	test-command-config-01			\
 	test-command-config-02			\
+	test-command-config-03			\
 						\
 	test-command-show-help-01		\
 	test-command-show-opts-short-01		\
@@ -554,6 +555,18 @@ test-command-config-02: $(srcdir)/test-command-config-02.in Makefile
 	}
 EXTRA_DIST += test-command-config-02.in
 CLEANFILES += test-command-config-02
+
+test-command-config-03: $(srcdir)/test-command-config-03.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-config-03.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-config-03.in
+CLEANFILES += test-command-config-03
 
 test-command-init-help-01: $(srcdir)/test-command-init-help-01.in Makefile
 	( rm -f $@ $@.tmp && \

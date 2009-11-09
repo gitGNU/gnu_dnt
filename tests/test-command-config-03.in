@@ -28,6 +28,7 @@ rm -f $CFG_FILE 2>/dev/null
 
 CFG_FLAGS="--configuration=${CFG_FILE}"
 
-$DNT_NOFLAGS $CFG_FLAGS config --show || exit 1
+$DNT_NOFLAGS $CFG_FLAGS --set verbose yes   || exit 1
+$DNT_NOFLAGS $CFG_FLAGS --set colors  false || exit 1
 
 exit 0

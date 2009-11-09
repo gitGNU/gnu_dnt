@@ -98,6 +98,8 @@ Makefile
 /tests/test-command-config-opts-long-01
 /tests/test-command-config-version-01
 /tests/test-command-config-01
+/tests/test-command-config-02
+/tests/test-command-config-03
 
 /tests/test-command-edit-help-01
 /tests/test-command-edit-opts-short-01
