@@ -167,9 +167,9 @@ class Node(object) :
         assert(isinstance(flags, list))
 
         for f in flags :
-            try:
+            try :
                 self.__allflags(f)
-            except:
+            except :
                 raise Exceptions.UnknownEnum(str(f))
         self.__flags = flags
 
