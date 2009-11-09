@@ -154,7 +154,8 @@ class SubCommand(Command) :
 
             debug("Setting `" + section + "." + option + "' " +
                   "to `" + value + "'")
-            configuration.set(section, option, value)
+            # XXX FIXME: Should we use get(section, option, value, str) ?
+            configuration.set_raw(section, option, value)
 
         elif (opts.show is True) :
             debug("Showing all key/value pairs")
@@ -167,7 +168,7 @@ class SubCommand(Command) :
             # Write all key-value pairs
             for s in configuration.sections() :
                 for o in configuration.options(s) :
-                    v = configuration.get_raw(s, o, None)
+                    v = configuration.get_raw(s, o)
                     print(("%-" + str(l) + "s = %s")
                           %(s + "." + o,  str(v)))
 
