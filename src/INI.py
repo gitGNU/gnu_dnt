@@ -84,7 +84,8 @@ class File(object) :
         return self.__values[s][o]
 
     def set_raw(self, section, option, value) :
-        assert(value != None)
+        assert(isinstance(section, str))
+        assert(isinstance(option, str))
 
         # Be kind enough
         s = string.strip(section)

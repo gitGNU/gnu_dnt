@@ -56,6 +56,8 @@ class Configuration(INI.File) :
         super(Configuration, self).__init__()
 
     def set(self, section, option, value) :
+        assert(section  != None)
+        assert(option   != None)
         super(Configuration, self).set_raw(section, option, value)
         self.__modified = True
 
@@ -77,6 +79,9 @@ class Configuration(INI.File) :
             return datatype(value)
 
     def get(self, section, option, datatype, default = None) :
+        assert(section  != None)
+        assert(option   != None)
+        assert(datatype != None)
         try :
             # Look for configuration data from configuration
             tmp = super(Configuration, self).get_raw(section, option)
