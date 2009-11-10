@@ -124,6 +124,7 @@ class SubCommand(Command) :
                                              str,
                                              'medium')
             node_priority.fromstring(cfg_priority)
+        assert(isinstance(node_priority, Priority.Priority))
 
         debug("Handling comment")
         node_comment = None
