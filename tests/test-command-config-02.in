@@ -35,20 +35,19 @@ $DNT_NOFLAGS $CFG_FLAGS config --show || exit 1
 
 cat > $CFG_FILE << EOF
 [dnt]
-verbose       = False
-colors        = False
-warning       = True
-debug         = False
-configuration = ${CFG_FILE}
+verbose = False
+colors  = False
+warning = True
+debug   = False
 EOF
 
 $DNT_NOFLAGS $CFG_FLAGS config --show > OUT1.txt || exit 1
 
 cat > OUT2.txt << EOF
-dnt.verbose       = False
-dnt.colors        = False
-dnt.warning       = True
-dnt.debug         = False
+dnt.verbose = False
+dnt.colors  = False
+dnt.warning = True
+dnt.debug   = False
 EOF
 
 # We must exclue overridden values (defs overrides both database and colors)
@@ -57,6 +56,6 @@ cat OUT1.txt | sort | grep -v "dnt.database" | grep -v "dnt.colors" \
 cat OUT2.txt | sort | grep -v "dnt.database" | grep -v "dnt.colors" \
     > OUT22.txt || exit 1
 
-diff OUT11.txt OUT22.txt || exit 1
+diff --ignore-all-space OUT11.txt OUT22.txt || exit 1
 
 exit 0
