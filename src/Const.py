@@ -22,7 +22,7 @@ from   Debug       import *
 from   Trace       import *
 import Exceptions
 
-class Const:
+class Const(object):
     def __setattr__(self, name, value) :
         if (self.__dict__.has_key(name)) :
             raise Exceptions.ReadOnlyConstant(name)
