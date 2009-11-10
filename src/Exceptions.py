@@ -190,29 +190,12 @@ class UnknownSection(EConfiguration) :
                                 "`" + message + "' "
                                 "in configuration")
 
-class MissingSection(EConfiguration) :
+class UnknownOption(EConfiguration) :
     def __init__(self, message) :
-        s = ""
-        if (message != None) :
-            s = ", " + message
         EConfiguration.__init__(self,
-                                "missing section" + s)
-
-class MissingKey(EConfiguration) :
-    def __init__(self, message) :
-        s = ""
-        if (message != None) :
-            s = ", " + message
-        EConfiguration.__init__(self,
-                                "missing key" + s)
-
-class UnknownKey(EConfiguration) :
-    def __init__(self, message) :
-        s = ""
-        if (message != None) :
-            s = ", " + message
-        EConfiguration.__init__(self,
-                                "unknown key in configuration" + s)
+                                "unknown option "
+                                "`" + message + "' "
+                                "in configuration")
 
 class BadValue(EConfiguration) :
     def __init__(self, message) :
