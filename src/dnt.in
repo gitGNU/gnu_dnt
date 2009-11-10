@@ -166,7 +166,7 @@ def main(arguments) :
     configuration.set(PROGRAM_NAME, 'debug',         False)
     configuration.set(PROGRAM_NAME, 'warning',       False)
     configuration.set(PROGRAM_NAME, 'database',      DEFAULT_DB_FILE)
-    configuration.set(PROGRAM_NAME, 'configuration', DEFAULT_CFG_FILE)
+    #configuration.set(PROGRAM_NAME, 'configuration', DEFAULT_CFG_FILE)
 
     # Compute maximum command name length
     cmd_name_max_len = 0

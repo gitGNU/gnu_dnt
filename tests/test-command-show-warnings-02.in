@@ -25,14 +25,18 @@ required="diff"
 rm -f test1.log
 rm -f test2.log
 
-# Crafting the DB for checking warning correctness
 cat >test.db <<EOF
-<root></root>
+<root>
+<entry start="1247558112" priority="     ">alfa</entry>
+</root>
 EOF
 
 $DNT_NOFLAGS           show > test1.log || exit 1
 $DNT_NOFLAGS --warning show > test2.log || exit 1
 
 diff test1.log test2.log && exit 1
+
+rm -f test1.log
+rm -f test2.log
 
 exit 0
