@@ -559,6 +559,7 @@ class SubCommand(Command) :
             # If width is not configured, used the guessed one
             width = configuration.get(self.name, 'width', int, w)
             debug("Got interactive value from configuration")
+        assert(isinstance(width, int))
 
         # Width has to be >= 0 anyway ...
         if (width < 0) :
@@ -574,7 +575,7 @@ class SubCommand(Command) :
                                                    'show_collapsed',
                                                    bool,
                                                    True)
-            debug("Got show collapsed value from configuration")
+        assert(isinstance(show_collapsed, bool))
 
         # Root entries
         if (opts.show_root != None) :
@@ -585,7 +586,7 @@ class SubCommand(Command) :
                                           'show_root',
                                           bool,
                                           False)
-            debug("Got show root value from configuration")
+        assert(isinstance(show_root, bool))
 
         # Line format
         if (opts.line_format != None) :
@@ -601,7 +602,7 @@ class SubCommand(Command) :
                                             'line_format',
                                             str,
                                             l)
-            debug("Got line format value from configuration")
+        assert(isinstance(line_format, str))
 
         # Indent fill
         if (opts.indent_fill != None) :
@@ -612,7 +613,7 @@ class SubCommand(Command) :
                                             'indent_fill',
                                             str,
                                             "")
-            debug("Got indent fill value from configuration")
+        assert(isinstance(indent_fill, str))
 
         # Unindent fill
         if (opts.unindent_fill != None) :
@@ -623,7 +624,7 @@ class SubCommand(Command) :
                                               'unindent_fill',
                                               str,
                                               "")
-            debug("Got unindent fill value from configuration")
+        assert(isinstance(unindent_fill, str))
 
         # Level fill
         if (opts.level_fill != None) :
@@ -634,7 +635,7 @@ class SubCommand(Command) :
                                            'level_fill',
                                            str,
                                            "    ")
-            debug("Got level fill value from configuration")
+        assert(isinstance(level_fill, str))
 
         # Filter text
         if (opts.filter != None) :
@@ -645,7 +646,7 @@ class SubCommand(Command) :
                                             'filter',
                                             str,
                                             "not done")
-            debug("Got filter text value from configuration")
+        assert(isinstance(filter_text, str))
 
         # Configuration informations
         debug("Got configured values")
