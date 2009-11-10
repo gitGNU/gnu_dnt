@@ -89,13 +89,14 @@ SUCCESS_TESTS +=				\
 	test-command-clean-01			\
 						\
 	test-command-init-help-01		\
-	test-command-init-opts-short-01		\
+	test-command-init-opts-short-01	\
 	test-command-init-opts-long-01		\
 	test-command-init-version-01		\
+	test-command-init-configuration-01	\
 						\
 	test-command-clean-help-01		\
 	test-command-clean-opts-short-01	\
-	test-command-clean-opts-long-01		\
+	test-command-clean-opts-long-01	\
 	test-command-clean-version-01		\
 						\
 	test-command-add-help-01		\
@@ -115,7 +116,7 @@ SUCCESS_TESTS +=				\
 	test-command-remove-01			\
 						\
 	test-command-edit-help-01		\
-	test-command-edit-opts-short-01		\
+	test-command-edit-opts-short-01	\
 	test-command-edit-opts-long-01		\
 	test-command-edit-version-01		\
 	test-command-edit-01			\
@@ -135,7 +136,7 @@ SUCCESS_TESTS +=				\
 	test-command-fix-01			\
 						\
 	test-command-move-help-01		\
-	test-command-move-opts-short-01		\
+	test-command-move-opts-short-01	\
 	test-command-move-opts-long-01		\
 	test-command-move-version-01		\
 	test-command-move-01			\
@@ -149,7 +150,7 @@ SUCCESS_TESTS +=				\
 	test-command-config-03			\
 						\
 	test-command-show-help-01		\
-	test-command-show-opts-short-01		\
+	test-command-show-opts-short-01	\
 	test-command-show-opts-long-01		\
 	test-command-show-version-01		\
 	test-command-show-01			\
@@ -186,7 +187,7 @@ SUCCESS_TESTS +=				\
 	test-command-show-configuration-01	\
 						\
 	test-command-mark-help-01		\
-	test-command-mark-opts-short-01		\
+	test-command-mark-opts-short-01	\
 	test-command-mark-opts-long-01		\
 	test-command-mark-version-01		\
 	test-command-mark-done-01		\
@@ -615,6 +616,18 @@ test-command-init-version-01: $(srcdir)/test-command-init-version-01.in Makefile
 	}
 EXTRA_DIST += test-command-init-version-01.in
 CLEANFILES += test-command-init-version-01
+
+test-command-init-configuration-01: $(srcdir)/test-command-init-configuration-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-init-configuration-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-init-configuration-01.in
+CLEANFILES += test-command-init-configuration-01
 
 test-command-clean-help-01: $(srcdir)/test-command-clean-help-01.in Makefile
 	( rm -f $@ $@.tmp && \

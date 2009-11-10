@@ -1,0 +1,50 @@
+#! @SHELL@
+
+#
+# Copyright (C) 2008, 2009 Francesco Salvestrini
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+
+required=""
+
+. $testdir/defs || exit 1
+
+DB_FILE="test.db"
+CFG_FILE="test.cfg"
+
+: >$DB_FILE  || exit 1
+: >$CFG_FILE || exit 1
+
+CFG_FLAGS="--configuration=${CFG_FILE}"
+
+# Filling configuration
+cat >$CFG_FILE <<EOF
+[init]
+name = "Init "test" Dat4BAs3"
+EOF
+
+# Filling the DB
+TEST_DNT="${DNT_NOFLAGS} ${CFG_FLAGS}"
+
+$TEST_DNT init -f       || exit 1
+$DNT_NOFLAGS add -t "1" || exit 1
+
+# Checking values
+test "x`${TEST_DNT} --mono show -i 0 \
+                                -F 'depth < 1' \
+                                -r`" = "xInit \"test\" Dat4BAs3" || exit 1
+
+exit 0

@@ -76,6 +76,7 @@ Makefile
 /tests/test-command-init-opts-long-01
 /tests/test-command-init-version-01
 /tests/test-command-init-01
+/tests/test-command-init-configuration-01
 
 /tests/test-command-clean-help-01
 /tests/test-command-clean-opts-short-01
