@@ -195,21 +195,32 @@ class MissingSection(EConfiguration) :
         s = ""
         if (message != None) :
             s = ", " + message
-        EConfiguration.__init__(self, "missing section" + s)
+        EConfiguration.__init__(self,
+                                "missing section" + s)
 
 class MissingKey(EConfiguration) :
     def __init__(self, message) :
         s = ""
         if (message != None) :
             s = ", " + message
-        EConfiguration.__init__(self, "missing key" + s)
+        EConfiguration.__init__(self,
+                                "missing key" + s)
 
 class UnknownKey(EConfiguration) :
     def __init__(self, message) :
+        s = ""
+        if (message != None) :
+            s = ", " + message
         EConfiguration.__init__(self,
-                                "unknown key "
-                                "`" + message + "' "
-                                "in configuration")
+                                "unknown key in configuration" + s)
+
+class BadValue(EConfiguration) :
+    def __init__(self, message) :
+        s = ""
+        if (message != None) :
+            s = ", " + message
+        EConfiguration.__init__(self,
+                                "bad value in configuration" + s)
 
 #
 # Parameters related exceptions
