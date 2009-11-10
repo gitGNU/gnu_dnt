@@ -203,13 +203,13 @@ class SubCommand(Command) :
             raise Exceptions.MissingParameters()
 
         # Use str() in order to avoid problems with None values
-        debug("Got values from user")
-        debug("text        = `" + str(text)        + "'")
-        debug("priority    = `" + str(priority)    + "'")
-        debug("start       = `" + str(start)       + "'")
-        debug("end         = `" + str(end)         + "'")
-        debug("comment     = `" + str(comment)     + "'")
-        debug("interactive = `" + str(interactive) + "'")
+        debug("Configured values:")
+        debug("  text        = `" + str(text)        + "'")
+        debug("  priority    = `" + str(priority)    + "'")
+        debug("  start       = `" + str(start)       + "'")
+        debug("  end         = `" + str(end)         + "'")
+        debug("  comment     = `" + str(comment)     + "'")
+        debug("  interactive = `" + str(interactive) + "'")
 
         if (interactive is True) :
             console = Console.Console()

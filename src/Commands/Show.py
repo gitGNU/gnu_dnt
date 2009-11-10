@@ -549,7 +549,6 @@ class SubCommand(Command) :
         # Width
         if (opts.width != None) :
             width = int(opts.width)
-            debug("Got width value from user")
         else :
             # Try to guess terminal width
             t = Terminal.Terminal(stream_out = filehandle)
@@ -558,7 +557,6 @@ class SubCommand(Command) :
 
             # If width is not configured, used the guessed one
             width = configuration.get(self.name, 'width', int, w)
-            debug("Got interactive value from configuration")
         assert(isinstance(width, int))
 
         # Width has to be >= 0 anyway ...
@@ -569,7 +567,6 @@ class SubCommand(Command) :
         # Show collapsed
         if (opts.show_collapsed != None) :
             show_collapsed = opts.show_collapsed
-            debug("Got show collapsed value from user")
         else :
             show_collapsed = configuration.get(self.name,
                                                    'show_collapsed',
@@ -580,7 +577,6 @@ class SubCommand(Command) :
         # Root entries
         if (opts.show_root != None) :
             show_root = opts.show_root
-            debug("Got show root value from user")
         else :
             show_root = configuration.get(self.name,
                                           'show_root',
@@ -591,7 +587,6 @@ class SubCommand(Command) :
         # Line format
         if (opts.line_format != None) :
             line_format = opts.line_format
-            debug("Got line format value from user")
         else :
             if (verbose is True) :
                 l = "%i %t\n  [%c]\n  (%s, %e, %p)\n"
@@ -607,7 +602,6 @@ class SubCommand(Command) :
         # Indent fill
         if (opts.indent_fill != None) :
             indent_fill = opts.indent_fill
-            debug("Got indent fill value from user")
         else :
             indent_fill = configuration.get(self.name,
                                             'indent_fill',
@@ -618,7 +612,6 @@ class SubCommand(Command) :
         # Unindent fill
         if (opts.unindent_fill != None) :
             unindent_fill = opts.unindent_fill
-            debug("Got unindent fill value from user")
         else :
             unindent_fill = configuration.get(self.name,
                                               'unindent_fill',
@@ -629,7 +622,6 @@ class SubCommand(Command) :
         # Level fill
         if (opts.level_fill != None) :
             level_fill = opts.level_fill
-            debug("Got level fill value from user")
         else :
             level_fill = configuration.get(self.name,
                                            'level_fill',
@@ -640,7 +632,6 @@ class SubCommand(Command) :
         # Filter text
         if (opts.filter != None) :
             filter_text = opts.filter
-            debug("Got level filter text from user")
         else :
             filter_text = configuration.get(self.name,
                                             'filter',
@@ -648,18 +639,18 @@ class SubCommand(Command) :
                                             "not done")
         assert(isinstance(filter_text, str))
 
-        # Configuration informations
-        debug("Got configured values")
-        debug("starting id    = `" + str(starting_id)     + "'")
-        debug("output         = `" + str(filehandle.name) + "'")
-        debug("width          = `" + str(width)           + "'")
-        debug("line format    = `" + str(line_format)     + "'")
-        debug("indent fill    = `" + str(indent_fill)     + "'")
-        debug("unindent fill  = `" + str(unindent_fill)   + "'")
-        debug("level fill     = `" + str(level_fill)      + "'")
-        debug("filter text    = `" + str(filter_text)     + "'")
-        debug("show_collapsed = `" + str(show_collapsed)  + "'")
-        debug("show_root      = `" + str(show_root)       + "'")
+        # Use str() in order to avoid problems with None values
+        debug("Configured values:")
+        debug("  starting id    = `" + str(starting_id)     + "'")
+        debug("  output         = `" + str(filehandle.name) + "'")
+        debug("  width          = `" + str(width)           + "'")
+        debug("  line format    = `" + str(line_format)     + "'")
+        debug("  indent fill    = `" + str(indent_fill)     + "'")
+        debug("  unindent fill  = `" + str(unindent_fill)   + "'")
+        debug("  level fill     = `" + str(level_fill)      + "'")
+        debug("  filter text    = `" + str(filter_text)     + "'")
+        debug("  show_collapsed = `" + str(show_collapsed)  + "'")
+        debug("  show_root      = `" + str(show_root)       + "'")
 
         # Build the filter
         filter_obj = Filter.Filter(filter_text)
