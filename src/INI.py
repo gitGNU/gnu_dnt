@@ -34,49 +34,69 @@ class File(object) :
         if (self.__filename != None) :
             self.load()
 
-    def filename(self) :
+    def filename_get(self) :
         return self.__filename
+
+    def filename_set(self, filename) :
+        self.__filename = filename
+
+    filename = property(filename_get, filename_set, None, None)
 
     def sections(self) :
         return self.__values.keys()
 
     def has_section(self, section) :
-        if (self.__values.has_key(section)) :
+
+        s = string.strip(section)
+
+        if (self.__values.has_key(s)) :
             return True
         return False
 
     def options(self, section) :
-        return self.__values[section].keys()
+
+        s = string.strip(section)
+
+        return self.__values[s].keys()
 
     def has_option(self, section, option) :
-        if (self.__values.has_key(section)) :
-            if (self.__values[section].has_key(option)) :
+
+        s = string.strip(section)
+        o = string.strip(option)
+
+        if (self.__values.has_key(s)) :
+            if (self.__values[s].has_key(o)) :
                 return True
         return False
 
     def add_section(self, section) :
         assert(isinstance(section, str))
-        if (not self.__values.has_key(section)) :
-            self.__values[section] = { }
+
+        s = string.strip(section)
+
+        if (not self.__values.has_key(s)) :
+            self.__values[s] = { }
 
     def remove_section(self, section) :
         assert(isinstance(section, str))
-        del self.__values[section]
+
+        s = string.strip(section)
+
+        del self.__values[s]
 
     def get_raw(self, section, option) :
         assert(isinstance(section, str))
         assert(isinstance(option, str))
 
-        # Be kind enough
         s = string.strip(section)
         o = string.strip(option)
 
-        if (not self.__values.has_key(section)) :
+        if (not self.__values.has_key(s)) :
             raise Exceptions.KeyNotFound("section " +
                                          "`" + s + "' " +
                                          "not found")
 
-        if (not self.__values[s].has_key(option)) :
+        if (not self.__values[s].has_key(o)) :
             raise Exceptions.KeyNotFound("section " +
                                          "`" + s + "' " +
                                          "has no option "
@@ -87,12 +107,11 @@ class File(object) :
         assert(isinstance(section, str))
         assert(isinstance(option, str))
 
-        # Be kind enough
         s = string.strip(section)
         o = string.strip(option)
 
         if (not self.__values.has_key(s)) :
-            self.__values[section] = { }
+            self.__values[s] = { }
 
         self.__values[s][o] = value
 
@@ -100,6 +119,8 @@ class File(object) :
         self.__values.clear()
 
     def load(self, filename = None) :
+        debug("Loading INI file")
+
         if (filename != None) :
             self.__filename = filename
 
@@ -141,13 +162,15 @@ class File(object) :
                 if ((value[0]              == '"' and
                      value[len(value) - 1] == '"') or
                     (value[0]              == "'" and
-                     value[len(value) - 1] == "'")):
+                     value[len(value) - 1] == "'")) :
                     value = value[1:(len(value) - 1)]
                 self.set_raw(section, option, value)
 
         handle.close()
 
     def save(self, filename = None) :
+        debug("Saving INI file")
+
         if (filename != None) :
             self.__filename = filename
 
@@ -161,9 +184,11 @@ class File(object) :
         assert(handle != None)
 
         for section in self.__values.keys() :
+            debug("Saving section `" + section + "'")
             handle.write(string.join(("[", section, "]", "\n"),
                                      ""))
             for option in self.__values[section].keys() :
+                debug("Saving option `" + option + "'")
                 handle.write(option +
                              " = " +
                              str(self.__values[section][option]))
@@ -207,6 +232,22 @@ if (__name__ == '__main__') :
         assert(not f.has_section("test"))
         assert(not f.has_section("alfa"))
         assert(not f.has_section("beta"))
+
+        f.set_raw("         delta1", "value1", 1)
+        f.set_raw("     delta2    ", "value2", 2)
+        f.set_raw("delta3         ", "value3", 3)
+
+        assert(f.get_raw("delta1", "value1") == 1)
+        assert(f.get_raw("delta2", "value2") == 2)
+        assert(f.get_raw("delta3", "value3") == 3)
+
+        f.set_raw("         delta11", "value11      ", 4)
+        f.set_raw("     delta22    ", "   value22   ", 5)
+        f.set_raw("delta33         ", "      value33", 6)
+
+        assert(f.get_raw("delta11", "value11") == 4)
+        assert(f.get_raw("delta22", "value22") == 5)
+        assert(f.get_raw("delta33", "value33") == 6)
 
     except :
         sys.exit(1)
