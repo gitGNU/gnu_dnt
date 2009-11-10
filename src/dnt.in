@@ -295,7 +295,7 @@ def main(arguments) :
     except Exceptions.Configuration :
         warning("Problem reading configuration file, using defaults ...")
     except :
-        bug("Unknown exception while configuration parsing")
+        bug("Unknown exception while parsing configuration")
 
     if ((cfg_files != None) and (len(cfg_files) >= 1)) :
         debug("Configuration read from " + str(cfg_files))
@@ -409,18 +409,14 @@ def main(arguments) :
     debug("No error running command")
 
     # Save configuration back to file (if needed)
-    if (configuration.dirty is True) :
-        debug("Configuration changed, writing it back to file")
-        try :
-            # We will use the latest opened file for saving ...
-            configuration.save(configuration_file)
-        except Configuration.Error, e :
-            error(e)
-            return 1
-        except :
-            bug("Unknown exception while writing configuration file")
-    else :
-        debug("Configuration unchanged")
+    try :
+        # We will use the latest opened file for saving ...
+        configuration.save(configuration_file)
+    except Exceptions.Configuration :
+        warning("Problems writing configuration file ...")
+        return 1
+    except :
+        bug("Unknown exception while parsing configuration")
 
     debug("All operations completed successfully")
     assert(retval == 0)
