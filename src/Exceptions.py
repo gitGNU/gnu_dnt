@@ -222,6 +222,14 @@ class BadValue(EConfiguration) :
         EConfiguration.__init__(self,
                                 "bad value in configuration" + s)
 
+class ParsingError(EConfiguration) :
+    def __init__(self, message) :
+        s = ""
+        if (message != None) :
+            s = ", " + message
+        EConfiguration.__init__(self,
+                                "parsing error" + s)
+
 #
 # Parameters related exceptions
 #

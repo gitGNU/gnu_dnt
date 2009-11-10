@@ -37,20 +37,6 @@ CFG_SEARCH_PATHS  = [ SYSCONFDIR + '/' +       _CFG_FILE_TPL,
                       '$HOME'    + '/' + '.' + _CFG_FILE_TPL ]
 
 class Configuration(INI.File) :
-    class Error(Exception) :
-        pass
-
-    class ParsingError(Error) :
-        def __init__(self, message) :
-            assert(message != None)
-            assert(isinstance(message, str))
-            self.__message = message
-
-        def __str__(self) :
-            return self.__message
-
-        __repr__ = __str__
-
     def __init__(self) :
         self.__dirty = False
         super(Configuration, self).__init__()
@@ -140,7 +126,7 @@ class Configuration(INI.File) :
                     debug("Configuration loaded from `" + i + "'")
                     read_files.append(i)
                 except Exception, e :
-                    raise self.ParsingError(str(e) + " " + i)
+                    raise ParsingError(str(e) + " " + i)
             else :
                 debug("Couldn't load configuration from `" + i + "'")
 
