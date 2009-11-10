@@ -122,10 +122,10 @@ class Node(object) :
         debug("Node `" + str(node) + "' removed to node `" + str(self) + "'")
 
     # Iterator related methods
-    def __iter__(self):
+    def __iter__(self) :
         return self
 
-#    def next(self):
+#    def next(self) :
 #        i = self.__iterator
 #        if (i >= len(self.__children)) :
 #            raise StopIteration

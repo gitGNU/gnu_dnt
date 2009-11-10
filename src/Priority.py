@@ -125,7 +125,7 @@ class Priority(object) :
     #
 
     def __eq__(self, other) :
-        if (isinstance(other, Priority)):
+        if (isinstance(other, Priority)) :
             return (self.__priority == other.__priority)
         if (isinstance(other, str) or
             isinstance(other, int)) :
@@ -133,7 +133,7 @@ class Priority(object) :
         return False
 
     def __ne__(self, other) :
-        if (isinstance(other, Priority)):
+        if (isinstance(other, Priority)) :
             return (self.__priority != other.__priority)
         if (isinstance(other, str) or
             isinstance(other, int)) :
@@ -141,7 +141,7 @@ class Priority(object) :
         return True
 
     def __gt__(self, other) :
-        if (isinstance(other, Priority)):
+        if (isinstance(other, Priority)) :
             return (self.__priority > other.__priority)
         if (isinstance(other, str) or
             isinstance(other, int)) :
@@ -149,7 +149,7 @@ class Priority(object) :
         raise Exceptions.WrongPriorityFormat(str(other))
 
     def __ge__(self, other) :
-        if (isinstance(other, Priority)):
+        if (isinstance(other, Priority)) :
             return (self.__priority >= other.__priority)
         if (isinstance(other, str) or
             isinstance(other, int)) :
@@ -157,7 +157,7 @@ class Priority(object) :
         raise Exceptions.WrongPriorityFormat(str(other))
 
     def __lt__(self, other) :
-        if (isinstance(other, Priority)):
+        if (isinstance(other, Priority)) :
             return (self.__priority < other.__priority)
         if (isinstance(other, str) or
             isinstance(other, int)) :
@@ -165,7 +165,7 @@ class Priority(object) :
         raise Exceptions.WrongPriorityFormat(str(other))
 
     def __le__(self, other) :
-        if (isinstance(other, Priority)):
+        if (isinstance(other, Priority)) :
             return (self.__priority <= other.__priority)
         if (isinstance(other, str) or
             isinstance(other, int)) :
