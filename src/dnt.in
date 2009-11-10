@@ -252,14 +252,19 @@ def main(arguments) :
     # Parse command line
     (opts, args) = command.parse_args(arguments[1:])
 
+    # We won't save the configuration file name (in order to use it while
+    # saving the changed configuration back to file). We rely upon using
+    # latest opened file as file for saving
     if (opts.configuration != None and opts.configuration != "") :
         CFG_SEARCH_PATHS.append(opts.configuration)
+        configuration_file = opts.configuration
     else :
         CFG_SEARCH_PATHS.append(DEFAULT_CFG_FILE)
+        configuration_file = DEFAULT_CFG_FILE
 
-    # Read all configuration files (if present). The order in the
-    # CFG_SEARCH_PATHS variable is important in order to have the
-    # right precedence over all files
+    # Read all configuration files (if present). Accumulate all the options
+    # The order in the CFG_SEARCH_PATHS variable is important in order to have
+    # the right precedence over all files
     cfg_files = [ ]
     try :
         cfg_files = configuration.read(os.path.expandvars(CFG_SEARCH_PATHS))
@@ -276,7 +281,7 @@ def main(arguments) :
         bug("Unknown exception while configuration parsing")
 
     if ((cfg_files != None) and (len(cfg_files) >= 1)) :
-        debug("Configuration read from `" + str(cfg_files) + "'")
+        debug("Configuration read from " + str(cfg_files))
 
     # Override configuration options with command line ones
     if (opts.colors == True) :
@@ -298,8 +303,8 @@ def main(arguments) :
     if (opts.configuration != None) :
         configuration.set(PROGRAM_NAME, 'configuration', opts.configuration)
 
-    # Do not save back our override
-    configuration.clean()
+    # Do not save back our overrides
+    configuration.dirty = False
 
     # Finally apply global configurations (each command will apply its own)
     if (configuration.get(PROGRAM_NAME, 'debug', bool) == True) :
@@ -383,21 +388,22 @@ def main(arguments) :
     if (retval != 0) :
         debug("Got an error (" + str(retval) + "), bailing out ...")
         return retval
+
     debug("No error running command")
 
     # Save configuration back to file (if needed)
-    if (configuration.modified) :
-        debug("Configuration changed, " +
-              "writing it back to file " +
-              "`" + configuration.filename() + "'")
-
+    if (configuration.dirty is True) :
+        debug("Configuration changed, writing it back to file")
         try :
-            configuration.save()
+            # We will use the latest opened file for saving ...
+            configuration.save(configuration_file)
         except Configuration.Error, e :
             error(e)
             return 1
         except :
             bug("Unknown exception while writing configuration file")
+    else :
+        debug("Configuration unchanged")
 
     debug("All operations completed successfully")
     assert(retval == 0)
@@ -422,6 +428,7 @@ if (__name__ == '__main__') :
     # AssertionError exceptions should be catched only here (in order to
     # transform all them into bug()
     except AssertionError, e :
+        debug("Got assertion in main loop")
         try :
             message = str(e)
         except TypeError :
@@ -434,6 +441,7 @@ if (__name__ == '__main__') :
 
     # Transform unhandled exceptions into bugs
     except Exception, e :
+        debug("Got unhandled exception in main loop")
         try :
             message = str(e)
         except TypeError :
