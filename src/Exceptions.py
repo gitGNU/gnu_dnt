@@ -137,6 +137,21 @@ class CannotRemove(EFile) :
         EFile.__init__(self, "cannot remove file `" + message + "'")
 
 #
+# ID related exceptions
+#
+class EID(EBase) :
+    def __init__(self, message) :
+        EBase.__init__(self, message)
+
+class MalformedId(EID) :
+    def __init__(self, message) :
+        EID.__init__(self, message)
+
+class Parentless(EID) :
+    def __init__(self, message) :
+        EID.__init__(self, "node `" + message + "' is parentless")
+
+#
 # INI related exceptions
 #
 class EINI(EBase) :
@@ -160,21 +175,6 @@ class WrongValue(EINI) :
         if (message != None) :
             tmp = ", " + message
         EINI.__init__(self, "wrong value" + tmp)
-
-#
-# ID related exceptions
-#
-class EID(EBase) :
-    def __init__(self, message) :
-        EBase.__init__(self, message)
-
-class MalformedId(EID) :
-    def __init__(self, message) :
-        EID.__init__(self, message)
-
-class Parentless(EID) :
-    def __init__(self, message) :
-        EID.__init__(self, "node `" + message + "' is parentless")
 
 #
 # Configuration related exceptions

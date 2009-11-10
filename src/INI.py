@@ -24,9 +24,6 @@ from   Trace      import *
 import Exceptions
 
 class File(object) :
-    class Error(Exception) :
-        pass
-
     def __init__(self, filename = None) :
         debug("Initializing INI file instance")
         self.__values   = { }
