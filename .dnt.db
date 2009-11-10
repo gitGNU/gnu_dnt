@@ -693,7 +693,7 @@
 		<entry end="1256059742" priority="veryhigh" start="1252443503">
 			Rearrange the build-related code (macros, makefiles, bootstrap, gnulib-use)
 		</entry>
-		<entry priority="high" start="1249591268">
+		<entry end="1257891482" priority="high" start="1249591268">
 			Rearrange INI and Configuration module, that code smells
 			<entry end="1256825331" priority="high" start="1256736377">
 				Check and fix configuration handling for command Add
@@ -725,7 +725,7 @@
 			<entry end="1257205300" priority="high" start="1256736382">
 				Check and fix configuration handling for command Show
 			</entry>
-			<entry priority="medium" start="1257169340">
+			<entry end="1257891480" priority="medium" start="1257169340">
 				Add regression test for the Init command (configuration defaults)
 			</entry>
 		</entry>
