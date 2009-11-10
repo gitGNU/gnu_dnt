@@ -774,6 +774,9 @@
 		<entry priority="high" start="1257853287">
 			Move debug out from Configuration
 		</entry>
+		<entry priority="veryhigh" start="1257896578">
+			Fix configuration saving procedure, (unneeded) configuration files are created in the execution directory
+		</entry>
 	</entry>
 	<entry priority="high" start="1233694836">
 		Release 0.2.0
