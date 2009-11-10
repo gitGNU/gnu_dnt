@@ -29,7 +29,7 @@ import Priority
 import Entry
 import Tree
 
-class SubCommand(Command):
+class SubCommand(Command) :
     def __init__(self) :
         Command.__init__(self,
                          name   = "add",

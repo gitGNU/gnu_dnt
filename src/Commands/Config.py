@@ -132,8 +132,8 @@ class SubCommand(Command) :
                                                 "is unavailable")
 
             debug("Getting value for `" + section + "." + option + "'")
-            value = configuration.get(section, option, None)
-            sys.stdout.write(str(value) + '\n')
+            value = configuration.get(section, option, str)
+            sys.stdout.write(value + '\n')
 
         elif (opts.set is True) :
             debug("Performing set")
@@ -147,15 +147,14 @@ class SubCommand(Command) :
                                                 "`" + opts.key + "' "
                                                 "is malformed")
             debug("section = `" + section + "'")
-            debug("option  = `" + option     + "'")
+            debug("option  = `" + option  + "'")
 
             value = opts.value
             debug("value   = `" + value   + "'")
 
             debug("Setting `" + section + "." + option + "' " +
                   "to `" + value + "'")
-            # XXX FIXME: Should we use get(section, option, value, str) ?
-            configuration.set_raw(section, option, value)
+            configuration.set(section, option, value)
 
         elif (opts.show is True) :
             debug("Showing all key/value pairs")
@@ -168,9 +167,9 @@ class SubCommand(Command) :
             # Write all key-value pairs
             for s in configuration.sections() :
                 for o in configuration.options(s) :
-                    v = configuration.get_raw(s, o)
+                    v = configuration.get(s, o, str)
                     print(("%-" + str(l) + "s = %s")
-                          %(s + "." + o,  str(v)))
+                          %(s + "." + o, v))
 
         else :
             bug("Problems handling option")
