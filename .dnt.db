@@ -759,9 +759,6 @@
 	</entry>
 	<entry priority="high" start="1233694836">
 		Release 0.2.0
-		<entry priority="veryhigh" start="1229587888">
-			Check the ConfigParser getboolean() problem (we must use get(..., raw=True, ...))
-		</entry>
 		<entry priority="veryhigh" start="1230934015">
 			Rearrange the Exceptions classes replacing 'value' with 'message' where needed
 		</entry>
@@ -881,6 +878,9 @@
 		</entry>
 		<entry priority="high" start="1254261903">
 			Reimplement XML DB with SAX
+		</entry>
+		<entry priority="high" start="1257853287">
+			Move debug out from Configuration
 		</entry>
 	</entry>
 	<entry priority="medium" start="1233694932">
