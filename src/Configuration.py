@@ -52,36 +52,64 @@ class Configuration(INI.File) :
         __repr__ = __str__
 
     def __init__(self) :
-        self.__modified = False
+        self.__dirty = False
         super(Configuration, self).__init__()
 
-    def set(self, section, option, value) :
-        assert(section  != None)
-        assert(option   != None)
-        super(Configuration, self).set_raw(section, option, value)
-        self.__modified = True
-
-    def cast(self, value, datatype = None) :
-        assert(value != None)
-        if ((datatype == bool) and (isinstance(value, str))):
+    def cast(self, value, datatype) :
+        assert(value    != None)
+        assert(datatype != None)
+        if ((datatype == bool) and (isinstance(value, str))) :
+            mapping = { "true"  : True,
+                        "yes"   : True,
+                        "y"     : True,
+                        "1"     : True,
+                        "false" : False,
+                        "no"    : False,
+                        "n"     : False,
+                        "0"     : False }
             t = string.lower(value)
-            if ((t == "true") or
-                (t != "0")    or
-                (t == "yes")  or
-                (t == "y")):
-                return True
-            elif ((t == "false") or
-                  (t == "0")     or
-                  (t == "no")    or
-                  (t == "n")) :
-                return False
+            if (t in mapping) :
+                return mapping[t]
+            else :
+                raise BadValue("got while converting "  +
+                               "`" + str(value) + "'"   +
+                               " to "                   +
+                               "boolean")
         else :
-            return datatype(value)
+            try :
+                v = datatype(value)
+            except :
+                raise BadValue("got while casting "     +
+                               "`" + str(value) + "'"   +
+                               " to "                   +
+                               "`" + str(datatype) + "'")
+            return v
+
+    def set_raw(self, section, option, value) :
+        assert(isinstance(section, str))
+        assert(isinstance(option, str))
+
+        super(Configuration, self).set_raw(section, option, value)
+        self.__dirty = True
+
+    def get_raw(self, section, option) :
+        assert(isinstance(section, str))
+        assert(isinstance(option, str))
+        return super(Configuration, self).get_raw(section, option)
+
+    def set(self, section, option, value) :
+        assert(isinstance(section, str))
+        assert(isinstance(option, str))
+
+        super(Configuration, self).set_raw(section, option, value)
+
+        self.__dirty = True
 
     def get(self, section, option, datatype, default = None) :
-        assert(section  != None)
-        assert(option   != None)
+        assert(isinstance(section, str))
+        assert(isinstance(option, str))
         assert(datatype != None)
+
         try :
             # Look for configuration data from configuration
             tmp = super(Configuration, self).get_raw(section, option)
@@ -97,46 +125,82 @@ class Configuration(INI.File) :
                 tmp = None
         return tmp
 
-    def add_section(self, section) :
-        super(Configuration, self).add_section(section)
-
     # This is a wrapper, please remove ASAP
     def read(self, filenames) :
         assert(isinstance(filenames, list))
 
+        debug("Reading configuration from " + str(filenames))
+
         read_files = [ ]
         for i in filenames :
+            debug("Trying `" + i + "'")
             if (os.path.isfile(i)) :
                 try :
                     super(Configuration, self).load(i)
+                    debug("Configuration loaded from `" + i + "'")
                     read_files.append(i)
                 except Exception, e :
                     raise self.ParsingError(str(e) + " " + i)
+            else :
+                debug("Couldn't load configuration from `" + i + "'")
 
         return read_files
 
-    def modified_get(self) :
-        return self.__modified
+    def dirty_get(self) :
+        return self.__dirty
 
-    modified = property(modified_get, None, None, None)
+    def dirty_set(self, value) :
+        assert(isinstance(value, bool))
+        self.__dirty = value
 
-    def clean(self) :
-        self.__modified = False
+    dirty = property(dirty_get, dirty_set, None, None)
 
 # Test
 if (__name__ == '__main__') :
     c = Configuration()
 
-    assert(c.modified is False)
+    assert(c.dirty is False)
 
     try :
-        c.add_section("test")
-        c.set("test", "value1", 1)
-        c.set("test", "value2", True)
-        c.set("test", "value3", "string")
+        c.add_section("test11")
+        c.add_section("test21")
+        c.add_section("test31")
+
+        c.set("test11", "value11", 1)
+        c.set("test21", "value21", True)
+        c.set("test31", "value31", "string")
+
+        assert(c.get("test11", "value11", int)  == 1)
+        assert(c.get("test21", "value21", bool) == True)
+        assert(c.get("test31", "value31", str)  == "string")
+
+        c.add_section("  test12")
+        c.add_section(" test22")
+        c.add_section("test32")
+
+        c.set("test12  ", "value12", 1)
+        c.set(" test22 ", "value22", True)
+        c.set("  test32", "value32", "string")
+
+        assert(c.get("  test12", "value12", int)  == 1)
+        assert(c.get(" test22 ", "value22", bool) == True)
+        assert(c.get("test32  ", "value32", str)  == "string")
+
+        c.add_section("test13  ")
+        c.add_section(" test23 ")
+        c.add_section("  test33")
+
+        c.set("test13  ", "value13", 1)
+        c.set(" test23 ", "value23", True)
+        c.set("  test33", "value33", "string")
+
+        assert(c.get("test13", "value13   ", int)  == 1)
+        assert(c.get("test23", " value23  ", bool) == True)
+        assert(c.get("test33", "   value33", str)  == "string")
+
     except :
         sys.exit(1)
 
-    assert(c.modified is True)
+    assert(c.dirty is True)
 
     sys.exit(0)
