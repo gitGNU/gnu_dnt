@@ -197,11 +197,17 @@ if (__name__ == '__main__') :
         assert(f.get_raw("beta", "value3") == "string")
 
         assert(len(f.sections()) == 3)
+        assert(f.has_section("test"))
+        assert(f.has_section("alfa"))
+        assert(f.has_section("beta"))
 
         f.clear()
 
-        assert(not f.has_section("test"))
         assert(len(f.sections()) == 0)
+        assert(not f.has_section("test"))
+        assert(not f.has_section("alfa"))
+        assert(not f.has_section("beta"))
+
     except :
         sys.exit(1)
 
