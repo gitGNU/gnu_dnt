@@ -121,7 +121,7 @@ class Command(OptionParser, object) :
     def error(self, msg) :
         raise Exceptions.EParameters(msg)
 
-    def exit(self, status = 0, msg = None):
+    def exit(self, status = 0, msg = None) :
         debug("Explicit exit called from command")
         try :
             OptionParser.exit(self, status, msg)
