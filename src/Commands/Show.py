@@ -293,7 +293,7 @@ def mark_ancestors(node,
     marked = 0
     parent = node.parent_get()
 
-    debug("Marking ancestors")
+    debug("Marking ancestors (show_collapsed = " + str(show_collapsed) + ")")
 
     while (parent != None) :
         debug("Entry `" +  str(parent)   +
@@ -525,7 +525,6 @@ class SubCommand(Command) :
             debug("No colors related configuration, default to " +
                   str(colors))
         assert(isinstance(colors, bool))
-        assert(colors != None)
 
         try :
             verbose = configuration.get(PROGRAM_NAME, 'verbose', bool)
@@ -533,8 +532,7 @@ class SubCommand(Command) :
             verbose = False
             debug("No verboseness related configuration, default to " +
                   str(verbose))
-        assert(isinstance(colors, bool))
-        assert(verbose != None)
+        assert(isinstance(verbose, bool))
 
         # Handling configuration
         width          = None

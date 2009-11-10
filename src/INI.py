@@ -193,14 +193,14 @@ if (__name__ == '__main__') :
         assert(f.get_option("test", "value1") == 1)
 
         f.set_option("alfa", "value2", True)
-        assert(f.get_option("alfa", "value2") == True)
+        assert(f.get_option("alfa", "value2") is True)
         f.set_option("alfa", "value2", False)
-        assert(f.get_option("alfa", "value2") == False)
+        assert(f.get_option("alfa", "value2") is False)
 
         f.set_option("beta", "value3", "string")
         assert(f.get_option("beta", "value3") == "string")
         f.set_option("beta", "value3", True)
-        assert(f.get_option("beta", "value3") == True)
+        assert(f.get_option("beta", "value3") is True)
         f.set_option("beta", "value3", "string")
         assert(f.get_option("beta", "value3") == "string")
 

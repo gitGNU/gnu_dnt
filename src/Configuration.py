@@ -36,7 +36,7 @@ DEFAULT_CFG_FILE  = "." + _CFG_FILE_TPL
 CFG_SEARCH_PATHS  = [ SYSCONFDIR + '/' +       _CFG_FILE_TPL,
                       '$HOME'    + '/' + '.' + _CFG_FILE_TPL ]
 
-class Configuration :
+class Configuration(object) :
     def __init__(self) :
         self.__dirty    = False
         self.__ini      = INI.File()
@@ -163,7 +163,7 @@ if (__name__ == '__main__') :
         c.set("test31", "value31", "string")
 
         assert(c.get("test11", "value11", int)  == 1)
-        assert(c.get("test21", "value21", bool) == True)
+        assert(c.get("test21", "value21", bool) is True)
         assert(c.get("test31", "value31", str)  == "string")
 
         c.add_section("  test12")
@@ -175,7 +175,7 @@ if (__name__ == '__main__') :
         c.set("  test32", "value32", "string")
 
         assert(c.get("  test12", "value12", int)  == 1)
-        assert(c.get(" test22 ", "value22", bool) == True)
+        assert(c.get(" test22 ", "value22", bool) is True)
         assert(c.get("test32  ", "value32", str)  == "string")
 
         c.add_section("test13  ")
@@ -187,7 +187,7 @@ if (__name__ == '__main__') :
         c.set("  test33", "value33", "string")
 
         assert(c.get("test13", "value13   ", int)  == 1)
-        assert(c.get("test23", " value23  ", bool) == True)
+        assert(c.get("test23", " value23  ", bool) is True)
         assert(c.get("test33", "   value33", str)  == "string")
 
     except :
