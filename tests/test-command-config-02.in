@@ -18,7 +18,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-required="diff sort"
+required="diff sort grep"
 
 . $testdir/defs || exit 1
 
@@ -28,33 +28,33 @@ rm -f $CFG_FILE 2>/dev/null
 
 CFG_FLAGS="--configuration=${CFG_FILE}"
 
-# Does config --show work correctly ?
+# Does config --show work correctly (with the hardwired defaults) ?
 $DNT_NOFLAGS $CFG_FLAGS config --show || exit 1
 
-# Start with something more complex
+# Yes, it works. Start with something a little more complex now
 
 cat > $CFG_FILE << EOF
-dnt.verbose       = True
-dnt.database      = alfa
-dnt.colors        = True
-dnt.warning       = False
-dnt.debug         = False
-dnt.configuration = beta
+[dnt]
+verbose       = False
+colors        = False
+warning       = True
+debug         = False
+configuration = ${CFG_FILE}
 EOF
 
-$DNT_NOFLAGS $CFG_FLAGS config --show > OUT1.txt || exit 1
+# We must exclue overridden values (defs overrides the database)
+$DNT_NOFLAGS $CFG_FLAGS config --show | grep -v "dnt.database" > OUT1.txt || exit 1
 
 cat > OUT2.txt << EOF
-dnt.verbose       = True
-dnt.database      = alfa
-dnt.colors        = True
-dnt.warning       = False
+dnt.verbose       = False
+dnt.colors        = False
+dnt.warning       = True
 dnt.debug         = False
-dnt.configuration = beta
+dnt.configuration = ${CFG_FILE}
 EOF
 
-cat OUT1.txt | sort > OUT11.txt
-cat OUT2.txt | sort > OUT22.txt
+cat OUT1.txt | sort > OUT11.txt || exit 1
+cat OUT2.txt | sort > OUT22.txt || exit 1
 
 diff OUT11.txt OUT22.txt || exit 1
 
