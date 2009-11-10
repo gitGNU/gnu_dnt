@@ -32,9 +32,11 @@ TESTDNT="$DNT_NOFLAGS --configuration test.cfg"
 # Testing "-S" option
 $TESTDNT $COMMAND -S || exit 1
 
-# Testing "-g" option
-VALUE="`$TESTDNT $COMMAND -g -k dnt.debug`"
+# Testing "-s" option
+VALUE="`$TESTDNT $COMMAND -s -k dnt.test_option -v True`"
 
+# Testing "-g" option
+VALUE="`$TESTDNT $COMMAND -g -k dnt.test_option`"
 if test "x${VALUE}" = "x"; then
   exit 1
 fi
@@ -47,13 +49,12 @@ else
   NEW_VALUE="False"
 fi
 
-$TESTDNT $COMMAND -s -k dnt.debug -v $NEW_VALUE || exit 1
+$TESTDNT $COMMAND -s -k dnt.test_option -v $NEW_VALUE || exit 1
 
-TEST_VALUE="`$TESTDNT $COMMAND -g -k dnt.debug`"
+TEST_VALUE="`$TESTDNT $COMMAND -g -k dnt.test_option`"
 if test ! "x${TEST_VALUE}" = "x${NEW_VALUE}"; then
   exit 1
 fi
-
-$TESTDNT $COMMAND -s -k dnt.debug -v $VALUE || exit 1
+$TESTDNT $COMMAND -s -k dnt.test_option -v $VALUE || exit 1
 
 exit 0
