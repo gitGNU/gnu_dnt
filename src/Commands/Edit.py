@@ -191,7 +191,7 @@ class SubCommand(Command) :
                                             'interactive',
                                             bool,
                                             False)
-            debug("Got interactive value from configuration")
+        assert(isinstance(interactive, bool))
 
         if ((text        == None) and
             (priority    == None) and
