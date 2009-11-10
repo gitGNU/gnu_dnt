@@ -28,7 +28,6 @@ rm -f $CFG_FILE 2>/dev/null
 
 CFG_FLAGS="--configuration=${CFG_FILE}"
 
-$DNT_NOFLAGS $CFG_FLAGS config --set --key dnt.database --value test  || exit 1
 $DNT_NOFLAGS $CFG_FLAGS config --set --key dnt.warning  --value no    || exit 1
 $DNT_NOFLAGS $CFG_FLAGS config --set --key dnt.verbose  --value yes   || exit 1
 $DNT_NOFLAGS $CFG_FLAGS config --set --key dnt.colors   --value y     || exit 1
@@ -38,7 +37,7 @@ $DNT_NOFLAGS $CFG_FLAGS config --show > OUT1.txt || exit 1
 
 cat > OUT2.txt << EOF
 dnt.verbose       = True
-dnt.database      = test
+dnt.database      = test.db
 dnt.colors        = True
 dnt.warning       = False
 dnt.debug         = False
