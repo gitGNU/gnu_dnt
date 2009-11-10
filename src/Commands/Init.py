@@ -60,13 +60,13 @@ class SubCommand(Command) :
         if (opts.name != None) :
             name = opts.name
         else :
-            cfg_name = configuration.get(self.name,
-                                         'name',
-                                         str,
-                                         "Nameless "  +
-                                         PROGRAM_NAME +
-                                         " database")
-            name = str(cfg_name)
+            name = configuration.get(self.name,
+                                     'name',
+                                     str,
+                                     "Nameless "  +
+                                     PROGRAM_NAME +
+                                     " database")
+        assert(isinstance(name, str))
 
         db_file = configuration.get(PROGRAM_NAME, 'database', str)
         assert(db_file != None)
