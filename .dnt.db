@@ -756,6 +756,24 @@
 		<entry end="1256856690" priority="veryhigh" start="1256771407">
 			Add get_with_default to Configuration module
 		</entry>
+		<entry priority="high" start="1233010414">
+			Fix each command in order to get values from command line, configuration file and (last but not least) default to hard-wired values
+			<entry end="1233358680" priority="high" start="1233010630">
+				The show and dump command have the same default width (70) which is hardwired inside the sources, remove ASAP
+				<comment>
+					Added Terminal class in order to cope with the issue
+				</comment>
+				<entry end="1233183845" priority="veryhigh" start="1233180623">
+					Fix the show and dump commands in order to fetch the value for their width command from the configuration file
+					<comment>
+						Fixed
+					</comment>
+				</entry>
+			</entry>
+		</entry>
+		<entry priority="high" start="1257853287">
+			Move debug out from Configuration
+		</entry>
 	</entry>
 	<entry priority="high" start="1233694836">
 		Release 0.2.0
@@ -809,21 +827,6 @@
 		</entry>
 		<entry priority="high" start="1231780779">
 			Add toxml() and fromxml() to Entry and Root classes
-		</entry>
-		<entry priority="high" start="1233010414">
-			Fix each command in order to get values from command line, configuration file and (last but not least) default to hard-wired values
-			<entry end="1233358680" priority="high" start="1233010630">
-				The show and dump command have the same default width (70) which is hardwired inside the sources, remove ASAP
-				<comment>
-					Added Terminal class in order to cope with the issue
-				</comment>
-				<entry end="1233183845" priority="veryhigh" start="1233180623">
-					Fix the show and dump commands in order to fetch the value for their width command from the configuration file
-					<comment>
-						Fixed
-					</comment>
-				</entry>
-			</entry>
 		</entry>
 		<entry priority="high" start="1235431214">
 			Fix the wrapper.in script in the test directory (find a better fix)
@@ -879,9 +882,6 @@
 		<entry priority="high" start="1254261903">
 			Reimplement XML DB with SAX
 		</entry>
-		<entry priority="high" start="1257853287">
-			Move debug out from Configuration
-		</entry>
 	</entry>
 	<entry priority="medium" start="1233694932">
 		Release 0.3.0
@@ -927,7 +927,7 @@
 		<entry priority="low" start="1233656307">
 			Add assign-to field on Entry
 		</entry>
-		<entry priority="verylow" start="1233656428">
+		<entry end="1257895465" priority="verylow" start="1233656428">
 			Integrate dnt with SCM (git and svn)
 		</entry>
 	</entry>
