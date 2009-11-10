@@ -28,17 +28,17 @@ rm -f $CFG_FILE 2>/dev/null
 
 CFG_FLAGS="--configuration=${CFG_FILE}"
 
-$DNT_NOFLAGS $CFG_FLAGS config --set --key dnt.warning  --value False || exit 1
-$DNT_NOFLAGS $CFG_FLAGS config --set --key dnt.verbose  --value True  || exit 1
+$DNT_NOFLAGS $CFG_FLAGS config --set --key dnt.warning  --value True  || exit 1
+$DNT_NOFLAGS $CFG_FLAGS config --set --key dnt.verbose  --value False || exit 1
 $DNT_NOFLAGS $CFG_FLAGS config --set --key dnt.colors   --value False || exit 1
 $DNT_NOFLAGS $CFG_FLAGS config --set --key dnt.debug    --value False || exit 1
 
 $DNT_NOFLAGS $CFG_FLAGS config --show > OUT1.txt || exit 1
 
 cat > OUT2.txt << EOF
-dnt.verbose  = True
+dnt.verbose  = False
 dnt.colors   = False
-dnt.warning  = False
+dnt.warning  = True
 dnt.debug    = False
 EOF
 
