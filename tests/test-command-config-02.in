@@ -42,8 +42,7 @@ debug         = False
 configuration = ${CFG_FILE}
 EOF
 
-# We must exclue overridden values (defs overrides the database)
-$DNT_NOFLAGS $CFG_FLAGS config --show | grep -v "dnt.database" > OUT1.txt || exit 1
+$DNT_NOFLAGS $CFG_FLAGS config --show > OUT1.txt || exit 1
 
 cat > OUT2.txt << EOF
 dnt.verbose       = False
@@ -53,8 +52,11 @@ dnt.debug         = False
 dnt.configuration = ${CFG_FILE}
 EOF
 
-cat OUT1.txt | sort > OUT11.txt || exit 1
-cat OUT2.txt | sort > OUT22.txt || exit 1
+# We must exclue overridden values (defs overrides both database and colors)
+cat OUT1.txt | sort | grep -v "dnt.database" | grep -v "dnt.colors" \
+    > OUT11.txt || exit 1
+cat OUT2.txt | sort | grep -v "dnt.database" | grep -v "dnt.colors" \
+    > OUT22.txt || exit 1
 
 diff OUT11.txt OUT22.txt || exit 1
 

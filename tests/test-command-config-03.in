@@ -30,7 +30,7 @@ CFG_FLAGS="--configuration=${CFG_FILE}"
 
 $DNT_NOFLAGS $CFG_FLAGS config --set --key dnt.warning  --value no    || exit 1
 $DNT_NOFLAGS $CFG_FLAGS config --set --key dnt.verbose  --value yes   || exit 1
-$DNT_NOFLAGS $CFG_FLAGS config --set --key dnt.colors   --value y     || exit 1
+$DNT_NOFLAGS $CFG_FLAGS config --set --key dnt.colors   --value n     || exit 1
 $DNT_NOFLAGS $CFG_FLAGS config --set --key dnt.debug    --value n     || exit 1
 
 $DNT_NOFLAGS $CFG_FLAGS config --show > OUT1.txt || exit 1
@@ -38,14 +38,17 @@ $DNT_NOFLAGS $CFG_FLAGS config --show > OUT1.txt || exit 1
 cat > OUT2.txt << EOF
 dnt.verbose       = True
 dnt.database      = test.db
-dnt.colors        = True
+dnt.colors        = False
 dnt.warning       = False
 dnt.debug         = False
 dnt.configuration = ${CFG_FILE}
 EOF
 
-cat OUT1.txt | sort > OUT11.txt || exit 1
-cat OUT2.txt | sort > OUT22.txt || exit 1
+# We must exclue overridden values (defs overrides both database and colors)
+cat OUT1.txt | sort | grep -v "dnt.database" | grep -v "dnt.colors" \
+    > OUT11.txt || exit 1
+cat OUT2.txt | sort | grep -v "dnt.database" | grep -v "dnt.colors" \
+    > OUT22.txt || exit 1
 
 diff OUT11.txt OUT22.txt || exit 1
 
