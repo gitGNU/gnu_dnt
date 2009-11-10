@@ -24,20 +24,8 @@ from   Trace      import *
 import Exceptions
 
 class File(object) :
-    def __init__(self, filename = None) :
-        debug("Initializing INI file instance")
-        self.__values   = { }
-        self.__filename = filename
-        if (self.__filename != None) :
-            self.load()
-
-    def filename_get(self) :
-        return self.__filename
-
-    def filename_set(self, filename) :
-        self.__filename = filename
-
-    filename = property(filename_get, filename_set, None, None)
+    def __init__(self) :
+        self.__values = { }
 
     def sections(self) :
         return self.__values.keys()
@@ -81,7 +69,7 @@ class File(object) :
 
         del self.__values[s]
 
-    def get_raw(self, section, option) :
+    def get_option(self, section, option) :
         assert(isinstance(section, str))
         assert(isinstance(option, str))
 
@@ -100,7 +88,7 @@ class File(object) :
                                          "`" + o + "'")
         return self.__values[s][o]
 
-    def set_raw(self, section, option, value) :
+    def set_option(self, section, option, value) :
         assert(isinstance(section, str))
         assert(isinstance(option, str))
 
@@ -115,19 +103,16 @@ class File(object) :
     def clear(self) :
         self.__values.clear()
 
-    def load(self, filename = None) :
+    def load(self, filename) :
         debug("Loading INI file")
 
-        if (filename != None) :
-            self.__filename = filename
-
-        if (self.__filename == None) :
+        if (filename == None) :
             raise Exceptions.MissingFilename()
+        assert(isinstance(filename, str))
 
-        assert(isinstance(self.__filename, str))
+        debug("Loading INI data from `" + filename + "'")
 
-        debug("Loading INI data from `" + self.__filename + "'")
-        handle  = open(self.__filename, 'r')
+        handle  = open(filename, 'r')
         assert(handle != None)
 
         lines   = handle.readlines()
@@ -161,23 +146,22 @@ class File(object) :
                     (value[0]              == "'" and
                      value[len(value) - 1] == "'")) :
                     value = value[1:(len(value) - 1)]
-                self.set_raw(section, option, value)
+                self.set_option(section, option, value)
 
         handle.close()
+
+        debug("INI loaded from `" + filename + "'")
 
     def save(self, filename = None) :
         debug("Saving INI file")
 
-        if (filename != None) :
-            self.__filename = filename
-
-        if (self.__filename == None) :
+        if (filename == None) :
             raise Exceptions.MissingFilename()
+        assert(isinstance(filename, str))
 
-        assert(isinstance(self.__filename, str))
+        debug("Saving INI data from `" + filename + "'")
 
-        debug("Saving INI data to `" + self.__filename + "'")
-        handle = open(self.__filename, 'w')
+        handle = open(filename, 'w')
         assert(handle != None)
 
         for section in self.__values.keys() :
@@ -194,6 +178,8 @@ class File(object) :
 
         handle.close()
 
+        debug("INI saved to `" + filename + "'")
+
 # Test
 if (__name__ == '__main__') :
 
@@ -203,20 +189,20 @@ if (__name__ == '__main__') :
     try :
         f.add_section("test")
 
-        f.set_raw("test", "value1", 1)
-        assert(f.get_raw("test", "value1") == 1)
+        f.set_option("test", "value1", 1)
+        assert(f.get_option("test", "value1") == 1)
 
-        f.set_raw("alfa", "value2", True)
-        assert(f.get_raw("alfa", "value2") == True)
-        f.set_raw("alfa", "value2", False)
-        assert(f.get_raw("alfa", "value2") == False)
+        f.set_option("alfa", "value2", True)
+        assert(f.get_option("alfa", "value2") == True)
+        f.set_option("alfa", "value2", False)
+        assert(f.get_option("alfa", "value2") == False)
 
-        f.set_raw("beta", "value3", "string")
-        assert(f.get_raw("beta", "value3") == "string")
-        f.set_raw("beta", "value3", True)
-        assert(f.get_raw("beta", "value3") == True)
-        f.set_raw("beta", "value3", "string")
-        assert(f.get_raw("beta", "value3") == "string")
+        f.set_option("beta", "value3", "string")
+        assert(f.get_option("beta", "value3") == "string")
+        f.set_option("beta", "value3", True)
+        assert(f.get_option("beta", "value3") == True)
+        f.set_option("beta", "value3", "string")
+        assert(f.get_option("beta", "value3") == "string")
 
         assert(len(f.sections()) == 3)
         assert(f.has_section("test"))
@@ -230,21 +216,21 @@ if (__name__ == '__main__') :
         assert(not f.has_section("alfa"))
         assert(not f.has_section("beta"))
 
-        f.set_raw("         delta1", "value1", 1)
-        f.set_raw("     delta2    ", "value2", 2)
-        f.set_raw("delta3         ", "value3", 3)
+        f.set_option("         delta1", "value1", 1)
+        f.set_option("     delta2    ", "value2", 2)
+        f.set_option("delta3         ", "value3", 3)
 
-        assert(f.get_raw("delta1", "value1") == 1)
-        assert(f.get_raw("delta2", "value2") == 2)
-        assert(f.get_raw("delta3", "value3") == 3)
+        assert(f.get_option("delta1", "value1") == 1)
+        assert(f.get_option("delta2", "value2") == 2)
+        assert(f.get_option("delta3", "value3") == 3)
 
-        f.set_raw("         delta11", "value11      ", 4)
-        f.set_raw("     delta22    ", "   value22   ", 5)
-        f.set_raw("delta33         ", "      value33", 6)
+        f.set_option("         delta11", "value11      ", 4)
+        f.set_option("     delta22    ", "   value22   ", 5)
+        f.set_option("delta33         ", "      value33", 6)
 
-        assert(f.get_raw("delta11", "value11") == 4)
-        assert(f.get_raw("delta22", "value22") == 5)
-        assert(f.get_raw("delta33", "value33") == 6)
+        assert(f.get_option("delta11", "value11") == 4)
+        assert(f.get_option("delta22", "value22") == 5)
+        assert(f.get_option("delta33", "value33") == 6)
 
     except :
         sys.exit(1)

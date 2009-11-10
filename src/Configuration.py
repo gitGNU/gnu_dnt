@@ -36,10 +36,10 @@ DEFAULT_CFG_FILE  = "." + _CFG_FILE_TPL
 CFG_SEARCH_PATHS  = [ SYSCONFDIR + '/' +       _CFG_FILE_TPL,
                       '$HOME'    + '/' + '.' + _CFG_FILE_TPL ]
 
-class Configuration(INI.File) :
+class Configuration :
     def __init__(self) :
-        self.__dirty = False
-        super(Configuration, self).__init__()
+        self.__dirty    = False
+        self.__ini      = INI.File()
 
     def cast(self, value, datatype) :
         assert(value    != None)
@@ -57,38 +57,46 @@ class Configuration(INI.File) :
             if (t in mapping) :
                 return mapping[t]
             else :
-                raise BadValue("got while converting "  +
-                               "`" + str(value) + "'"   +
-                               " to "                   +
-                               "boolean")
+                raise Exceptions.BadValue("got while converting "  +
+                                          "`" + str(value) + "'"   +
+                                          " to "                   +
+                                          "boolean")
         else :
             try :
                 v = datatype(value)
             except :
-                raise BadValue("got while casting "     +
-                               "`" + str(value) + "'"   +
-                               " to "                   +
-                               "`" + str(datatype) + "'")
+                raise Exceptions.BadValue("got while casting "     +
+                                          "`" + str(value) + "'"   +
+                                          " to "                   +
+                                          "`" + str(datatype) + "'")
             return v
 
-    def set_raw(self, section, option, value) :
-        assert(isinstance(section, str))
-        assert(isinstance(option, str))
+    def add_section(self, section) :
+        self.__ini.add_section(section)
 
-        super(Configuration, self).set_raw(section, option, value)
-        self.__dirty = True
+    def remove_section(self, section) :
+        self.__ini.remove_section(section)
 
-    def get_raw(self, section, option) :
-        assert(isinstance(section, str))
-        assert(isinstance(option, str))
-        return super(Configuration, self).get_raw(section, option)
+    def sections(self) :
+        return self.__ini.sections()
+
+    def has_section(self, section) :
+        return self.__ini.has_section(section)
+
+    def options(self, section) :
+        return self.__ini.options(section)
+
+    def has_option(self, section, option) :
+        return self.__ini.has_option(section, option)
 
     def set(self, section, option, value) :
         assert(isinstance(section, str))
         assert(isinstance(option, str))
 
-        super(Configuration, self).set_raw(section, option, value)
+        #if (not self.__ini.has_section(section)) :
+        #    raise Exceptions.UnknownSection(section)
 
+        self.__ini.set_option(section, option, value)
         self.__dirty = True
 
     def get(self, section, option, datatype, default = None) :
@@ -96,9 +104,12 @@ class Configuration(INI.File) :
         assert(isinstance(option, str))
         assert(datatype != None)
 
+        #if (not self.__ini.has_section(section)) :
+        #    raise Exceptions.UnknownSection(section)
+
         try :
             # Look for configuration data from configuration
-            tmp = super(Configuration, self).get_raw(section, option)
+            tmp = self.__ini.get_option(section, option)
             return self.cast(tmp, datatype)
         except :
             # ... but we cannot get configuration data ...
@@ -111,26 +122,21 @@ class Configuration(INI.File) :
                 tmp = None
         return tmp
 
-    # This is a wrapper, please remove ASAP
-    def read(self, filenames) :
-        assert(isinstance(filenames, list))
+    def save(self, filename) :
+        assert(filename != None)
+        assert(isinstance(filename, str))
+        if (self.__dirty is not True) :
+            debug("Configuration is not dirty, there is no need to save it")
+            return
+        self.__ini.save(filename)
+        debug("Configuration saved to `" + filename + "'")
 
-        debug("Reading configuration from " + str(filenames))
-
-        read_files = [ ]
-        for i in filenames :
-            debug("Trying `" + i + "'")
-            if (os.path.isfile(i)) :
-                try :
-                    super(Configuration, self).load(i)
-                    debug("Configuration loaded from `" + i + "'")
-                    read_files.append(i)
-                except Exception, e :
-                    raise ParsingError(str(e) + " " + i)
-            else :
-                debug("Couldn't load configuration from `" + i + "'")
-
-        return read_files
+    def load(self, filename) :
+        assert(filename != None)
+        assert(isinstance(filename, str))
+        self.__ini.load(filename)
+        self.__dirty = False
+        debug("Configuration loaded from `" + filename + "'")
 
     def dirty_get(self) :
         return self.__dirty
