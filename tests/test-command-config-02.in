@@ -49,7 +49,6 @@ dnt.verbose       = False
 dnt.colors        = False
 dnt.warning       = True
 dnt.debug         = False
-dnt.configuration = ${CFG_FILE}
 EOF
 
 # We must exclue overridden values (defs overrides both database and colors)
