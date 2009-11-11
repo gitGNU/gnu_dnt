@@ -205,12 +205,40 @@ def show_entry(root_node,
     else :
         debug("Empty output, skipping ...")
 
+def sort_children(children, sort_method) :
+    m = None
+    r = False
+
+    debug("Sorting children")
+
+    if sort_method[0] == "-" :
+        r = True
+        sort_method = sort_method[1:]
+        debug("  reverse sorting")
+
+    if sort_method == "text" :
+        m = lambda x, y: cmp(x.text, y.text)
+    elif sort_method == "priority" :
+        m = lambda x, y: cmp(x.priority, y.priority)
+    elif sort_method == "start" :
+        m = lambda x, y: cmp(x.start, y.start)
+    else :
+        bug("Unreachable!")
+
+    debug("  sorting by " + sort_method)
+
+    tmp = sorted(children, cmp = m, reverse = r)
+    assert(tmp != None)
+
+    return tmp
+
 def show(root_node, node,
          colors, verbose,
          cmap,
          filehandle, width,
          indent_fill, line_format, unindent_fill, level_fill,
-         level) :
+         level,
+         sort_method) :
 
     assert(root_node     != None)
     assert(node          != None)
@@ -223,6 +251,7 @@ def show(root_node, node,
     assert(unindent_fill != None)
     assert(level_fill    != None)
     assert(level         >= 0)
+    assert(sort_method   != None)
 
     if (isinstance(node, Root.Root)) :
 
@@ -264,6 +293,11 @@ def show(root_node, node,
     assert(hasattr(node, "children"))
     if (len(node.children) > 0) :
 
+        children = node.children
+        if sort_method != "none" :
+            children = sort_children(node.children,
+                                     sort_method)
+
         if (('visible'   in node.flags) or
             ('collapsed' in node.flags) or
             ('parent'    in node.flags)) :
@@ -273,14 +307,15 @@ def show(root_node, node,
                 filehandle.write(indent_fill)
 
             debug("Handling children")
-            for j in node.children :
+            for j in children :
                 show(root_node,
                      j,
                      colors, verbose,
                      cmap,
                      filehandle, width,
                      indent_fill, line_format, unindent_fill, level_fill,
-                     level)
+                     level,
+                     sort_method)
 
             if ('visible' in node.flags) :
                 debug("Indenting less")
@@ -413,9 +448,11 @@ class SubCommand(Command) :
                 "  %c  comment",
                 "  %d  depth",
                 "",
-                "FILTER  " + Filter.help_text(),
-                "ID      " + ID.help_text(),
-                "WIDTH   An integer >= 0, 0 means no formatting"
+                "FILTER       " + Filter.help_text(),
+                "ID           " + ID.help_text(),
+                "WIDTH        An integer >= 0, 0 means no formatting",
+                "SORT_METHOD  Sorting output by text, start or priority " + \
+                    "(use '-' as suffix to reverse)"
                 ])
 
     def short_help(self) :
@@ -483,24 +520,27 @@ class SubCommand(Command) :
                            action = "store_false",
                            dest   = "show_collapsed",
                            help   = "hide collapsed entries")
-
         Command.add_option(self,
                            "-c", "--show-collapsed",
                            action = "store_true",
                            dest   = "show_collapsed",
                            help   = "show collapsed entries")
-
         Command.add_option(self,
                            "-R", "--hide-root",
                            action = "store_false",
                            dest   = "show_root",
                            help   = "hide root entries")
-
         Command.add_option(self,
                            "-r", "--show-root",
                            action = "store_true",
                            dest   = "show_root",
                            help   = "show root entries")
+        Command.add_option(self,
+                           "-s", "--sort",
+                           action = "store",
+                           type   = "string",
+                           dest   = "sort_method",
+                           help   = "sorting items")
 
         (opts, args) = Command.parse_args(self, arguments)
         if (len(args) > 0) :
@@ -541,6 +581,7 @@ class SubCommand(Command) :
         unindent_fill  = None
         indent_fill    = None
         filter_text    = None
+        sort_method    = None
 
         # Width
         if (opts.width != None) :
@@ -635,6 +676,23 @@ class SubCommand(Command) :
                                             "not done")
         assert(isinstance(filter_text, str))
 
+        # Sort method
+        if (opts.sort_method != None) :
+            sort_method = opts.sort_method.lower()
+        else :
+            sort_method = configuration.get(self.name,
+                                            'sort_method',
+                                            str,
+                                            "none")
+        assert(isinstance(sort_method, str))
+
+        if (not sort_method in
+            ["text"    , "-text",
+             "start"   , "-start",
+             "priority", "-priority",
+             "none"]) :
+            raise Exceptions.WrongParameter("wrong sorting method")
+
         # Use str() in order to avoid problems with None values
         debug("Configured values:")
         debug("  starting id    = `" + str(starting_id)     + "'")
@@ -647,6 +705,7 @@ class SubCommand(Command) :
         debug("  filter text    = `" + str(filter_text)     + "'")
         debug("  show_collapsed = `" + str(show_collapsed)  + "'")
         debug("  show_root      = `" + str(show_root)       + "'")
+        debug("  sort method    = `" + str(sort_method)     + "'")
 
         # Build the filter
         filter_obj = Filter.Filter(filter_text)
@@ -676,7 +735,10 @@ class SubCommand(Command) :
 
         # mark() marks the filter-matching node children (1) and the nodes
         # up to the root (2)
-        root = mark(node, filter_obj, show_root, show_collapsed)
+        root = mark(node,
+                    filter_obj,
+                    show_root,
+                    show_collapsed)
 
         # mark() returns the root node so show() descends through the
         # tree processing all nodes having collapsed, or parent or
@@ -688,7 +750,8 @@ class SubCommand(Command) :
              cmap,
              filehandle, width,
              indent_fill, line_format, unindent_fill, level_fill,
-             0)
+             0,
+             sort_method)
 
         # Avoid closing precious filehandles
         if ((filehandle != sys.stdout) and (filehandle != sys.stderr)) :
