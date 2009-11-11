@@ -75,17 +75,17 @@ class Terminal(object) :
         debug("Terminal size = " +
               "(" + str(self.__columns) + ", " + str(self.__rows) + ")")
 
-    def rows_get(self) :
+    def __rows_get(self) :
         self._update()
         return self.__rows
 
-    rows = property(rows_get, None, None, None)
+    rows = property(__rows_get, None, None, None)
 
-    def columns_get(self) :
+    def __columns_get(self) :
         self._update()
         return self.__columns
 
-    columns = property(columns_get, None, None, None)
+    columns = property(__columns_get, None, None, None)
 
 # Test
 if (__name__ == '__main__') :

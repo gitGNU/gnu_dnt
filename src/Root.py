@@ -27,12 +27,12 @@ import Time
 class Root(Node.Node) :
     def __init__(self, t = "") :
         super(Root, self).__init__()
-        self.text_set(t)
+        self.__text_set(t)
         debug("Root `" + str(self) + "' created successfully")
 
-    def text_get(self) :
+    def __text_get(self) :
         return self.__text
-    def text_set(self, t) :
+    def __text_set(self, t) :
         # Use basestring to perform the test, we could have to deal with
         # unicode characters coming as user-input
         assert(isinstance(t, basestring))
@@ -41,7 +41,7 @@ class Root(Node.Node) :
         # Remove leading and trailing whitespaces from input string
         self.__text = string.strip(t)
 
-    text = property(text_get, text_set, None, None)
+    text = property(__text_get, __text_set, None, None)
 
     def __str__(self) :
         return '<Root #%x>' % (id(self))

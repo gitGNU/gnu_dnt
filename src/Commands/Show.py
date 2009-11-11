@@ -291,7 +291,7 @@ def mark_ancestors(node,
                    show_root,
                    show_collapsed) :
     marked = 0
-    parent = node.parent_get()
+    parent = node.parent
 
     debug("Marking ancestors (show_collapsed = " + str(show_collapsed) + ")")
 
@@ -302,7 +302,7 @@ def mark_ancestors(node,
 
         marked       = marked + 1
         node         = parent
-        parent       = node.parent_get()
+        parent       = node.parent
 
     if (show_root is True) :
         debug("Entry `" +  str(node)   +
@@ -329,7 +329,7 @@ def mark_children(node,
                                     show_collapsed)
             marked  = marked + m
 
-        node = node.parent_get()
+        node = node.parent
 
     if (marked > 0) :
         debug("Entry `" +  str(node)   +

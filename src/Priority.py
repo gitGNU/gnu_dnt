@@ -110,15 +110,15 @@ class Priority(object) :
     def toint(self) :
         return self.__priority
 
-    def value_get(self) :
+    def __value_get(self) :
         return self.__priority
 
-    value = property(value_get, None, None, None)
+    value = property(__value_get, None, None, None)
 
-    def priorities_get(self) :
+    def __priorities_get(self) :
         return names()
 
-    priorities = property(priorities_get, None, None, None)
+    priorities = property(__priorities_get, None, None, None)
 
     #
     # Comparison operators

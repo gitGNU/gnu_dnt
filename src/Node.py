@@ -35,11 +35,11 @@ def help_text() :
 
 class Node(object) :
     def __init__(self) :
-        self.__children  = []
+        self.__children  = [ ]
 #        self.__iterator  = 0
         self.__parent    = None
         self.__allflags  = Enum.Enum('visible', 'collapsed', 'parent')
-        self.__flags     = []
+        self.__flags     = [ ]
         self.__depth     = 0
 
         debug("Node `" + str(self) + "' created successfully")
@@ -50,23 +50,23 @@ class Node(object) :
         for i in self.__children :
             i._update_depth(value + 1)
 
-    def parent_get(self) :
+    def __parent_get(self) :
         return self.__parent
-    def parent_set(self, node) :
+    def __parent_set(self, node) :
         self.__parent = node
         self._update_depth(node.depth + 1)
 
-    parent = property(parent_get, parent_set, None, None)
+    parent = property(__parent_get, __parent_set, None, None)
 
-    def depth_get(self) :
+    def __depth_get(self) :
         return self.__depth
 
-    depth = property(depth_get, None, None, None)
+    depth = property(__depth_get, None, None, None)
 
-    def children_get(self) :
+    def __children_get(self) :
         return self.__children
 
-    children = property(children_get, None, None, None)
+    children = property(__children_get, None, None, None)
 
 #    # Add/Remove a node based on id
 #    def child(self, i = 0, node = None) :
@@ -138,7 +138,7 @@ class Node(object) :
         for i in self.__children :
             i.dump(prefix + " ")
 
-    def id_get(self) :
+    def __id_get(self) :
         debug("Building node id")
 
         n = self
@@ -158,12 +158,12 @@ class Node(object) :
         debug("Node id is `" + str(i) + "'")
         return i
 
-    id = property(id_get, None, None, None)
+    id = property(__id_get, None, None, None)
 
-    def flags_get(self) :
+    def __flags_get(self) :
         return self.__flags
 
-    def flags_set(self, flags) :
+    def __flags_set(self, flags) :
         assert(isinstance(flags, list))
 
         for f in flags :
@@ -173,7 +173,7 @@ class Node(object) :
                 raise Exceptions.UnknownEnum(str(f))
         self.__flags = flags
 
-    flags = property(flags_get, flags_set, None, None)
+    flags = property(__flags_get, __flags_set, None, None)
 
 # Test
 if (__name__ == '__main__') :

@@ -42,17 +42,17 @@ class Entry(Node.Node) :
                  end      = None,
                  comment  = None) :
         super(Entry, self).__init__()
-        self.text_set(text)
-        self.priority_set(priority)
-        self._start_set(start)
-        self._end_set(end)
-        self._comment_set(comment)
+        self.__text_set(text)
+        self.__priority_set(priority)
+        self.__start_set_raw(start)
+        self.__end_set_raw(end)
+        self.__comment_set_raw(comment)
         debug("Entry `" + str(self) + "' created successfully")
 
-    def text_get(self) :
+    def __text_get(self) :
         return self.__text
 
-    def _text_set(self, t) :
+    def __text_set_raw(self, t) :
         # Remove leading and trailing whitespaces whenever possible
         self.__text = t
         if (isinstance(self.__text, str)) :
@@ -61,63 +61,63 @@ class Entry(Node.Node) :
     # NOTE:
     #   text_set is slightly different from comment_set:
     #   test MUST be a non empty string nor a None ...
-    def text_set(self, t) :
+    def __text_set(self, t) :
         assert(t != None)
         # Use basestring to perform the test, we could have to deal with
         # unicode characters in user-input
         assert(isinstance(t, basestring))
         assert(t != "")
-        self._text_set(t)
+        self.__text_set_raw(t)
 
-    text = property(text_get, text_set, None, None)
+    text = property(__text_get, __text_set, None, None)
 
-    def priority_get(self) :
+    def __priority_get(self) :
         return self.__priority
 
-    def priority_set(self, p) :
+    def __priority_set(self, p) :
         assert(p != None)
         assert(isinstance(p, Priority.Priority))
         self.__priority = p
 
-    priority = property(priority_get, priority_set, None, None)
+    priority = property(__priority_get, __priority_set, None, None)
 
-    def start_get(self) :
+    def __start_get(self) :
         return self.__start
 
-    def _start_set(self, t) :
+    def __start_set_raw(self, t) :
         self.__start = t
 
-    def start_set(self, t) :
+    def __start_set(self, t) :
         if (t != None) :
             if (self.__end != None) :
                 if (t > self.__end) :
                     raise ValueError("start date after end date")
-        self._start_set(t)
+        self.__start_set_raw(t)
 
-    start = property(start_get, start_set, None, None)
+    start = property(__start_get, __start_set, None, None)
 
-    def end_get(self) :
+    def __end_get(self) :
         return self.__end
 
-    def _end_set(self, t) :
+    def __end_set_raw(self, t) :
         self.__end = t
 
-    def end_set(self, t) :
+    def __end_set(self, t) :
         if (t != None) :
             if (self.__start != None) :
                 if (t < self.__start) :
                     raise ValueError("end date before start date")
-        self._end_set(t)
+        self.__end_set_raw(t)
 
-    end = property(end_get, end_set, None, None)
+    end = property(__end_get, __end_set, None, None)
 
-    def comment_get(self) :
+    def __comment_get(self) :
         return self.__comment
 
-    def _comment_set(self, t) :
+    def __comment_set_raw(self, t) :
         self.__comment = t
 
-    def comment_set(self, t) :
+    def __comment_set(self, t) :
         tmp = t
         # Use basestring to perform the test, we could have to deal with
         # unicode characters in user-input
@@ -128,9 +128,9 @@ class Entry(Node.Node) :
             if (tmp == "") :
                 # An empty comment means no comment
                 tmp = None
-        self._comment_set(tmp)
+        self.__comment_set_raw(tmp)
 
-    comment = property(comment_get, comment_set, None, None)
+    comment = property(__comment_get, __comment_set, None, None)
 
     def mark_as_done(self) :
         self.__end = Time.Time()
@@ -138,14 +138,14 @@ class Entry(Node.Node) :
     def mark_as_not_done(self) :
         self.__end = None
 
-    def done_get(self) :
+    def __done_get(self) :
         if (self.__end == None) :
             return False
         if (self.__end <= Time.Time()) :
             return True
         return False
 
-    done = property(done_get, None, None, None)
+    done = property(__done_get, None, None, None)
 
     def __str__(self) :
         return '<Entry #%x>' % (id(self))

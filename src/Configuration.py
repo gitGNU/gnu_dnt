@@ -138,14 +138,14 @@ class Configuration(object) :
         self.__dirty = False
         debug("Configuration loaded from `" + filename + "'")
 
-    def dirty_get(self) :
+    def __dirty_get(self) :
         return self.__dirty
 
-    def dirty_set(self, value) :
+    def __dirty_set(self, value) :
         assert(isinstance(value, bool))
         self.__dirty = value
 
-    dirty = property(dirty_get, dirty_set, None, None)
+    dirty = property(__dirty_get, __dirty_set, None, None)
 
 # Test
 if (__name__ == '__main__') :

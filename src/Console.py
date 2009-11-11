@@ -81,10 +81,10 @@ class Console(object) :
 
         return self.__buffer
 
-    def buffer_get(self) :
+    def __buffer_get(self) :
         return self.__buffer
 
-    buffer = property(buffer_get, None, None, None)
+    buffer = property(__buffer_get, None, None, None)
 
 # Test
 if (__name__ == '__main__') :

@@ -93,10 +93,11 @@ class Command(OptionParser, object) :
         print >> file, "There is NO WARRANTY, to the extent permitted by law."
 
 
-    def name_get(self) :
+    def __name_get(self) :
         # Give the caller a copy of our internal data ...
         return str(self.__name)
-#    def name_set(self, n) :
+
+#    def __name_set(self, n) :
 #        assert(isinstance(n, str))
 #        assert(n != "")
 #        assert(n != None)
@@ -104,8 +105,7 @@ class Command(OptionParser, object) :
 #
 #        self.__name = n
 
-#    name = property(name_get, name_set, None, None)
-    name = property(name_get, None, None, None)
+    name = property(__name_get, None, None, None)
 
     # Override OptParse print_help() method
     def print_help(self, file = sys.stdout) :
