@@ -1,3 +1,5 @@
+# -*- python -*-
+
 """Text wrapping and filling.
 """
 
