@@ -771,11 +771,14 @@
 				</entry>
 			</entry>
 		</entry>
-		<entry priority="high" start="1257853287">
-			Move debug out from Configuration
-		</entry>
 		<entry priority="veryhigh" start="1257896578">
 			Fix configuration saving procedure, (unneeded) configuration files are created in the execution directory
+		</entry>
+		<entry priority="veryhigh" start="1257936756">
+			Order children output based on priority
+		</entry>
+		<entry end="1257961634" priority="veryhigh" start="1257961583">
+			Hide all properties (rename properties methods x_get/x_set as __x_get/__x_set)
 		</entry>
 	</entry>
 	<entry priority="high" start="1233694836">
@@ -884,6 +887,9 @@
 		</entry>
 		<entry priority="high" start="1254261903">
 			Reimplement XML DB with SAX
+		</entry>
+		<entry priority="high" start="1257853287">
+			Move debug out from Configuration
 		</entry>
 	</entry>
 	<entry priority="medium" start="1233694932">
