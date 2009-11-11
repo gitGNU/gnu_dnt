@@ -522,16 +522,12 @@ class SubCommand(Command) :
             colors = configuration.get(PROGRAM_NAME, 'colors', bool)
         except :
             colors = False
-            debug("No colors related configuration, default to " +
-                  str(colors))
         assert(isinstance(colors, bool))
 
         try :
             verbose = configuration.get(PROGRAM_NAME, 'verbose', bool)
         except :
             verbose = False
-            debug("No verboseness related configuration, default to " +
-                  str(verbose))
         assert(isinstance(verbose, bool))
 
         # Handling configuration

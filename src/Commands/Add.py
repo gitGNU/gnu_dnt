@@ -117,13 +117,13 @@ class SubCommand(Command) :
         debug("Handling priority")
         node_priority = Priority.Priority()
         if (opts.priority != None) :
-            node_priority.fromstring(opts.priority)
+            cfg_priority = opts.priority
         else :
             cfg_priority = configuration.get(self.name,
                                              'priority',
                                              str,
                                              'medium')
-            node_priority.fromstring(cfg_priority)
+        node_priority.fromstring(cfg_priority)
         assert(isinstance(node_priority, Priority.Priority))
 
         debug("Handling comment")

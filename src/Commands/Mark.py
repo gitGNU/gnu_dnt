@@ -104,9 +104,7 @@ class SubCommand(Command) :
         try :
             verbose = configuration.get(PROGRAM_NAME, 'verbose', bool)
         except :
-            debug("No verboseness related configuration, default to false")
             verbose = False
-        assert(verbose != None)
         assert(isinstance(verbose, bool))
 
         #
