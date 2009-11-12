@@ -186,6 +186,10 @@ SUCCESS_TESTS +=				\
 	test-command-show-warnings-02		\
 	test-command-show-collapsed-01		\
 	test-command-show-configuration-01	\
+	test-command-show-sorting-01		\
+	test-command-show-sorting-02		\
+	test-command-show-sorting-03		\
+	test-command-show-sorting-04		\
 						\
 	test-command-mark-help-01		\
 	test-command-mark-opts-short-01	\
@@ -1037,6 +1041,54 @@ test-command-show-configuration-01: $(srcdir)/test-command-show-configuration-01
 	}
 EXTRA_DIST += test-command-show-configuration-01.in
 CLEANFILES += test-command-show-configuration-01
+
+test-command-show-sorting-01: $(srcdir)/test-command-show-sorting-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-sorting-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-sorting-01.in
+CLEANFILES += test-command-show-sorting-01
+
+test-command-show-sorting-02: $(srcdir)/test-command-show-sorting-02.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-sorting-02.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-sorting-02.in
+CLEANFILES += test-command-show-sorting-02
+
+test-command-show-sorting-03: $(srcdir)/test-command-show-sorting-03.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-sorting-03.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-sorting-03.in
+CLEANFILES += test-command-show-sorting-03
+
+test-command-show-sorting-04: $(srcdir)/test-command-show-sorting-04.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-show-sorting-04.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-show-sorting-04.in
+CLEANFILES += test-command-show-sorting-04
 
 test-command-edit-help-01: $(srcdir)/test-command-edit-help-01.in Makefile
 	( rm -f $@ $@.tmp && \
