@@ -211,23 +211,28 @@ def sort_children(children, sort_method) :
 
     debug("Sorting children")
 
-    if sort_method[0] == "-" :
+    if sort_method[len(sort_method) - 1] == "-" :
         r = True
-        sort_method = sort_method[1:]
+        sort_method = sort_method[:len(sort_method) - 1]
         debug("  reverse sorting")
 
-    if sort_method == "text" :
-        m = lambda x, y: cmp(x.text, y.text)
+    if sort_method == "id" :
+        m = lambda x, y: cmp(x.id.tolist(), y.id.tolist())
     elif sort_method == "priority" :
-        m = lambda x, y: cmp(x.priority, y.priority)
+        m = lambda x, y: cmp(x.priority.toint(), y.priority.toint())
     elif sort_method == "start" :
-        m = lambda x, y: cmp(x.start, y.start)
+        m = lambda x, y: cmp(x.start.toint(), y.start.toint())
+    elif sort_method == "end" :
+        m = lambda x, y: (((x.end == None)  and  1 or
+                           ((y.end == None) and -1)) or
+                          cmp(x.end.toint(), y.end.toint()))
     else :
         bug("Unreachable!")
 
     debug("  sorting by " + sort_method)
 
     tmp = sorted(children, cmp = m, reverse = r)
+
     assert(tmp != None)
 
     return tmp
@@ -451,8 +456,8 @@ class SubCommand(Command) :
                 "FILTER       " + Filter.help_text(),
                 "ID           " + ID.help_text(),
                 "WIDTH        An integer >= 0, 0 means no formatting",
-                "SORT_METHOD  Sorting output by text, start or priority " + \
-                    "(use '-' as suffix to reverse)"
+                "SORT_METHOD  Sorting output by id, start, end  or " + \
+                    "priority (use '-' as suffix to reverse, eg. 'id-')"
                 ])
 
     def short_help(self) :
@@ -683,14 +688,14 @@ class SubCommand(Command) :
             sort_method = configuration.get(self.name,
                                             'sort_method',
                                             str,
-                                            "none")
+                                            "id")
         assert(isinstance(sort_method, str))
 
         if (not sort_method in
-            ["text"    , "-text",
-             "start"   , "-start",
-             "priority", "-priority",
-             "none"]) :
+            ["id"      , "id-",
+             "start"   , "start-",
+             "end"     , "end-",
+             "priority", "priority-"]) :
             raise Exceptions.WrongParameter("wrong sorting method")
 
         # Use str() in order to avoid problems with None values
