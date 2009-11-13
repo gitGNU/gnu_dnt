@@ -891,6 +891,9 @@
 		<entry priority="high" start="1257853287">
 			Move debug out from Configuration
 		</entry>
+		<entry priority="medium" start="1258027213">
+			Rearrange Show command code by building a Tree view instead of marking nodes
+		</entry>
 	</entry>
 	<entry priority="medium" start="1233694932">
 		Release 0.3.0
