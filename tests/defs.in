@@ -148,11 +148,6 @@ cd ./testSubDir-$testname
 EGREP='@EGREP@'
 FGREP='@FGREP@'
 
-# The amount we should wait after modifying files depends on the platform.
-# For instance, Windows '95, '98 and ME have 2-second granularity
-# and can be up to 3 seconds in the future w.r.t. the system clock.
-sleep='sleep @MODIFICATION_DELAY@'
-
 # The tests call `make -e' but we do not want $srcdir from the environment
 # to override the definition from the Makefile.
 testsrcdir=$srcdir
