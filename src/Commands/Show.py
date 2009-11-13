@@ -223,9 +223,9 @@ def sort_children(children, sort_method) :
     elif sort_method == "start" :
         m = lambda x, y: cmp(x.start.toint(), y.start.toint())
     elif sort_method == "end" :
-        m = lambda x, y: (((x.end == None)  and  1 or
-                           ((y.end == None) and -1)) or
-                          cmp(x.end.toint(), y.end.toint()))
+        m = lambda x, y : (1 if (x.end == None) else
+                           (-1 if (y.end == None) else
+                             cmp(x.end.toint(), y.end.toint())))
     else :
         bug("Unreachable!")
 
