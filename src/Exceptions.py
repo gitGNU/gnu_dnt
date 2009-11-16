@@ -270,12 +270,12 @@ class WrongParameter(EParameters) :
             s = ", " + message
         EParameters.__init__(self, "wrong parameter" + s)
 
-class BadValue(EParameters) :
+class WrongParameterValue(EParameters) :
     def __init__(self, message = None) :
         s = ""
         if (message != None) :
             s = ", " + message
-        EParameters.__init__(self, "bad value" + s)
+        EParameters.__init__(self, "wrong parameter value" + s)
 
 class ForceNeeded(EParameters) :
     def __init__(self, message) :
