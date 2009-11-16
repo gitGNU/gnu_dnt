@@ -270,6 +270,13 @@ class WrongParameter(EParameters) :
             s = ", " + message
         EParameters.__init__(self, "wrong parameter" + s)
 
+class BadValue(EParameters) :
+    def __init__(self, message = None) :
+        s = ""
+        if (message != None) :
+            s = ", " + message
+        EParameters.__init__(self, "bad value" + s)
+
 class ForceNeeded(EParameters) :
     def __init__(self, message) :
         EParameters.__init__(self, message + ", use `--force' to override")
