@@ -254,10 +254,13 @@ def main(arguments) :
     (opts, args) = command.parse_args(arguments[1:])
 
     # Handle configuration option
-    if ((opts.configuration) != None and (opts.configuration != "")) :
+    if ((opts.configuration != None) and (opts.configuration != "")) :
         CFG_SEARCH_PATHS.append(opts.configuration)
     else :
         CFG_SEARCH_PATHS.append(DEFAULT_CFG_FILE)
+
+    # We should have a configuration-files list
+    assert(len(CFG_SEARCH_PATHS) >= 1)
 
     # Read all configuration files (where available) accumulating all the
     # options found along the way.
@@ -290,6 +293,11 @@ def main(arguments) :
                           "`" + configuration_file + "'")
                 except Exception, e :
                     raise Exceptions.ParsingError(str(e) + " " + i)
+            elif (i == opts.configuration) :
+                # We are analyzing the configuration file passed from the
+                # command line and that file is not present. We will save
+                # it on configuration_file anyway
+                configuration_file = opts.configuration
             else :
                 debug("Couldn't load configuration from `" + i + "'")
 
@@ -309,6 +317,8 @@ def main(arguments) :
 
     if ((cfg_files != None) and (len(cfg_files) >= 1)) :
         debug("Configuration read from " + str(cfg_files))
+
+    debug("Configuration file = `" + configuration_file + "'")
 
     # Override configuration options with command line ones
     if (opts.colors == True) :
