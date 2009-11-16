@@ -40,7 +40,7 @@ indent_fill = ">"
 unindent_fill = "<"
 level_fill = "----"
 filter = "depth == 1"
-sort_method = priority-
+sort_criteria = priority-
 EOF
 
 # Filling the DB

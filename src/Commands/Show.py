@@ -205,31 +205,31 @@ def show_entry(root_node,
     else :
         debug("Empty output, skipping ...")
 
-def sort_children(children, sort_method) :
+def sort_children(children, sort_criteria) :
     m = None
     r = False
 
     debug("Sorting children")
 
-    if sort_method[len(sort_method) - 1] == "-" :
+    if sort_criteria[len(sort_criteria) - 1] == "-" :
         r = True
-        sort_method = sort_method[:len(sort_method) - 1]
+        sort_criteria = sort_criteria[:len(sort_criteria) - 1]
         debug("  reverse sorting")
 
-    if sort_method == "id" :
+    if sort_criteria == "id" :
         m = lambda x, y: cmp(x.id.tolist(), y.id.tolist())
-    elif sort_method == "priority" :
+    elif sort_criteria == "priority" :
         m = lambda x, y: cmp(x.priority.toint(), y.priority.toint())
-    elif sort_method == "start" :
+    elif sort_criteria == "start" :
         m = lambda x, y: cmp(x.start.toint(), y.start.toint())
-    elif sort_method == "end" :
+    elif sort_criteria == "end" :
         m = lambda x, y : (1 if (x.end == None) else
                            (-1 if (y.end == None) else
                              cmp(x.end.toint(), y.end.toint())))
     else :
         bug("Unreachable!")
 
-    debug("  sorting by " + sort_method)
+    debug("  sorting by " + sort_criteria)
 
     tmp = sorted(children, cmp = m, reverse = r)
 
@@ -243,7 +243,7 @@ def show(root_node, node,
          filehandle, width,
          indent_fill, line_format, unindent_fill, level_fill,
          level,
-         sort_method) :
+         sort_criteria) :
 
     assert(root_node     != None)
     assert(node          != None)
@@ -256,7 +256,7 @@ def show(root_node, node,
     assert(unindent_fill != None)
     assert(level_fill    != None)
     assert(level         >= 0)
-    assert(sort_method   != None)
+    assert(sort_criteria != None)
 
     if (isinstance(node, Root.Root)) :
 
@@ -299,9 +299,9 @@ def show(root_node, node,
     if (len(node.children) > 0) :
 
         children = node.children
-        if sort_method != "none" :
+        if sort_criteria != "none" :
             children = sort_children(node.children,
-                                     sort_method)
+                                     sort_criteria)
 
         if (('visible'   in node.flags) or
             ('collapsed' in node.flags) or
@@ -320,7 +320,7 @@ def show(root_node, node,
                      filehandle, width,
                      indent_fill, line_format, unindent_fill, level_fill,
                      level,
-                     sort_method)
+                     sort_criteria)
 
             if ('visible' in node.flags) :
                 debug("Indenting less")
@@ -453,10 +453,10 @@ class SubCommand(Command) :
                 "  %c  comment",
                 "  %d  depth",
                 "",
-                "FILTER       " + Filter.help_text(),
-                "ID           " + ID.help_text(),
-                "WIDTH        An integer >= 0, 0 means no formatting",
-                "SORT_METHOD  Sorting output by id, start, end  or " + \
+                "FILTER         " + Filter.help_text(),
+                "ID             " + ID.help_text(),
+                "WIDTH          An integer >= 0, 0 means no formatting",
+                "SORT_CRITERIA  Sorting output by id, start, end  or " + \
                     "priority (use '-' as suffix to reverse, eg. 'id-')"
                 ])
 
@@ -544,7 +544,7 @@ class SubCommand(Command) :
                            "-s", "--sort",
                            action = "store",
                            type   = "string",
-                           dest   = "sort_method",
+                           dest   = "sort_criteria",
                            help   = "sorting items")
 
         (opts, args) = Command.parse_args(self, arguments)
@@ -586,7 +586,7 @@ class SubCommand(Command) :
         unindent_fill  = None
         indent_fill    = None
         filter_text    = None
-        sort_method    = None
+        sort_criteria  = None
 
         # Width
         if (opts.width != None) :
@@ -611,9 +611,9 @@ class SubCommand(Command) :
             show_collapsed = opts.show_collapsed
         else :
             show_collapsed = configuration.get(self.name,
-                                                   'show_collapsed',
-                                                   bool,
-                                                   True)
+                                               'show_collapsed',
+                                               bool,
+                                               True)
         assert(isinstance(show_collapsed, bool))
 
         # Root entries
@@ -682,16 +682,16 @@ class SubCommand(Command) :
         assert(isinstance(filter_text, str))
 
         # Sort method
-        if (opts.sort_method != None) :
-            sort_method = opts.sort_method.lower()
+        if (opts.sort_criteria != None) :
+            sort_criteria = opts.sort_criteria.lower()
         else :
-            sort_method = configuration.get(self.name,
-                                            'sort_method',
-                                            str,
-                                            "id")
-        assert(isinstance(sort_method, str))
+            sort_criteria = configuration.get(self.name,
+                                              'sort_criteria',
+                                              str,
+                                              "id")
+        assert(isinstance(sort_criteria, str))
 
-        if (not sort_method in
+        if (not sort_criteria in
             ["id"      , "id-",
              "start"   , "start-",
              "end"     , "end-",
@@ -710,7 +710,7 @@ class SubCommand(Command) :
         debug("  filter text    = `" + str(filter_text)     + "'")
         debug("  show_collapsed = `" + str(show_collapsed)  + "'")
         debug("  show_root      = `" + str(show_root)       + "'")
-        debug("  sort method    = `" + str(sort_method)     + "'")
+        debug("  sort criteria  = `" + str(sort_criteria)   + "'")
 
         # Build the filter
         filter_obj = Filter.Filter(filter_text)
@@ -756,7 +756,7 @@ class SubCommand(Command) :
              filehandle, width,
              indent_fill, line_format, unindent_fill, level_fill,
              0,
-             sort_method)
+             sort_criteria)
 
         # Avoid closing precious filehandles
         if ((filehandle != sys.stdout) and (filehandle != sys.stderr)) :
