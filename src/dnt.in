@@ -253,18 +253,24 @@ def main(arguments) :
     # Parse command line
     (opts, args) = command.parse_args(arguments[1:])
 
+    # Handle configuration option
     if (opts.configuration != None and opts.configuration != "") :
         CFG_SEARCH_PATHS.append(opts.configuration)
     else :
         CFG_SEARCH_PATHS.append(DEFAULT_CFG_FILE)
 
-    # Read all configuration files (if present). Accumulate all the options
-    # The order in the CFG_SEARCH_PATHS variable is important in order to have
-    # the right precedence over all files
+    assert(len(CFG_SEARCH_PATHS) >= 1)
+
+    # Read all configuration files (where available) accumulating all the
+    # options found along the way.
     #
-    # We won't save the configuration file name (in order to use it while
+    # The order in the CFG_SEARCH_PATHS variable is important, in order to
+    # have the right precedence over all files
+    #
+    # We will save the configuration file name (in order to use it while
     # saving the changed configuration back to file). We rely upon using
-    # latest opened file as file for saving
+    # latest opened file as the configuration file for saving options (when
+    # needed)
     cfg_files          = [ ]
     configuration_file = None
     try :
@@ -321,10 +327,8 @@ def main(arguments) :
         configuration.set(PROGRAM_NAME, 'warning',       True)
     if (opts.database != None) :
         configuration.set(PROGRAM_NAME, 'database',      opts.database)
-    #if (opts.configuration != None) :
-    #    configuration.set(PROGRAM_NAME, 'configuration', opts.configuration)
 
-    # Do not save back our overrides
+    # Do not save-back our overrides
     configuration.dirty = False
 
     # Finally apply global configurations (each command will apply its own)
@@ -412,13 +416,14 @@ def main(arguments) :
 
     debug("No error running command")
 
-    # Save configuration back to file (if needed)
+    # Save configuration back to file is one or more options have been updated
     if (configuration_file != None) :
+        assert(isinstance(configuration_file, str))
         try :
             # We will use the latest opened file for saving ...
             configuration.save(configuration_file)
-        except Exceptions.Configuration :
-            warning("Problems writing configuration file ...")
+        except Exceptions.Configuration, e :
+            warning("Problems writing configuration file (" + str(e) + ")")
             return 1
         except :
             bug("Unknown exception while parsing configuration")
