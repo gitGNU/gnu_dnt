@@ -28,10 +28,10 @@ rm -f $CFG_FILE 2>/dev/null
 
 CFG_FLAGS="--configuration=${CFG_FILE}"
 
-$DNT_FLAGS $CFG_FLAGS config --set --key dnt.warning  --value True  || exit 1
-$DNT_FLAGS $CFG_FLAGS config --set --key dnt.verbose  --value False || exit 1
-$DNT_FLAGS $CFG_FLAGS config --set --key dnt.colors   --value False || exit 1
 $DNT_FLAGS $CFG_FLAGS config --set --key dnt.debug    --value False || exit 1
+$DNT_FLAGS $CFG_FLAGS config --set --key dnt.verbose  --value False || exit 1
+$DNT_FLAGS $CFG_FLAGS config --set --key dnt.warning  --value True  || exit 1
+$DNT_FLAGS $CFG_FLAGS config --set --key dnt.colors   --value False || exit 1
 
 $DNT_NOFLAGS $CFG_FLAGS config --show > OUT1.txt || exit 1
 
