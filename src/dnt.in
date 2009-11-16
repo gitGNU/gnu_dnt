@@ -254,12 +254,10 @@ def main(arguments) :
     (opts, args) = command.parse_args(arguments[1:])
 
     # Handle configuration option
-    if (opts.configuration != None and opts.configuration != "") :
+    if ((opts.configuration) != None and (opts.configuration != "")) :
         CFG_SEARCH_PATHS.append(opts.configuration)
     else :
         CFG_SEARCH_PATHS.append(DEFAULT_CFG_FILE)
-
-    assert(len(CFG_SEARCH_PATHS) >= 1)
 
     # Read all configuration files (where available) accumulating all the
     # options found along the way.
@@ -288,6 +286,8 @@ def main(arguments) :
 
                     # Update configuration file (in order to use it later on)
                     configuration_file = i
+                    debug("Configuration file updated to " +
+                          "`" + configuration_file + "'")
                 except Exception, e :
                     raise Exceptions.ParsingError(str(e) + " " + i)
             else :
@@ -419,6 +419,8 @@ def main(arguments) :
     # Save configuration back to file is one or more options have been updated
     if (configuration_file != None) :
         assert(isinstance(configuration_file, str))
+
+        debug("Do we need to save configuration back to file ?")
         try :
             # We will use the latest opened file for saving ...
             configuration.save(configuration_file)
