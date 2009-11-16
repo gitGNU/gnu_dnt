@@ -118,7 +118,7 @@ class Time(object) :
 
         for i in d :
             # Matching date string
-            if re.match(r'^\d{1,4}\-', i) :
+            if (re.match(r'^\d{1,4}\-', i)) :
                 x = filter(None, i.split('-'))
 
                 try :
@@ -134,7 +134,7 @@ class Time(object) :
                     c += 1
 
             # Matching time string
-            elif re.match(r'^\d{1,2}:', i) :
+            elif (re.match(r'^\d{1,2}:', i)) :
                 x = filter(None, i.split(':'))
 
                 try :
@@ -150,9 +150,9 @@ class Time(object) :
                     c += 1
 
             # Single digit token, handling as year token
-            elif re.match(r'^\d{1,4}$', i) :
+            elif (re.match(r'^\d{1,4}$', i)) :
 
-                if date[0] != None :
+                if (date[0] != None) :
                     raise Exceptions.WrongTimeFormat(t)
 
                 # Fill array year element
@@ -162,7 +162,7 @@ class Time(object) :
                 raise Exceptions.WrongTimeFormat(t)
 
         # Building date string
-        if date[0] == None :
+        if (date[0] == None) :
             # If date is not passed (year value is not
             # passed) then we'll take today
             s = time.strftime("%Y-%m-%d") + ' ' + \
