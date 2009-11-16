@@ -253,20 +253,20 @@ def main(arguments) :
     # Parse command line
     (opts, args) = command.parse_args(arguments[1:])
 
-    # We won't save the configuration file name (in order to use it while
-    # saving the changed configuration back to file). We rely upon using
-    # latest opened file as file for saving
     if (opts.configuration != None and opts.configuration != "") :
         CFG_SEARCH_PATHS.append(opts.configuration)
-        configuration_file = opts.configuration
     else :
         CFG_SEARCH_PATHS.append(DEFAULT_CFG_FILE)
-        configuration_file = DEFAULT_CFG_FILE
 
     # Read all configuration files (if present). Accumulate all the options
     # The order in the CFG_SEARCH_PATHS variable is important in order to have
     # the right precedence over all files
-    cfg_files = [ ]
+    #
+    # We won't save the configuration file name (in order to use it while
+    # saving the changed configuration back to file). We rely upon using
+    # latest opened file as file for saving
+    cfg_files          = [ ]
+    configuration_file = None
     try :
         filenames = os.path.expandvars(CFG_SEARCH_PATHS)
 
@@ -279,6 +279,9 @@ def main(arguments) :
                 try :
                     configuration.load(i)
                     read_files.append(i)
+
+                    # Update configuration file (in order to use it later on)
+                    configuration_file = i
                 except Exception, e :
                     raise Exceptions.ParsingError(str(e) + " " + i)
             else :
@@ -410,14 +413,15 @@ def main(arguments) :
     debug("No error running command")
 
     # Save configuration back to file (if needed)
-    try :
-        # We will use the latest opened file for saving ...
-        configuration.save(configuration_file)
-    except Exceptions.Configuration :
-        warning("Problems writing configuration file ...")
-        return 1
-    except :
-        bug("Unknown exception while parsing configuration")
+    if (configuration_file != None) :
+        try :
+            # We will use the latest opened file for saving ...
+            configuration.save(configuration_file)
+        except Exceptions.Configuration :
+            warning("Problems writing configuration file ...")
+            return 1
+        except :
+            bug("Unknown exception while parsing configuration")
 
     debug("All operations completed successfully")
     assert(retval == 0)
