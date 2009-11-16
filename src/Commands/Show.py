@@ -590,7 +590,11 @@ class SubCommand(Command) :
 
         # Width
         if (opts.width != None) :
-            width = int(opts.width)
+            try :
+                width = int(opts.width)
+            except :
+                raise Exceptions.WrongParameterValue("width option must " +
+                                                     "be an integer")
         else :
             # Try to guess terminal width
             t = Terminal.Terminal(stream_out = filehandle)
@@ -696,7 +700,9 @@ class SubCommand(Command) :
              "start"   , "start-",
              "end"     , "end-",
              "priority", "priority-"]) :
-            raise Exceptions.WrongParameter("wrong sorting method")
+            raise Exceptions.WrongParameterValue("option sort value "       +
+                                                 "`" + sort_criteria + "' " + 
+                                                 "is unknown")
 
         # Use str() in order to avoid problems with None values
         debug("Configured values:")
