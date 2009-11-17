@@ -105,11 +105,12 @@ except Exception, e :
 #     We are now able to use Debug module facilities
 #
 try :
-    from   Entry         import *
-    from   Configuration import *
+    from   Entry             import *
+    from   Configuration     import *
     import Exceptions
-    from   Command       import *
+    from   Command           import *
     import Commands
+    from   Autoconfiguration import *
 except ImportError, e :
     try :
         why = "(" + str(e) + ")"
@@ -138,6 +139,16 @@ except Exception, e :
           ", bailing out ...")
     sys.exit(-1)
 
+_DB_FILE_TPL      = PROGRAM_NAME + ".db"
+_CFG_FILE_TPL     = PROGRAM_NAME + ".cfg"
+
+DEFAULT_DB_FILE   = "." + _DB_FILE_TPL
+DEFAULT_CFG_FILE  = "." + _CFG_FILE_TPL
+
+# Search paths we look into for the configuration files
+CFG_SEARCH_PATHS  = [ #SYSCONFDIR + '/' +       _CFG_FILE_TPL,
+    '$HOME'    + '/' + '.' + _CFG_FILE_TPL ]
+
 def hint(s) :
     print(s)
     print("Use `" + PROGRAM_NAME + " -h' for help")
@@ -150,6 +161,60 @@ def version() :
     print("the GNU General Public License <http://www.gnu.org/licenses/gpl.html>.")
     print("There is NO WARRANTY, to the extent permitted by law.")
 
+def configuration_load(conf, files) :
+    assert(isinstance(conf, Configuration))
+    assert(len(files) >= 1)
+
+    # Read all configuration files (where available) accumulating all the
+    # options along the way.
+    #
+    # The order in the files variable is important, in order to
+    # have the right precedence over all files
+
+    # Do not trash input variable
+    filenames = files
+
+    debug("Loading configuration from " + str(filenames))
+
+    for i in filenames :
+        filename = os.path.expandvars(i)
+
+        debug("Trying `" + filename + "'")
+
+        if (os.path.isfile(filename)) :
+            try :
+                conf.load(filename)
+            except Exceptions.EConfiguration, e :
+                warning("Problems loading configuration from file " +
+                        "(" + str(e) + ")")
+        else :
+            debug("Couldn't load configuration from `" + filename + "'")
+
+def configuration_save(conf, files) :
+    assert(isinstance(conf, Configuration))
+    assert(len(files) >= 1)
+
+    if (conf.dirty) :
+        filenames = files
+        filenames.reverse()
+
+        debug("Saving configuration to " + str(filenames))
+
+        for i in filenames :
+            filename = os.path.expandvars(i)
+
+            debug("Trying `" + filename + "'")
+
+            try :
+                conf.save(filename)
+                return
+            except Exceptions.EConfiguration, e:
+                warning("Problems saving configuration to file " +
+                        "(" + str(e) + ")")
+    else :
+        debug("No need to save the configuration back to file")
+
+
 class MainCommand(Command) :
     def __init__(self, name, format, footer) :
         Command.__init__(self, name, format, footer)
@@ -159,15 +224,16 @@ class MainCommand(Command) :
 
 def main(arguments) :
 
-    # Setup the configuration with some default values
+    # Setup the configuration
     configuration = Configuration()
+
+    # Load configuration with some default values
     configuration.add_section(PROGRAM_NAME)
     configuration.set(PROGRAM_NAME, 'colors',        True)
     configuration.set(PROGRAM_NAME, 'verbose',       False)
     configuration.set(PROGRAM_NAME, 'debug',         False)
     configuration.set(PROGRAM_NAME, 'warning',       False)
     configuration.set(PROGRAM_NAME, 'database',      DEFAULT_DB_FILE)
-    #configuration.set(PROGRAM_NAME, 'configuration', DEFAULT_CFG_FILE)
 
     # Compute maximum command name length
     cmd_name_max_len = 0
@@ -234,19 +300,19 @@ def main(arguments) :
                        dest   = "colors",
                        help   = "do not use colors")
     command.add_option("--database",
-                       action = "store",
-                       type   = "string",
-                       dest   = "database",
-                       metavar="FILE",
-                       help   = "change database file from the "
+                       action  =  "store",
+                       type    =  "string",
+                       dest    =  "database",
+                       metavar = "FILE",
+                       help    =  "change database file from the "
                        "default (" + DEFAULT_DB_FILE + ") "
                        "to the filename specified")
     command.add_option("--configuration",
-                       action = "store",
-                       type   = "string",
-                       dest   = "configuration",
-                       metavar="FILE",
-                       help   = "change configuration file from the "
+                       action  =  "store",
+                       type    =  "string",
+                       dest    =  "configuration",
+                       metavar = "FILE",
+                       help    =  "change configuration file from the "
                        "default (" + DEFAULT_CFG_FILE + ") "
                        "to the filename specified")
 
@@ -258,66 +324,28 @@ def main(arguments) :
     # latest opened file as file for saving
     if (opts.configuration != None and opts.configuration != "") :
         CFG_SEARCH_PATHS.append(opts.configuration)
-        configuration_file = opts.configuration
     else :
         CFG_SEARCH_PATHS.append(DEFAULT_CFG_FILE)
-        configuration_file = DEFAULT_CFG_FILE
 
-    # Read all configuration files (if present). Accumulate all the options
-    # The order in the CFG_SEARCH_PATHS variable is important in order to have
-    # the right precedence over all files
-    cfg_files = [ ]
-    try :
-        filenames = os.path.expandvars(CFG_SEARCH_PATHS)
-
-        debug("Reading configuration from " + str(filenames))
-
-        read_files = [ ]
-        for i in filenames :
-            debug("Trying `" + i + "'")
-            if (os.path.isfile(i)) :
-                try :
-                    configuration.load(i)
-                    read_files.append(i)
-                except Exception, e :
-                    raise Exceptions.ParsingError(str(e) + " " + i)
-            else :
-                debug("Couldn't load configuration from `" + i + "'")
-
-        cfg_files = read_files
-
-    except Configuration.ParsingError, e :
-        message = str(e)
-        if (message != "") :
-            message = " (" + message + ")"
-
-        error("Problems parsing configuration file" + message)
-        return 1
-    except Exceptions.Configuration :
-        warning("Problem reading configuration file, using defaults ...")
-    except :
-        bug("Unknown exception while parsing configuration")
-
-    if ((cfg_files != None) and (len(cfg_files) >= 1)) :
-        debug("Configuration read from " + str(cfg_files))
+    configuration_load(configuration, CFG_SEARCH_PATHS)
 
     # Override configuration options with command line ones
     if (opts.colors == True) :
-        configuration.set(PROGRAM_NAME, 'colors',        True)
+        configuration.set(PROGRAM_NAME, 'colors',   True)
     elif (opts.colors == False) :
-        configuration.set(PROGRAM_NAME, 'colors',        False)
+        configuration.set(PROGRAM_NAME, 'colors',   False)
 
     if (opts.verbose == True) :
-        configuration.set(PROGRAM_NAME, 'verbose',       True)
+        configuration.set(PROGRAM_NAME, 'verbose',  True)
     elif (opts.verbose == False) :
-        configuration.set(PROGRAM_NAME, 'verbose',       False)
+        configuration.set(PROGRAM_NAME, 'verbose',  False)
 
     if (opts.debug == True) :
-        configuration.set(PROGRAM_NAME, 'debug',         True)
+        configuration.set(PROGRAM_NAME, 'debug',    True)
     if (opts.warning == True) :
-        configuration.set(PROGRAM_NAME, 'warning',       True)
+        configuration.set(PROGRAM_NAME, 'warning',  True)
     if (opts.database != None) :
-        configuration.set(PROGRAM_NAME, 'database',      opts.database)
+        configuration.set(PROGRAM_NAME, 'database', opts.database)
     #if (opts.configuration != None) :
     #    configuration.set(PROGRAM_NAME, 'configuration', opts.configuration)
 
@@ -332,7 +360,9 @@ def main(arguments) :
         Trace.warning_enabled = True
         debug("Warnings enabled")
 
+    #
     # Start as normal now
+    #
 
     # Handle command related checks
     if (len(command.rargs) < 1) :
@@ -409,15 +439,7 @@ def main(arguments) :
 
     debug("No error running command")
 
-    # Save configuration back to file (if needed)
-    try :
-        # We will use the latest opened file for saving ...
-        configuration.save(configuration_file)
-    except Exceptions.Configuration :
-        warning("Problems writing configuration file ...")
-        return 1
-    except :
-        bug("Unknown exception while parsing configuration")
+    configuration_save(configuration, CFG_SEARCH_PATHS)
 
     debug("All operations completed successfully")
     assert(retval == 0)
