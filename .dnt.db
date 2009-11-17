@@ -771,7 +771,7 @@
 				</entry>
 			</entry>
 		</entry>
-		<entry priority="veryhigh" start="1257896578">
+		<entry end="1258464545" priority="veryhigh" start="1257896578">
 			Fix configuration saving procedure, (unneeded) configuration files are created in the execution directory
 		</entry>
 		<entry end="1258125348" priority="veryhigh" start="1257936756">
