@@ -903,6 +903,9 @@
 		<entry priority="medium" start="1258027213">
 			Rearrange Show command code by building a Tree view instead of marking nodes
 		</entry>
+		<entry priority="high" start="1258499566">
+			Add fill option for wrapped lines with show command (eg. NEWS building in Makefile.top)
+		</entry>
 	</entry>
 	<entry priority="medium" start="1233694932">
 		Release 0.3.0
