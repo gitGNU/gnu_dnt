@@ -213,7 +213,7 @@ class ParsingError(EConfiguration) :
         if (message != None) :
             s = ", " + message
         EConfiguration.__init__(self,
-                                "parsing error" + s)
+                                "configuration file parsing error" + s)
 
 #
 # Parameters related exceptions
