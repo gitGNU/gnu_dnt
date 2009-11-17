@@ -33,7 +33,7 @@ PACKAGE_BUGREPORT = "@PACKAGE_BUGREPORT@"
 #
 
 PROGRAM_NAME      = "dnt"
-SYSCONFDIR        = "@sysconfdir@"
+#SYSCONFDIR        = "@sysconfdir@"
 
 # Test
 if (__name__ == '__main__') :

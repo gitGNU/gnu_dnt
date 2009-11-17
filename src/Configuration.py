@@ -24,19 +24,8 @@ import string
 
 from   Debug             import *
 from   Trace             import *
-from   Autoconfiguration import *
 import Exceptions
 import INI
-
-_DB_FILE_TPL      = PROGRAM_NAME + ".db"
-_CFG_FILE_TPL     = PROGRAM_NAME + ".cfg"
-
-DEFAULT_DB_FILE   = "." + _DB_FILE_TPL
-DEFAULT_CFG_FILE  = "." + _CFG_FILE_TPL
-
-# Search paths we look into for the configuration files
-CFG_SEARCH_PATHS  = [ SYSCONFDIR + '/' +       _CFG_FILE_TPL,
-                      '$HOME'    + '/' + '.' + _CFG_FILE_TPL ]
 
 class Configuration(object) :
     def __init__(self) :
