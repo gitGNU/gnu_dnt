@@ -50,7 +50,7 @@ def dump(filehandle,
     debug("Wrapping entry text to " + str(width))
 
     # Remove trailing whitespaces (newlines will be added later)
-    text = text.strip()
+    text = text.rstrip()
 
     # Dump each line
     dump = [ ]
