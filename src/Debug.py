@@ -80,7 +80,7 @@ def bug(s = "") :
     _bug_in_progress = True
 
     tmp1 = "Bug hit"
-    if s != "" :
+    if (s != "") :
         tmp2 = tmp1 + ": " + s
     else :
         tmp2 = tmp1 + "!"

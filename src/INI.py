@@ -29,6 +29,21 @@ class File(object) :
     def __init__(self) :
         self.__values = { }
 
+    def add_section(self, section) :
+        assert(isinstance(section, str))
+
+        s = string.strip(section)
+
+        if (not self.__values.has_key(s)) :
+            self.__values[s] = { }
+
+    def remove_section(self, section) :
+        assert(isinstance(section, str))
+
+        s = string.strip(section)
+
+        del self.__values[s]
+
     def sections(self) :
         return self.__values.keys()
 
@@ -39,6 +54,19 @@ class File(object) :
         if (self.__values.has_key(s)) :
             return True
         return False
+
+    def add_option(self, section, option) :
+        assert(isinstance(section, str))
+        assert(isinstance(option, str))
+
+        s = string.strip(section)
+        o = string.strip(option)
+
+        if (not self.__values.has_key(s)) :
+            self.__values[s] = { }
+
+    def remove_option(self, section, option) :
+        pass
 
     def options(self, section) :
 
@@ -55,21 +83,6 @@ class File(object) :
             if (self.__values[s].has_key(o)) :
                 return True
         return False
-
-    def add_section(self, section) :
-        assert(isinstance(section, str))
-
-        s = string.strip(section)
-
-        if (not self.__values.has_key(s)) :
-            self.__values[s] = { }
-
-    def remove_section(self, section) :
-        assert(isinstance(section, str))
-
-        s = string.strip(section)
-
-        del self.__values[s]
 
     def get_option(self, section, option) :
         assert(isinstance(section, str))

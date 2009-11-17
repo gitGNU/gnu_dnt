@@ -74,6 +74,12 @@ class Configuration(object) :
     def has_section(self, section) :
         return self.__ini.has_section(section)
 
+    def add_option() :
+        self.__ini.add_option(section, option)
+
+    def remove_option() :
+        return self.__ini.remove_option(section, option)
+
     def options(self, section) :
         return self.__ini.options(section)
 

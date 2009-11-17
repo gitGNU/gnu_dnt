@@ -211,18 +211,18 @@ def sort_children(children, sort_criteria) :
 
     debug("Sorting children")
 
-    if sort_criteria[len(sort_criteria) - 1] == "-" :
+    if (sort_criteria[len(sort_criteria) - 1] == "-") :
         r = True
         sort_criteria = sort_criteria[:len(sort_criteria) - 1]
         debug("  reverse sorting")
 
-    if sort_criteria == "id" :
+    if (sort_criteria == "id") :
         m = lambda x, y: cmp(x.id.tolist(), y.id.tolist())
-    elif sort_criteria == "priority" :
+    elif (sort_criteria == "priority") :
         m = lambda x, y: cmp(x.priority.toint(), y.priority.toint())
-    elif sort_criteria == "start" :
+    elif (sort_criteria == "start") :
         m = lambda x, y: cmp(x.start.toint(), y.start.toint())
-    elif sort_criteria == "end" :
+    elif (sort_criteria == "end") :
         m = lambda x, y : (1 if (x.end == None) else
                            (-1 if (y.end == None) else
                              cmp(x.end.toint(), y.end.toint())))
@@ -299,7 +299,7 @@ def show(root_node, node,
     if (len(node.children) > 0) :
 
         children = node.children
-        if sort_criteria != "none" :
+        if (sort_criteria != "none") :
             children = sort_children(node.children,
                                      sort_criteria)
 
@@ -590,7 +590,11 @@ class SubCommand(Command) :
 
         # Width
         if (opts.width != None) :
-            width = int(opts.width)
+            try :
+                width = int(opts.width)
+            except :
+                raise Exceptions.WrongParameterValue("width option must " +
+                                                     "be an integer")
         else :
             # Try to guess terminal width
             t = Terminal.Terminal(stream_out = filehandle)
@@ -696,7 +700,9 @@ class SubCommand(Command) :
              "start"   , "start-",
              "end"     , "end-",
              "priority", "priority-"]) :
-            raise Exceptions.WrongParameter("wrong sorting method")
+            raise Exceptions.WrongParameterValue("option sort value "       +
+                                                 "`" + sort_criteria + "' " +
+                                                 "is unknown")
 
         # Use str() in order to avoid problems with None values
         debug("Configured values:")

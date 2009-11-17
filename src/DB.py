@@ -56,49 +56,49 @@ def fromxml(input_node) :
        # Collecting entry and comment children and node text data
         for child in input_node.childNodes :
 
-            if child.nodeType == 1 :
+            if (child.nodeType == 1) :
 
-                if child.nodeName == "entry" :
+                if (child.nodeName == "entry") :
                     children.append(child)
-                elif child.nodeName == "comment" :
+                elif (child.nodeName == "comment") :
 
                     # Collecting comment string
                     for i in child.childNodes :
                         assert(i.nodeType == 3)
 
-                        if comment == None :
+                        if (comment == None) :
                             comment = i.data
                         else :
                             comment = comment + i.data
 
                     comment = comment.strip()
 
-            elif child.nodeType == 3 :
+            elif (child.nodeType == 3) :
 
-                if not child.data.isspace() :
+                if (not child.data.isspace()) :
 
-                    if text == None :
+                    if (text == None) :
                         text = child.data
                     else :
                         text = text + child.data
 
                     text = text.strip()
 
-            elif (child.nodeType == 2 or (4 <= child.nodeType <= 10)) :
+            elif ((child.nodeType == 2) or (4 <= child.nodeType <= 10)) :
                 # Skip unused nodes
                 pass
             else :
                 raise Exceptions.UnknownElement(child)
 
        # If we are on root node, build it and skip attributes processing
-        if input_node.nodeName == "root" :
+        if (input_node.nodeName == "root") :
 
-            if text == None :
+            if (text == None) :
                 warning("Database has no name, using default one")
                 text = "Default DB name"
 
             node = Root.Root(text)
-        elif input_node.nodeName == "entry" :
+        elif (input_node.nodeName == "entry") :
 
             if (text == None) :
                 raise Exceptions.MalformedDatabase()
@@ -158,7 +158,7 @@ def fromxml(input_node) :
                 # debug("No ned time for entry `" + text + "'")
                 pass
 
-            if comment != None :
+            if (comment != None) :
                 comment.strip(' \t\n\v\b\r')
 
             # Build an entry node
@@ -238,7 +238,7 @@ def toxml(node, xml_document, xml_element) :
 
         element = x
 
-    if xml_element != None :
+    if (xml_element != None) :
         xml_element.appendChild(element)
     else :
         xml_element = element
