@@ -789,7 +789,7 @@
 		<entry end="1258125343" priority="veryhigh" start="1258125166">
 			Sort children output by end-date
 		</entry>
-		<entry end="1258539704" priority="high" start="1258499566">
+		<entry end="1258539725" priority="high" start="1258499566">
 			Add fill option for wrapped lines with show command (eg. NEWS building in Makefile.top)
 		</entry>
 	</entry>
