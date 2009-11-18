@@ -46,8 +46,12 @@ class Entry(Node.Node) :
         super(Entry, self).__init__()
         self.__text_set(text)
         self.__priority_set(priority)
-        self.__start_set_raw(start)
-        self.__end_set_raw(end)
+
+        self.__start = None
+        self.__end   = None
+
+        self.__start_set(start)
+        self.__end_set(end)
         self.__comment_set_raw(comment)
         debug("Entry `" + str(self) + "' created successfully")
 
@@ -186,9 +190,13 @@ if (__name__ == '__main__') :
     e3.end = e3.start
     assert(e3.done)
 
-#    e3.end   = e3.start
-#    e3.start = e3.start - 1
-#    assert(not(e3.done))
+    try :
+        e3.end   = e3.start
+        e3.start = e3.start - 1
+    except :
+        # We should pass here ...
+        pass
+    assert(e3.done)
 
     debug("Test completed")
     sys.exit(0)
