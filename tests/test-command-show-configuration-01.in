@@ -39,6 +39,7 @@ line_format = text: %t
 indent_fill = ">"
 unindent_fill = "<"
 level_fill = "----"
+wrap_fill = "  "
 filter = "depth == 1"
 sort_criteria = priority-
 EOF
@@ -59,6 +60,7 @@ test "x`$DNT_NOFLAGS $CFG_FLAGS show -i 1    \
                                      -I ''   \
                                      -C      \
                                      -s 'id' \
+                                     -W ''   \
                                      -F 'depth<=1'`" = "xtext: t1" || exit 1
 
 test "x`$DNT_NOFLAGS $CFG_FLAGS show -i 1    \
@@ -67,6 +69,7 @@ test "x`$DNT_NOFLAGS $CFG_FLAGS show -i 1    \
                                      -I ''   \
                                      -C      \
                                      -s 'id' \
+                                     -W ''   \
                                      -F 'not done'`" = "xt1
 ----t1_1" || exit 1
 
@@ -76,6 +79,7 @@ test "x`$DNT_NOFLAGS $CFG_FLAGS show -i 1    \
                                      -I ''   \
                                      -C      \
                                      -s 'id' \
+                                     -W ''   \
                                      -F 'not done'`" = "xt1
 t1_1
 <" || exit 1
@@ -86,6 +90,7 @@ test "x`$DNT_NOFLAGS $CFG_FLAGS show -i 1    \
                                      -U ''   \
                                      -C      \
                                      -s 'id' \
+                                     -W ''   \
                                      -F 'not done'`" = "xt1
 >t1_1" || exit 1
 
@@ -95,6 +100,7 @@ test "x`$DNT_NOFLAGS $CFG_FLAGS show -i 2.1.1 \
                                      -U ''    \
                                      -C       \
                                      -s 'id'  \
+                                     -W ''    \
                                      -I ''`" = "x" || exit 1
 
 test "x`$DNT_NOFLAGS $CFG_FLAGS show -l '%t'  \
@@ -102,17 +108,32 @@ test "x`$DNT_NOFLAGS $CFG_FLAGS show -l '%t'  \
                                      -U ''    \
                                      -I ''    \
                                      -s 'id'  \
+                                     -W ''    \
                                      -F 'depth > 2'`" = "xt2_1_1" || exit 1
 
 test "x`$DNT_NOFLAGS $CFG_FLAGS show -l '%I'  \
                                      -L ''    \
                                      -U ''    \
                                      -I ''    \
+                                     -W ''    \
                                      -F 'all'`" = "x2
 2.1
 2.1.1
 2.2
 1
 1.1" || exit 1
+
+$DNT_NOFLAGS add -t "t2_1_2 just a test" -i 2.1 -p "low" -c "c2_1_1" || exit 1
+
+test "x`$DNT_NOFLAGS $CFG_FLAGS show -i 2.1.2  \
+                                     -l '* %t' \
+                                     -L ''     \
+                                     -U ''     \
+                                     -I ''     \
+                                     -w 10     \
+                                     -W '  '   \
+                                     -F 'all'`" = "x* t2_1_2
+  just a
+  test" || exit 1
 
 exit 0
