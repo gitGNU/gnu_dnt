@@ -78,7 +78,7 @@ if (__name__ == '__main__') :
     if (el != "Hi") :
         sys.exit(1)
 
-    if (not(s.empty())) :
+    if (not s.empty()) :
         sys.exit(1)
 
     debug("Test completed")

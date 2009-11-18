@@ -69,7 +69,7 @@ class Filter(object) :
 
         # Filter-out whitespaces and empty strings
         tmp = filter(lambda x:
-                         len(x) != 0 and not(x.isspace()),
+                         ((len(x) != 0) and (not x.isspace())),
                      tmp)
 
         debug("Mangled representation (pass #B.2) is: " +
