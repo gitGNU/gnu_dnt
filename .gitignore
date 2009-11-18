@@ -65,12 +65,6 @@ Makefile
 /tests/test-dnt-to-devtodo-01
 /tests/test-devtodo-to-dnt-01
 
-/tests/test-command-fix-help-01
-/tests/test-command-fix-opts-short-01
-/tests/test-command-fix-opts-long-01
-/tests/test-command-fix-version-01
-/tests/test-command-fix-01
-
 /tests/test-command-init-help-01
 /tests/test-command-init-opts-short-01
 /tests/test-command-init-opts-long-01

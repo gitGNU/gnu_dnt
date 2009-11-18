@@ -129,12 +129,6 @@ SUCCESS_TESTS +=				\
 	test-command-edit-no-interactive-01	\
 	test-command-edit-configuration-01	\
 						\
-	test-command-fix-help-01		\
-	test-command-fix-opts-short-01		\
-	test-command-fix-opts-long-01		\
-	test-command-fix-version-01		\
-	test-command-fix-01			\
-						\
 	test-command-move-help-01		\
 	test-command-move-opts-short-01	\
 	test-command-move-opts-long-01		\
@@ -430,18 +424,6 @@ test-command-edit-configuration-01: $(srcdir)/test-command-edit-configuration-01
 	}
 EXTRA_DIST += test-command-edit-configuration-01.in
 CLEANFILES += test-command-edit-configuration-01
-
-test-command-fix-01: $(srcdir)/test-command-fix-01.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-fix-01.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-fix-01.in
-CLEANFILES += test-command-fix-01
 
 test-command-move-01: $(srcdir)/test-command-move-01.in Makefile
 	( rm -f $@ $@.tmp && \
@@ -898,54 +880,6 @@ test-command-mark-not-done-01: $(srcdir)/test-command-mark-not-done-01.in Makefi
 	}
 EXTRA_DIST += test-command-mark-not-done-01.in
 CLEANFILES += test-command-mark-not-done-01
-
-test-command-fix-help-01: $(srcdir)/test-command-fix-help-01.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-fix-help-01.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-fix-help-01.in
-CLEANFILES += test-command-fix-help-01
-
-test-command-fix-opts-short-01: $(srcdir)/test-command-fix-opts-short-01.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-fix-opts-short-01.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-fix-opts-short-01.in
-CLEANFILES += test-command-fix-opts-short-01
-
-test-command-fix-opts-long-01: $(srcdir)/test-command-fix-opts-long-01.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-fix-opts-long-01.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-fix-opts-long-01.in
-CLEANFILES += test-command-fix-opts-long-01
-
-test-command-fix-version-01: $(srcdir)/test-command-fix-version-01.in Makefile
-	( rm -f $@ $@.tmp && \
-	  $(do_subst) < $(srcdir)/test-command-fix-version-01.in > $@.tmp && \
-	  chmod +x $@.tmp && \
-	  chmod a-w $@.tmp && \
-	  mv -f $@.tmp $@ ) || { \
-	        rm -f $@ $@.tmp ; \
-	        exit 1 ; \
-	}
-EXTRA_DIST += test-command-fix-version-01.in
-CLEANFILES += test-command-fix-version-01
 
 test-command-show-wrap-01: $(srcdir)/test-command-show-wrap-01.in Makefile
 	( rm -f $@ $@.tmp && \

@@ -29,7 +29,6 @@ try :
     import Config
     import Mark
     import Edit
-    import Fix
     import Init
     import Move
     import Remove
@@ -48,7 +47,6 @@ commands = {
     'config' : Config . SubCommand(),
     'mark'   : Mark   . SubCommand(),
     'edit'   : Edit   . SubCommand(),
-    'fix'    : Fix    . SubCommand(),
     'init'   : Init   . SubCommand(),
     'move'   : Move   . SubCommand(),
     'remove' : Remove . SubCommand(),
