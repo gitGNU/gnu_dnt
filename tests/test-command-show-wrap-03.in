@@ -33,14 +33,14 @@ $DNT_FLAGS add --text="Hello World" || exit 1
 cat > test1.txt <<EOF
 Hello
 World
-OF
+EOF
 
 # Force no-colors, first
 $DNT_NOFLAGS --mono show -l "%t" -I "" -U "" -L "" -w 6 -o test2.txt
 
 diff test1.txt test2.txt || exit 1
 
-# Force colors, we want to see if the colors wrapping works 
+# Force colors, we want to see if the colors wrapping works
 $DNT_NOFLAGS --color show -l "%t" -I "" -U "" -L "" -w 6 -o test3.txt
 
 diff test1.txt test3.txt || exit 1
