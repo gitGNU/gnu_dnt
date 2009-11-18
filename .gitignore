@@ -162,6 +162,7 @@ Makefile
 /tests/test-command-show-wrap-01
 /tests/test-command-show-wrap-02
 /tests/test-command-show-wrap-03
+/tests/test-command-show-wrap-04
 /tests/test-command-show-flags-01
 /tests/test-command-show-warnings-01
 /tests/test-command-show-warnings-02
