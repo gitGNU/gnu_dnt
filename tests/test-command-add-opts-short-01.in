@@ -41,11 +41,11 @@ $DNT_FLAGS $COMMAND                             \
      -s "1970-01-01 00:00:00"                   \
      -t "Node 1.2" || exit 1
 
-# Testing "-e" option
+# Testing "-e" option only, it must fail miserably
 $DNT_FLAGS $COMMAND                             \
      -i 1                                       \
      -e "`date +\"%Y-%m-%d %H:%M:%S\"`"         \
-     -t "Node 1.2" || exit 1
+     -t "Node 1.2" && exit 1
 
 # Testing "-s" with "-e" option
 $DNT_FLAGS $COMMAND                             \
