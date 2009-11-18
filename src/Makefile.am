@@ -51,7 +51,6 @@ commands_PYTHON =				\
 
 pkgvpython_PYTHON =				\
 	__init__.py				\
-	INI.py					\
 	Configuration.py			\
 	Trace.py				\
 	Exceptions.py				\

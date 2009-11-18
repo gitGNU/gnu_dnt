@@ -25,12 +25,11 @@ import string
 from   Debug             import *
 from   Trace             import *
 import Exceptions
-import INI
 
 class Configuration(object) :
     def __init__(self) :
-        self.__dirty    = False
-        self.__ini      = INI.File()
+        self.__dirty  = False
+        self.__values = { }
 
     def cast(self, value, datatype) :
         assert(value    != None)
@@ -63,50 +62,89 @@ class Configuration(object) :
             return v
 
     def add_section(self, section) :
-        self.__ini.add_section(section)
+        assert(isinstance(section, str))
+        s = string.strip(section)
+        if (not self.__values.has_key(s)) :
+            self.__values[s] = { }
 
     def remove_section(self, section) :
-        self.__ini.remove_section(section)
+        assert(isinstance(section, str))
+        s = string.strip(section)
+        del self.__values[s]
 
     def sections(self) :
-        return self.__ini.sections()
+        return self.__values.keys()
 
     def has_section(self, section) :
-        return self.__ini.has_section(section)
+        assert(isinstance(section, str))
+        s = string.strip(section)
+        if (self.__values.has_key(s)) :
+            return True
+        return False
 
-    def add_option() :
-        self.__ini.add_option(section, option)
-
-    def remove_option() :
-        return self.__ini.remove_option(section, option)
-
-    def options(self, section) :
-        return self.__ini.options(section)
-
-    def has_option(self, section, option) :
-        return self.__ini.has_option(section, option)
-
-    def set(self, section, option, value) :
+    def add_option(self, section, option) :
         assert(isinstance(section, str))
         assert(isinstance(option, str))
 
-        #if (not self.__ini.has_section(section)) :
-        #    raise Exceptions.UnknownSection(section)
+        s = string.strip(section)
+        o = string.strip(option)
 
-        self.__ini.set_option(section, option, value)
-        self.__dirty = True
+        if (not self.__values.has_key(s)) :
+            self.__values[s][o] = None
+
+    def remove_option(self, section, option) :
+        assert(isinstance(section, str))
+        assert(isinstance(option, str))
+
+        s = string.strip(section)
+        o = string.strip(option)
+
+        if (self.__values.has_key(s)) :
+            del self.__values[s][o]
+
+    def options(self, section) :
+        assert(isinstance(section, str))
+        s = string.strip(section)
+        return self.__values[s].keys()
+
+    def has_option(self, section, option) :
+        assert(isinstance(section, str))
+        assert(isinstance(option, str))
+        s = string.strip(section)
+        o = string.strip(option)
+
+        if (self.__values.has_key(s)) :
+            if (self.__values[section].has_key(o)) :
+                return True
+        return False
+
+    def __get_option(self, section, option) :
+        assert(isinstance(section, str))
+        assert(isinstance(option, str))
+
+        if (not self.__values.has_key(section)) :
+            raise Exceptions.KeyNotFound("section "           +
+                                         "`" + section + "' " +
+                                         "not found")
+
+        if (not self.__values[section].has_key(option)) :
+            raise Exceptions.KeyNotFound("section "           +
+                                         "`" + section + "' " +
+                                         "has no option "     +
+                                         "`" + option + "'")
+        return self.__values[section][option]
 
     def get(self, section, option, datatype, default = None) :
         assert(isinstance(section, str))
         assert(isinstance(option, str))
         assert(datatype != None)
 
-        #if (not self.__ini.has_section(section)) :
-        #    raise Exceptions.UnknownSection(section)
+        s = string.strip(section)
+        o = string.strip(option)
 
         try :
             # Look for configuration data from configuration
-            tmp = self.__ini.get_option(section, option)
+            tmp = self.__get_option(s, o)
             return self.cast(tmp, datatype)
         except :
             # ... but we cannot get configuration data ...
@@ -119,21 +157,107 @@ class Configuration(object) :
                 tmp = None
         return tmp
 
+    def __set_option(self, section, option, value) :
+        assert(isinstance(section, str))
+        assert(isinstance(option, str))
+
+        if (not self.__values.has_key(section)) :
+            self.__values[section] = { }
+
+        self.__values[section][option] = value
+
+    def set(self, section, option, value) :
+        assert(isinstance(section, str))
+        assert(isinstance(option, str))
+
+        s = string.strip(section)
+        o = string.strip(option)
+
+        self.__set_option(s, o, value)
+        self.__dirty = True
+
+    def __save(self, filename = None) :
+        assert(isinstance(filename, str))
+
+        handle = open(filename, 'w')
+        assert(handle != None)
+
+        for section in self.__values.keys() :
+            debug("Saving section `" + section + "'")
+            handle.write(string.join(("[", section, "]", "\n"),
+                                     ""))
+            for option in self.__values[section].keys() :
+                debug("Saving option `" + option + "'")
+                handle.write(option +
+                             " = " +
+                             str(self.__values[section][option]))
+                handle.write('\n')
+            handle.write('\n')
+
+        handle.close()
+
     def save(self, filename) :
         assert(filename != None)
         assert(isinstance(filename, str))
         if (self.__dirty is not True) :
             debug("Configuration is not dirty, there is no need to save it")
             return
-        self.__ini.save(filename)
+        self.__save(filename)
         debug("Configuration saved to `" + filename + "'")
 
-    def load(self, filename) :
+    def __load(self, filename) :
+        assert(isinstance(filename, str))
+
+        handle  = open(filename, 'r')
+        assert(handle != None)
+
+        lines   = handle.readlines()
+
+        loc     = 0
+        section = ""
+        value   = ""
+        option  = ""
+        for l in lines :
+            # Purify input string
+            l = string.strip(l)
+
+            # Skip comments and empy lines
+            if ((l == "") or (l[0] == "#")) :
+                continue
+
+            assert(len(l) > 0)
+
+            if (l[0] == "[") :
+                loc     = string.find(l, "]")
+                section = l[1:loc]
+                self.add_section(section)
+            elif ((l[0] in string.letters) or
+                  (l[0] in string.digits)) :
+                loc    = string.find(l, "=")
+                option = string.strip(l[0:loc])
+                value  = string.strip(l[(loc + 1):])
+                # Handling quoted values
+                if ((value[0]              == '"' and
+                     value[len(value) - 1] == '"') or
+                    (value[0]              == "'" and
+                     value[len(value) - 1] == "'")) :
+                    value = value[1:(len(value) - 1)]
+                self.__set_option(section, option, value)
+
+        handle.close()
+
+    def load(self, filename, merging = True) :
         assert(filename != None)
         assert(isinstance(filename, str))
-        self.__ini.load(filename)
+        if (not merging) :
+            self.__clear()
+        self.__load(filename)
         self.__dirty = False
         debug("Configuration loaded from `" + filename + "'")
+
+    def clear(self) :
+        self.__values.clear()
+        self.__dirty = True
 
     def __dirty_get(self) :
         return self.__dirty
@@ -191,5 +315,42 @@ if (__name__ == '__main__') :
         sys.exit(1)
 
     assert(c.dirty is True)
+
+#    try :
+#        f.add_section("test")
+#
+#        f.set_option("test", "value1", 1)
+#        assert(f.get_option("test", "value1") == 1)
+#
+#        f.set_option("alfa", "value2", True)
+#        assert(f.get_option("alfa", "value2") is True)
+#        f.set_option("alfa", "value2", False)
+#        assert(f.get_option("alfa", "value2") is False)
+#
+#        f.set_option("beta", "value3", "string")
+#        assert(f.get_option("beta", "value3") == "string")
+#        f.set_option("beta", "value3", True)
+#        assert(f.get_option("beta", "value3") is True)
+#        f.set_option("beta", "value3", "string")
+#        assert(f.get_option("beta", "value3") == "string")
+#        f.set_option(" gamma ", "value4", "string")
+#        assert(f.get_option(" gamma ", "value4") == "string")
+#
+#        assert(len(f.sections()) == 4)
+#        assert(f.has_section("test"))
+#        assert(f.has_section("alfa"))
+#        assert(f.has_section("beta"))
+#        assert(f.has_section(" gamma "))
+#
+#        f.clear()
+#
+#        assert(len(f.sections()) == 0)
+#        assert(not f.has_section("test"))
+#        assert(not f.has_section("alfa"))
+#        assert(not f.has_section("beta"))
+#        assert(not f.has_section(" gamma "))
+#
+#    except :
+#        sys.exit(1)
 
     sys.exit(0)
