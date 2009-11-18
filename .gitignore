@@ -181,6 +181,15 @@ Makefile
 /tests/test-import-export-02
 /tests/test-import-export-03
 
+/tests/test-db-01
+/tests/test-db-02
+/tests/test-db-03
+/tests/test-db-04
+/tests/test-db-05
+/tests/test-db-06
+/tests/test-db-07
+/tests/test-db-08
+
 /site/out/*
 /site/in/.sitetool
 /site/in/site.as

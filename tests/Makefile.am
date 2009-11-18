@@ -75,7 +75,15 @@ SUCCESS_TESTS =
 FAIL_TESTS    +=				\
 	test-fail				\
 	test-command-show-filter-07		\
-	test-command-show-filter-10
+	test-command-show-filter-10		\
+	test-db-01				\
+	test-db-02				\
+	test-db-03				\
+	test-db-04				\
+	test-db-05				\
+	test-db-06				\
+	test-db-07				\
+	test-db-08
 
 SUCCESS_TESTS +=				\
 	test-success				\
@@ -1588,6 +1596,102 @@ test-import-export-03: $(srcdir)/test-import-export-03.in Makefile
 	}
 EXTRA_DIST += test-import-export-03.in
 CLEANFILES += test-import-export-03
+
+test-db-01: $(srcdir)/test-db-01.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-db-01.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-db-01.in
+CLEANFILES += test-db-01
+
+test-db-02: $(srcdir)/test-db-02.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-db-02.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-db-02.in
+CLEANFILES += test-db-02
+
+test-db-03: $(srcdir)/test-db-03.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-db-03.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-db-03.in
+CLEANFILES += test-db-03
+
+test-db-04: $(srcdir)/test-db-04.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-db-04.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-db-04.in
+CLEANFILES += test-db-04
+
+test-db-05: $(srcdir)/test-db-05.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-db-05.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-db-05.in
+CLEANFILES += test-db-05
+
+test-db-06: $(srcdir)/test-db-06.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-db-06.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-db-06.in
+CLEANFILES += test-db-06
+
+test-db-07: $(srcdir)/test-db-07.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-db-07.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-db-07.in
+CLEANFILES += test-db-07
+
+test-db-08: $(srcdir)/test-db-08.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-db-08.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-db-08.in
+CLEANFILES += test-db-08
 
 clean-local:
 	rm -rf testSubDir-*
