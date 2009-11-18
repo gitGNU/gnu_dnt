@@ -63,13 +63,13 @@ NEWS: $(DNT_DB)
 		$(DNT) $(DNT_FLAGS)						  \
 			show							  \
 			--filter="start>=\"$$start\" and end<=\"$$end\" and done" \
-			--line-format="  * %t"					  \
-			--level-fill=""						  \
+			--line-format="* %t"					  \
+			--level-fill=""					  \
 			--indent-fill=""					  \
 			--unindent-fill=""					  \
+			--wrap-fill="  "					  \
 			--width=78						  \
 			--hide-collapsed					  \
-		| ${SED} 's,^\ *,\ \ ,g'					  \
 		> NEWS.tmp ;							  \
 		if test ! "x`${SED} -n '$$=' < NEWS.tmp`" = "x" ; then		  \
 			echo "$$end ($$tag):" >> NEWS ;				  \
