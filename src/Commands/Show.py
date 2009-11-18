@@ -40,7 +40,7 @@ import Text
 def dump(filehandle,
          text,
          width,
-         fill,
+         fill, wrap_fill,
          level) :
     debug("Building output")
 
@@ -63,7 +63,13 @@ def dump(filehandle,
                 raise Exceptions.WidthTooSmall("cannot wrap " +
                                                "text "        +
                                                text)
-            dump.extend(Text.wrap(text, w, break_ansi_escapes = False))
+
+            if (wrap_fill != "") :
+                dump.extend(Text.wrap(text, w,
+                                      subsequent_indent = wrap_fill,
+                                      break_ansi_escapes = False))
+            else :
+                dump.extend(Text.wrap(text, w, break_ansi_escapes = False))
         else :
             dump.append(i)
 
@@ -73,7 +79,7 @@ def dump(filehandle,
 def show_root(node,
               filehandle,
               width,
-              level_fill,
+              level_fill, wrap_fill,
               level) :
     r = node
 
@@ -81,7 +87,7 @@ def show_root(node,
 
     text = r.text
     if (text != '') :
-        dump(filehandle, text, width, level_fill, level)
+        dump(filehandle, text, width, level_fill, wrap_fill, level)
     else :
         debug("Empty output, skipping ...")
 
@@ -91,7 +97,7 @@ def show_entry(root_node,
                cmap,
                filehandle,
                width,
-               line_format, level_fill,
+               line_format, level_fill, wrap_fill,
                level) :
     e = node
 
@@ -201,7 +207,7 @@ def show_entry(root_node,
     debug("output = `" + t + "'")
 
     if (t != '') :
-        dump(filehandle, t, width, level_fill, level)
+        dump(filehandle, t, width, level_fill, wrap_fill, level)
     else :
         debug("Empty output, skipping ...")
 
@@ -241,7 +247,8 @@ def show(root_node, node,
          colors, verbose,
          cmap,
          filehandle, width,
-         indent_fill, line_format, unindent_fill, level_fill,
+         line_format,
+         indent_fill, unindent_fill, level_fill, wrap_fill,
          level,
          sort_criteria) :
 
@@ -255,6 +262,7 @@ def show(root_node, node,
     assert(line_format   != None)
     assert(unindent_fill != None)
     assert(level_fill    != None)
+    assert(wrap_fill     != None)
     assert(level         >= 0)
     assert(sort_criteria != None)
 
@@ -264,7 +272,7 @@ def show(root_node, node,
             show_root(node,
                       filehandle,
                       width,
-                      level_fill,
+                      level_fill, wrap_fill,
                       level)
             level = level + 1
 
@@ -287,7 +295,7 @@ def show(root_node, node,
                        filehandle,
                        width,
                        line_format,
-                       level_fill,
+                       level_fill, wrap_fill,
                        level)
             level = level + 1
 
@@ -318,7 +326,8 @@ def show(root_node, node,
                      colors, verbose,
                      cmap,
                      filehandle, width,
-                     indent_fill, line_format, unindent_fill, level_fill,
+                     line_format,
+                     indent_fill, unindent_fill, level_fill, wrap_fill,
                      level,
                      sort_criteria)
 
@@ -507,6 +516,12 @@ class SubCommand(Command) :
                            type   = "string",
                            dest   = "level_fill",
                            help   = "specify level fill string")
+        Command.add_option(self,
+                           "-W", "--wrap-fill",
+                           action = "store",
+                           type   = "string",
+                           dest   = "wrap_fill",
+                           help   = "specify fill for wrapped lines")
 
         Command.add_option(self,
                            "-w", "--width",
@@ -540,6 +555,7 @@ class SubCommand(Command) :
                            action = "store_true",
                            dest   = "show_root",
                            help   = "show root entries")
+
         Command.add_option(self,
                            "-s", "--sort",
                            action = "store",
@@ -583,6 +599,7 @@ class SubCommand(Command) :
         show_root      = None
         line_format    = None
         level_fill     = None
+        wrap_fill      = None
         unindent_fill  = None
         indent_fill    = None
         filter_text    = None
@@ -675,6 +692,16 @@ class SubCommand(Command) :
                                            "    ")
         assert(isinstance(level_fill, str))
 
+        # Level fill
+        if (opts.wrap_fill != None) :
+            wrap_fill = opts.wrap_fill
+        else :
+            wrap_fill = configuration.get(self.name,
+                                          'wrap_fill',
+                                          str,
+                                          "")
+        assert(isinstance(wrap_fill, str))
+
         # Filter text
         if (opts.filter != None) :
             filter_text = opts.filter
@@ -713,6 +740,7 @@ class SubCommand(Command) :
         debug("  indent fill    = `" + str(indent_fill)     + "'")
         debug("  unindent fill  = `" + str(unindent_fill)   + "'")
         debug("  level fill     = `" + str(level_fill)      + "'")
+        debug("  wrap fill      = `" + str(wrap_fill)       + "'")
         debug("  filter text    = `" + str(filter_text)     + "'")
         debug("  show_collapsed = `" + str(show_collapsed)  + "'")
         debug("  show_root      = `" + str(show_root)       + "'")
@@ -760,7 +788,8 @@ class SubCommand(Command) :
              colors, verbose,
              cmap,
              filehandle, width,
-             indent_fill, line_format, unindent_fill, level_fill,
+             line_format,
+             indent_fill, unindent_fill, level_fill, wrap_fill,
              0,
              sort_criteria)
 
