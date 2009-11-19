@@ -26,19 +26,16 @@ debug_enabled   = False
 warning_enabled = False
 
 def error(s) :
-    assert(s != None)
-    assert(s != "")
+    assert(isinstance(s, basestring))
     sys.stderr.write(PROGRAM_NAME + ": " + str(s) + '\n')
 
 def warning(s) :
-    assert(s != None)
-    assert(s != "")
+    assert(isinstance(s, basestring))
     if (warning_enabled is True) :
         sys.stdout.write(PROGRAM_NAME + ": " + str(s) + '\n')
 
 def debug(s) :
-    assert(s != None)
-    assert(s != "")
+    assert(isinstance(s, basestring))
     if (debug_enabled is True) :
         sys.stdout.write(PROGRAM_NAME + ": " + str(s) + '\n')
 
