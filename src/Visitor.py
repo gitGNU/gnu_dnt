@@ -110,7 +110,7 @@ if (__name__ == '__main__') :
     l = []
     v = V(l)
     debug(str(v))
-    debug(type(v))
+    debug(str(type(v)))
 
     debug("Accepting")
     root.accept(v)
@@ -118,8 +118,8 @@ if (__name__ == '__main__') :
     # [0, 0, 0, 1, 0, 2, 0, 2, 0, 1]
     t = [0, 0, 0, 1, 1, 2, 2, 2, 2, 1]
 
-    debug(l)
-    debug(t)
+    debug(str(l))
+    debug(str(t))
 
     if (t != l) :
         debug("failed")
