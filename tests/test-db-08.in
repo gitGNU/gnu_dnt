@@ -36,6 +36,6 @@ cat >test.db <<EOF
 </root>
 EOF
 
-$DNT_NOFLAGS show -l '' -U '' -L '' -I '' -F all || exit 1
+$DNT_FLAGS show -l '' -U '' -L '' -I '' -F all || exit 1
 
 exit 0
