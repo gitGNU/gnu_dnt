@@ -30,8 +30,7 @@ from   Trace import *
 #
 class EBase(Exception) :
     def __init__(self, message) :
-        assert(message != None)
-        assert(isinstance(message, str))
+        assert(isinstance(message, basestring))
         self.__message = message
 
     def __str__(self) :
@@ -90,7 +89,7 @@ class MissingDatabase(EDatabase) :
 class MalformedDatabase(EDatabase) :
     def __init__(self, message = None) :
         tmp = ""
-        if (message != None) :
+        if (isinstance(message, basestring)) :
             tmp = ", " + message
         EDatabase.__init__(self, "malformed database" + tmp)
 
@@ -104,7 +103,7 @@ class CorruptedDatabase(EDatabase) :
 class ProblemsReading(EDatabase) :
     def __init__(self, name, message) :
         tmp = ""
-        if (message != None and len(message) != 0) :
+        if (isinstance(message, basestring) and len(message) != 0) :
             tmp = ", " + message
         EDatabase.__init__(self,
                            "problems reading database "
@@ -113,7 +112,7 @@ class ProblemsReading(EDatabase) :
 class ProblemsWriting(EDatabase) :
     def __init__(self, name, message) :
         tmp = ""
-        if (message != None and len(message) != 0) :
+        if (isinstance(message, basestring) and len(message) != 0) :
             tmp = ", " + message
         EDatabase.__init__(self,
                            "problems writing database "
@@ -167,14 +166,14 @@ class MissingFilename(EINI) :
 class KeyNotFound(EINI) :
     def __init__(self, message) :
         tmp = ""
-        if (message != None) :
+        if (isinstance(message, basestring)) :
             tmp = ", " + message
         EINI.__init__(self, "key not found" + tmp)
 
 class WrongValue(EINI) :
     def __init__(self, message) :
         tmp = ""
-        if (message != None) :
+        if (isinstance(message, basestring)) :
             tmp = ", " + message
         EINI.__init__(self, "wrong value" + tmp)
 
@@ -202,7 +201,7 @@ class UnknownOption(EConfiguration) :
 class BadValue(EConfiguration) :
     def __init__(self, message) :
         s = ""
-        if (message != None) :
+        if (isinstance(message, basestring)) :
             s = ", " + message
         EConfiguration.__init__(self,
                                 "bad value in configuration" + s)
@@ -210,7 +209,7 @@ class BadValue(EConfiguration) :
 class ParsingError(EConfiguration) :
     def __init__(self, message) :
         s = ""
-        if (message != None) :
+        if (isinstance(message, basestring)) :
             s = ", " + message
         EConfiguration.__init__(self,
                                 "configuration file parsing error" + s)
@@ -224,7 +223,6 @@ class EParameters(EBase) :
 
 class ExplicitExit(EParameters) :
     def __init__(self, message, code) :
-        assert(code != None)
         assert(isinstance(code, int))
 
         #
@@ -266,14 +264,14 @@ class UnknownParameter(EParameters) :
 class WrongParameter(EParameters) :
     def __init__(self, message = None) :
         s = ""
-        if (message != None) :
+        if (isinstance(message, basestring)) :
             s = ", " + message
         EParameters.__init__(self, "wrong parameter" + s)
 
 class WrongParameterValue(EParameters) :
     def __init__(self, message = None) :
         s = ""
-        if (message != None) :
+        if (isinstance(message, basestring)) :
             s = ", " + message
         EParameters.__init__(self, "wrong parameter value" + s)
 
@@ -343,7 +341,7 @@ class EConst(EBase) :
 class ReadOnlyConstant(EBase) :
     def __init__(self, message) :
         s = ""
-        if (message != None) :
+        if (isinstance(message, basestring)) :
             s = ", " + message
         EConst.__init__(self, "variable is read-only" + s)
 
@@ -376,7 +374,7 @@ class EShow(EBase) :
 class WidthTooSmall(EShow) :
     def __init__(self, message) :
         s = ""
-        if (message != None) :
+        if (isinstance(message, basestring)) :
             s = ", " + message
         EShow.__init__(self, "width too small" + s)
 
