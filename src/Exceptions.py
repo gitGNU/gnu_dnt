@@ -30,7 +30,9 @@ from   Trace import *
 #
 class EBase(Exception) :
     def __init__(self, message) :
+        debug("Exception initializing ...")
         assert(isinstance(message, basestring))
+        debug("Exception message = `" + str(message) + "'")
         self.__message = message
 
     def __str__(self) :
