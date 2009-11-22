@@ -55,13 +55,10 @@ def fromxml(input_node) :
 
        # Collecting entry and comment children and node text data
         for child in input_node.childNodes :
-
             if (child.nodeType == 1) :
-
                 if (child.nodeName == "entry") :
                     children.append(child)
                 elif (child.nodeName == "comment") :
-
                     # Collecting comment string
                     for i in child.childNodes :
                         assert(i.nodeType == 3)
@@ -70,20 +67,15 @@ def fromxml(input_node) :
                             comment = i.data
                         else :
                             comment = comment + i.data
-
                     comment = comment.strip()
-
             elif (child.nodeType == 3) :
-
                 if (not child.data.isspace()) :
-
                     if (text == None) :
                         text = child.data
                     else :
                         text = text + child.data
 
                     text = text.strip()
-
             elif ((child.nodeType == 2) or (4 <= child.nodeType <= 10)) :
                 # Skip unused nodes
                 pass
@@ -92,14 +84,11 @@ def fromxml(input_node) :
 
        # If we are on root node, build it and skip attributes processing
         if (input_node.nodeName == "root") :
-
             if (text == None) :
                 warning("Database has no name, using default one")
                 text = "Default DB name"
-
             node = Root.Root(text)
         elif (input_node.nodeName == "entry") :
-
             if (text == None) :
                 raise Exceptions.MalformedDatabase()
 
@@ -107,55 +96,48 @@ def fromxml(input_node) :
             # debug("Priority is:      `" + input_node.getAttribute("start") +
             #       "'")
             priority = Priority.Priority()
-
-            try :
-                assert(input_node.hasAttribute("priority") is True)
-                priority.fromstring(str(input_node.getAttribute("priority")))
-            except Exception, e :
-                # debug(str(e))
+            if (not input_node.hasAttribute("priority")) :
                 warning("No priority for entry `" + text + "', using default")
+            else :
+                priority.fromstring(str(input_node.getAttribute("priority")))
 
             # Looking for start attribute
             value = None
 
-            try :
-                assert(input_node.hasAttribute("start") is True)
-
+            if (input_node.hasAttribute("start")) :
                 try :
-                    # debug("Start time value: `" + value + "'")
                     value = input_node.getAttribute("start")
+                    # debug("Start time value: `" + value + "'")
                     start = Time.Time(int(value))
-                except ValueError, e :
+                # Our exceptions first
+                except Exceptions, e :
                     error("Wrong start time format for entry " +
                           "`" + text +"' (" + str(e) + ")")
-                    raise Exception.MalformedDatabase()
+                    raise Exceptions.MalformedDatabase()
                 except Exception, e :
                     bug(str(e))
-
-            except Exception, e :
-                error("Missing start time for entry "
-                      "`" + text + "'")
-                raise Exceptions.MalformedDatabase()
+            else :
+                raise Exceptions.MalformedDatabase("Missing start time " +
+                                                   "for entry "          +
+                                                   "`" + text + "'")
 
             # Looking for end time attribute
             value = None
 
-            try :
-                assert(input_node.hasAttribute("end") is True)
-
+            if (input_node.hasAttribute("end")) :
                 try :
                     value = input_node.getAttribute("end")
                     # debug("End time value: `" + value + "'")
                     end   = Time.Time(int(value))
-                except ValueError, e :
+                # Our exceptions first
+                except Exceptions, e :
                     error("Wrong end time format for entry " +
                           "`" + text +"' (" + str(e) + ")")
-                    raise Exception.MalformedDatabase()
+                    raise Exceptions.MalformedDatabase()
                 except Exception, e :
                     bug(str(e))
-
-            except :
-                # debug("No ned time for entry `" + text + "'")
+            else :
+                # debug("No end time for entry `" + text + "'")
                 pass
 
             if (comment != None) :
@@ -165,7 +147,8 @@ def fromxml(input_node) :
             node = Entry.Entry(text, priority, start, end, comment)
 
         else :
-            bug("Invalid child node name `" + child.nodeName + "'")
+            raise Exceptions.MalformedDatabase("Invalid child node name " +
+                                               "`" + child.nodeName + "'")
 
         # Processing children
         for child in children :
