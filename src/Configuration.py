@@ -123,15 +123,15 @@ class Configuration(object) :
         assert(isinstance(option, str))
 
         if (not self.__values.has_key(section)) :
-            raise Exceptions.KeyNotFound("section "           +
-                                         "`" + section + "' " +
-                                         "not found")
+            raise Exceptions.UnknownSection("section "           +
+                                            "`" + section + "' " +
+                                            "not found")
 
         if (not self.__values[section].has_key(option)) :
-            raise Exceptions.KeyNotFound("section "           +
-                                         "`" + section + "' " +
-                                         "has no option "     +
-                                         "`" + option + "'")
+            raise Exceptions.UnknownOption("section "           +
+                                           "`" + section + "' " +
+                                           "has no option "     +
+                                           "`" + option + "'")
         return self.__values[section][option]
 
     def get(self, section, option, datatype, default = None) :

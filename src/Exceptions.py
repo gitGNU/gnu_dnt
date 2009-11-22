@@ -153,31 +153,6 @@ class Parentless(EID) :
         EID.__init__(self, "node `" + message + "' is parentless")
 
 #
-# INI related exceptions
-#
-class EINI(EBase) :
-    def __init__(self, message) :
-        EBase.__init__(self, message)
-
-class MissingFilename(EINI) :
-    def __init__(self) :
-        EINI.__init__(self, "missing filename")
-
-class KeyNotFound(EINI) :
-    def __init__(self, message) :
-        tmp = ""
-        if (isinstance(message, basestring)) :
-            tmp = ", " + message
-        EINI.__init__(self, "key not found" + tmp)
-
-class WrongValue(EINI) :
-    def __init__(self, message) :
-        tmp = ""
-        if (isinstance(message, basestring)) :
-            tmp = ", " + message
-        EINI.__init__(self, "wrong value" + tmp)
-
-#
 # Configuration related exceptions
 #
 class EConfiguration(EBase) :
