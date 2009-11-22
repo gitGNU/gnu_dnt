@@ -57,9 +57,10 @@ def goodname(name) :
     return False
 
 def name2value(name) :
-    if (goodname(name)) :
-        return __names2values[string.lower(name)]
-    raise Exceptions.UnknownPriorityName(name)
+    n = string.lower(name)
+    if (goodname(n)) :
+        return __names2values[n]
+    raise Exceptions.UnknownPriorityName(str(name))
 
 def goodvalue(value) :
     if (value in __values2names) :
@@ -94,6 +95,7 @@ class Priority(object) :
     def fromstring(self, t) :
         if (not isinstance(t, str)) :
             raise Exceptions.WrongPriorityFormat(str(t))
+
         s = string.strip(t)
         self.__priority = name2value(s)
 
@@ -319,6 +321,36 @@ if (__name__ == '__main__') :
     assert(b >= c)
     assert(c >= d)
     assert(d >= e)
+
+    # Buh ...
+    a = Priority(" veryhigh")
+    b = Priority("  high")
+    c = Priority("   medium")
+    d = Priority("    low")
+    e = Priority("     verylow")
+
+    assert(a != None)
+    assert(b != None)
+    assert(c != None)
+    assert(d != None)
+    assert(e != None)
+
+    a = Priority("     veryhigh")
+    b = Priority("    high")
+    c = Priority("   medium")
+    d = Priority("  low")
+    e = Priority(" verylow")
+
+    assert(a != None)
+    assert(b != None)
+    assert(c != None)
+    assert(d != None)
+    assert(e != None)
+
+    a = Priority().fromstring("veryhigh")
+    a = Priority().fromstring(" veryhigh")
+    a = Priority().fromstring("veryhigh ")
+    a = Priority().fromstring(" veryhigh ")
 
     debug("Test completed")
     sys.exit(0)
