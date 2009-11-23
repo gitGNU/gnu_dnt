@@ -57,9 +57,8 @@ def goodname(name) :
     return False
 
 def name2value(name) :
-    n = string.lower(name)
-    if (goodname(n)) :
-        return __names2values[n]
+    if (goodname(name)) :
+        return __names2values[name]
     raise Exceptions.UnknownPriorityName(str(name))
 
 def goodvalue(value) :
@@ -95,9 +94,10 @@ class Priority(object) :
     def fromstring(self, t) :
         if (not isinstance(t, str)) :
             raise Exceptions.WrongPriorityFormat(str(t))
-
-        s = string.strip(t)
-        self.__priority = name2value(s)
+        n = string.lower(string.strip(t))
+        if (not goodname(n)) :
+            raise Exceptions.UnknownPriorityName(str(n))
+        self.__priority = name2value(n)
 
     def tostring(self) :
         return value2name(self.__priority)
@@ -105,11 +105,9 @@ class Priority(object) :
     def fromint(self, t) :
         if (not isinstance(t, int)) :
             raise Exceptions.WrongPriorityFormat(str(t))
-
-        if (goodvalue(t)) :
-            self.__priority = t
-        else :
-            raise Exceptions.UnknownPriorityName(t)
+        if (not goodvalue(t)) :
+            raise Exceptions.UnknownPriorityValue(str(t))
+        self.__priority = t
 
     def toint(self) :
         return self.__priority
@@ -351,6 +349,8 @@ if (__name__ == '__main__') :
     a = Priority().fromstring(" veryhigh")
     a = Priority().fromstring("veryhigh ")
     a = Priority().fromstring(" veryhigh ")
+    a = Priority().fromstring("  veryhigh  ")
+    a = Priority().fromstring("		veryhigh  ")
 
     debug("Test completed")
     sys.exit(0)
