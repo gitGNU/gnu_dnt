@@ -163,33 +163,31 @@ class EConfiguration(EBase) :
 
 class UnknownSection(EConfiguration) :
     def __init__(self, message) :
-        EConfiguration.__init__(self,
-                                "unknown section "
-                                "`" + message + "' "
-                                "in configuration")
+        s = ""
+        if (isinstance(message, basestring)) :
+            s = ", " + message
+        EConfiguration.__init__(self, "unknown section in configuration" + s)
 
 class UnknownOption(EConfiguration) :
     def __init__(self, message) :
-        EConfiguration.__init__(self,
-                                "unknown option "
-                                "`" + message + "' "
-                                "in configuration")
+        s = ""
+        if (isinstance(message, basestring)) :
+            s = ", " + message
+        EConfiguration.__init__(self, "unknown option in configuration" + s)
 
 class BadValue(EConfiguration) :
     def __init__(self, message) :
         s = ""
         if (isinstance(message, basestring)) :
             s = ", " + message
-        EConfiguration.__init__(self,
-                                "bad value in configuration" + s)
+        EConfiguration.__init__(self, "bad value in configuration" + s)
 
 class ParsingError(EConfiguration) :
     def __init__(self, message) :
         s = ""
         if (isinstance(message, basestring)) :
             s = ", " + message
-        EConfiguration.__init__(self,
-                                "configuration file parsing error" + s)
+        EConfiguration.__init__(self, "configuration file parsing error" + s)
 
 #
 # Parameters related exceptions
