@@ -96,7 +96,8 @@ class Priority(object) :
             raise Exceptions.WrongPriorityFormat(str(t))
         n = string.lower(string.strip(t))
         if (not goodname(n)) :
-            raise Exceptions.UnknownPriorityName(str(n))
+            # Raise exception with the input parameter (for tracking errors)
+            raise Exceptions.UnknownPriorityName(str(t))
         self.__priority = name2value(n)
 
     def tostring(self) :
