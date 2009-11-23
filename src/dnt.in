@@ -30,6 +30,7 @@ except Exception, e :
           why +
           ", bailing out ...")
     print(str(e))
+    # We cannot use sys.exit() here
     exit(-1)
 
 try :
@@ -44,12 +45,13 @@ except Exception, e :
           why +
           ", bailing out ...")
     print(str(e))
+    # We are able to use sys.exit() here
     sys.exit(-1)
 
 # Add our modules directory to the path
 sys.path.append("@pkgvpythondir@")
 
-# Now start importing our modules
+# Start importing our modules now ...
 
 #
 # NOTE:
@@ -58,8 +60,7 @@ sys.path.append("@pkgvpythondir@")
 try :
     #
     # XXX FIXME:
-    #     The ugliest way to read debug_enabled and warning_enabled
-    #     variables ...
+    #     The ugliest way to have error(), debug() and warning() symbols
     #
     from   Trace import *
     import Trace
@@ -89,7 +90,7 @@ except Exception, e :
             ", continuing ...")
 
 try :
-    from   Debug import *
+    from Debug import *
 except Exception, e :
     try :
         why = "(" + str(e) + ")"
@@ -105,7 +106,7 @@ except Exception, e :
 #     We are now able to use Debug module facilities
 #
 try :
-    from   Entry             import *
+    #from   Entry             import *
     from   Configuration     import *
     import Exceptions
     from   Command           import *
@@ -118,8 +119,8 @@ except ImportError, e :
         why = ""
     error("Cannot import package's own modules " + why + ", bailing out ...")
     sys.exit(-1)
-#except Exception, e :
-#    bug(str(e))
+except Exception, e :
+    bug(str(e))
 
 # Remove the local directory from the path at last (we want a caged python ...)
 try :
@@ -149,9 +150,12 @@ DEFAULT_CFG_FILE  = "." + _CFG_FILE_TPL
 CFG_SEARCH_PATHS  = [ #SYSCONFDIR + '/' +       _CFG_FILE_TPL,
     '$HOME'    + '/' + '.' + _CFG_FILE_TPL ]
 
-def hint(s) :
+def hint(subcommand, s) :
     print(s)
-    print("Use `" + PROGRAM_NAME + " -h' for help")
+    if (subcommand != None) :
+        print("Use `" + PROGRAM_NAME + " " + subcommand + " -h' for help")
+    else :
+        print("Use `" + PROGRAM_NAME + " -h' for help")
 
 def version() :
     print(PROGRAM_NAME + " (" + PACKAGE_NAME + ") " + PACKAGE_VERSION)
@@ -222,7 +226,7 @@ class MainCommand(Command) :
     def authors(self) :
         return [ "Francesco Salvestrini" ]
 
-def main(arguments) :
+def main_command(arguments) :
 
     # Setup the configuration
     configuration = Configuration()
@@ -247,7 +251,7 @@ def main(arguments) :
     footer.append("Commands:")
     for cmd_name in Commands.commands.keys() :
         cmd_instance = Commands.commands[cmd_name]
-        assert(cmd_instance != None)
+        assert(isinstance(cmd_instance, Command))
         assert(hasattr(cmd_instance, "short_help"))
         assert(callable(cmd_instance.short_help))
 
@@ -362,7 +366,7 @@ def main(arguments) :
 
     # Handle command related checks
     if (len(command.rargs) < 1) :
-        hint("Missing command")
+        hint(None, "Missing command")
         return 1
 
     cmd_name     = command.rargs[0]
@@ -370,7 +374,7 @@ def main(arguments) :
     try :
         cmd_instance = Commands.commands[cmd_name]
     except KeyError :
-        hint("Unknown command `" + cmd_name + "'")
+        hint(None, "Unknown command `" + cmd_name + "'")
         return 1
     except :
         bug("Unknown exception while looking for command instance")
@@ -400,35 +404,35 @@ def main(arguments) :
         debug("Completed " + cmd_name + ".do()")
         retval = 0
 
-    # Transform our exceptions first
+    # Transform our command-related exceptions first
     except Exceptions.ExplicitExit, e :
-        debug("Exit explicitly from option parsing with code " + str(e.code()))
+        debug("Exit explicitly from option parsing " +
+              "(exit =" + str(e.code()) + ")")
         retval = e.code()
     except Exceptions.EParameters, e :
-        hint(e)
+        hint(cmd_name, e)
     except Exceptions.EBase, e :
-        error(e)
+        error(str(e))
 
     # Transform other exceptions last
     except IOError, e :
-        error(e)
+        error(str(e))
     except ValueError, e :
-        error(e)
+        error(str(e))
     except SystemExit, e :
         bug("Explicit system exit called in subcommand "
             "`" + cmd_name + "' (not allowed in subcommands)")
-    except AssertionError, e :
-        # Re-raise exception in order to be catched outside here ...
-        raise e
-    except Exception, e :
-        bug("Unhandled exception in subcommand "
-            "`" + cmd_name + "' (" + str(e) + ")")
+#    except AssertionError, e :
+#        # Re-raise exception in order to be catched outside here ...
+#        raise e
+#    except Exception, e :
+#        bug("Unhandled exception in subcommand "
+#            "`" + cmd_name + "' (" + str(e) + ")")
     except :
         bug("Unknown exception in subcommand "
             "`" + cmd_name + "' (" + str(e) + ")")
 
     assert(isinstance(retval, int))
-
     if (retval != 0) :
         debug("Got an error (" + str(retval) + "), bailing out ...")
         return retval
@@ -438,50 +442,56 @@ def main(arguments) :
     configuration_save(configuration, CFG_SEARCH_PATHS)
 
     debug("All operations completed successfully")
-    assert(retval == 0)
     return retval
 
+#
+# Main
+#
 if (__name__ == '__main__') :
     retval = 1
     try :
-        retval = main(sys.argv)
+        retval = main_command(sys.argv)
 
     # We need to catch command related exceptions like we do in the subcommands
-    # try-except blocks (see the main block) because we are using the same
-    # class
+    # try-except blocks (see the main block) cause we are using the same
+    # class (the main program is a Command either)
     except Exceptions.ExplicitExit, e :
-        debug("Exit explicitly from option parsing with code " + str(e.code()))
+        debug("Exit explicitly from option parsing " +
+              "(exit = " + str(e.code()) + ")")
         retval = e.code()
     except Exceptions.EParameters, e :
-        hint(e)
+        hint(None, e)
     except Exceptions.EBase, e :
-        error(e)
+        error(str(e))
 
-    # AssertionError exceptions should be catched only here (in order to
-    # transform all them into bug()
+    # Transform AssertionError exceptions into bugs (known)
     except AssertionError, e :
         debug("Got assertion in main loop")
+
+        message = "???"
         try :
             message = str(e)
         except TypeError :
             message = "cannot stringify assertion"
         except :
-            message = "???"
-        if (message != "") :
-            message = "(" + message + ")"
+            pass
+        message = "(" + message + ")"
+
         bug("Assertion error " + message)
 
-    # Transform unhandled exceptions into bugs
+    # Transform unhandled exceptions into bugs (unknown)
     except Exception, e :
         debug("Got unhandled exception in main loop")
+
+        message = "???"
         try :
             message = str(e)
         except TypeError :
             message = "cannot stringify exception"
         except :
-            message = "???"
-        if (message != "") :
-            message = "(" + message + ")"
+            pass
+        message = "(" + message + ")"
+
         bug("Unhandled exception detected in main loop " + message)
 
     # Transform unknown exceptions into bugs too
@@ -489,6 +499,6 @@ if (__name__ == '__main__') :
         bug("Unknown exception detected in main loop")
 
     assert(isinstance(retval, int))
-
     debug("Program execution completed with return value " + str(retval))
+
     sys.exit(retval)
