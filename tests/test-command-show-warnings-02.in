@@ -27,7 +27,7 @@ rm -f test2.log
 
 cat >test.db <<EOF
 <root>
-<entry start="1247558112" priority="     ">alfa</entry>
+<entry start="1247558112" priority="high">alfa</entry>
 </root>
 EOF
 
