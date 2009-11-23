@@ -68,6 +68,10 @@ def fromxml(input_node) :
                         else :
                             comment = comment + i.data
                     comment = comment.strip()
+                else :
+                    raise Exceptions.MalformedDatabase("Unknown tag `" +
+                                                       child.nodeName +
+                                                       "'")
             elif (child.nodeType == 3) :
                 if (not child.data.isspace()) :
                     if (text == None) :
