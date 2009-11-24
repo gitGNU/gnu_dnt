@@ -92,6 +92,7 @@ def fromxml(input_node) :
                 warning("Database has no name, using default one")
                 text = "Default DB name"
             node = Root.Root(text)
+#            raise Exceptions.MalformedDatabase("Missing database name")
         elif (input_node.nodeName == "entry") :
             if (text == None) :
                 raise Exceptions.MalformedDatabase()
@@ -109,14 +110,18 @@ def fromxml(input_node) :
             value = None
 
             if (input_node.hasAttribute("start")) :
+                value = input_node.getAttribute("start")
                 try :
-                    value = input_node.getAttribute("start")
-                    # debug("Start time value: `" + value + "'")
                     start = Time.Time(int(value))
+                    debug("Start time value: `" + str(value) + "'")
                 # Our exceptions first
                 except Exceptions, e :
                     error("Wrong start time format for entry " +
                           "`" + text +"' (" + str(e) + ")")
+                    raise Exceptions.MalformedDatabase()
+                except ValueError :
+                    error("Wrong start time for entry " +
+                          "`" + text +"'")
                     raise Exceptions.MalformedDatabase()
                 except Exception, e :
                     bug(str(e))
@@ -129,14 +134,18 @@ def fromxml(input_node) :
             value = None
 
             if (input_node.hasAttribute("end")) :
+                value = input_node.getAttribute("end")
                 try :
-                    value = input_node.getAttribute("end")
-                    # debug("End time value: `" + value + "'")
                     end   = Time.Time(int(value))
+                    debug("End time value: `" + str(value) + "'")
                 # Our exceptions first
                 except Exceptions, e :
                     error("Wrong end time format for entry " +
                           "`" + text +"' (" + str(e) + ")")
+                    raise Exceptions.MalformedDatabase()
+                except ValueError :
+                    error("Wrong end time for entry " +
+                          "`" + text +"'")
                     raise Exceptions.MalformedDatabase()
                 except Exception, e :
                     bug(str(e))

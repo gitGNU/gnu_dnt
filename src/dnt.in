@@ -153,9 +153,12 @@ CFG_SEARCH_PATHS  = [ #SYSCONFDIR + '/' +       _CFG_FILE_TPL,
 def hint(subcommand, s) :
     assert(isinstance(s, str))
     print(s)
+
     message = PROGRAM_NAME
     if (subcommand != None) :
+        assert(isinstance(subcommand, str))
         message = message + " " + subcommand
+
     print("Use `" + message + " -h' for help")
 
 def version() :
@@ -411,7 +414,7 @@ def main_command(arguments) :
               "(exit =" + str(e.code()) + ")")
         retval = e.code()
     except Exceptions.EParameters, e :
-        hint(cmd_name, e)
+        hint(cmd_name, str(e))
     except Exceptions.EBase, e :
         error(str(e))
 
@@ -461,7 +464,7 @@ if (__name__ == '__main__') :
               "(exit = " + str(e.code()) + ")")
         retval = e.code()
     except Exceptions.EParameters, e :
-        hint(None, e)
+        hint(None, str(e))
     except Exceptions.EBase, e :
         error(str(e))
 
@@ -469,30 +472,28 @@ if (__name__ == '__main__') :
     except AssertionError, e :
         debug("Got assertion in main loop")
 
-        message = "???"
         try :
             message = str(e)
         except TypeError :
             message = "cannot stringify assertion"
         except :
-            pass
-        message = "(" + message + ")"
+            message = "???"
 
+        message = "(" + message + ")"
         bug("Assertion error " + message)
 
     # Transform unhandled exceptions into bugs (unknown)
     except Exception, e :
         debug("Got unhandled exception in main loop")
 
-        message = "???"
         try :
             message = str(e)
         except TypeError :
             message = "cannot stringify exception"
         except :
-            pass
-        message = "(" + message + ")"
+            message = "???"
 
+        message = "(" + message + ")"
         bug("Unhandled exception detected in main loop " + message)
 
     # Transform unknown exceptions into bugs too
