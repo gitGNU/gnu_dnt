@@ -792,6 +792,12 @@
 		<entry end="1258539725" priority="high" start="1258499566">
 			Add fill option for wrapped lines with show command (eg. NEWS building in Makefile.top)
 		</entry>
+		<entry end="1259083623" priority="veryhigh" start="1259078400">
+			Fix backtrace handling
+		</entry>
+		<entry priority="veryhigh" start="1259078413">
+			Add DB related tests (XFAIL ones)
+		</entry>
 	</entry>
 	<entry priority="high" start="1233694836">
 		Release 0.2.0
