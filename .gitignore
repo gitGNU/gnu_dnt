@@ -53,9 +53,13 @@ Makefile
 
 /tests/defs
 /tests/wrapper
+
 /tests/testSubDir-*
+
 /tests/test-success
 /tests/test-fail
+/tests/test-skip
+
 /tests/test-debug
 /tests/test-warnings
 /tests/test-verbose
