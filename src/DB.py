@@ -102,7 +102,9 @@ def fromxml(input_node) :
             #       "'")
             priority = Priority.Priority()
             if (not input_node.hasAttribute("priority")) :
-                warning("No priority for entry `" + text + "', using default")
+                #warning("No priority for entry `" + text + "', using default")
+                raise Exceptions.MalformedDatabase("No priority for entry " +
+                                                   "`" + text + "'")
             else :
                 priority.fromstring(str(input_node.getAttribute("priority")))
 
