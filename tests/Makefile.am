@@ -69,8 +69,12 @@ CLEANFILES += defs
 EXTRA_DIST += defs.in
 
 # Tests
+SKIP_TESTS    =
 FAIL_TESTS    =
 SUCCESS_TESTS =
+
+SKIP_TESTS    +=				\
+	test-skip
 
 FAIL_TESTS    +=				\
 	test-fail				\
@@ -215,7 +219,7 @@ SUCCESS_TESTS +=				\
 
 
 XFAIL_TESTS  = $(FAIL_TESTS)
-TESTS        = $(FAIL_TESTS) $(SUCCESS_TESTS)
+TESTS        = $(FAIL_TESTS) $(SUCCESS_TESTS) $(SKIP_TESTS)
 
 test-success: $(srcdir)/test-success.in Makefile
 	( rm -f $@ $@.tmp && \
@@ -228,6 +232,18 @@ test-success: $(srcdir)/test-success.in Makefile
 	}
 EXTRA_DIST += test-success.in
 CLEANFILES += test-success
+
+test-skip: $(srcdir)/test-skip.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-skip.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-skip.in
+CLEANFILES += test-skip
 
 test-fail: $(srcdir)/test-fail.in Makefile
 	( rm -f $@ $@.tmp && \
