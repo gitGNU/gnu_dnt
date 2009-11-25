@@ -61,7 +61,6 @@ Makefile
 /tests/test-skip
 
 /tests/test-debug
-/tests/test-warnings
 /tests/test-verbose
 /tests/test-help
 /tests/test-version
@@ -162,8 +161,6 @@ Makefile
 /tests/test-command-show-wrap-03
 /tests/test-command-show-wrap-04
 /tests/test-command-show-flags-01
-/tests/test-command-show-warnings-01
-/tests/test-command-show-warnings-02
 /tests/test-command-show-collapsed-01
 /tests/test-command-show-configuration-01
 /tests/test-command-show-sorting-01
