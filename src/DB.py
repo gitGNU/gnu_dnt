@@ -89,10 +89,10 @@ def fromxml(input_node) :
        # If we are on root node, build it and skip attributes processing
         if (input_node.nodeName == "root") :
             if (text == None) :
-                warning("Database has no name, using default one")
-                text = "Default DB name"
+                #warning("Database has no name, using default one")
+                #text = "Default DB name"
+                raise Exceptions.MalformedDatabase("Missing database name")
             node = Root.Root(text)
-#            raise Exceptions.MalformedDatabase("Missing database name")
         elif (input_node.nodeName == "entry") :
             if (text == None) :
                 raise Exceptions.MalformedDatabase()
