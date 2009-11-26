@@ -159,7 +159,7 @@ class Time(object) :
                 date[0] = i
 
             # Four digit token, handling as GMT/UTC time (iso8601)
-            elif (re.match(r'^+\d{,4}$', i)) :
+            elif (re.match(r'^[\+\-]\d{,4}$', i)) :
                 # XXX FIXME: We don't care now
                 pass
 
@@ -332,6 +332,22 @@ if (__name__ == '__main__') :
 
     t1 = Time(time.strftime("%Y-%m-%d") + ' 12:00:00')
     t2 =      "12:00:01"
+    assert(t1 != t2)
+    assert(t1 <= t2)
+    assert(t2 >= t1)
+    assert(t1 <  t2)
+    assert(t2 >  t1)
+
+    t1 = Time("2008-11-2 1:1:1 +0100")
+    t2 =      "2009-11-2 2:1:1 +0100"
+    assert(t1 != t2)
+    assert(t1 <= t2)
+    assert(t2 >= t1)
+    assert(t1 <  t2)
+    assert(t2 >  t1)
+
+    t1 = Time("2008-11-2 1:1:1 -0100")
+    t2 =      "2009-11-2 2:1:1 -0100"
     assert(t1 != t2)
     assert(t1 <= t2)
     assert(t2 >= t1)
