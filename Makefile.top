@@ -52,9 +52,9 @@ TODO: $(DNT_DB)
 MAINTAINERCLEANFILES += TODO
 
 .releases:
-	$(GITTAG_TO_DATE) | $(SORT) -r -k 2 > .releases || {	\
-		rm -f .releases ;				\
-		exit 1 ;					\
+	$(GITTAG_TO_DATE) > .releases || {	\
+		rm -f .releases ;		\
+		exit 1 ;			\
 	}
 MAINTAINERCLEANFILES += .releases
 
