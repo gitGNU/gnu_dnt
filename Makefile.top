@@ -51,50 +51,28 @@ TODO: $(DNT_DB)
 	}
 MAINTAINERCLEANFILES += TODO
 
-NEWS: $(DNT_DB)
-	start="" ;								  \
-	end="`date +"%Y-%m-%d"`" ;						  \
-	script="$(GITTAG_TO_DATE)" ;						  \
-	rm -f NEWS ;								  \
-	(for i in `$$script | sort -r -k 2 | $(SED) -e 's,\ ,_,g'` ;		  \
-	 do									  \
-		start="`echo $$i | $(SED) -e 's,^.*_,,'`" ;			  \
-		tag="`echo $$i | $(SED) -e 's,_.*$$,,'`" ;			  \
-		$(DNT) $(DNT_FLAGS)						  \
-			show							  \
-			--filter="start>=\"$$start\" and end<=\"$$end\" and done" \
-			--line-format="* %t"					  \
-			--level-fill=""					  \
-			--indent-fill=""					  \
-			--unindent-fill=""					  \
-			--wrap-fill="  "					  \
-			--width=78						  \
-			--hide-collapsed					  \
-		> NEWS.tmp ;							  \
-		if test ! "x`${SED} -n '$$=' < NEWS.tmp`" = "x" ; then		  \
-			echo "$$end ($$tag):" >> NEWS ;				  \
-			cat NEWS.tmp >> NEWS ;					  \
-			echo "" >> NEWS ;					  \
-			echo "$$start -> $$end : Ok" ;				  \
-		else								  \
-			echo "$$start -> $$end : Empty" ;			  \
-		fi ;								  \
-		end="$$start" ;							  \
-	done && rm -f NEWS.tmp) || {						  \
-		rm -f NEWS.tmp ;						  \
-		rm -f NEWS ;							  \
-		exit 1 ;							  \
+.releases:
+	$(GITTAG_TO_DATE) | $(SORT) -r -k 2 > .releases || {	\
+		rm -f .releases ;				\
+		exit 1 ;					\
+	}
+MAINTAINERCLEANFILES += .releases
+
+NEWS: .releases
+	$(RELEASES_TO_NEWS) .releases > NEWS || {	\
+		rm -f NEWS ;				\
+		exit 1 ;				\
 	}
 MAINTAINERCLEANFILES += NEWS
 
-AUTHORS:
-	rm -f AUTHORS                       &&                                  \
-	touch AUTHORS                       &&                                  \
-	cat $(srcdir)/AUTHORS.in >> AUTHORS &&                                  \
-	$(GITLOG_TO_COMMITTERS) | $(SED) -e 's,\(.*\),  \1,' >> AUTHORS &&      \
-	echo "" >> AUTHORS                  || {                                \
-	        rm -f AUTHORS ;                                                 \
-	        exit 1 ;                                                        \
+AUTHORS:								   \
+	rm -f AUTHORS                       &&				   \
+	touch AUTHORS                       &&				   \
+	cat $(srcdir)/AUTHORS.in >> AUTHORS &&				   \
+	$(GITLOG_TO_COMMITTERS) | $(SED) -e 's,\(.*\),  \1,' >> AUTHORS && \
+	echo "" >> AUTHORS                  || {			   \
+	        rm -f AUTHORS ;						   \
+	        exit 1 ;						   \
 	}
 MAINTAINERCLEANFILES += AUTHORS
 
