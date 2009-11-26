@@ -59,13 +59,13 @@ MAINTAINERCLEANFILES += TODO
 MAINTAINERCLEANFILES += .releases
 
 NEWS: .releases
-	$(RELEASES_TO_NEWS) .releases > NEWS || {	\
-		rm -f NEWS ;				\
-		exit 1 ;				\
+	$(RELEASES_TO_NEWS) .releases NEWS || {	\
+		rm -f NEWS ;			\
+		exit 1 ;			\
 	}
 MAINTAINERCLEANFILES += NEWS
 
-AUTHORS:								   \
+AUTHORS:
 	rm -f AUTHORS                       &&				   \
 	touch AUTHORS                       &&				   \
 	cat $(srcdir)/AUTHORS.in >> AUTHORS &&				   \
