@@ -157,6 +157,12 @@ class Time(object) :
 
                 # Fill array year element
                 date[0] = i
+
+            # Four digit token, handling as GMT/UTC time (iso8601)
+            elif (re.match(r'^+\d{,4}$', i)) :
+                # XXX FIXME: We don't care now
+                pass
+
             else :
                 # Invalid input
                 raise Exceptions.WrongTimeFormat(t)
