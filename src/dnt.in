@@ -463,6 +463,8 @@ if (__name__ == '__main__') :
         debug("Exit explicitly from option parsing " +
               "(exit = " + str(e.code()) + ")")
         retval = e.code()
+    except KeyboardInterrupt, e:
+        warning("Program interrupted (" + str(e) + ")")
     except Exceptions.EParameters, e :
         hint(None, str(e))
     except Exceptions.EBase, e :
@@ -483,7 +485,7 @@ if (__name__ == '__main__') :
         bug("Assertion error " + message)
 
     # Transform unhandled exceptions into bugs (unknown)
-    except Exception, e :
+    except Exception:
         debug("Got unhandled exception in main loop")
 
         try :
