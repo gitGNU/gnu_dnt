@@ -915,6 +915,9 @@
 		<entry end="1258539168" priority="high" start="1258499566">
 			Add fill option for wrapped lines with show command (eg. NEWS building in Makefile.top)
 		</entry>
+		<entry priority="medium" start="1259278118">
+			Add code for handling iso8601 time (in Time class)
+		</entry>
 	</entry>
 	<entry priority="medium" start="1233694932">
 		Release 0.3.0
