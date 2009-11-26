@@ -74,7 +74,7 @@ class Console(object) :
         except KeyboardInterrupt, e :
             print("")
             self.__buffer = ""
-            raise Exceptions.ExplicitExit(e, 1)
+            raise Exceptions.ExplicitExit("keyboard interrupt", 1)
         readline.set_startup_hook(None)
 
 #        try :
