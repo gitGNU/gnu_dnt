@@ -65,11 +65,11 @@ def dump(filehandle,
                                                text)
 
             if (wrap_fill != "") :
-                dump.extend(Text.wrap(text, w,
+                dump.extend(Text.wrap(i, w,
                                       subsequent_indent = wrap_fill,
                                       break_ansi_escapes = False))
             else :
-                dump.extend(Text.wrap(text, w, break_ansi_escapes = False))
+                dump.extend(Text.wrap(i, w, break_ansi_escapes = False))
         else :
             dump.append(i)
 
@@ -652,7 +652,7 @@ class SubCommand(Command) :
             line_format = opts.line_format
         else :
             if (verbose is True) :
-                l = "%i %t\n  [%c]\n  (%s, %e, %p)\n"
+                l = "%i %t\n[%c]\n(%s, %e, %p)\n"
             else :
                 l = "%i %t\n"
 
