@@ -798,6 +798,9 @@
 		<entry end="1259190643" priority="veryhigh" start="1259078413">
 			Add DB related tests (XFAIL ones)
 		</entry>
+		<entry end="1259327266" priority="veryhigh" start="1259325708">
+			Fix verbose/non-verboses behavior on show command (triple output or no output at all)
+		</entry>
 	</entry>
 	<entry priority="high" start="1233694836">
 		Release 0.2.0
