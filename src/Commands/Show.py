@@ -461,6 +461,7 @@ class SubCommand(Command) :
                 "  %i  index (relative)",
                 "  %c  comment",
                 "  %d  depth",
+                "  %r  root node name",
                 "",
                 "FILTER         " + Filter.help_text(),
                 "ID             " + ID.help_text(),
