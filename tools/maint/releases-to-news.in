@@ -103,29 +103,29 @@ ED="" # end date
 ET="" # end time
 
 # Input lines regexp
-RE="^\ *\([^\ ][^\ ]*\)\ \{1,\}\([^\ ][^\ ]*\)\ \{1,\}\(.*\)\ *$"
+RE="^\ *\([^\ ][^\ ]*\)\ \{1,\}\([^\ ][^\ ]*\)\ \{1,\}"
+RE="${RE}\([^\ ][^\ ]*\)\ \{1,\}\([^\ ][^\ ]*\)\ *$"
 
 OLDIFS=$IFS
 IFS='
-'; for i in `$SORT -r -k 2,3 $INPUT | \
-             $SED -n '${
-# Append UNIX epoch time here as start item, so we have not to do
-# some stuff outside this loop
-a \
-0.0.0 1971-01-01 00:00:01 +0000
-}; p;'`
+'; for i in `$SED -n -e 's/'$RE'/\2\ \3\ \4\ \1/g; ${
+             # Append UNIX epoch time here as start item, so we have
+             # not to do some stuff outside this loop
+             a \
+1971-01-01 00:00:01 +0000 0.0.0
+             }; p;' <$INPUT | $SORT -r`
 do
     if test "x${ER}" = "x"; then
         # This is the first entry, save data and skip to the
         # next line
-        ER=`echo $i | $SED 's/'$RE'/\1/'`
-        ED=`echo $i | $SED 's/'$RE'/\2/'`
-        ET=`echo $i | $SED 's/'$RE'/\3/'`
+        ER=`echo $i | $SED 's/'$RE'/\4/'`
+        ED=`echo $i | $SED 's/'$RE'/\1/'`
+        ET=`echo $i | $SED 's/'$RE'/\2\ \3/'`
         continue
     else
-        SR=`echo $i | $SED 's/'$RE'/\1/'`
-        SD=`echo $i | $SED 's/'$RE'/\2/'`
-        ST=`echo $i | $SED 's/'$RE'/\3/'`
+        SR=`echo $i | $SED 's/'$RE'/\4/'`
+        SD=`echo $i | $SED 's/'$RE'/\1/'`
+        ST=`echo $i | $SED 's/'$RE'/\2\ \3/'`
     fi
 
     FILTER="end>\"${SD} ${ST}\" and end<=\"${ED} ${ET}\" and done"
@@ -141,7 +141,7 @@ do
            --hide-collapsed >$TEMP ||             \
         {                                         \
           echo "Failed to retrieve info from DB"; \
-          rm -f $TEMP 2>/dev/null                 \
+          rm -f $TEMP 2>/dev/null;                \
           exit 1;                                 \
         }
 
