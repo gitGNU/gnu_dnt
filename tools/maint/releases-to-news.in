@@ -25,9 +25,9 @@
 me="releases-to-news"
 version="0.1"
 
-SED="sed"
-SORT="sort"
-DNT="dnt"
+SED="@SED@"
+SORT="@SORT@"
+DNT="@DNT@"
 INPUT=""
 OUTPUT=""
 

@@ -34,8 +34,6 @@ $(top_srcdir)/.version:
 dist-hook:
 	echo $(VERSION) > $(distdir)/.tarball-version
 
-DNT = $(top_builddir)/src/dnt
-
 TODO: $(DNT_DB)
 	$(DNT) $(DNT_FLAGS)			\
 	       show				\
