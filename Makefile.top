@@ -27,7 +27,7 @@ BUILT_SOURCES += $(top_srcdir)/.version
 $(top_srcdir)/.version:
 	echo $(VERSION) > $@-t && mv $@-t $@
 
-dist-hook:
+dist-hook-version:
 	echo $(VERSION) > $(distdir)/.tarball-version
 
 DNT_BIN = $(top_builddir)/src/dnt
@@ -91,7 +91,9 @@ ChangeLog:
 MAINTAINERCLEANFILES += ChangeLog
 EXTRA_DIST           += ChangeLog
 
-dist-hook: NEWS TODO ChangeLog AUTHORS
+dist-hook-files: NEWS TODO ChangeLog AUTHORS
+
+dist-hook: dist-hook-version dist-hook-files
 
 dist-gpg: dist
 	gpg --yes -b --use-agent					   \
