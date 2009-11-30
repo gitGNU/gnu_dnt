@@ -129,7 +129,7 @@ do
     fi
 
     FILTER="end>\"${SD} ${ST}\" and end<=\"${ED} ${ET}\" and done"
-    ${DNT}                                              \
+    ${DNT_BIN}                                          \
         --database=${DNT_DB}                            \
         --mono                                          \
         show                                            \
