@@ -18,10 +18,6 @@
 ## 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ##
 
-EXTRA_DIST +=					\
-	TODO NEWS ChangeLog $(DNT_DB) AUTHORS   \
-	bootstrap .bootstrap
-
 ##
 ## Maintainer related targets
 ##
@@ -34,12 +30,15 @@ $(top_srcdir)/.version:
 dist-hook:
 	echo $(VERSION) > $(distdir)/.tarball-version
 
+EXTRA_DIST += $(DNT_DB)
+
+.PHONY: TODO
 TODO: $(DNT_DB)
-	$(DNT) $(DNT_FLAGS)			\
+	$(top_builddir)/src/dnt $(DNT_FLAGS)	\
 	       show				\
 	       --filter="not done"		\
 	       --line-format="* %t"		\
-	       --width=0			\
+	       --width=78			\
 	       --indent-fill=""			\
 	       --unindent-fill=""		\
 	       --level-fill=""			\
@@ -48,21 +47,26 @@ TODO: $(DNT_DB)
 		exit 1 ;			\
 	}
 MAINTAINERCLEANFILES += TODO
+EXTRA_DIST           += TODO
 
+.PHONY: .releases
 .releases:
 	$(GITTAG_TO_DATE) > .releases || {	\
 		rm -f .releases ;		\
 		exit 1 ;			\
 	}
 MAINTAINERCLEANFILES += .releases
+EXTRA_DIST           += .releases
 
-NEWS: .releases
-	$(RELEASES_TO_NEWS) .releases NEWS || {	\
-		rm -f NEWS ;			\
-		exit 1 ;			\
+NEWS: .releases $(DNT_DB)
+	DNT=$(top_builddir)/src/dnt $(RELEASES_TO_NEWS) .releases NEWS || { \
+		rm -f NEWS ;						    \
+		exit 1 ;						    \
 	}
 MAINTAINERCLEANFILES += NEWS
+EXTRA_DIST           += NEWS
 
+.PHONY: AUTHORS
 AUTHORS:
 	rm -f AUTHORS                       &&				   \
 	touch AUTHORS                       &&				   \
@@ -73,15 +77,18 @@ AUTHORS:
 	        exit 1 ;						   \
 	}
 MAINTAINERCLEANFILES += AUTHORS
+EXTRA_DIST           += AUTHORS
 
+.PHONY: ChangeLog
 ChangeLog:
 	$(GITLOG_TO_CHANGELOG) > ChangeLog || {	\
 		rm -f ChangeLog ;		\
 		exit 1 ;			\
 	}
 MAINTAINERCLEANFILES += ChangeLog
+EXTRA_DIST           += ChangeLog
 
-dist-hook: NEWS TODO ChangeLog
+dist-hook: NEWS TODO ChangeLog AUTHORS
 
 dist-gpg: dist
 	gpg --yes -b --use-agent					   \

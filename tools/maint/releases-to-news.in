@@ -27,7 +27,7 @@ version="0.1"
 
 SED="@SED@"
 SORT="@SORT@"
-DNT="@DNT@"
+#DNT="@DNT@"
 INPUT=""
 OUTPUT=""
 

@@ -56,7 +56,7 @@ AX_PATH_MISSING([SITETOOL],  [sitetool])
 AX_PATH_MISSING([PYCHECKER], [pychecker])
 AX_PATH_MISSING([HELP2MAN],  [help2man])
 AX_PATH_MISSING([WGET],      [wget])
-AC_SUBST([DNT],              [./src/dnt])
+#AX_PATH_MISSING([DNT],       [dnt])
 AX_PATH_MISSING([SORT],      [sort])
 
 AC_PATH_PROG([XSLTPROC],             [xsltproc])
