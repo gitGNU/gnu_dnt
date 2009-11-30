@@ -129,7 +129,7 @@ do
     fi
 
     FILTER="end>\"${SD} ${ST}\" and end<=\"${ED} ${ET}\" and done"
-    ${DNT} --mono --database=.dnt.db              \
+    ${DNT} --mono                                 \
            show                                   \
            --filter="${FILTER}"                   \
            --line-format="* %t"                   \

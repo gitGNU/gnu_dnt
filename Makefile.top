@@ -59,9 +59,10 @@ MAINTAINERCLEANFILES += .releases
 EXTRA_DIST           += .releases
 
 NEWS: .releases $(DNT_DB)
-	DNT=$(top_builddir)/src/dnt $(RELEASES_TO_NEWS) .releases NEWS || { \
-		rm -f NEWS ;						    \
-		exit 1 ;						    \
+	DNT="$(top_builddir)/src/dnt $(DNT_FLAGS)"	\
+        $(RELEASES_TO_NEWS) .releases NEWS || {		\
+		rm -f NEWS ;				\
+		exit 1 ;				\
 	}
 MAINTAINERCLEANFILES += NEWS
 EXTRA_DIST           += NEWS
