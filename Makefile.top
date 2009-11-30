@@ -30,7 +30,7 @@ $(top_srcdir)/.version:
 dist-hook:
 	echo $(VERSION) > $(distdir)/.tarball-version
 
-EXTRA_DIST += $(DNT_DB)
+EXTRA_DIST += $(DNT_DB) AUTHORS.in
 
 .PHONY: TODO
 TODO: $(DNT_DB)
