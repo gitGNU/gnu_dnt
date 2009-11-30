@@ -35,7 +35,6 @@ DNT_DB  = $(top_srcdir)/.dnt.db
 
 EXTRA_DIST += $(DNT_DB) AUTHORS.in
 
-.PHONY: TODO
 TODO: $(DNT_DB)
 	$(DNT_BIN)				\
 	       --database=$(DNT_DB)		\
@@ -54,7 +53,6 @@ TODO: $(DNT_DB)
 MAINTAINERCLEANFILES += TODO
 EXTRA_DIST           += TODO
 
-.PHONY: .releases
 .releases:
 	$(GITTAG_TO_DATE) > .releases || {	\
 		rm -f .releases ;		\
@@ -73,7 +71,6 @@ NEWS: $(DNT_DB) .releases
 MAINTAINERCLEANFILES += NEWS
 EXTRA_DIST           += NEWS
 
-.PHONY: AUTHORS
 AUTHORS:
 	rm -f AUTHORS                       &&				   \
 	touch AUTHORS                       &&				   \
@@ -86,7 +83,6 @@ AUTHORS:
 MAINTAINERCLEANFILES += AUTHORS
 EXTRA_DIST           += AUTHORS
 
-.PHONY: ChangeLog
 ChangeLog:
 	$(GITLOG_TO_CHANGELOG) > ChangeLog || {	\
 		rm -f ChangeLog ;		\
