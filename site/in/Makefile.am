@@ -55,18 +55,18 @@ site.as: $(srcdir)/site.as.in Makefile
 CLEANFILES += site.as
 
 news.dump: $(DNT_DB)
-	PYTHONPATH=$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
-	export PYTHONPATH ; \
-	$(top_builddir)/src/dnt $(DNT_FLAGS) \
-	       show \
-	       --indent-fill="(ul " \
-	       --unindent-fill=")" \
-	       --line-format="(li \"%t\")" \
-	       --width=0 \
-	       --output=news.dump \
-	       --filter="done" || { \
-		rm -f news.dump ; \
-		exit 1 ; \
+	$(DNT_BIN)				\
+	       --database=$(DNT_DB)		\
+	       --mono				\
+	       show				\
+	       --indent-fill="(ul "		\
+	       --unindent-fill=")"		\
+	       --line-format="(li \"%t\")"	\
+	       --width=0			\
+	       --output=news.dump		\
+	       --filter="done" || {		\
+		rm -f news.dump ;		\
+		exit 1 ;			\
 	}
 CLEANFILES += news.dump
 
@@ -81,18 +81,18 @@ news.sxml: news.dump
 CLEANFILES += news.sxml
 
 todos.dump: $(DNT_DB)
-	PYTHONPATH=$(abs_top_srcdir)/src@PATH_SEPARATOR@$(abs_top_builddir)/src ; \
-	export PYTHONPATH ; \
-	$(top_builddir)/src/dnt $(DNT_FLAGS) \
-	       show \
-	       --indent-fill="(ul " \
-	       --unindent-fill=")" \
-	       --line-format="(li \"%t\")" \
-	       --width=0 \
-	       --output=todos.dump \
-	       --filter="not done" || { \
-		rm -f todos.dump ; \
-		exit 1 ; \
+	$(DNT_BIN)				\
+	       --database=$(DNT_DB)		\
+	       --mono				\
+	       show				\
+	       --indent-fill="(ul "		\
+	       --unindent-fill=")"		\
+	       --line-format="(li \"%t\")"	\
+	       --width=0			\
+	       --output=todos.dump		\
+	       --filter="not done" || {		\
+		rm -f todos.dump ;		\
+		exit 1 ;			\
 	}
 CLEANFILES += todos.dump
 
@@ -127,7 +127,7 @@ maintainer-clean-local:
 ##
 URL_SITE = "http://github.com/salvestrini/build-utils/tree/master/site"
 
-SITE_SRCS_EXTERNAL =					\
+SITE_SRCS_EXTERNAL =				\
 	$(URL_SITE)/footer.sxml			\
 	$(URL_SITE)/header.sxml			\
 	$(URL_SITE)/layout.sxml			\
@@ -147,6 +147,6 @@ update-local-site: Makefile
 	done && \
 	rm -r -f fetch-dir
 
-update-local: Makefile update-local-site update-local-site
+update-local: Makefile update-local-site
 
 maintainer-check-local: Makefile
