@@ -176,6 +176,13 @@ class Configuration(object) :
         self.__set_option(s, o, value)
         self.__dirty = True
 
+    def __clear(self) :
+        self.__values.clear()
+        self.__dirty = True
+
+    def clear(self) :
+        self.__clear()
+
     def __save(self, filename = None) :
         assert(isinstance(filename, str))
 
@@ -254,10 +261,6 @@ class Configuration(object) :
         self.__load(filename)
         self.__dirty = False
         debug("Configuration loaded from `" + filename + "'")
-
-    def clear(self) :
-        self.__values.clear()
-        self.__dirty = True
 
     def __dirty_get(self) :
         return self.__dirty

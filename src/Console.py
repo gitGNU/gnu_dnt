@@ -69,9 +69,9 @@ class Console(object) :
         readline.set_startup_hook(lambda: readline.insert_text(self.__buffer))
         try :
             self.__buffer = raw_input(self.__prompt)
-        except EOFError, e :
+        except EOFError :
             print("")
-        except KeyboardInterrupt, e :
+        except KeyboardInterrupt :
             print("")
             self.__buffer = ""
             raise Exceptions.ExplicitExit("keyboard interrupt", 1)
