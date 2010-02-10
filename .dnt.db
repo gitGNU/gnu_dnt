@@ -921,6 +921,9 @@
 		<entry priority="medium" start="1259278118">
 			Add code for handling iso8601 time (in Time class)
 		</entry>
+		<entry priority="medium" start="1265802855">
+			Add command to swap elements
+		</entry>
 	</entry>
 	<entry priority="medium" start="1233694932">
 		Release 0.3.0
