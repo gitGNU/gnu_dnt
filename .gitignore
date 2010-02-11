@@ -120,6 +120,7 @@ Makefile
 /tests/test-command-move-opts-long-01
 /tests/test-command-move-version-01
 /tests/test-command-move-01
+/tests/test-command-move-02
 
 /tests/test-command-remove-help-01
 /tests/test-command-remove-opts-long-01

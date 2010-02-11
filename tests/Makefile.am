@@ -80,6 +80,7 @@ FAIL_TESTS    +=				\
 	test-fail				\
 	test-command-show-filter-07		\
 	test-command-show-filter-10		\
+	test-command-move-02			\
 	test-db-01				\
 	test-db-02				\
 	test-db-03				\
@@ -445,6 +446,18 @@ test-command-move-01: $(srcdir)/test-command-move-01.in Makefile
 	}
 EXTRA_DIST += test-command-move-01.in
 CLEANFILES += test-command-move-01
+
+test-command-move-02: $(srcdir)/test-command-move-02.in Makefile
+	( rm -f $@ $@.tmp && \
+	  $(do_subst) < $(srcdir)/test-command-move-02.in > $@.tmp && \
+	  chmod +x $@.tmp && \
+	  chmod a-w $@.tmp && \
+	  mv -f $@.tmp $@ ) || { \
+	        rm -f $@ $@.tmp ; \
+	        exit 1 ; \
+	}
+EXTRA_DIST += test-command-move-02.in
+CLEANFILES += test-command-move-02
 
 test-command-add-01: $(srcdir)/test-command-add-01.in Makefile
 	( rm -f $@ $@.tmp && \
