@@ -925,7 +925,7 @@
 			Add command to swap nodes
 		</entry>
 		<entry priority="veryhigh" start="1265901633">
-			Move command works wrong when you try to reparent a node to a subnode (fix it in order to have test-command-move-02 failing with error() and not with bug())
+			Move command fails in reparenting a node to a subnode. Fix it in order to have test-command-move-02 failing with error(), not with bug()
 		</entry>
 	</entry>
 	<entry priority="medium" start="1233694932">
